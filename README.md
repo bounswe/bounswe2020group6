@@ -4,8 +4,8 @@
 
 ## Meeting 1 13.02.2020 12:00 BM A5  
 
-Note Taker & Meeting Organizator:  
-Ömer Faruk Özdemir
+**Note Taker & Meeting Organizator**  
+-Ömer Faruk Özdemir
 
 ## Participants:  
 
@@ -29,14 +29,14 @@ Note Taker & Meeting Organizator:
 
 Issues  
 ------  
--README Editing  
+**-README Editing**  
 _Emilcan Arıcan - Deadline: 17.02.2020 23.59_  
--Customizing Issue Labels  
+**-Customizing Issue Labels**   
 _Gülsüm Tuba Çibuk - Deadline: 17.02.2020 23.59_    
--Wiki Page Research & Creating  
+**-Wiki Page Research & Creating**  
 _Salih Can Özçelik & Hamza Işıktaş - 17.02.2020 23.59_  
--Exploring Github And Looking To Other Pages And Creating Report  
+**-Exploring Github And Looking To Other Pages And Creating Report**    
 _Everyone -  Deadline: 17.02.2020 23.59_    
--Exploring Git  
+**-Exploring Git**  
 _Everyone - Deadline 17.02.2019 23.59_    
 
