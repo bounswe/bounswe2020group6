@@ -1,8 +1,8 @@
 ## Meeting 1 - 13.02.2020 - 12:00 - BM A5  
 
 **Note Taker & Meeting Organizator**  
--Ömer Faruk Özdemir
-
+  * [Ömer Faruk Özdemir](https://github.com/bounswe/bounswe2020group6/)
+  
 ## Participants:  
 
 #### Attended:  
@@ -17,8 +17,13 @@
   * [Ömer Faruk Özdemir](https://github.com/bounswe/bounswe2020group6/)
   * [Muhammed Enes Toptaş](https://github.com/bounswe/bounswe2020group6/)
   
-
-## Participation Plan:  
+  ### Meeting Notes
+  -Introduced ourselves.
+  -Picked Slack as communication environment.
+  -Decided on weekly meeting plan.
+  -Talked about Week1's tasks, and distributed the work.
+  
+## Meeting Plan:  
 -Everyone  
 -BM A5  
 -Progress Update  
