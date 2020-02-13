@@ -29,9 +29,9 @@ Thursday 12:00
 
 Issues  
 ------  
-README Editing: -  Emilcan Arıcan Deadline: 17.02.2020 24:00  
-Customizing Issue Labels: Gülsüm Tuba Çibuk  Deadline: 17.02.2020 24:00  
+README Editing: -  Emilcan Arıcan Deadline: 17.02.2020 23.59  
+Customizing Issue Labels: Gülsüm Tuba Çibuk  Deadline: 17.02.2020 23.59  
 Wiki Page Research & Creating : Salih Can Özçelik & Hamza Işıktaş  
-Exploring Github And Looking To Other Pages And Creating Report : Everyone Deadline: 17.02.2020 24:00  
-Exploring Git: Everyone, Deadline: 17.02.2019 24:00  
+Exploring Github And Looking To Other Pages And Creating Report : Everyone Deadline: 17.02.2020 23.59  
+Exploring Git: Everyone, Deadline: 17.02.2019 23.59  
 
