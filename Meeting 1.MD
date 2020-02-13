@@ -5,7 +5,7 @@
 
 ## Participants:  
 
-#### Attended: :thumbsup:
+#### Attended:  
   * [Salih Can Özçelik](https://github.com/bounswe/bounswe2020group6/)
   * [Hamza Işıktaş](https://github.com/bounswe/bounswe2020group6/)
   * [Gülsüm Tuba Çibuk](https://github.com/bounswe/bounswe2020group6/)
