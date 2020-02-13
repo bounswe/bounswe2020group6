@@ -7,7 +7,7 @@
 Note Taker & Meeting Organizator:  
 Ömer Faruk Özdemir
 
-Participants:  
+## Participants:  
 
 -Salih Can Özçelik  
 -Hamza Işıktaş  
@@ -20,11 +20,11 @@ Participants:
 -Ömer Faruk Özdemir  
 -Muhammed Enes Toptaş  
 
-Participation Plan:  
-Everyone  
-BM A5  
-Progress Update  
-Thursday 12:00   
+## Participation Plan:  
+-Everyone  
+-BM A5  
+-Progress Update  
+-Thursday 12:00   
 
 
 Issues  
