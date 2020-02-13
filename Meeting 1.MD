@@ -18,10 +18,10 @@
   * [Muhammed Enes Toptaş](https://github.com/bounswe/bounswe2020group6/)
   
   ### Meeting Notes
-  -Introduced ourselves.
-  -Picked Slack as communication environment.
-  -Decided on weekly meeting plan.
-  -Talked about Week1's tasks, and distributed the work.
+  -Introduced ourselves.  
+  -Picked Slack as communication environment.  
+  -Decided on weekly meeting plan.  
+  -Talked about Week1's tasks, and distributed the work.  
   
 ## Meeting Plan:  
 -Everyone  
