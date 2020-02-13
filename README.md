@@ -29,9 +29,9 @@ Note Taker & Meeting Organizator:
 
 Issues  
 ------  
-README Editing: -  Emilcan Arıcan Deadline: 17.02.2020 23.59  
-Customizing Issue Labels: Gülsüm Tuba Çibuk  Deadline: 17.02.2020 23.59  
-Wiki Page Research & Creating : Salih Can Özçelik & Hamza Işıktaş  
-Exploring Github And Looking To Other Pages And Creating Report : Everyone Deadline: 17.02.2020 23.59  
-Exploring Git: Everyone, Deadline: 17.02.2019 23.59  
+README Editing: -  _Emilcan Arıcan - Deadline: 17.02.2020 23.59_
+Customizing Issue Labels: _Gülsüm Tuba Çibuk - Deadline: 17.02.2020 23.59_  
+Wiki Page Research & Creating : _Salih Can Özçelik & Hamza Işıktaş - 17.02.2020 23.59_
+Exploring Github And Looking To Other Pages And Creating Report : _Everyone -  Deadline: 17.02.2020 23.59_  
+Exploring Git: _ Everyone - Deadline: 17.02.2019 23.59_  
 
