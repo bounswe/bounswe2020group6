@@ -2,7 +2,7 @@
 
 # bounswe2020group6
 
-## Meeting 1 13.02.2020 12:00 BM A5  
+## Meeting 1 - 13.02.2020 - 12:00 - BM A5  
 
 **Note Taker & Meeting Organizator**  
 -Ömer Faruk Özdemir
