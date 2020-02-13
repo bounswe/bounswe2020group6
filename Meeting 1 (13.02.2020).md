@@ -42,7 +42,7 @@ _Gülsüm Tuba Çibuk - Deadline: 17.02.2020 23.59_
 **-Wiki Page Research & Creating**  
 _Salih Can Özçelik & Hamza Işıktaş - 17.02.2020 23.59_  
 **-Creating Meeting Note & Template**    
-_Ömer Faruk Özdemir - 17.02.2020 23.59_
+_Ömer Faruk Özdemir - 17.02.2020 23.59_  
 **-Exploring Github And Looking To Other Pages And Creating Report**    
 _Everyone -  Deadline: 17.02.2020 23.59_    
 **-Exploring Git**  
