@@ -47,5 +47,5 @@ _Ömer Faruk Özdemir - 17.02.2020 23.59_
 _Everyone -  Deadline: 17.02.2020 23.59_    
 **-Exploring Git**  
 _Everyone - Deadline 17.02.2019 23.59_    
-**-Creating Personal Wiki Page**
+**-Creating Personal Wiki Page**  
 _Everyone - Deadline 17.02.2019 23.59_
