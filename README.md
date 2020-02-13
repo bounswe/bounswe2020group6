@@ -9,16 +9,17 @@
 
 ## Participants:  
 
--Salih Can Özçelik  
--Hamza Işıktaş  
--Gülsüm Tuba Çibuk  
--Ezgi Gülperi Er  
--Emilcan Arıcan  
--Doğukan Kalkan  
--Hazer Babür   
--Ahmet Berat Can  
--Ömer Faruk Özdemir  
--Muhammed Enes Toptaş  
+#### Attended: :thumbsup:
+  * [Salih Can Özçelik](https://github.com/bounswe/bounswe2020group6/)
+  * [Hamza Işıktaş](https://github.com/bounswe/bounswe2020group6/)
+  * [Gülsüm Tuba Çibuk](https://github.com/bounswe/bounswe2020group6/)
+  * [Ezgi Gülperi Er](https://github.com/bounswe/bounswe2020group6/)
+  * [Emilcan Arıcan](https://github.com/bounswe/bounswe2020group6/)
+  * [Doğukan Kalkan](https://github.com/bounswe/bounswe2020group6/)
+  * [Ahmet Berat Can](https://github.com/bounswe/bounswe2020group6/)
+  * [Ömer Faruk Özdemir](https://github.com/bounswe/bounswe2020group6/)
+  * [Muhammed Enes Toptaş](https://github.com/bounswe/bounswe2020group6/)
+  
 
 ## Participation Plan:  
 -Everyone  
