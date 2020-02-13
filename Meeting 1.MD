@@ -11,6 +11,7 @@
   * [Gülsüm Tuba Çibuk](https://github.com/bounswe/bounswe2020group6/)
   * [Ezgi Gülperi Er](https://github.com/bounswe/bounswe2020group6/)
   * [Emilcan Arıcan](https://github.com/bounswe/bounswe2020group6/)
+  * [Hazer Bülbül](https://github.com/bounswe/bounswe2020group6/)
   * [Doğukan Kalkan](https://github.com/bounswe/bounswe2020group6/)
   * [Ahmet Berat Can](https://github.com/bounswe/bounswe2020group6/)
   * [Ömer Faruk Özdemir](https://github.com/bounswe/bounswe2020group6/)
