@@ -16,7 +16,8 @@
   * [Ahmet Berat Can](https://github.com/bounswe/bounswe2020group6/)
   * [Ömer Faruk Özdemir](https://github.com/bounswe/bounswe2020group6/)
   * [Muhammed Enes Toptaş](https://github.com/bounswe/bounswe2020group6/)
-  
+
+#### Did not attend:  
   ### Meeting Notes
   -Introduced ourselves.  
   -Picked Slack as communication environment.  
