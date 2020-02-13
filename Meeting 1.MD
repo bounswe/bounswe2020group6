@@ -18,7 +18,9 @@
   * [Muhammed Enes Toptaş](https://github.com/bounswe/bounswe2020group6/)
 
 #### Did not attend:  
-  ### Meeting Notes
+  
+  
+## Meeting Notes
   -Introduced ourselves.  
   -Picked Slack as communication environment.  
   -Decided on weekly meeting plan.  
