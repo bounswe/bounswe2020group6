@@ -1,7 +1,9 @@
-Ömer Faruk Özdemir  
+## HW1 Report  
+
+_Ömer Faruk Özdemir_
 ---  
-https://github.com/serverless/serverless  
-  
+https://github.com/serverless/serverless    
+
 Pros:  
 -Simple page  
 -Good explanation about installation and usage  
@@ -27,3 +29,5 @@ Pros:
   
 Cons:  
 -Lack of structure and wiki page.  
+---
+
