@@ -58,3 +58,39 @@ Pros:
 Cons:  
 -Code is difficult to follow.You can easily get lost in the code
 
+## Emilcan Arıcan
+
+### Excalidraw
+
+https://github.com/excalidraw/excalidraw
+
+A project that makes you able to create charts looks like hand drawn.
+
+##### Pros:
+
+- Demo, and Code Sandbox links are provided
+- Simple user interface
+- Special thanks to contributors
+
+##### Cons:
+
+- No wiki added
+
+### Fritzing
+
+https://github.com/fritzing/fritzing-app
+
+An Electronic Design Automation software. A desktop app that you can make electronic designs and simulate them.
+
+##### Pros:
+
+- They ease to contribute
+  - Informative wiki
+  - "easy start" and "challenging start" labels are used for new contributors
+
+- Creative Commons Attribution
+
+##### Cons:
+
+- Not free
+
