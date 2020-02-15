@@ -44,4 +44,17 @@ Pros:
 Cons:  
 - Not a real project repository
    
+---
+_Salih Can Özçelik_
+
+https://github.com/flectra-hq/flectra
+
+It is a free open source ERP.The main Flectra Apps include an Open Source CRM,Website Builder,eCommerce,Warehouse Management, Project Management,Billing & Accounting,Point of Sale,Human Resources,Marketing,Manufacturing, Purchase Management and many more.
+
+Pros:
+-Free
+-Has lots of feature
+
+Cons:
+-Code is difficult to follow.You can easily get lost in the code
 
