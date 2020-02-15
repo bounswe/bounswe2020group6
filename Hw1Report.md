@@ -32,17 +32,16 @@ Cons:
 ---
 
 _Ezgi Gulperi Er_
----  
+
 https://github.com/zziz/pwc
 
 It contains a comprehensive list of prominent research papers and their implementations.
 
 Pros:  
--Well organized.
--Good for learning how to implement an intricate approach / algorithm  
+- Well organized.
+- Good for learning how to implement an intricate approach / algorithm  
 
 Cons:  
 - Not a real project repository
-  
----  
+   
 
