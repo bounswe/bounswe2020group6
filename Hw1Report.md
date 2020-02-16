@@ -101,7 +101,7 @@ _Hazer Babür_
 
 https://github.com/jhlywa/chess.js
 
-It is a Javascript chess library that is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection - basically everything but the AI.Lots of websites which provides chess game playing uses chess.js like licess,chess.com etc.
+It is a Javascript chess library that is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection - basically everything but the AI. Lots of websites which provides chess game playing like licess, chess.com etc. uses chess.js 
 
 Pros:  
 -Well written and detailed README.md file  
