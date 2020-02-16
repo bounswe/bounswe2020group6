@@ -94,3 +94,18 @@ An Electronic Design Automation software. A desktop app that you can make electr
 
 - Not free
 
+---
+_Hazer Babür_
+
+### Chess
+
+https://github.com/jhlywa/chess.js
+
+It is a Javascript chess library that is used for chess move generation/validation, piece placement/movement, and check/checkmate/stalemate detection - basically everything but the AI.Lots of websites which provides chess game playing uses chess.js like licess,chess.com etc.
+
+Pros:  
+-Well written and detailed README.md file  
+-Installation and other codes are explained very well.
+
+Cons:  
+-Wiki page does not exist. 
