@@ -1,5 +1,7 @@
 # BOUN SWE 2020 Group-6
 
+![group logo](https://github.com/Tubagc/Files/blob/master/11d47265-500a-4ddd-a56a-49a1a0ca8fd4.jpg?raw=true)
+
 We are group of Boğaziçi University computer engineering students. Here is our project repository for CmpE 352 course. For detailed information, you can check our [wiki](https://github.com/bounswe/bounswe2020group6/wiki).
 
 ## Group Members
