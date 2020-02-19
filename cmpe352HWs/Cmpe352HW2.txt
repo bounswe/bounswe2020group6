@@ -1,0 +1,34 @@
+Contemplating requirements
+ 
+
+Greetings,
+
+ 
+
+Let's do some thinking about requirements. Recall it is all about What the system should do. Beware of the "how" thoughts that will creep in your thoughts.
+
+ 
+
+ 
+
+Consider some multiplayer games or a virtual environment like secondlife.
+
+ 
+
+There are avatars that have various properties. Some of these properties are related to their appearance. Often appearance can be modified.
+
+ 
+
+In games there are certain strengths and weaknesses. Also, some weapons.
+
+ 
+
+Can you write down some requirements that describe the expected functionality for avatars and/or weapons?
+
+ 
+
+I look forward to your contributions. Be creative.
+
+--
+
+What will the user be able to do? What must the system do? I believe many of the avatars and weapons are pretty creative. So, I am really curious to see what you specify.
