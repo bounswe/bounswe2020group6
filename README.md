@@ -16,6 +16,7 @@ We are group of Boğaziçi University computer engineering students. Here is our
 * [Hazer Babur](https://github.com/hazerb)
 * [Ömer Faruk Özdemir](https://github.com/farukozderim)
 * [Salih Can Özçelik](https://github.com/salihozcelik)
+* [Cemre Efe Karakaş](https://github.com/cemrefee)
 
 ![group photo](https://github.com/Tubagc/Files/blob/master/ad087f02-c3cc-4bfb-85b0-778456363511.jpg?raw=true)
 
