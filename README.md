@@ -8,6 +8,7 @@ We are group of Boğaziçi University computer engineering students. Here is our
 
 * [Ahmet Berat Can](https://github.com/aberatcan)
 * [Doğukan Kalkan](https://github.com/DogukanKalkan)
+* [Cemre Efe Karakaş](https://github.com/cemreefe)
 * [Emilcan Arıcan](https://github.com/UkcaGreen)
 * [Enes Toptaş](https://github.com/EnesToptas)
 * [Ezgi Gülperi Er](https://github.com/gulperii)
@@ -16,7 +17,6 @@ We are group of Boğaziçi University computer engineering students. Here is our
 * [Hazer Babur](https://github.com/hazerb)
 * [Ömer Faruk Özdemir](https://github.com/farukozderim)
 * [Salih Can Özçelik](https://github.com/salihozcelik)
-* [Cemre Efe Karakaş](https://github.com/cemreefe)
 
 ![group photo](https://github.com/bounswe/bounswe2020group6/blob/master/Files/Media/group-photo.png?raw=true)
 
