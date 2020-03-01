@@ -7,8 +7,8 @@ We are group of Boğaziçi University computer engineering students. Here is our
 ## Group Members
 
 * [Ahmet Berat Can](https://github.com/aberatcan)
-* [Doğukan Kalkan](https://github.com/DogukanKalkan)
 * [Cemre Efe Karakaş](https://github.com/cemreefe)
+* [Doğukan Kalkan](https://github.com/DogukanKalkan)
 * [Emilcan Arıcan](https://github.com/UkcaGreen)
 * [Enes Toptaş](https://github.com/EnesToptas)
 * [Ezgi Gülperi Er](https://github.com/gulperii)
