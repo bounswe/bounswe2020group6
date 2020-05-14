@@ -1,10 +1,8 @@
 import sqlite3
-
 from flask import Flask, render_template, request
 import json
 
 app = Flask(__name__)
-
 #Template for flask backend
 
 @app.route('/')
