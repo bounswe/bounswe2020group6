@@ -26,6 +26,7 @@ def form_post():
     return render_template('about.html')
 
 
+
 # Template for POST request
 @app.route('/endUser', methods=['POST'])
 def endUser():
