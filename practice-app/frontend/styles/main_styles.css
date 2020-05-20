@@ -654,3 +654,86 @@ section {
 .footer_social ul li a:hover {
   color: #fe4c50;
 }
+
+/* Custom styles */
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar {
+  width: 40%;
+  padding: 5%;
+}
+
+.search-bar button {
+  border-bottom-left-radius: 0%;
+  border-top-left-radius: 0%;
+  border: #fe4c50 solid 1;
+  color: #fe4c50;
+}
+
+.search-bar button:hover {
+  background-color: #fe4c50;
+  color: white;
+}
+
+.search-bar button:focus {
+  background-color: #fe4c50;
+  color: white;
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-results .card {
+  margin: 5px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.search-results .card img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin: 16px 3px 0px 12px;
+}
+
+.search-results .card * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.search-results .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.search-results .card h5 {
+  font-size: 15px;
+  padding: 8px 10px;
+}
+
+.search-results .card p {
+  font-size: 12px;
+  padding: 0px 10px;
+}
+
+.search-results .card a {
+  font-size: 10px;
+  margin: 8px 10px;
+  padding: 3px 5px;
+  background-color: #947565;
+}
