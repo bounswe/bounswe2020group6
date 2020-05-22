@@ -105,7 +105,7 @@
                 </div>
                 <nav class="navbar">
                   <ul class="navbar_menu">
-                    <li><a href="#">home</a></li> 
+                    <li><a href="#">home</a></li>
                   </ul>
                   <ul class="navbar_user">
                     <li>
@@ -118,7 +118,7 @@
                         ><i class="fa fa-user" aria-hidden="true"></i
                       ></a>
                     </li>
-                  </ul> 
+                  </ul>
                 </nav>
               </div>
             </div>
@@ -128,24 +128,21 @@
 
       <main>
         <div style="padding: 5%;">
-          <h4 style="text-align: center;">There will be the main content.</h4>
-		  
-		  <div style="border: 1px solid rgb(0, 0, 0); width: 10em; margin:auto">
-			<details>
-				<summary>
-					{{ joke }}
-				
-				</summary>
-         {% if delivery %}
-          {{ delivery }}
-         {% else %}
-          Are you seeking for answer? Still don't get it?
-         {% endif %}
+          <h4 style="text-align: center;">Random Dad-Joke</h4>
 
-			</details>
-			
-		  </div>
-		  
+    		  <div style="border: 1px solid rgb(0, 0, 0); width: 10em; margin:auto">
+    			<details>
+    				<summary>
+    					{{ joke }}
+
+    				</summary>
+              {{ punchline }}
+    			</details>
+
+          </div>
+          <div style="text-align:center;">
+            <button style="margin-top:2em;" onClick="window.location.reload();">Another</button>
+          </div>
         </div>
       </main>
 

@@ -14,17 +14,16 @@ def form_post():
 @app.route('/joke')
 def joke():
 
-    r = requests.get('https://sv443.net/jokeapi/v2/joke/Any')
+    r = requests.get('https://official-joke-api.appspot.com/random_joke')
 
     j = json.loads(r.text)
 
-    if "setup" in j.keys():
-        setup = j["setup"]
-        delivery = j["delivery"]
-        return render_template('joke.html', joke=setup, delivery=delivery)
-    else:
-        return render_template('joke.html', joke=j["joke"])
-    
+
+    setup     = j["setup"]
+    punchline = j["punchline"]
+    return render_template('joke.html', joke=setup, punchline=punchline)
+
+
 
 @app.route('/search')
 def search():
@@ -37,16 +36,16 @@ def dashboard():
 #Template for POST request
 @app.route('/endUser', methods=['POST'])
 def endUser():
-    
+
     if request.method == 'POST':
         if request.form["type"] == "AUTHOR":
-            
+
             string = ""
             string = "<h1>NAMES </h1><br>" + string
             return string + "<br> " + '<br><br> <a href=" / "> Return to home page </a>'
 
         elif request.form["type"] == "PAPER":
-       
+
             string = "<h1> AUTHORS ------ TITLE ------ ABSTRACT ------ TOPICS ------ RESULT</h1><br>"
             return (string + "<br> " + '<br> <a href=" / "> Return to home page </a>')
 
