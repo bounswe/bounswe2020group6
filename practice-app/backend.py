@@ -1,5 +1,7 @@
 
 from flask import Flask, render_template, request
+import requests
+import json
 
 
 app = Flask(__name__)
@@ -8,6 +10,21 @@ app = Flask(__name__)
 @app.route('/')
 def form_post():
     return render_template('home.html')
+
+@app.route('/joke')
+def joke():
+
+    r = requests.get('https://sv443.net/jokeapi/v2/joke/Any')
+
+    j = json.loads(r.text)
+
+    if "setup" in j.keys():
+        setup = j["setup"]
+        delivery = j["delivery"]
+        return render_template('joke.html', joke=setup, delivery=delivery)
+    else:
+        return render_template('joke.html', joke=j["joke"])
+    
 
 @app.route('/search')
 def search():
