@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 import requests
 import json
 import scholar_util
