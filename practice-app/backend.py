@@ -31,7 +31,10 @@ def search():
 
     if request.method == 'POST':
 
-        results = scholar_util.search_authors_by_name(request.form["search_param"])
+        url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
+        print(url)
+        results = requests.get(url)
+        results = json.loads(results.text)
 
         context = {
             "results": results["author_search_result"],
@@ -39,8 +42,6 @@ def search():
         }
 
     else:
-        print("get")
-
         context = {}
 
     return render_template('search.html', context=context)
