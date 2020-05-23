@@ -1,0 +1,141 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:29:54] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:29:58] "[31m[1mPOST /search HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:30:47] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:30:49] "[31m[1mPOST /search HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:31:19] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:31:22] "[31m[1mPOST /search HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:32:02] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:32:05] "[31m[1mPOST /search HTTP/1.1[0m" 400 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:32:30] "[37mGET /search HTTP/1.1[0m" 200 -
+ERROR:backend:Exception on /search [POST]
+Traceback (most recent call last):
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "backend.py", line 51, in search
+    searchedName=scholar_util.search_authors_by_name(request.form["search_param"])
+  File "/home/efe/Documents/university/cmpe/cmpe352/bounswe2020group6/practice-app/scholar_util.py", line 5, in search_authors_by_name
+    search_query = scholarly.search_author(name)
+AttributeError: module 'scholarly' has no attribute 'search_author'
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:32:33] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:33:21] "[37mGET /search HTTP/1.1[0m" 200 -
+ERROR:backend:Exception on /search [POST]
+Traceback (most recent call last):
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "backend.py", line 51, in search
+    searchedName=scholar_util.search_authors_by_name(request.form["search_param"])
+  File "/home/efe/Documents/university/cmpe/cmpe352/bounswe2020group6/practice-app/scholar_util.py", line 5, in search_authors_by_name
+    search_query = scholarly.search_author(name)
+AttributeError: module 'scholarly' has no attribute 'search_author'
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:33:24] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:34:47] "[37mGET /search HTTP/1.1[0m" 200 -
+ERROR:backend:Exception on /search [POST]
+Traceback (most recent call last):
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "backend.py", line 51, in search
+    searchedName=scholar_util.search_authors_by_name(request.form["search_param"])
+  File "/home/efe/Documents/university/cmpe/cmpe352/bounswe2020group6/practice-app/scholar_util.py", line 6, in search_authors_by_name
+    search_query = scholarly.search_author(name)
+AttributeError: module 'scholarly' has no attribute 'search_author'
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:34:50] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:36:33] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:36:34] "[37mGET /search HTTP/1.1[0m" 200 -
+ERROR:backend:Exception on /search [POST]
+Traceback (most recent call last):
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "backend.py", line 51, in search
+    searchedName=scholar_util.search_authors_by_name(request.form["search_param"])
+  File "/home/efe/Documents/university/cmpe/cmpe352/bounswe2020group6/practice-app/scholar_util.py", line 6, in search_authors_by_name
+    search_query = scholarly.search_author(name)
+AttributeError: module 'scholarly' has no attribute 'search_author'
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:36:36] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:37:30] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=deneme
+INFO:scholarly:Found 10 authors
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:37:51] "[37mPOST /search HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:39:52] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=deneme
+INFO:scholarly:Found 10 authors
+ERROR:backend:Exception on /search [POST]
+Traceback (most recent call last):
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/efe/.local/lib/python3.6/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "backend.py", line 54, in search
+    "results": results.author_search_result,
+AttributeError: 'dict' object has no attribute 'author_search_result'
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:39:57] "[35m[1mPOST /search HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:40:35] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=deneme
+INFO:scholarly:Found 10 authors
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:40:43] "[37mPOST /search HTTP/1.1[0m" 200 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:43:01] "[37mGET /search HTTP/1.1[0m" 200 -
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=deneme
+INFO:scholarly:Found 10 authors
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:43:13] "[37mPOST /search HTTP/1.1[0m" 200 -
+INFO:scholarly:Getting https://scholar.google.com/citations?hl=en&view_op=search_authors&mauthors=mahmut
+INFO:scholarly:Found 10 authors
+INFO:werkzeug:127.0.0.1 - - [23/May/2020 16:43:34] "[37mPOST /search HTTP/1.1[0m" 200 -
