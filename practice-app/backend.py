@@ -25,9 +25,39 @@ def joke():
 
 
 
-@app.route('/search')
+@app.route('/search', methods=['POST', 'GET'])
 def search():
-    return render_template('search.html')
+
+    if request.method == 'POST':
+
+        print("post")
+
+        # placeholder data
+        results = [
+            {
+                "title":  "Why we should abolish school",
+                "author": "Salih Can Özçelik",
+                "detail": "An eclectical projection of stochastical reviews on school experience optimization from 50's through mid 70's."
+            },
+            {
+                "title":  "Scientific Integrity of Wahab Waheed",
+                "author": "Lahme Adjoune",
+                "detail": "The levantine parchment-styling traditions of abbasid ministries in the middle age by the culture ministry of Turkey."
+            },
+        ]
+
+        context = {
+            "results": results,
+            "param":   request.form["search_param"],
+        }
+
+    else:
+        print("get")
+
+        context = {}
+
+    return render_template('search.html', context=context)
+
 
 @app.route('/dashboard')
 def dashboard():
