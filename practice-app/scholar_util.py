@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from scholarly import scholarly
 
+app = Flask(__name__)
 api = Api(app)
 #has an optional affiliation parameter. If name is matched but affiliation is not, returns it in alternative result
 
