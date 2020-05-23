@@ -21,7 +21,11 @@ class SearchAuthorName(Resource):
             result = next(search_query, None)
             if result is None:
                 break
-            authors_summary.append([result.name, result.affiliation])
+            authors_summary.append({
+                                "name": result.name,
+                                "affiliation": result.affiliation,
+                                "url_picture": result.url_picture,
+                                })
         json = {
             "author_search_result": authors_summary
         }
