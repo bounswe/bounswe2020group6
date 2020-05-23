@@ -45,6 +45,31 @@ def search():
 
     return render_template('search.html', context=context)
 
+@app.route('/profile',methods=['POST'])
+def profile():
+    if request.method=='POST':
+        authorJson=scholar_util.search_authors_by_name(request.form["name"])
+        print(authorSearchResult)
+
+        #TODO:Get these info and add them to profile.html page
+        scholar_util.getNameOutOfAuthorJson(authorJson)
+        scholar_util.getAuthorsColloborators(authorJson)
+        scholar_util.getAuthorsCitationIndexes(authorJson)
+        scholar_util.getAuthorPhoto(authorJson)
+        scholar_util.getAuthorsRecentPublications(authorJson)
+
+        return render_template('profile.html')
+    
+    
+    else:
+        return "Error 404"
+        print("get")
+
+        context = {}
+
+    return render_template('search.html', context=context)
+
+
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
