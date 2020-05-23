@@ -1,6 +1,7 @@
 
 from flask import Flask, render_template, request
-
+import scholar_util
+import json
 
 app = Flask(__name__)
 #Template for flask backend
@@ -11,11 +12,33 @@ def form_post():
 
 @app.route('/search')
 def search():
-    return render_template('search.html')
+    if request.method=='POST':
+        searchedName=scholar_util.search_authors_by_name(request.form["name"])
+        #TODO: List similar names to searchedName, add them to page
+        return render_template('search.html')
 
-@app.route('/profile')
+    else:
+        return render_template('search.html')
+
+@app.route('/profile',methods=['POST'])
 def profile():
-    return render_template('profile.html')
+    if request.method=='POST':
+        authorJson=scholar_util.search_authors_by_name(request.form["name"])
+        print(authorSearchResult)
+        
+        #TODO:Get these info and add them to profile.html page
+        scholar_util.getNameOutOfAuthorJson(authorJson)
+        scholar_util.getAuthorsColloborators(authorJson)
+        scholar_util.getAuthorsCitationIndexes(authorJson)
+        scholar_util.getAuthorPhoto(authorJson)
+        scholar_util.getAuthorsRecentPublications(authorJson)
+        
+        return render_template('profile.html')
+
+
+    else:
+        return "Error 404"
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -74,4 +97,4 @@ def endUser():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
