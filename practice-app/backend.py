@@ -46,6 +46,18 @@ def search():
     return render_template('search.html', context=context)
 
 
+@app.route('/coronavirus', methods=['GET'])
+def coronavirus():
+   
+    r = requests.get('https://api.covid19api.com/summary')
+
+    j = json.loads(r.text)
+
+
+    Countries     = [j["Countries"]
+    return jsonify(Countries)
+
+                     
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
