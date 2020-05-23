@@ -53,8 +53,7 @@ def coronavirus():
 
     j = json.loads(r.text)
 
-
-    Countries     = [j["Countries"]
+    Countries = [j["Countries"]
     return jsonify(Countries)
 
                      
