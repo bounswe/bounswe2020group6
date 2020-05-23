@@ -31,7 +31,7 @@ class SearchAuthorName(Resource):
         }
         return json
 
-class AuthorData(Resource):
+class AuthorPublic(Resource):
 
     def get(self):
         parser = reqparse.RequestParser()
