@@ -38,7 +38,7 @@ def search():
         context = {
             "results": results["author_search_result"],
             "param":   request.form["search_param"],
-        }
+        } 
 
     else:
         context = {}
