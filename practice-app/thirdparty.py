@@ -28,12 +28,6 @@ print(next(search_query))
 search_query = scholarly.search_pubs_query('Perception of physical stability and center of mass of 3D objects')
 print(next(search_query))
 
-#Populate the Author object with information from their profile. The optional sections parameter takes a list of the portions of author information to fill
-search_query = scholarly.search_author('Steven A Cholewiak')
-author = next(search_query)
-print(author.fill(sections=['basic', 'citation_indices', 'co-authors']))
-
-
 # Retrieve the author's data, fill-in, and print
 search_query = scholarly.search_author('Steven A Cholewiak')
 author = next(search_query).fill()

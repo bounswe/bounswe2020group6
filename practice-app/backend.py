@@ -1,8 +1,9 @@
 
 from flask import Flask, render_template, request
+
+import scholar_util
 import requests
 import json
-
 
 app = Flask(__name__)
 #Template for flask backend
@@ -27,36 +28,33 @@ def joke():
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
-
-    if request.method == 'POST':
-
-        print("post")
-
-        # placeholder data
-        results = [
-            {
-                "title":  "Why we should abolish school",
-                "author": "Salih Can Özçelik",
-                "detail": "An eclectical projection of stochastical reviews on school experience optimization from 50's through mid 70's."
-            },
-            {
-                "title":  "Scientific Integrity of Wahab Waheed",
-                "author": "Lahme Adjoune",
-                "detail": "The levantine parchment-styling traditions of abbasid ministries in the middle age by the culture ministry of Turkey."
-            },
-        ]
-
-        context = {
-            "results": results,
-            "param":   request.form["search_param"],
-        }
+  
+    if request.method=='POST':
+        searchedName=scholar_util.search_authors_by_name(request.form["name"])
+        #TODO: List similar names to searchedName, add them to page
+        return render_template('search.html')
 
     else:
-        print("get")
+        return render_template('search.html')
 
-        context = {}
+@app.route('/profile',methods=['POST'])
+def profile():
+    if request.method=='POST':
+        authorJson=scholar_util.search_authors_by_name(request.form["name"])
+        print(authorSearchResult)
+        
+        #TODO:Get these info and add them to profile.html page
+        scholar_util.getNameOutOfAuthorJson(authorJson)
+        scholar_util.getAuthorsColloborators(authorJson)
+        scholar_util.getAuthorsCitationIndexes(authorJson)
+        scholar_util.getAuthorPhoto(authorJson)
+        scholar_util.getAuthorsRecentPublications(authorJson)
+        
+        return render_template('profile.html')
 
-    return render_template('search.html', context=context)
+
+    else:
+        return "Error 404"
 
 
 @app.route('/dashboard')
@@ -116,4 +114,5 @@ def endUser():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
+
