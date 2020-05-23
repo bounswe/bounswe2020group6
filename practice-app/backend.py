@@ -5,7 +5,7 @@ import json
 import scholar_util
 
 
-app = Flask(__name__)
+app = scholar_util.app
 #Template for flask backend
 
 @app.route('/')
