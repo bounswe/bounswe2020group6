@@ -62,11 +62,11 @@ class AuthorPublic(Resource):
         else:
             for pub in author_pubs:
                 pub = {
-                    "title": pub.bib["title"],
-                    "author": pub.bib["author"],
-                    "summary": pub.bib["abstract"],
-                    "year": pub.bib["year"],
-                    "url": pub.bib["url"]
+                    "title": pub.bib.get("title", "Title is unknown"),
+                    "author": pub.bib.get("author", "unknown"),
+                    "summary": pub.bib.get("abstract", "Summary is not provided."),
+                    "year": pub.bib.get("year", "unknown"),
+                    "url": pub.bib.get("url", "URL is not provided.")
                 }
                 
                 pubs.append(pub)
