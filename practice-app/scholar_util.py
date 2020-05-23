@@ -31,24 +31,45 @@ class SearchAuthorName(Resource):
         }
         return json
 
-#DOESN'T WORK... MAYBE OTHER WILL FIGURE OUT SOME WORKAROUND.
-class AuthorPublic(Resource):
-#returns authors publications with their citations
-    def get(self):
+class AuthorData(Resource):
 
+    def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('name', required = True)
         parser.add_argument('range', required = False)
 
-        name = parser.parse_args()['name']
-        #range = parser.parse_args().get('range')
+        name = parser.parse_args().get('name')
+        _range = parser.parse_args().get('range')
 
         search_query = scholarly.search_author(name)
         author = next(search_query).fill()
-        # if range:
-        #     pubs = {pub.bib['title'] : pub.citedby for pub in author.publications[:range]}
-        #else
-        pubs = {pub.bib['title'] : pub.citedby for pub in author.publications}
+        l = len(author.publications)
+        author_pubs = author.publications
+
+        pubs = []
+
+        if _range < l:
+            for i in range(0,_range):
+                pub = {
+                    "title": author_pubs[l-i-1].bib.get("title", "Title is unknown"),
+                    "author": author_pubs[l-i-1].bib.get("author", "unknown"),
+                    "summary": author_pubs[l-i-1].bib.get("abstract", "Summary is not provided."),
+                    "year": author_pubs[l-i-1].bib.get("year", "unknown"),
+                    "url": author_pubs[l-i-1].bib.get("url", "URL is not provided.")
+                }
+                
+                pubs.append(pub)
+        else:
+            for pub in author_pubs:
+                pub = {
+                    "title": pub.bib["title"],
+                    "author": pub.bib["author"],
+                    "summary": pub.bib["abstract"],
+                    "year": pub.bib["year"],
+                    "url": pub.bib["url"]
+                }
+                
+                pubs.append(pub)
         json = {"publications": pubs}
         return json
 
