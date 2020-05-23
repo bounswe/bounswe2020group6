@@ -32,7 +32,6 @@ def search():
     if request.method == 'POST':
 
         url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
-        print(url)
         results = requests.get(url)
         results = json.loads(results.text)
 
