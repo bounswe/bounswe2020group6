@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, jsonify, request
 import requests
 import json
 import scholar_util
@@ -53,11 +53,9 @@ def coronavirus():
 
     j = json.loads(r.text)
 
-
-    Countries     = [j["Countries"]
+    Countries = [j["Countries"]
     return jsonify(Countries)
 
-            
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
