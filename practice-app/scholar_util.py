@@ -30,3 +30,25 @@ def search_author_by_tag(name, tag):
         "interests": author.interests
     }
     return json
+
+def getNameOutOfAuthorJson(authorJson):
+    #This is an example, pls edit this for appropriate header in the json
+    #Other info can be added as json as well,    
+    return authorJson[0][0]
+
+
+def getAuthorsColloborators(authorJson):
+    #ToDO: get authors colloborators
+    return None
+
+def getAuthorsCitationIndexes(authorJson):
+    #TODO:
+    return None
+
+def getAuthorPhoto(authorJson):
+    #TODO:
+    return None
+
+def getAuthorsRecentPublications(authorJson):
+    #TODO:
+    return None
