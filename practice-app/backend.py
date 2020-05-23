@@ -53,10 +53,9 @@ def coronavirus():
 
     j = json.loads(r.text)
 
-    Countries = [j["Countries"]
+    Countries = [j["Countries"]]
     return jsonify(Countries)
 
-                     
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
