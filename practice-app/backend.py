@@ -75,11 +75,19 @@ def profile():
 def coronavirus():
    
     r = requests.get('https://api.covid19api.com/summary')
-
     j = json.loads(r.text)
+    
+    countryList = j["Countries"]
+    countryCount = 186	
 
-    Countries = [j["Countries"]]
-    return jsonify(Countries)
+    for i in range(countryCount):	
+        x = countryList[i]
+        countryCode = x["CountryCode"] 
+        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
+        x["CountryCode"] = url
+    
+    
+    return render_template('coronavirus.html', context=countryList)
 
 @app.route('/dashboard')
 def dashboard():
