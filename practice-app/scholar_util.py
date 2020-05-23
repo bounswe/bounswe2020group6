@@ -40,6 +40,8 @@ class AuthorPublic(Resource):
 
         name = parser.parse_args().get('name')
         _range = parser.parse_args().get('range')
+        _range = int(_range)
+
 
         search_query = scholarly.search_author(name)
         author = next(search_query).fill()
@@ -50,23 +52,26 @@ class AuthorPublic(Resource):
 
         if _range < l:
             for i in range(0,_range):
+                bib = author_pubs[l-i-1].fill().bib
+
                 pub = {
-                    "title": author_pubs[l-i-1].bib.get("title", "Title is unknown"),
-                    "author": author_pubs[l-i-1].bib.get("author", "unknown"),
-                    "summary": author_pubs[l-i-1].bib.get("abstract", "Summary is not provided."),
-                    "year": author_pubs[l-i-1].bib.get("year", "unknown"),
-                    "url": author_pubs[l-i-1].bib.get("url", "URL is not provided.")
+                    "title": bib.get("title", "Title is unknown"),
+                    "author": bib.get("author", "unknown"),
+                    "summary": bib.get("abstract", "Summary is not provided."),
+                    "year": bib.get("year", "unknown"),
+                    "url": bib.get("url", "URL is not provided."),
                 }
-                
                 pubs.append(pub)
         else:
             for pub in author_pubs:
+                bib = pub.fill().bib
+
                 pub = {
-                    "title": pub.bib.get("title", "Title is unknown"),
-                    "author": pub.bib.get("author", "unknown"),
-                    "summary": pub.bib.get("abstract", "Summary is not provided."),
-                    "year": pub.bib.get("year", "unknown"),
-                    "url": pub.bib.get("url", "URL is not provided.")
+                    "title": bib.get("title", "Title is unknown"),
+                    "author": bib.get("author", "unknown"),
+                    "summary": bib.get("abstract", "Summary is not provided."),
+                    "year": bib.get("year", "unknown"),
+                    "url": bib.get("url", "URL is not provided.")
                 }
                 
                 pubs.append(pub)
