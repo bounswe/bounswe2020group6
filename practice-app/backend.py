@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request
 import requests
 import json
+import scholar_util
 
 
 app = Flask(__name__)
@@ -30,24 +31,10 @@ def search():
 
     if request.method == 'POST':
 
-        print("post")
-
-        # placeholder data
-        results = [
-            {
-                "title":  "Why we should abolish school",
-                "author": "Salih Can Özçelik",
-                "detail": "An eclectical projection of stochastical reviews on school experience optimization from 50's through mid 70's."
-            },
-            {
-                "title":  "Scientific Integrity of Wahab Waheed",
-                "author": "Lahme Adjoune",
-                "detail": "The levantine parchment-styling traditions of abbasid ministries in the middle age by the culture ministry of Turkey."
-            },
-        ]
+        results = scholar_util.search_authors_by_name(request.form["search_param"])
 
         context = {
-            "results": results,
+            "results": results["author_search_result"],
             "param":   request.form["search_param"],
         }
 

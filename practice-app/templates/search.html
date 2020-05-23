@@ -145,10 +145,10 @@
 
           {% for result in context.results %}
             <div class="card" style="width:100%;max-width:60em">
-              <img src="../static/images/desc_2.jpg" alt="Avatar">
+              <img src="{{ result.url_picture }}" alt="Avatar">
               <div class="card-body">
-                <h5 class="card-title">{{ result.title }} | By <i>{{ result.author }}</i></h5>
-                <p class="card-text">{{ result.detail }}</p>
+                <h5 class="card-title">{{ result.name }}</i></h5>
+                <p class="card-text">{{ result.affiliation }}</p>
                 <a href="#" class="btn-sm btn-secondary">Read more</a>
               </div>
             </div>
