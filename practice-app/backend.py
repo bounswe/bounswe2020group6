@@ -1,11 +1,12 @@
 
 from flask import Flask, render_template, jsonify, request
+from flask_restful import Api
 import requests
 import json
 import scholar_util
 
-
-app = scholar_util.app
+app = Flask(__name__)
+api = Api(app)
 #Template for flask backend
 
 @app.route('/')
@@ -143,4 +144,8 @@ def endUser():
 
 
 if __name__ == '__main__':
+    api.add_resource(SearchAuthorName,'/authornamesearch')
+    api.add_resource(AuthorPublic,'/authorpublications')
+    api.add_resource(SearchPublication,'/publicationsearch')
+    api.add_resource(AuthorCitationStats,'/authorstats')
     app.run()
