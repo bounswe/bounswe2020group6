@@ -33,48 +33,47 @@ class SearchAuthorName(Resource):
 
 class AuthorPublic(Resource):
 
+    #gets recent publications of an author
     def get(self):
+        #add arguments to the parser
         parser = reqparse.RequestParser()
         parser.add_argument('name', required = True)
         parser.add_argument('range', required = False)
 
+        #parse arguments
         name = parser.parse_args().get('name')
         _range = parser.parse_args().get('range')
-        _range = int(_range)
 
-
+        #get the author information
         search_query = scholarly.search_author(name)
         author = next(search_query).fill()
-        l = len(author.publications)
         author_pubs = author.publications
-
-        pubs = []
-
-        if _range < l:
-            for i in range(0,_range):
-                bib = author_pubs[l-i-1].fill().bib
-
-                pub = {
-                    "title": bib.get("title", "Title is unknown"),
-                    "author": bib.get("author", "unknown"),
-                    "summary": bib.get("abstract", "Summary is not provided."),
-                    "year": bib.get("year", "unknown"),
-                    "url": bib.get("url", "URL is not provided."),
-                }
-                pubs.append(pub)
+        
+        #make range controls
+        if _range is not None:
+            try:
+                _range = min(int(_range), len(author_pubs))
+            except:
+                json = {"message": "Invalid range argument."}
+                return json
         else:
-            for pub in author_pubs:
-                bib = pub.fill().bib
+            _range = len(author_pubs)
 
-                pub = {
-                    "title": bib.get("title", "Title is unknown"),
-                    "author": bib.get("author", "unknown"),
-                    "summary": bib.get("abstract", "Summary is not provided."),
-                    "year": bib.get("year", "unknown"),
-                    "url": bib.get("url", "URL is not provided.")
-                }
-                
-                pubs.append(pub)
+        #create publications array
+        pubs = [] 
+        for i in range(0,_range):
+            bib = author_pubs[len(author_pubs)-i-1].fill().bib
+
+            pub = {
+                "title": bib.get("title", "unknown"),
+                "author": bib.get("author", "unknown"),
+                "summary": bib.get("abstract", "unknown"),
+                "year": bib.get("year", "unknown"),
+                "url": bib.get("url", "unknown")
+            }
+            pubs.append(pub)
+
+        #return json object  
         json = {"publications": pubs}
         return json
 
