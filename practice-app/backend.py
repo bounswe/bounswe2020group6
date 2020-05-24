@@ -1,10 +1,12 @@
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, jsonify, request
+from flask_restful import Api
 import requests
 import json
-
+import scholar_util
 
 app = Flask(__name__)
+api = Api(app)
 #Template for flask backend
 
 @app.route('/')
@@ -24,10 +26,64 @@ def joke():
     return render_template('joke.html', joke=setup, punchline=punchline)
 
 
-
-@app.route('/search')
+@app.route('/search', methods=['POST', 'GET'])
 def search():
-    return render_template('search.html')
+
+    if request.method == 'POST':
+
+        url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
+        results = requests.get(url)
+        results = json.loads(results.text)
+
+        context = {
+            "results": results["author_search_result"],
+            "param":   request.form["search_param"],
+        } 
+
+    else:
+        context = {}
+
+    return render_template('search.html', context=context)
+
+@app.route('/profile',methods=['POST'])
+def profile():
+    if request.method=='POST':
+        authorJson=scholar_util.search_authors_by_name(request.form["name"])
+        print(authorSearchResult)
+
+        #TODO:Get these info and add them to profile.html page
+        scholar_util.getNameOutOfAuthorJson(authorJson)
+        scholar_util.getAuthorsColloborators(authorJson)
+        scholar_util.getAuthorsCitationIndexes(authorJson)
+        scholar_util.getAuthorPhoto(authorJson)
+        scholar_util.getAuthorsRecentPublications(authorJson)
+
+        return render_template('profile.html')
+    
+    
+    else:
+        return "Error 404"
+        print("get")
+
+
+        context = {}
+
+    return render_template('search.html', context=context)
+
+
+@app.route('/coronavirus', methods=['GET'])
+def coronavirus():
+   
+   countryData = scholar_util.api_search()    
+   return render_template('coronavirus.html', context=countryData)
+
+
+@app.route('/api/coronavirus', methods=['GET'])
+def api_coronavirus():
+    
+    countryData = scholar_util.api_search()
+    return jsonify(countryData)
+    
 
 @app.route('/dashboard')
 def dashboard():
@@ -82,8 +138,10 @@ def endUser():
     return "error"
 
 
-
-
-
 if __name__ == '__main__':
+    api.add_resource(scholar_util.SearchAuthorName,'/authornamesearch')
+    api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
+    api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
+    api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+
     app.run()
