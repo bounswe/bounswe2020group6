@@ -29,11 +29,11 @@ class CoronavirusByCountry(Resource):
 
         for index, day_info in enumerate(j):
             country_data.append({
-                'day': index,
-                'Confirmed': day_info['Confirmed'],
-                'Deaths': day_info['Deaths'],
-                'Recovered': day_info['Recovered'],
-                'Active': day_info['Active']
+                'day': index+1,
+                'confirmed': day_info['Confirmed'],
+                'deaths': day_info['Deaths'],
+                'recovered': day_info['Recovered'],
+                'active': day_info['Active']
             })
 
         json_return = {
