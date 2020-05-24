@@ -35,27 +35,6 @@ def search():
 
     return render_template('search.html', context=context)
 
-@app.route('/searchCountryLive', methods=['POST', 'GET'])
-def searchCountryLive():
-
-    if request.method == 'POST':
-
-        url = request.url_root+'/countryLive?country=' + request.form["search_param"] +"&typeName=confirmed"
-        
-        results = requests.get(url)
-        results = json.loads(results.text)
-        print(results)
-        context = {
-            "results": results,
-            "param":   request.form["search_param"],
-        } 
-        #print(context)
-    else:
-        context = {}
-
-    return render_template('searchCountryName.html', context=context)
-
-
 @app.route('/profile',methods=['POST'])
 def profile():
     if request.method=='POST':
