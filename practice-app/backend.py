@@ -15,7 +15,7 @@ api = Api(app)
 def form_post():
     return render_template('home.html')
 
-    
+  
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
@@ -34,6 +34,12 @@ def search():
         context = {}
 
     return render_template('search.html', context=context)
+
+
+@app.route('/api/search', methods=['POST'])
+def api_search():
+    json  = scholar_util("search_param")
+    return jsonify(json)
 
 @app.route('/searchCountryLive', methods=['POST', 'GET'])
 def searchCountryLive():
@@ -110,6 +116,7 @@ def profile():
         return "Error 404"
         print("get")
 
+
         context = {}
 
     return render_template('search.html', context=context)
@@ -127,8 +134,8 @@ def api_coronavirus():
     
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
-
-
+  
+  
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
