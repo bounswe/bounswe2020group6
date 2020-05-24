@@ -15,7 +15,7 @@ api = Api(app)
 def form_post():
     return render_template('home.html')
 
-    
+  
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
@@ -76,6 +76,7 @@ def profile():
         return "Error 404"
         print("get")
 
+
         context = {}
 
     return render_template('search.html', context=context)
@@ -93,8 +94,8 @@ def api_coronavirus():
     
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
-
-
+  
+  
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
