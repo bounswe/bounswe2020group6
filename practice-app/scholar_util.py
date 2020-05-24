@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Resource, reqparse
 from scholarly import scholarly
 
-
+#gets authors features
 def getAuthors(name):
 
     search_query = scholarly.search_author(name)
@@ -21,51 +21,35 @@ def getAuthors(name):
     }
     return json
 
-class AuthorPublic(Resource):
 
-    #gets recent publications of an author
-    def get(self):
-        #add arguments to the parser
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
-        parser.add_argument('range', required = False)
-
-        #parse arguments
-        name = parser.parse_args().get('name')
-        _range = parser.parse_args().get('range')
-
-        #get the author information
-        search_query = scholarly.search_author(name)
-        author = next(search_query).fill()
-        author_pubs = author.publications
+#gets recent publications of an author
+def getAuthorsPublications(name):
+    
+    search_query = scholarly.search_author(name)
+    author = next(search_query).fill()
+    author_pubs = author.publications
         
-        #make range controls
-        if _range is not None:
-            try:
-                _range = min(int(_range), len(author_pubs))
-            except:
-                json = {"message": "Invalid range argument."}
-                return json
-        else:
-            _range = len(author_pubs)
+    #determine range
+    _range = 5
+    _range = min(int(_range), len(author_pubs))
+   
+    #create publications array
+    pubs = [] 
+    for i in range(0,_range):
+        bib = author_pubs[len(author_pubs)-i-1].fill().bib
+        
+        pub = {
+            "title": bib.get("title", "unknown"),
+            "author": bib.get("author", "unknown"),
+            "summary": bib.get("abstract", "unknown"),
+            "year": bib.get("year", "unknown"),
+            "url": bib.get("url", "unknown")
+        }
+        pubs.append(pub)
 
-        #create publications array
-        pubs = [] 
-        for i in range(0,_range):
-            bib = author_pubs[len(author_pubs)-i-1].fill().bib
-
-            pub = {
-                "title": bib.get("title", "unknown"),
-                "author": bib.get("author", "unknown"),
-                "summary": bib.get("abstract", "unknown"),
-                "year": bib.get("year", "unknown"),
-                "url": bib.get("url", "unknown")
-            }
-            pubs.append(pub)
-
-        #return json object  
-        json = {"publications": pubs}
-        return json
+    #return json object  
+    json = {"publications": pubs}
+    return json
 
 # def getNameOutOfAuthorJson(authorJson):
 #     #This is an example, pls edit this for appropriate header in the json
