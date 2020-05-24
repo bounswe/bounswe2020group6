@@ -21,12 +21,9 @@ def search():
 
     if request.method == 'POST':
 
-        url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
-        results = requests.get(url)
-        results = json.loads(results.text)
-
+        json = scholar_util(request.form["search_param"])
         context = {
-            "results": results["author_search_result"],
+            "results": json["author_search_result"],
             "param":   request.form["search_param"],
         } 
 
@@ -38,7 +35,7 @@ def search():
 
 @app.route('/api/search', methods=['POST'])
 def api_search():
-    json  = scholar_util("search_param")
+    json  = scholar_util(request.form["search_param"])
     return jsonify(json)
 
 @app.route('/searchCountryLive', methods=['POST', 'GET'])
@@ -60,40 +57,6 @@ def searchCountryLive():
         context = {}
 
     return render_template('searchCountryName.html', context=context)
-
-@app.route('/coronavirusByCountry', methods=['POST', 'GET'])
-def coronavirusByCountry():
-    if request.method == 'POST':
-        url = request.url_root + '/coronavirusbycountry?country=' + request.form["search_param"]
-        r = requests.get(url)
-        country_data = json.loads(r.text)
-        context = {
-            "results": country_data["country_results"],
-            "param": request.form["search_param"]
-        }
-    else:
-        context = {}
-
-    print(context)
-    return render_template('coronavirusByCountry.html', context=context)
-
-#
-# MIGHT BE WRONG. WILL BE FIXED IF SO.
-#
-@app.route('/api/coronavirusByCountry', methods=['POST','GET'])
-def api_coronavirusByCountry():
-    if request.method == 'POST':
-        url = request.url_root + '/coronavirusbycountry?country=' + request.form["search_param"]
-        country_data = requests.get(url)
-        print(country_data)
-        context = {
-            "results": country_data["country_results"],
-            "param": request.form["search_param"]
-        }
-    else:
-        context = {}
-
-    return context
 
 
 @app.route('/profile',methods=['POST'])
