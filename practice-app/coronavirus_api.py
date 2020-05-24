@@ -18,14 +18,6 @@ def coronavirus_summary_search():
         
     return countryList
 
-
-
-
-
-
-
-
-
 #Template 
 class countryLive(Resource):
 #http://127.0.0.1:5000/countryLive?country=Turkey&typeName=confirmed
