@@ -1,11 +1,11 @@
-#How to run
+# How to run
 
 ```sh
 python3 backend.py
 ```
 
-##Requirements
+## Requirements
 
-*Flask library
-*Flask_RESTful library
-*requests library
+* Flask library
+* Flask_RESTful library
+* requests library
