@@ -15,7 +15,7 @@ def coronavirus_summary_search():
         countryCode = x["CountryCode"] 
         url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
         x["CountryCode"] = url
-        
+
     return countryList
 
 #Template 
@@ -58,35 +58,27 @@ def getWorldStatistics():
     json_return = {"world_stats":world_stats}
     return json_return
 
+def CoronavirusByCountry(country):
+    req_url = 'https://api.covid19api.com/country/' + country
+    r = requests.get(req_url)
+    j = json.loads(r.text)
 
+    # TODO: Check if request resulted in a success.
+    
+    country_data = []
 
-class CoronavirusByCountry(Resource):
-    def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('country', required=True)
+    for index, day_info in enumerate(j):
+        country_data.append({
+            'date': day_info['Date'],
+            'day': index + 1,
+            'confirmed': day_info['Confirmed'],
+            'deaths': day_info['Deaths'],
+            'recovered': day_info['Recovered'],
+            'active': day_info['Active']
+        })
 
-        country = parser.parse_args()['country']
+    json_return = {
+        "country_results": country_data
+    }
 
-        req_url = 'https://api.covid19api.com/country/' + country
-        r = requests.get(req_url)
-        j = json.loads(r.text)
-
-        #TODO: Check if request resulted in a success.
-
-        country_data = []
-
-        for index, day_info in enumerate(j):
-            country_data.append({
-                'date': day_info['Date'],
-                'day': index+1,
-                'confirmed': day_info['Confirmed'],
-                'deaths': day_info['Deaths'],
-                'recovered': day_info['Recovered'],
-                'active': day_info['Active']
-            })
-
-        json_return = {
-            "country_results": country_data
-        }
-
-        return json_return
+    return json_return

@@ -142,15 +142,31 @@
           {% endif %}
         </section>
         <section class="search-results">
-
+			<table class="table table-dark">
+			  <thead>
+				<tr>
+				  <th scope="col">Day</th>
+				  <th scope="col">Date</th>
+				  <th scope="col">Confirmed Cases</th>
+				  <th scope="col">Deaths</th>
+				  <th scope="col">Recovered</th>
+				  <th scope="col">Active Cases</th>
+				</tr>
+			  </thead>
           {% for result in context.results %}
-            <div class="card" style="width:100%;max-width:60em">
-              <div class="card-body">
-                <h5 class="">{{ result.day }}</i></h5>
-                <h5 class="">{{ result.confirmed }}</i></h5>
-              </div>
-            </div>
+			
+			  <tbody>
+				<tr>
+				  <td>{{ result.day }}</td>
+				  <td>{{ result.date }}</td>
+				  <td>{{ result.confirmed }}</td>
+				  <td>{{ result.deaths }}</td>
+				  <td>{{ result.recovered }}</td>
+				  <td>{{ result.active }}</td>
+				</tr>
+			  </tbody>	
           {% endfor %}
+		  </table>
 
         </section>
       </main>
