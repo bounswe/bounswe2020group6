@@ -16,21 +16,6 @@ def form_post():
     return render_template('home.html')
 
     
-
-@app.route('/joke')
-def joke():
-
-    r = requests.get('https://official-joke-api.appspot.com/random_joke')
-
-    j = json.loads(r.text)
-
-
-    setup     = j["setup"]
-    punchline = j["punchline"]
-    return render_template('joke.html', joke=setup, punchline=punchline)
-
-
-
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
