@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_restful import Resource, reqparse
 from scholarly import scholarly
 
 #gets authors features
@@ -62,36 +61,27 @@ def getAuthorsPublications(name):
 
 #     return None
 
-class AuthorCitationStats(Resource):
-    def get(self):
+#gets Author Citation Stats
+def getAuthorCitationStats(name):
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
+    search_query = scholarly.search_author(name)
+    author = next(search_query).fill()
+    cites_per_year = author.cites_per_year
+    return {"cites_per_year":cites_per_year}
 
-        name = parser.parse_args()['name']
-
-        search_query = scholarly.search_author(name)
-        author = next(search_query).fill()
-        cites_per_year = author.cites_per_year
-        return {"cites_per_year":cites_per_year}
-
-class SearchPublication(Resource):
-    def get(self):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('pub_name', required = True)
-
-        pub_name = parser.parse_args()['pub_name']
-        
-        search_query = scholarly.search_pubs(pub_name)
-        pub = next(search_query)
-        if not pub:
-            return {}
-        json = {
-            'abstract': pub.bib['abstract'],
-            'author': [author.strip(" ") for author in pub.bib['author']],
-            'eprint_url': pub.bib['eprint'],
-            'title': pub.bib['title'],
-            'url': pub.bib['url']
-        }
-        return json
+#gets publication features
+def searchPublication(pub_name):
+  
+    search_query = scholarly.search_pubs(pub_name)
+    pub = next(search_query)
+    
+    if not pub:
+        return {}
+    json = {
+        'abstract': pub.bib['abstract'],
+        'author': [author.strip(" ") for author in pub.bib['author']],
+        'eprint_url': pub.bib['eprint'],
+        'title': pub.bib['title'],
+        'url': pub.bib['url']
+    }
+    return json
