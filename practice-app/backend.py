@@ -26,7 +26,6 @@ def joke():
     return render_template('joke.html', joke=setup, punchline=punchline)
 
 
-
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
@@ -65,6 +64,7 @@ def profile():
     else:
         return "Error 404"
         print("get")
+
 
         context = {}
 
@@ -143,4 +143,5 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+
     app.run()
