@@ -21,7 +21,7 @@ def search():
 
     if request.method == 'POST':
 
-        json = scholar_util(request.form["search_param"])
+        json = scholar_util.getAuthors(request.form["search_param"])
         context = {
             "results": json["author_search_result"],
             "param":   request.form["search_param"],
