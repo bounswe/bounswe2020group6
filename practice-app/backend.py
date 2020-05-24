@@ -35,8 +35,11 @@ def search():
 
 @app.route('/api/search', methods=['POST'])
 def api_search():
-    json  = scholar_util(request.form["search_param"])
+    req_data = request.get_json()
+    name = req_data['name']
+    json  = scholar_util(name)
     return jsonify(json)
+
 
 @app.route('/searchCountryLive', methods=['POST', 'GET'])
 def searchCountryLive():
