@@ -50,9 +50,6 @@ class CoronavirusByCountry(Resource):
 
         req_url = 'https://api.covid19api.com/country/' + country
         r = requests.get(req_url)
-        print(req_url)
-        print(r.status_code)
-
         j = json.loads(r.text)
 
         #TODO: Check if request resulted in a success.
@@ -61,6 +58,7 @@ class CoronavirusByCountry(Resource):
 
         for index, day_info in enumerate(j):
             country_data.append({
+                'date': day_info['Date'],
                 'day': index+1,
                 'confirmed': day_info['Confirmed'],
                 'deaths': day_info['Deaths'],

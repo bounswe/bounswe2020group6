@@ -55,6 +55,40 @@ def searchCountryLive():
 
     return render_template('searchCountryName.html', context=context)
 
+@app.route('/coronavirusByCountry', methods=['POST', 'GET'])
+def coronavirusByCountry():
+    if request.method == 'POST':
+        url = request.url_root + '/coronavirusbycountry?country=' + request.form["search_param"]
+        r = requests.get(url)
+        country_data = json.loads(r.text)
+        context = {
+            "results": country_data["country_results"],
+            "param": request.form["search_param"]
+        }
+    else:
+        context = {}
+
+    print(context)
+    return render_template('coronavirusByCountry.html', context=context)
+
+#
+# MIGHT BE WRONG. WILL BE FIXED IF SO.
+#
+@app.route('/api/coronavirusByCountry', methods=['POST','GET'])
+def api_coronavirusByCountry():
+    if request.method == 'POST':
+        url = request.url_root + '/coronavirusbycountry?country=' + request.form["search_param"]
+        country_data = requests.get(url)
+        print(country_data)
+        context = {
+            "results": country_data["country_results"],
+            "param": request.form["search_param"]
+        }
+    else:
+        context = {}
+
+    return context
+
 
 @app.route('/profile',methods=['POST'])
 def profile():
