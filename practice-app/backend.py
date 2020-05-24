@@ -144,8 +144,8 @@ def endUser():
 
 
 if __name__ == '__main__':
-    api.add_resource(SearchAuthorName,'/authornamesearch')
-    api.add_resource(AuthorPublic,'/authorpublications')
-    api.add_resource(SearchPublication,'/publicationsearch')
-    api.add_resource(AuthorCitationStats,'/authorstats')
+    api.add_resource(scholar_util.SearchAuthorName,'/authornamesearch')
+    api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
+    api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
+    api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
     app.run()
