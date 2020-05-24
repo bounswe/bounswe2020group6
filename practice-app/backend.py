@@ -21,7 +21,7 @@ def search():
 
     if request.method == 'POST':
 
-        json = scholar_util.getAuthors(request.form["search_param"])
+        json = scholar_util(request.form["search_param"])
         context = {
             "results": json["author_search_result"],
             "param":   request.form["search_param"],
@@ -35,12 +35,8 @@ def search():
 
 @app.route('/api/search', methods=['POST'])
 def api_search():
-    
-    req_data = request.get_json()
-    name = req_data['name']
-    json  = scholar_util(name)
+    json  = scholar_util(request.form["search_param"])
     return jsonify(json)
-
 
 @app.route('/searchCountryLive', methods=['POST', 'GET'])
 def searchCountryLive():
@@ -67,7 +63,7 @@ def searchCountryLive():
 def profile():
     if request.method=='POST':
         authorJson=scholar_util.search_authors_by_name(request.form["name"])
-        print(authorSearchResult)
+        #print(authorSearchResult)
 
         #TODO:Get these info and add them to profile.html page
         scholar_util.getNameOutOfAuthorJson(authorJson)
@@ -92,7 +88,7 @@ def profile():
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
    
-   countryData = coronavirus_api.coronavirus_summary_search()    
+   countryData = coronavirus_api.coronavirus_summary_search()
    return render_template('coronavirus.html', context=countryData)
 
 
@@ -101,8 +97,16 @@ def api_coronavirus():
     
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
-  
-  
+
+@app.route('/api/worldStats', methods=['GET'])
+def api_world_stats():
+    world_data = coronavirus_api.WorldStatistics.get()
+    return world_data
+
+def world_stats():
+    world_data = coronavirus_api.WorldStatistics.get()
+    return render_template('worldstats.html', context = world_data)
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
@@ -163,5 +167,6 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
     api.add_resource(coronavirus_api.countryLive, '/countryLive')
     api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
+    api.add_resource(coronavirus_api.WorldStatistics, '/worldStats')
     app.run(debug=True)
 
