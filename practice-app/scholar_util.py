@@ -3,30 +3,23 @@ from flask_restful import Resource, reqparse
 from scholarly import scholarly
 
 
-class SearchAuthorName(Resource):
-    def get(self):
+def getAuthor(name):
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
-
-        name = parser.parse_args()['name']
-
-
-        search_query = scholarly.search_author(name)
-        authors_summary = []
-        for i in range(0, 5):
-            result = next(search_query, None)
-            if result is None:
-                break
-            authors_summary.append({
-                                "name": result.name,
-                                "affiliation": result.affiliation,
-                                "url_picture": result.url_picture,
-                                })
-        json = {
-            "author_search_result": authors_summary
-        }
-        return json
+    search_query = scholarly.search_author(name)
+    authors_summary = []
+    for i in range(0, 5):
+        result = next(search_query, None)
+        if result is None:
+            break
+        authors_summary.append({
+              "name": result.name,
+              "affiliation": result.affiliation,
+              "url_picture": result.url_picture,
+        })
+    json = {
+         "author_search_result": authors_summary
+    }
+    return json
 
 class AuthorPublic(Resource):
 
