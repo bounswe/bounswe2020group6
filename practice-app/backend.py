@@ -99,14 +99,14 @@ def profile():
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
    
-   countryData = scholar_util.api_search()    
+   countryData = coronavirus_api.coronavirus_summary_search()    
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
     
-    countryData = scholar_util.api_search()
+    countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
 
