@@ -35,6 +35,7 @@ def search():
 
 @app.route('/api/search', methods=['POST'])
 def api_search():
+    
     req_data = request.get_json()
     name = req_data['name']
     json  = scholar_util(name)
