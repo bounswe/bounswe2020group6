@@ -1,9 +1,11 @@
 
 from flask import Flask, render_template, jsonify, request
 from flask_restful import Api
+
 import requests
 import json
 import scholar_util
+import coronavirus_api
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,6 +14,8 @@ api = Api(app)
 @app.route('/')
 def form_post():
     return render_template('home.html')
+
+    
 
 @app.route('/joke')
 def joke():
@@ -45,6 +49,27 @@ def search():
         context = {}
 
     return render_template('search.html', context=context)
+
+@app.route('/searchCountryLive', methods=['POST', 'GET'])
+def searchCountryLive():
+
+    if request.method == 'POST':
+
+        url = request.url_root+'/countryLive?country=' + request.form["search_param"] +"&typeName=confirmed"
+        
+        results = requests.get(url)
+        results = json.loads(results.text)
+        print(results)
+        context = {
+            "results": results,
+            "param":   request.form["search_param"],
+        } 
+        #print(context)
+    else:
+        context = {}
+
+    return render_template('searchCountryName.html', context=context)
+
 
 @app.route('/profile',methods=['POST'])
 def profile():
@@ -148,4 +173,5 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
-    app.run()
+    api.add_resource(coronavirus_api.countryLive, '/countryLive')
+    app.run(debug=True)
