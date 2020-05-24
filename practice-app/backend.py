@@ -15,18 +15,15 @@ api = Api(app)
 def form_post():
     return render_template('home.html')
 
-  
+
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
     if request.method == 'POST':
 
-        url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
-        results = requests.get(url)
-        results = json.loads(results.text)
-
+        json = scholar_util.getAuthors(request.form["search_param"])
         context = {
-            "results": results["author_search_result"],
+            "results": json["author_search_result"],
             "param":   request.form["search_param"],
         } 
 
@@ -34,6 +31,15 @@ def search():
         context = {}
 
     return render_template('search.html', context=context)
+
+@app.route('/api/search', methods=['POST'])
+def api_search():
+    
+    req_data = request.get_json()
+    name = req_data['name']
+    json  = scholar_util(name)
+    return jsonify(json)
+
 
 @app.route('/profile',methods=['POST'])
 def profile():
