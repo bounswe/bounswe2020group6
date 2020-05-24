@@ -99,20 +99,15 @@ def profile():
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
    
-    r = requests.get('https://api.covid19api.com/summary')
+   countryData = scholar_util.api_search()    
+   return render_template('coronavirus.html', context=countryData)
 
-    j = json.loads(r.text)
 
-    countryList = j["Countries"]
-    countryCount = 186	
-
-    for i in range(countryCount):	
-        x = countryList[i]
-        countryCode = x["CountryCode"] 
-        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
-        x["CountryCode"] = url
-
-    return render_template('coronavirus.html', context=countryList)
+@app.route('/api/coronavirus', methods=['GET'])
+def api_coronavirus():
+    
+    countryData = scholar_util.api_search()
+    return jsonify(countryData)
 
 
 @app.route('/dashboard')
@@ -174,4 +169,6 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
     api.add_resource(coronavirus_api.countryLive, '/countryLive')
+    api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
     app.run(debug=True)
+
