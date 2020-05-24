@@ -4,6 +4,7 @@ from flask_restful import Api
 import requests
 import json
 import scholar_util
+import coronavirus_api
 
 app = Flask(__name__)
 api = Api(app)
@@ -148,4 +149,5 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+    api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
     app.run()
