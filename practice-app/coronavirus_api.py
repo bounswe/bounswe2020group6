@@ -3,6 +3,29 @@ from flask_restful import Resource, reqparse
 import requests
 import json
 
+def coronavirus_summary_search():
+    r = requests.get('https://api.covid19api.com/summary')
+    j = json.loads(r.text)
+    
+    countryList = j["Countries"]
+    CountryCount = 186	
+
+    for i in range(CountryCount):	
+        x = countryList[i]
+        countryCode = x["CountryCode"] 
+        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
+        x["CountryCode"] = url
+        
+    return countryList
+
+
+
+
+
+
+
+
+
 #Template 
 class countryLive(Resource):
 #http://127.0.0.1:5000/countryLive?country=Turkey&typeName=confirmed
