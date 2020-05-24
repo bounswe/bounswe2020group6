@@ -1,10 +1,6 @@
 from flask import Flask
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, reqparse
 from scholarly import scholarly
-
-app = Flask(__name__)
-api = Api(app)
-#has an optional affiliation parameter. If name is matched but affiliation is not, returns it in alternative result
 
 class SearchAuthorName(Resource):
     def get(self):
@@ -117,8 +113,3 @@ class SearchPublication(Resource):
             'url': pub.bib['url']
         }
         return json
-
-api.add_resource(SearchAuthorName,'/authornamesearch')
-api.add_resource(AuthorPublic,'/authorpublications')
-api.add_resource(SearchPublication,'/publicationsearch')
-api.add_resource(AuthorCitationStats,'/authorstats')
