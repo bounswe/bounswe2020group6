@@ -35,6 +35,12 @@ def search():
 
     return render_template('search.html', context=context)
 
+
+@app.route('/api/search', methods=['POST'])
+def api_search():
+    json  = scholar_util("search_param")
+    return jsonify(json)
+
 @app.route('/searchCountryLive', methods=['POST', 'GET'])
 def searchCountryLive():
 
