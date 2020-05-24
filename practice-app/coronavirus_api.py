@@ -40,22 +40,23 @@ class countryLive(Resource):
         
         return result[len(result)-5:len(result)]
 
-class WorldStatistics(Resource):
-    def get(self):
-        req_url = "https://api.covid19api.com/world/total"
-        r = requests.get(req_url)
-        j = json.loads(r.text)
-        world_stats= []
 
-        world_stats.append(
-                { 'total_confirmed': j["TotalConfirmed"],
-                  'total_deaths':j["TotalDeaths"],
-                  'total_recovered': j["TotalRecovered"]
-                }
-            )
+def getWorldStatistics():
+    
+    req_url = "https://api.covid19api.com/world/total"
+    r = requests.get(req_url)
+    j = json.loads(r.text)
+    world_stats= []
 
-        json_return = {"world_stats":world_stats}
-        return json_return
+    world_stats.append(
+            { 'total_confirmed': j["TotalConfirmed"],
+              'total_deaths':j["TotalDeaths"],
+              'total_recovered': j["TotalRecovered"]
+            }
+        )
+
+    json_return = {"world_stats":world_stats}
+    return json_return
 
 
 
