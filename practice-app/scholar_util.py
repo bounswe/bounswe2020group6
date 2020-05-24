@@ -3,7 +3,7 @@ from flask_restful import Resource, reqparse
 from scholarly import scholarly
 
 
-def getAuthor(name):
+def getAuthors(name):
 
     search_query = scholarly.search_author(name)
     authors_summary = []
