@@ -1,9 +1,11 @@
 
 from flask import Flask, render_template, jsonify, request
 from flask_restful import Api
+
 import requests
 import json
 import scholar_util
+import coronavirus_api
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,19 +15,7 @@ api = Api(app)
 def form_post():
     return render_template('home.html')
 
-@app.route('/joke')
-def joke():
-
-    r = requests.get('https://official-joke-api.appspot.com/random_joke')
-
-    j = json.loads(r.text)
-
-
-    setup     = j["setup"]
-    punchline = j["punchline"]
-    return render_template('joke.html', joke=setup, punchline=punchline)
-
-
+  
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
@@ -44,6 +34,27 @@ def search():
         context = {}
 
     return render_template('search.html', context=context)
+
+@app.route('/searchCountryLive', methods=['POST', 'GET'])
+def searchCountryLive():
+
+    if request.method == 'POST':
+
+        url = request.url_root+'/countryLive?country=' + request.form["search_param"] +"&typeName=confirmed"
+        
+        results = requests.get(url)
+        results = json.loads(results.text)
+        print(results)
+        context = {
+            "results": results,
+            "param":   request.form["search_param"],
+        } 
+        #print(context)
+    else:
+        context = {}
+
+    return render_template('searchCountryName.html', context=context)
+
 
 @app.route('/profile',methods=['POST'])
 def profile():
@@ -74,17 +85,17 @@ def profile():
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
    
-   countryData = scholar_util.api_search()    
+   countryData = coronavirus_api.coronavirus_summary_search()    
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
     
-    countryData = scholar_util.api_search()
+    countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
-    
-
+  
+  
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
@@ -143,5 +154,7 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+    api.add_resource(coronavirus_api.countryLive, '/countryLive')
+    api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
+    app.run(debug=True)
 
-    app.run()
