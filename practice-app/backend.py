@@ -70,7 +70,6 @@ def profile():
     return render_template('search.html', context=context)
 
 
-
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
    
@@ -78,8 +77,17 @@ def coronavirus():
 
     j = json.loads(r.text)
 
-    Countries = [j["Countries"]]
-    return jsonify(Countries)
+    countryList = j["Countries"]
+    countryCount = 186	
+
+    for i in range(countryCount):	
+        x = countryList[i]
+        countryCode = x["CountryCode"] 
+        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
+        x["CountryCode"] = url
+
+    return render_template('coronavirus.html', context=countryList)
+
 
 @app.route('/dashboard')
 def dashboard():
