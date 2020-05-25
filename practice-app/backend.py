@@ -135,11 +135,5 @@ def dashboard():
     return render_template('dashboard.html')
 
 if __name__ == '__main__':
-    #api.add_resource(scholar_util.SearchAuthorName,'/authornamesearch')
-    #api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
-    #api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
-    #api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
-    #api.add_resource(coronavirus_api.countryLive, '/countryLive')
-    #api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
     api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run(debug=True)
