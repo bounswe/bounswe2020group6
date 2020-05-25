@@ -22,21 +22,29 @@ def getAuthors(name, max_range=5):
 
 
 #gets recent publications of an author
-def getAuthorsPublications(name, max_range=5):
-
+def getAuthorsPublications(name, _range):
     search_query = scholarly.search_author(name)
     author = next(search_query).fill()
     author_pubs = author.publications
 
     #determine range
-    _range = max_range
-    _range = min(int(_range), len(author_pubs))
-
+    if _range is not None:
+        try:
+            _range = min(int(_range), len(author_pubs))
+        except:
+            json = {"message": "Invalid range argument."}
+            return json
+    else:
+        _range = 5
+        
     #create publications array
     pubs = []
     for i in range(0,_range):
-        bib = author_pubs[len(author_pubs)-i-1].fill().bib
-
+        try:
+            bib = author_pubs[len(author_pubs)-i-1].fill().bib
+        except:
+            bib = author_pubs[len(author_pubs)-i-1].bib
+            
         pub = {
             "title": bib.get("title", "unknown"),
             "author": bib.get("author", "unknown"),
@@ -90,12 +98,14 @@ def getUserProfileData(name):
     author_data = getAuthors(name, 1)
     author_pubs = getAuthorsPublications(name, 3)
 
+
     author_data_filtered = author_data["author_search_result"][0]
     author_pubs_filtered = author_pubs
 
     context = {
         **author_data_filtered,
         **author_pubs_filtered,
+
 
     }
 

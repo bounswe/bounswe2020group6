@@ -33,17 +33,6 @@ def search():
     return render_template('search.html', context=context)
 
 
-@app.route('/profile/<name>', methods=['GET'])
-def profile(name):
-
-    url = request.url_root+'/userdata?name=' + name
-    results = requests.get(url)
-    results = json.loads(results.text)
-
-    context = results
-
-    return render_template("profile.html", context=context)
-
 @app.route('/api/search', methods=['POST'])
 def api_search():
 
@@ -55,30 +44,45 @@ def api_search():
 
 @app.route('/api/authorpublications', methods=['GET'])
 def api_authorpublications():
-
-    req_data = request.get_json()
-    name = req_data['name']
-    json = scholar_util.getAuthorsPublications(name)
-    return jsonify(json)
+    name = request.args.get("name")
+    _range = request.args.get("range")
+    json = scholar_util.getAuthorsPublications(name, _range)
+    return jsonify(json)  
 
 
 @app.route('/api/publicationsearch', methods=['GET'])
 def api_publicationsearch():
 
-    req_data = request.get_json()
-    name = req_data['pub_name']
-    countryData = scholar_util.searchPublication(name)
+    name = request.args.get("name")
+    json = scholar_util.searchPublication(name)
     return jsonify(json)
 
 
 @app.route('/api/authorstats', methods=['GET'])
 def api_authorstats():
 
-    req_data = request.get_json()
-    name = req_data['pub_name']
-    countryData = scholar_util.getAuthorCitationStats(name)
-
+    name = request.args.get("name")
+    json = scholar_util.getAuthorCitationStats(name)
     return jsonify(json)  
+
+
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
+    url = request.url_root+'api/profiledata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
+
+    context = results
+
+    return render_template("profile.html", context=context)
+
+
+@app.route('/api/profiledata', methods=['GET'])
+def api_profile_data():
+
+    name = request.args.get("name")
+    json = scholar_util.getUserProfileData(name)
+    return jsonify(json)
  
 
 @app.route('/coronavirus', methods=['GET'])
@@ -183,5 +187,5 @@ def dashboard():
 
 
 if __name__ == '__main__':
-    #api.add_resource(scholar_util.UserProfile,'/userdata')
+
     app.run(debug=True)
