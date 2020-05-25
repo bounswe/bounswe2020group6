@@ -1,9 +1,11 @@
 
 from flask import Flask, render_template, jsonify, request
 from flask_restful import Api
+
 import requests
 import json
 import scholar_util
+import coronavirus_api
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,31 +15,15 @@ api = Api(app)
 def form_post():
     return render_template('home.html')
 
-@app.route('/joke')
-def joke():
-
-    r = requests.get('https://official-joke-api.appspot.com/random_joke')
-
-    j = json.loads(r.text)
-
-
-    setup     = j["setup"]
-    punchline = j["punchline"]
-    return render_template('joke.html', joke=setup, punchline=punchline)
-
-
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
 
     if request.method == 'POST':
 
-        url = request.url_root+'/authornamesearch?name=' + request.form["search_param"]
-        results = requests.get(url)
-        results = json.loads(results.text)
-
+        json = scholar_util.getAuthors(request.form["search_param"])
         context = {
-            "results": results["author_search_result"],
+            "results": json["author_search_result"],
             "param":   request.form["search_param"],
         }
 
@@ -45,6 +31,7 @@ def search():
         context = {}
 
     return render_template('search.html', context=context)
+
 
 @app.route('/profile/<name>', methods=['GET'])
 def profile(name):
@@ -55,24 +42,121 @@ def profile(name):
 
     context = results
 
+@app.route('/api/search', methods=['POST'])
+def api_search():
+    
+    req_data = request.get_json()
+    name = req_data['name']
+    json  = scholar_util.getAuthors(name)
+    return jsonify(json)
+
+
+@app.route('/api/authorpublications', methods=['GET'])
+def api_authorpublications():
+        
+    req_data = request.get_json()
+    name = req_data['name']
+    json = scholar_util.getAuthorsPublications(name)
+    return jsonify(json)  
+
+
+@app.route('/api/publicationsearch', methods=['GET'])
+def api_publicationsearch():
+        
+    req_data = request.get_json()
+    name = req_data['pub_name']
+    countryData = scholar_util.searchPublication(name)
+    return jsonify(json)  
+
+
+@app.route('/api/authorstats', methods=['GET'])
+def api_authorstats():
+        
+    req_data = request.get_json()
+    name = req_data['pub_name']
+    countryData = scholar_util.getAuthorCitationStats(name)
+    return jsonify(json)  
+
+
+@app.route('/profile',methods=['POST'])
+def profile():
+    if request.method=='POST':
+        authorJson=scholar_util.search_authors_by_name(request.form["name"])
+        print(authorSearchResult)
+
+        #TODO:Get these info and add them to profile.html page
+        scholar_util.getNameOutOfAuthorJson(authorJson)
+        scholar_util.getAuthorsColloborators(authorJson)
+        scholar_util.getAuthorsCitationIndexes(authorJson)
+        scholar_util.getAuthorPhoto(authorJson)
+        scholar_util.getAuthorsRecentPublications(authorJson)
+
+        return render_template('profile.html')
+    
+    
+    else:
+        return "Error 404"
+        print("get")
+
+
+        context = {}
+
+
 
     return render_template('profile.html', context=context)
 
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-
-   countryData = scholar_util.api_search()
+   countryData = coronavirus_api.coronavirus_summary_search()    
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
-
-    countryData = scholar_util.api_search()
+    countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
+@app.route('/api/worldStats', methods=['GET'])
+def api_world_stats():
+    world_data = coronavirus_api.getWorldStatistics()
+    return world_data
 
+@app.route('/worldStats', methods=['GET'])
+def world_stats():
+    world_data = coronavirus_api.getWorldStatistics()
+    return render_template('worldstats.html', context = world_data)
+
+@app.route('/coronavirusByCountry', methods=['POST', 'GET'])
+def coronavirusByCountry():
+    if request.method == 'POST':
+        country_data = coronavirus_api.CoronavirusByCountry(request.form["search_param"])
+        context = {
+            "results": country_data["country_results"],
+            "param": request.form["search_param"]
+        }
+    else:
+        context = {}
+
+    return render_template('coronavirusByCountry.html', context=context)
+
+#
+# MIGHT BE WRONG. WILL BE FIXED IF SO.
+#
+@app.route('/api/coronavirusByCountry', methods=['POST','GET'])
+def api_coronavirusByCountry():
+    if request.method == 'POST':
+        country_data = coronavirus_api.CoronavirusByCountry(request.form["search_param"])
+        context = {
+            "results": country_data["country_results"],
+            "param": request.form["search_param"]
+        }
+    else:
+        context = {}
+
+    return context
+
+  
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
@@ -127,9 +211,11 @@ def endUser():
 
 
 if __name__ == '__main__':
-    api.add_resource(scholar_util.SearchAuthorName,'/authornamesearch')
-    api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
-    api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
-    api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+    #api.add_resource(scholar_util.SearchAuthorName,'/authornamesearch')
+    #api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
+    #api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
+    #api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+    #api.add_resource(coronavirus_api.countryLive, '/countryLive')
+    #api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
     api.add_resource(scholar_util.UserProfile,'/userdata')
-    app.run()
+    app.run(debug=True)
