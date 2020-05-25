@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, jsonify, request
-from flask_restful import Api
+from flask_restful import Api, reqparse
 
 import requests
 import json
@@ -116,18 +116,17 @@ def coronavirusCountryLive():
 @app.route('/api/coronavirusCountryLive',  methods=['POST', 'GET'])
 def api_coronavirusCountryLive():
     
-    if request.method == 'POST':
-        results = coronavirus_api.coronavirusCountryLive(request.form["search_param"])
-        print(results)
+        context = {}
+        req_data = request.get_json()
+        country = req_data['country']
+        results=coronavirus_api.coronavirusCountryLive(country)
         context = {
             "results": results,
-            "param":   request.form["search_param"],
+            "param":   country,
         } 
-        #print(context)
-    else:
-        context = {}
+        
 
-    return context
+        return context
 
 
 @app.route('/api/worldStats', methods=['GET'] )
@@ -156,13 +155,25 @@ def coronavirusByCountry():
 #
 # MIGHT BE WRONG. WILL BE FIXED IF SO.
 #
-@app.route('/api/coronavirusByCountry', methods=['POST','GET'])
+@app.route('/api/coronavirusByCountry', methods=['POST'])
 def api_coronavirusByCountry():
     if request.method == 'POST':
-        country_data = coronavirus_api.CoronavirusByCountry(request.form["search_param"])
+        req_data = request.get_json()
+        country = req_data['country']
+        country_data = coronavirus_api.CoronavirusByCountry(country)
         context = {
             "results": country_data["country_results"],
-            "param": request.form["search_param"]
+            "param": country
+        }
+    elif request.method == 'GET':
+        parser = reqparse.RequestParser()
+        parser.add_argument('country', required=True)
+        args = parser.parse_args()
+        country = args['country']
+        country_data = coronavirus_api.CoronavirusByCountry(country)
+        context = {
+            "results": country_data["country_results"],
+            "param": country
         }
     else:
         context = {}
@@ -176,4 +187,5 @@ def dashboard():
 
 
 if __name__ == '__main__':
+
     app.run(debug=True)
