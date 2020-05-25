@@ -119,7 +119,7 @@ def coronavirusCountryLive():
             "param":   request.form["search_param"],
         } 
         #print(context)
-   else:
+    else:
         context = {}
 
    return render_template('searchCountryName.html', context=context)
@@ -142,7 +142,7 @@ def api_coronavirusCountryLive():
     return context
 #-------
 
-@app.route('/api/worldStats', )
+@app.route('/api/worldStats', methods=['GET'] )
 def api_world_stats():
     world_data = coronavirus_api.getWorldStatistics()
     return world_data
