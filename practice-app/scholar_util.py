@@ -96,3 +96,18 @@ def searchPublication(pub_name):
     }
     return json
 
+def getUserProfileData(name):
+    author_data = getAuthors(name, 1)
+    author_pubs = getAuthorsPublications(name, 3)
+
+    author_data_filtered = author_data["author_search_result"][0]
+    author_pubs_filtered = author_pubs
+
+    context = {
+        **author_data_filtered,
+        **author_pubs_filtered,
+
+    }
+
+    return context
+	

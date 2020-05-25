@@ -68,30 +68,24 @@ def api_authorstats():
     return jsonify(json)  
 
 
-@app.route('/profile',methods=['POST'])
-def profile():
-    if request.method=='POST':
-        authorJson=scholar_util.search_authors_by_name(request.form["name"])
-        print(authorSearchResult)
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
 
-        #TODO:Get these info and add them to profile.html page
-        scholar_util.getNameOutOfAuthorJson(authorJson)
-        scholar_util.getAuthorsColloborators(authorJson)
-        scholar_util.getAuthorsCitationIndexes(authorJson)
-        scholar_util.getAuthorPhoto(authorJson)
-        scholar_util.getAuthorsRecentPublications(authorJson)
+    url = request.url_root+'api/profiledata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
 
-        return render_template('profile.html')
-    
-    
-    else:
-        return "Error 404"
-        print("get")
+    context = results
+
+    return render_template("profile.html", context=context)
 
 
-        context = {}
+@app.route('/api/profiledata', methods=['GET'])
+def api_profile_data():
 
-    return render_template('search.html', context=context)
+    name = request.args.get("name")
+    json = scholar_util.getUserProfileData(name)
+    return jsonify(json)
 
 
 @app.route('/coronavirus', methods=['GET'])
@@ -198,6 +192,8 @@ def endUser():
             return string + '<br> <a href=" / "> Return to home page </a>'
 
     return "error"
+
+
 
 
 if __name__ == '__main__':
