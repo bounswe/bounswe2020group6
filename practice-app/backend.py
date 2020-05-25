@@ -25,12 +25,22 @@ def search():
         context = {
             "results": json["author_search_result"],
             "param":   request.form["search_param"],
-        } 
+        }
 
     else:
         context = {}
 
     return render_template('search.html', context=context)
+
+
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
+
+    url = request.url_root+'/userdata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
+
+    context = results
 
 @app.route('/api/search', methods=['POST'])
 def api_search():
@@ -91,19 +101,19 @@ def profile():
 
         context = {}
 
-    return render_template('search.html', context=context)
+
+
+    return render_template('profile.html', context=context)
 
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   
    countryData = coronavirus_api.coronavirus_summary_search()    
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
-    
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
@@ -207,5 +217,5 @@ if __name__ == '__main__':
     #api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
     #api.add_resource(coronavirus_api.countryLive, '/countryLive')
     #api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
+    api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run(debug=True)
-

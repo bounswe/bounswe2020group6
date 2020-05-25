@@ -664,6 +664,8 @@ main {
   align-items: center;
 }
 
+/* Search Page */
+
 .search-bar {
   width: 40%;
   padding: 5%;
@@ -694,6 +696,7 @@ main {
 }
 
 .search-results .card {
+  width: 100%;
   margin: 5px 0px;
   display: flex;
   flex-direction: row;
@@ -736,4 +739,130 @@ main {
   margin: 8px 10px;
   padding: 3px 5px;
   background-color: #947565;
+}
+
+/* Profile Page */
+
+.profile {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 10px;
+}
+
+.profile-card .profile-img,
+.profile-card .profile-body {
+  padding: 10px 20px;
+}
+
+.profile-card img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  margin: 5px;
+  border: rgba(148, 117, 101, 0.6) solid;
+}
+
+.profile-card .profile-img {
+  font-size: 15px;
+}
+
+.profile-body,
+.profile-img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-body ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-body li {
+  display: flex;
+  padding: 5px;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color: #2e6f7d;
+}
+
+.profile-img .porfile-numerics {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recent-publications {
+  flex: 5 1 200px;
+  padding: 20px 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list .card {
+  width: 100%;
+  margin: 5px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.list .card img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+.list .card * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.list .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.list .card h5 {
+  font-size: 15px;
+  padding: 8px 10px;
+}
+
+.list .card p {
+  font-size: 12px;
+  padding: 0px 10px;
+}
+
+.list .card a {
+  font-size: 10px;
+  margin: 8px 10px;
+  padding: 3px 5px;
+  background-color: #947565;
+}
+
+.collaborators {
+  text-align: center;
+  flex: 1 1 200px;
+  padding: 20px 10px;
 }
