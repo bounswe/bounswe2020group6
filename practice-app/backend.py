@@ -55,11 +55,10 @@ def api_search():
 
 @app.route('/api/authorpublications', methods=['GET'])
 def api_authorpublications():
-
-    req_data = request.get_json()
-    name = req_data['name']
-    json = scholar_util.getAuthorsPublications(name)
-    return jsonify(json)
+    name = request.args.get("name")
+    _range = request.args.get("range")
+    json = scholar_util.getAuthorsPublications(name, _range)
+    return jsonify(json)  
 
 
 @app.route('/api/publicationsearch', methods=['GET'])
@@ -77,8 +76,27 @@ def api_authorstats():
     req_data = request.get_json()
     name = req_data['pub_name']
     countryData = scholar_util.getAuthorCitationStats(name)
-
     return jsonify(json)  
+
+
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
+
+    url = request.url_root+'api/profiledata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
+
+    context = results
+
+    return render_template("profile.html", context=context)
+
+
+@app.route('/api/profiledata', methods=['GET'])
+def api_profile_data():
+
+    name = request.args.get("name")
+    json = scholar_util.getUserProfileData(name)
+    return jsonify(json)
  
 
 @app.route('/coronavirus', methods=['GET'])
@@ -169,6 +187,8 @@ def api_coronavirusByCountry():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+
 
 
 if __name__ == '__main__':
