@@ -79,6 +79,16 @@ def api_coronavirus():
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
+@app.route('/api/worldStats', methods=['GET'])
+def api_world_stats():
+    world_data = coronavirus_api.getWorldStatistics()
+    return world_data
+
+@app.route('/worldStats', methods=['GET'])
+def world_stats():
+    world_data = coronavirus_api.getWorldStatistics()
+    return render_template('worldstats.html', context = world_data)
+
 @app.route('/coronavirusByCountry', methods=['POST', 'GET'])
 def coronavirusByCountry():
     if request.method == 'POST':
