@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, jsonify, request
-from flask_restful import Api
+from flask_restful import Api, reqparse
 
 import requests
 import json
@@ -154,9 +154,19 @@ def coronavirusByCountry():
 #
 @app.route('/api/coronavirusByCountry', methods=['POST','GET'])
 def api_coronavirusByCountry():
-    if request.method == 'GET':
+    if request.method == 'POST':
         req_data = request.get_json()
         country = req_data['country']
+        country_data = coronavirus_api.CoronavirusByCountry(country)
+        context = {
+            "results": country_data["country_results"],
+            "param": country
+        }
+    elif request.method == 'GET':
+        parser = reqparse.RequestParser()
+        parser.add_argument('country', required=True)
+        args = parser.parse_args()
+        country = args['country']
         country_data = coronavirus_api.CoronavirusByCountry(country)
         context = {
             "results": country_data["country_results"],
