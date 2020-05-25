@@ -86,25 +86,17 @@ def searchPublication(pub_name):
     }
     return json
 
-class UserProfile(Resource):
-    def get(self):
+def getUserProfileData(name):
+    author_data = getAuthors(name, 1)
+    author_pubs = getAuthorsPublications(name, 3)
 
+    author_data_filtered = author_data["author_search_result"][0]
+    author_pubs_filtered = author_pubs
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
+    context = {
+        **author_data_filtered,
+        **author_pubs_filtered,
 
-        name = parser.parse_args()['name']
+    }
 
-        author_data = getAuthors.get(name, 1)
-        author_pubs = getAuthorsPublications.get(name, 3)
-
-        author_data_filtered = author_data["author_search_result"][0]
-        author_pubs_filtered = author_pubs
-
-        context = {
-            **author_data_filtered,
-            **author_pubs_filtered,
-
-        }
-
-        return context
+    return context

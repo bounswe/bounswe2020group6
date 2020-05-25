@@ -112,18 +112,17 @@ def coronavirusCountryLive():
 @app.route('/api/coronavirusCountryLive',  methods=['POST', 'GET'])
 def api_coronavirusCountryLive():
     
-    if request.method == 'POST':
-        results = coronavirus_api.coronavirusCountryLive(request.form["search_param"])
-        print(results)
+        context = {}
+        req_data = request.get_json()
+        country = req_data['country']
+        results=coronavirus_api.coronavirusCountryLive(country)
         context = {
             "results": results,
-            "param":   request.form["search_param"],
+            "param":   country,
         } 
-        #print(context)
-    else:
-        context = {}
+        
 
-    return context
+        return context
 
 
 @app.route('/api/worldStats', methods=['GET'] )
