@@ -105,7 +105,7 @@
                 </div>
                 <nav class="navbar">
                   <ul class="navbar_menu">
-                    <li><a href="#">home</a></li> 
+                    <li><a href="#">home</a></li>
                   </ul>
                   <ul class="navbar_user">
                     <li>
@@ -118,7 +118,7 @@
                         ><i class="fa fa-user" aria-hidden="true"></i
                       ></a>
                     </li>
-                  </ul> 
+                  </ul>
                 </nav>
               </div>
             </div>
@@ -130,94 +130,68 @@
         <section class="profile">
             <div class="profile-card">
                 <div class="profile-img">
-                    <img src="./images/single_1.jpg" alt="">
-                    <h3>Name Surname</h3> 
-                    <div class="profile-numerics">
-                        <span>42 followers</span>
-                        &
-                        <span>420 citations</span>
-                    </div>
+                    <img src="{{ context.url_picture }}" alt="" style="object-fit:cover;">
+                    <h3>{{ context.name }}</h3>
                     <div class="profile-numerics" style="font-size: smaller; text-align: center;">
-                      <span>h-index: 15</span>
-                      &
-                      <span>i10-index: 5</span>
-                  </div>
-                    <a href="#">Scholar Profile</a>
+                      <span>cited {{ context.citedby }} times</span>
+                      <br>
+                      <span>i10-index: {{ context.i10index }}</span>
+                    </div>
+                    <a href="https://scholar.google.com/citations?user={{ context.id }}">Scholar Profile</a>
                 </div>
                 <div class="profile-body">
                     <ul>
-                        <li><h5>Constitution:</h5> Boğaziçi University</h5>
-                        <li><h5>Location:</h5> Istanbul/Sarıyer</li>
-                        <li><h5>Interests:</h5> Machine Learning, Web Design</li>
+                        <li><h5>Affiliation:</h5> {{ context.affiliation }}</h5>
+                        <!--
+                          <li><h5>Constitution:</h5> -</h5>
+                          <li><h5>Location:</h5> -</li>
+                          <li><h5>Interests:</h5> -</li>
+                        -->
                     </ul>
                 </div>
             </div>
             <div class="recent-publications">
               <div class="list">
                 <h4>Recent Publications</h4>
-                <div class="card"> 
+
+                {% for publication in context.publications %}
+                <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Title | <i>01.01.2016</i></h5>
-                      <p class="card-text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt ea tempora nihil numquam doloremque, dolore quia! Asperiores illum perferendis amet!</p>
-                      <a href="#" class="btn-sm btn-secondary">Readmore</a>
+                      <h5 class="card-title">{{ publication.title }}
+                        {% if publication.year != "unknown" %}
+                          | ({{ publication.year }})
+                        {% endif%}
+                      </h5>
+                      <p class="card-text">{{ publication.summary }}</p>
+                      <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
                     </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Title | <i>01.01.2016</i></h5>
-                      <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fugiat in deleniti saepe nam placeat.</p>
-                      <a href="#" class="btn-sm btn-secondary">Readmore</a>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">Title | <i>01.01.2016</i></h5>
-                      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati esse porro debitis, architecto ratione quo cumque labore facilis, incidunt molestias, doloribus enim placeat ipsa qui?</p>
-                      <a href="#" class="btn-sm btn-secondary">Readmore</a>
-                    </div>
-                  </div>
-                  <div class="card">  
-                    <div class="card-body">
-                      <h5 class="card-title">Title | <i>01.01.2016</i></h5>
-                      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, deleniti id nostrum molestias sunt enim deserunt accusamus corporis commodi non!</p>
-                      <a href="#" class="btn-sm btn-secondary">Readmore</a>
-                    </div>
-                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
             </div>
+            <div class="seeall">
+              <h4>See All Publications</h4>
+              <div class="list">
+                <div class="card">
+                  <h2>∀</h2>
+                  <div class="card-body">
+                    <a href="#" id="see_all" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>See all publications from {{ context.name }}</i></h5></a>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="collaborators">
               <h4>Collaborators</h4>
               <div class="list">
+                {% for collaborator in context.collaborators %}
                 <div class="card">
-                  <img src="../static/images/desc_2.jpg" alt="Avatar">   
+                  <img src="{{ collaborator.url_picture }}" alt="Avatar">
                   <div class="card-body">
-                    <a href="#" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>Academician Name</i></h5></a>
+                    <a href="#" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>{{ collaborator.name }}</i></h5></a>
                     <div class="profile-numerics" style="font-size: smaller; text-align: center; padding: 0px 10px;">
-                      <span>54 followers</span>
-                      &
-                      <span>122 citations</span>
-                  </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <img src="../static/images/desc_2.jpg" alt="Avatar">   
-                  <div class="card-body">
-                    <a href="#" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>Academician Name</i></h5></a>
-                    <div class="profile-numerics" style="font-size: smaller; text-align: center; padding: 0px 10px;">
-                      <span>54 followers</span>
-                      &
-                      <span>122 citations</span>
-                  </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <img src="../static/images/desc_2.jpg" alt="Avatar">   
-                  <div class="card-body">
-                    <a href="#" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>Academician Name</i></h5></a>
-                    <div class="profile-numerics" style="font-size: smaller; text-align: center; padding: 0px 10px;">
-                      <span>54 followers</span>
-                      &
-                      <span>122 citations</span>
+                      <span>Affiliation: {{ collaborator.affiliation }}</span>
                   </div>
                   </div>
                 </div>
@@ -261,12 +235,12 @@
       </footer>
     </div>
 
-    <script src="../staticjs/jquery-3.2.1.min.js"></script>
-    <script src="../staticstyles/bootstrap4/popper.js"></script>
-    <script src="../staticstyles/bootstrap4/bootstrap.min.js"></script>
-    <script src="../staticplugins/Isotope/isotope.pkgd.min.js"></script>
-    <script src="../staticplugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-    <script src="../staticplugins/easing/easing.js"></script>
-    <script src="../staticjs/custom.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="styles/bootstrap4/popper.js"></script>
+    <script src="styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="plugins/easing/easing.js"></script>
+    <script src="js/custom.js"></script>
   </body>
 </html>

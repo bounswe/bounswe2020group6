@@ -25,16 +25,28 @@ def search():
         context = {
             "results": json["author_search_result"],
             "param":   request.form["search_param"],
-        } 
+        }
 
     else:
         context = {}
 
     return render_template('search.html', context=context)
 
+
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
+
+    url = request.url_root+'/userdata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
+
+    context = results
+
+    return render_template("profile.html", context=context)
+
 @app.route('/api/search', methods=['POST'])
 def api_search():
-    
+
     req_data = request.get_json()
     name = req_data['name']
     json  = scholar_util.getAuthors(name)
@@ -43,40 +55,40 @@ def api_search():
 
 @app.route('/api/authorpublications', methods=['GET'])
 def api_authorpublications():
-        
+
     req_data = request.get_json()
     name = req_data['name']
     json = scholar_util.getAuthorsPublications(name)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/api/publicationsearch', methods=['GET'])
 def api_publicationsearch():
-        
+
     req_data = request.get_json()
     name = req_data['pub_name']
     countryData = scholar_util.searchPublication(name)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/api/authorstats', methods=['GET'])
 def api_authorstats():
-        
+
     req_data = request.get_json()
     name = req_data['pub_name']
     countryData = scholar_util.getAuthorCitationStats(name)
+
     return jsonify(json)  
+ 
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   
-   countryData = coronavirus_api.coronavirus_summary_search()    
+   countryData = coronavirus_api.coronavirus_summary_search()
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
-    
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
@@ -153,12 +165,12 @@ def api_coronavirusByCountry():
 
     return context
 
-  
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
 
 if __name__ == '__main__':
+    api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run(debug=True)
-
