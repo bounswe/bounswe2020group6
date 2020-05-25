@@ -15,7 +15,7 @@ def coronavirus_summary_search():
         countryCode = x["CountryCode"] 
         url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
         x["CountryCode"] = url
-        
+
     return countryList
 
 #Template 
@@ -41,35 +41,44 @@ class countryLive(Resource):
         return result[len(result)-5:len(result)]
 
 
-class CoronavirusByCountry(Resource):
-    def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('country', required=True)
+def getWorldStatistics():
+    
+    req_url = "https://api.covid19api.com/world/total"
+    r = requests.get(req_url)
+    j = json.loads(r.text)
+    world_stats= []
 
-        country = parser.parse_args()['country']
+    world_stats.append(
+            { 'total_confirmed': j["TotalConfirmed"],
+              'total_deaths':j["TotalDeaths"],
+              'total_recovered': j["TotalRecovered"]
+            }
+        )
 
-        req_url = 'https://api.covid19api.com/country/' + country
-        r = requests.get(req_url)
-        print(req_url)
-        print(r.status_code)
+    json_return = {"world_stats":world_stats}
+    return json_return
 
-        j = json.loads(r.text)
+def CoronavirusByCountry(country):
+    req_url = 'https://api.covid19api.com/country/' + country
+    r = requests.get(req_url)
+    j = json.loads(r.text)
 
-        #TODO: Check if request resulted in a success.
+    # TODO: Check if request resulted in a success.
+    
+    country_data = []
 
-        country_data = []
+    for index, day_info in enumerate(j):
+        country_data.append({
+            'date': day_info['Date'],
+            'day': index + 1,
+            'confirmed': day_info['Confirmed'],
+            'deaths': day_info['Deaths'],
+            'recovered': day_info['Recovered'],
+            'active': day_info['Active']
+        })
 
-        for index, day_info in enumerate(j):
-            country_data.append({
-                'day': index+1,
-                'confirmed': day_info['Confirmed'],
-                'deaths': day_info['Deaths'],
-                'recovered': day_info['Recovered'],
-                'active': day_info['Active']
-            })
+    json_return = {
+        "country_results": country_data
+    }
 
-        json_return = {
-            "country_results": country_data
-        }
-
-        return json_return
+    return json_return
