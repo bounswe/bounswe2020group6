@@ -154,11 +154,13 @@ def coronavirusByCountry():
 #
 @app.route('/api/coronavirusByCountry', methods=['POST','GET'])
 def api_coronavirusByCountry():
-    if request.method == 'POST':
-        country_data = coronavirus_api.CoronavirusByCountry(request.form["search_param"])
+    if request.method == 'GET':
+        req_data = request.get_json()
+        country = req_data['country']
+        country_data = coronavirus_api.CoronavirusByCountry(country)
         context = {
             "results": country_data["country_results"],
-            "param": request.form["search_param"]
+            "param": country
         }
     else:
         context = {}
@@ -172,5 +174,5 @@ def dashboard():
 
 
 if __name__ == '__main__':
-    api.add_resource(scholar_util.UserProfile,'/userdata')
+    #api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run(debug=True)
