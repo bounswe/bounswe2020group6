@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, jsonify, request
 from flask_restful import Api
 
@@ -207,3 +208,4 @@ if __name__ == '__main__':
     #api.add_resource(coronavirus_api.countryLive, '/countryLive')
     #api.add_resource(coronavirus_api.CoronavirusByCountry, '/coronavirusbycountry')
     app.run(debug=True)
+

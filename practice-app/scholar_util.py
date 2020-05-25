@@ -85,3 +85,4 @@ def searchPublication(pub_name):
         'url': pub.bib['url']
     }
     return json
+
