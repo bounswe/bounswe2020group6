@@ -42,9 +42,11 @@ def profile(name):
 
     context = results
 
+    return render_template("profile.html", context=context)
+
 @app.route('/api/search', methods=['POST'])
 def api_search():
-    
+
     req_data = request.get_json()
     name = req_data['name']
     json  = scholar_util.getAuthors(name)
@@ -53,62 +55,33 @@ def api_search():
 
 @app.route('/api/authorpublications', methods=['GET'])
 def api_authorpublications():
-        
+
     req_data = request.get_json()
     name = req_data['name']
     json = scholar_util.getAuthorsPublications(name)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/api/publicationsearch', methods=['GET'])
 def api_publicationsearch():
-        
+
     req_data = request.get_json()
     name = req_data['pub_name']
     countryData = scholar_util.searchPublication(name)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/api/authorstats', methods=['GET'])
 def api_authorstats():
-        
+
     req_data = request.get_json()
     name = req_data['pub_name']
     countryData = scholar_util.getAuthorCitationStats(name)
-    return jsonify(json)  
-
-
-@app.route('/profile',methods=['POST'])
-def profile():
-    if request.method=='POST':
-        authorJson=scholar_util.search_authors_by_name(request.form["name"])
-        print(authorSearchResult)
-
-        #TODO:Get these info and add them to profile.html page
-        scholar_util.getNameOutOfAuthorJson(authorJson)
-        scholar_util.getAuthorsColloborators(authorJson)
-        scholar_util.getAuthorsCitationIndexes(authorJson)
-        scholar_util.getAuthorPhoto(authorJson)
-        scholar_util.getAuthorsRecentPublications(authorJson)
-
-        return render_template('profile.html')
-    
-    
-    else:
-        return "Error 404"
-        print("get")
-
-
-        context = {}
-
-
-
-    return render_template('profile.html', context=context)
-
+    return jsonify(json)
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   countryData = coronavirus_api.coronavirus_summary_search()    
+   countryData = coronavirus_api.coronavirus_summary_search()
    return render_template('coronavirus.html', context=countryData)
 
 
@@ -156,7 +129,7 @@ def api_coronavirusByCountry():
 
     return context
 
-  
+
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')

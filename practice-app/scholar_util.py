@@ -2,11 +2,11 @@ from flask import Flask
 from scholarly import scholarly
 
 #gets authors features
-def getAuthors(name):
+def getAuthors(name, max_range=5):
 
     search_query = scholarly.search_author(name)
     authors_summary = []
-    for i in range(0, 5):
+    for i in range(0, max_range):
         result = next(search_query, None)
         if result is None:
             break
@@ -22,21 +22,21 @@ def getAuthors(name):
 
 
 #gets recent publications of an author
-def getAuthorsPublications(name):
-    
+def getAuthorsPublications(name, max_range=5):
+
     search_query = scholarly.search_author(name)
     author = next(search_query).fill()
     author_pubs = author.publications
-        
+
     #determine range
-    _range = 5
+    _range = max_range
     _range = min(int(_range), len(author_pubs))
-   
+
     #create publications array
-    pubs = [] 
+    pubs = []
     for i in range(0,_range):
         bib = author_pubs[len(author_pubs)-i-1].fill().bib
-        
+
         pub = {
             "title": bib.get("title", "unknown"),
             "author": bib.get("author", "unknown"),
@@ -46,13 +46,13 @@ def getAuthorsPublications(name):
         }
         pubs.append(pub)
 
-    #return json object  
+    #return json object
     json = {"publications": pubs}
     return json
 
 # def getNameOutOfAuthorJson(authorJson):
 #     #This is an example, pls edit this for appropriate header in the json
-#     #Other info can be added as json as well,    
+#     #Other info can be added as json as well,
 #     return authorJson[0][0]
 
 
@@ -71,10 +71,10 @@ def getAuthorCitationStats(name):
 
 #gets publication features
 def searchPublication(pub_name):
-  
+
     search_query = scholarly.search_pubs(pub_name)
     pub = next(search_query)
-    
+
     if not pub:
         return {}
     json = {
@@ -86,3 +86,25 @@ def searchPublication(pub_name):
     }
     return json
 
+class UserProfile(Resource):
+    def get(self):
+
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', required = True)
+
+        name = parser.parse_args()['name']
+
+        author_data = getAuthors.get(name, 1)
+        author_pubs = getAuthorsPublications.get(name, 3)
+
+        author_data_filtered = author_data["author_search_result"][0]
+        author_pubs_filtered = author_pubs
+
+        context = {
+            **author_data_filtered,
+            **author_pubs_filtered,
+
+        }
+
+        return context
