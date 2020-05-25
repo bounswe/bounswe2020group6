@@ -53,18 +53,16 @@ def api_authorpublications():
 @app.route('/api/publicationsearch', methods=['GET'])
 def api_publicationsearch():
 
-    req_data = request.get_json()
-    name = req_data['pub_name']
-    countryData = scholar_util.searchPublication(name)
+    name = request.args.get("name")
+    json = scholar_util.searchPublication(name)
     return jsonify(json)
 
 
 @app.route('/api/authorstats', methods=['GET'])
 def api_authorstats():
 
-    req_data = request.get_json()
-    name = req_data['pub_name']
-    countryData = scholar_util.getAuthorCitationStats(name)
+    name = request.args.get("name")
+    json = scholar_util.getAuthorCitationStats(name)
     return jsonify(json)  
 
 
