@@ -6,20 +6,20 @@ from scholarly import scholarly
 def api_search():
     r = requests.get('https://api.covid19api.com/summary')
     j = json.loads(r.text)
-    
-    countryList = j["Countries"]
-    CountryCount = 186	
 
-    for i in range(CountryCount):	
+    countryList = j["Countries"]
+    CountryCount = 186
+
+    for i in range(CountryCount):
         x = countryList[i]
-        countryCode = x["CountryCode"] 
-        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
+        countryCode = x["CountryCode"]
+        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"
         x["CountryCode"] = url
-        
+
     return countryList
 
 class SearchAuthorName(Resource):
-    def get(self):
+    def get(self, max_range=5):
 
         parser = reqparse.RequestParser()
         parser.add_argument('name', required = True)
@@ -29,14 +29,19 @@ class SearchAuthorName(Resource):
 
         search_query = scholarly.search_author(name)
         authors_summary = []
-        for i in range(0, 5):
+        for i in range(0, max_range):
             result = next(search_query, None)
             if result is None:
                 break
+                print(result)
             authors_summary.append({
-                                "name": result.name,
-                                "affiliation": result.affiliation,
-                                "url_picture": result.url_picture,
+                                "name":         result.name,
+                                "affiliation":  result.affiliation,
+                                "url_picture":  result.url_picture,
+                                "id":           result.id,
+                                "i10index":     result.i10index,
+                                "citedby":      result.citedby,
+                                "coauthors:":   result.coauthors,
                                 })
         json = {
             "author_search_result": authors_summary
@@ -46,7 +51,7 @@ class SearchAuthorName(Resource):
 class AuthorPublic(Resource):
 
     #gets recent publications of an author
-    def get(self):
+    def get(self, max_range=None):
         #add arguments to the parser
         parser = reqparse.RequestParser()
         parser.add_argument('name', required = True)
@@ -54,13 +59,17 @@ class AuthorPublic(Resource):
 
         #parse arguments
         name = parser.parse_args().get('name')
-        _range = parser.parse_args().get('range')
+
+        if not max_range:
+            _range = parser.parse_args().get('range')
+        else:
+            _range = max_range
 
         #get the author information
         search_query = scholarly.search_author(name)
         author = next(search_query).fill()
         author_pubs = author.publications
-        
+
         #make range controls
         if _range is not None:
             try:
@@ -72,7 +81,7 @@ class AuthorPublic(Resource):
             _range = len(author_pubs)
 
         #create publications array
-        pubs = [] 
+        pubs = []
         for i in range(0,_range):
             bib = author_pubs[len(author_pubs)-i-1].fill().bib
 
@@ -85,13 +94,13 @@ class AuthorPublic(Resource):
             }
             pubs.append(pub)
 
-        #return json object  
+        #return json object
         json = {"publications": pubs}
         return json
 
 # def getNameOutOfAuthorJson(authorJson):
 #     #This is an example, pls edit this for appropriate header in the json
-#     #Other info can be added as json as well,    
+#     #Other info can be added as json as well,
 #     return authorJson[0][0]
 
 
@@ -120,7 +129,7 @@ class SearchPublication(Resource):
         parser.add_argument('pub_name', required = True)
 
         pub_name = parser.parse_args()['pub_name']
-        
+
         search_query = scholarly.search_pubs(pub_name)
         pub = next(search_query)
         if not pub:
@@ -133,3 +142,39 @@ class SearchPublication(Resource):
             'url': pub.bib['url']
         }
         return json
+
+class UserProfile(Resource):
+    def get(self):
+
+
+        parser = reqparse.RequestParser()
+        parser.add_argument('name', required = True)
+
+        name = parser.parse_args()['name']
+
+        author_data = SearchAuthorName.get(name, 1)
+        author_pubs = AuthorPublic.get(name, 3)
+
+        author_data_filtered = author_data["author_search_result"][0]
+        author_pubs_filtered = author_pubs
+
+        context = {
+            **author_data_filtered,
+            **author_pubs_filtered,
+
+        }
+
+        return context
+
+
+
+
+
+
+
+
+
+
+
+
+pass
