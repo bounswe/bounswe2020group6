@@ -107,7 +107,42 @@ def api_coronavirus():
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
-@app.route('/api/worldStats', methods=['GET'])
+#-------
+@app.route('/coronavirusCountryLive', methods=['POST', 'GET'])
+def coronavirusCountryLive():
+   
+   if request.method == 'POST':
+        results = coronavirus_api.coronavirusCountryLive(request.form["search_param"])
+        print(results)
+        context = {
+            "results": results,
+            "param":   request.form["search_param"],
+        } 
+        #print(context)
+   else:
+        context = {}
+
+   return render_template('searchCountryName.html', context=context)
+
+
+@app.route('/api/coronavirusCountryLive',  methods=['POST', 'GET'])
+def api_coronavirusCountryLive():
+    
+    if request.method == 'POST':
+        results = coronavirus_api.coronavirusCountryLive(request.form["search_param"])
+        print(results)
+        context = {
+            "results": results,
+            "param":   request.form["search_param"],
+        } 
+        #print(context)
+    else:
+        context = {}
+
+    return context
+#-------
+
+@app.route('/api/worldStats', )
 def api_world_stats():
     world_data = coronavirus_api.getWorldStatistics()
     return world_data

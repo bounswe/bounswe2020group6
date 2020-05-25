@@ -18,18 +18,13 @@ def coronavirus_summary_search():
 
     return countryList
 
-#Template 
-class countryLive(Resource):
+
+def coronavirusCountryLive(country):
 #http://127.0.0.1:5000/countryLive?country=Turkey&typeName=confirmed
 
-    
-    def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('country')
-        parser.add_argument('typeName')
-        args = parser.parse_args()
+   
         
-        url = "https://api.covid19api.com/country/{}/status/{}/live".format(args["country"], args["typeName"])
+        url = "https://api.covid19api.com/country/{}/status/{}/live".format(country, "confirmed")
 
         payload = {}
         headers= {}
