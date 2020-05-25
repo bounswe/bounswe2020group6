@@ -149,7 +149,7 @@
               <div class="card-body">
                 <h5 class="card-title">{{ result.name }}</i></h5>
                 <p class="card-text">{{ result.affiliation }}</p>
-                <a href="#" class="btn-sm btn-secondary">Read more</a>
+                <a href="{{ url_for('profile', name = result.name) }}" class="btn-sm btn-secondary">View Profile</a>
               </div>
             </div>
           {% endfor %}
