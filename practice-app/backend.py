@@ -39,51 +39,39 @@ def search():
         context = {
             "results": results["author_search_result"],
             "param":   request.form["search_param"],
-        } 
+        }
 
     else:
         context = {}
 
     return render_template('search.html', context=context)
 
-@app.route('/profile',methods=['POST'])
-def profile():
-    if request.method=='POST':
-        authorJson=scholar_util.search_authors_by_name(request.form["name"])
-        print(authorSearchResult)
+@app.route('/profile/<name>', methods=['GET'])
+def profile(name):
 
-        #TODO:Get these info and add them to profile.html page
-        scholar_util.getNameOutOfAuthorJson(authorJson)
-        scholar_util.getAuthorsColloborators(authorJson)
-        scholar_util.getAuthorsCitationIndexes(authorJson)
-        scholar_util.getAuthorPhoto(authorJson)
-        scholar_util.getAuthorsRecentPublications(authorJson)
+    url = request.url_root+'/userdata?name=' + name
+    results = requests.get(url)
+    results = json.loads(results.text)
 
-        return render_template('profile.html')
-    
-    
-    else:
-        return "Error 404"
-        print("get")
+    context = results
 
-        context = {}
 
-    return render_template('search.html', context=context)
+    return render_template('profile.html', context=context)
 
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   
-   countryData = scholar_util.api_search()    
+
+   countryData = scholar_util.api_search()
    return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
-    
+
     countryData = scholar_util.api_search()
     return jsonify(countryData)
-    
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -143,4 +131,5 @@ if __name__ == '__main__':
     api.add_resource(scholar_util.AuthorPublic,'/authorpublications')
     api.add_resource(scholar_util.SearchPublication,'/publicationsearch')
     api.add_resource(scholar_util.AuthorCitationStats,'/authorstats')
+    api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run()
