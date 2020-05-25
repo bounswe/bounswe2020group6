@@ -105,7 +105,12 @@
                 </div>
                 <nav class="navbar">
                   <ul class="navbar_menu">
-                    <li><a href="#">home</a></li>
+                    <li><a href="{{ url_for('form_post') }}">home</a></li>
+                    <li><a href="{{ url_for('search') }}">search academician</a></li>
+                    <li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+                    <li><a href="{{ url_for('coronavirusCountryLive') }}">Covid19 Live</a></li>
+                    <li><a href="{{ url_for('world_stats') }}">Covid19 World</a></li>
+                    <li><a href="{{ url_for('coronavirusByCountry') }}">Covid19 By Country</a></li>
                   </ul>
                   <ul class="navbar_user">
                     <li>
