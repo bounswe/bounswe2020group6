@@ -44,9 +44,9 @@ def api_search():
 @app.route('/api/authorpublications', methods=['GET'])
 def api_authorpublications():
         
-    req_data = request.get_json()
-    name = req_data['name']
-    json = scholar_util.getAuthorsPublications(name)
+    name = request.args.get("name")
+    _range = request.args.get("range")
+    json = scholar_util.getAuthorsPublications(name, _range)
     return jsonify(json)  
 
 
