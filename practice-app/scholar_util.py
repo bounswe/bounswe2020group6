@@ -2,11 +2,11 @@ from flask import Flask
 from scholarly import scholarly
 
 #gets authors features
-def getAuthors(name):
+def getAuthors(name, max_range=5):
 
     search_query = scholarly.search_author(name)
     authors_summary = []
-    for i in range(0, 5):
+    for i in range(0, max_range):
         result = next(search_query, None)
         if result is None:
             break
@@ -23,11 +23,10 @@ def getAuthors(name):
 
 #gets recent publications of an author
 def getAuthorsPublications(name, _range):
-    
     search_query = scholarly.search_author(name)
     author = next(search_query).fill()
     author_pubs = author.publications
-        
+
     #determine range
     if _range is not None:
         try:
@@ -37,16 +36,15 @@ def getAuthorsPublications(name, _range):
             return json
     else:
         _range = 5
-
-   
+        
     #create publications array
-    pubs = [] 
+    pubs = []
     for i in range(0,_range):
         try:
             bib = author_pubs[len(author_pubs)-i-1].fill().bib
         except:
             bib = author_pubs[len(author_pubs)-i-1].bib
-        
+            
         pub = {
             "title": bib.get("title", "unknown"),
             "author": bib.get("author", "unknown"),
@@ -56,13 +54,13 @@ def getAuthorsPublications(name, _range):
         }
         pubs.append(pub)
 
-    #return json object  
+    #return json object
     json = {"publications": pubs}
     return json
 
 # def getNameOutOfAuthorJson(authorJson):
 #     #This is an example, pls edit this for appropriate header in the json
-#     #Other info can be added as json as well,    
+#     #Other info can be added as json as well,
 #     return authorJson[0][0]
 
 
@@ -81,10 +79,10 @@ def getAuthorCitationStats(name):
 
 #gets publication features
 def searchPublication(pub_name):
-  
+
     search_query = scholarly.search_pubs(pub_name)
     pub = next(search_query)
-    
+
     if not pub:
         return {}
     json = {
@@ -110,4 +108,3 @@ def getUserProfileData(name):
     }
 
     return context
-	
