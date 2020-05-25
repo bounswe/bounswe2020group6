@@ -1,102 +1,54 @@
 from flask import Flask
-from flask_restful import Resource, reqparse
 from scholarly import scholarly
 
+#gets authors features
+def getAuthors(name, max_range=5):
 
-def api_search():
-    r = requests.get('https://api.covid19api.com/summary')
-    j = json.loads(r.text)
-
-    countryList = j["Countries"]
-    CountryCount = 186
-
-    for i in range(CountryCount):
-        x = countryList[i]
-        countryCode = x["CountryCode"]
-        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"
-        x["CountryCode"] = url
-
-    return countryList
-
-class SearchAuthorName(Resource):
-    def get(self, max_range=5):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
-
-        name = parser.parse_args()['name']
+    search_query = scholarly.search_author(name)
+    authors_summary = []
+    for i in range(0, max_range):
+        result = next(search_query, None)
+        if result is None:
+            break
+        authors_summary.append({
+              "name": result.name,
+              "affiliation": result.affiliation,
+              "url_picture": result.url_picture,
+        })
+    json = {
+         "author_search_result": authors_summary
+    }
+    return json
 
 
-        search_query = scholarly.search_author(name)
-        authors_summary = []
-        for i in range(0, max_range):
-            result = next(search_query, None)
-            if result is None:
-                break
-                print(result)
-            authors_summary.append({
-                                "name":         result.name,
-                                "affiliation":  result.affiliation,
-                                "url_picture":  result.url_picture,
-                                "id":           result.id,
-                                "i10index":     result.i10index,
-                                "citedby":      result.citedby,
-                                "coauthors:":   result.coauthors,
-                                })
-        json = {
-            "author_search_result": authors_summary
+#gets recent publications of an author
+def getAuthorsPublications(name, max_range=5):
+
+    search_query = scholarly.search_author(name)
+    author = next(search_query).fill()
+    author_pubs = author.publications
+
+    #determine range
+    _range = max_range
+    _range = min(int(_range), len(author_pubs))
+
+    #create publications array
+    pubs = []
+    for i in range(0,_range):
+        bib = author_pubs[len(author_pubs)-i-1].fill().bib
+
+        pub = {
+            "title": bib.get("title", "unknown"),
+            "author": bib.get("author", "unknown"),
+            "summary": bib.get("abstract", "unknown"),
+            "year": bib.get("year", "unknown"),
+            "url": bib.get("url", "unknown")
         }
-        return json
+        pubs.append(pub)
 
-class AuthorPublic(Resource):
-
-    #gets recent publications of an author
-    def get(self, max_range=None):
-        #add arguments to the parser
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
-        parser.add_argument('range', required = False)
-
-        #parse arguments
-        name = parser.parse_args().get('name')
-
-        if not max_range:
-            _range = parser.parse_args().get('range')
-        else:
-            _range = max_range
-
-        #get the author information
-        search_query = scholarly.search_author(name)
-        author = next(search_query).fill()
-        author_pubs = author.publications
-
-        #make range controls
-        if _range is not None:
-            try:
-                _range = min(int(_range), len(author_pubs))
-            except:
-                json = {"message": "Invalid range argument."}
-                return json
-        else:
-            _range = len(author_pubs)
-
-        #create publications array
-        pubs = []
-        for i in range(0,_range):
-            bib = author_pubs[len(author_pubs)-i-1].fill().bib
-
-            pub = {
-                "title": bib.get("title", "unknown"),
-                "author": bib.get("author", "unknown"),
-                "summary": bib.get("abstract", "unknown"),
-                "year": bib.get("year", "unknown"),
-                "url": bib.get("url", "unknown")
-            }
-            pubs.append(pub)
-
-        #return json object
-        json = {"publications": pubs}
-        return json
+    #return json object
+    json = {"publications": pubs}
+    return json
 
 # def getNameOutOfAuthorJson(authorJson):
 #     #This is an example, pls edit this for appropriate header in the json
@@ -109,39 +61,30 @@ class AuthorPublic(Resource):
 
 #     return None
 
-class AuthorCitationStats(Resource):
-    def get(self):
+#gets Author Citation Stats
+def getAuthorCitationStats(name):
 
-        parser = reqparse.RequestParser()
-        parser.add_argument('name', required = True)
+    search_query = scholarly.search_author(name)
+    author = next(search_query).fill()
+    cites_per_year = author.cites_per_year
+    return {"cites_per_year":cites_per_year}
 
-        name = parser.parse_args()['name']
+#gets publication features
+def searchPublication(pub_name):
 
-        search_query = scholarly.search_author(name)
-        author = next(search_query).fill()
-        cites_per_year = author.cites_per_year
-        return {"cites_per_year":cites_per_year}
+    search_query = scholarly.search_pubs(pub_name)
+    pub = next(search_query)
 
-class SearchPublication(Resource):
-    def get(self):
-
-        parser = reqparse.RequestParser()
-        parser.add_argument('pub_name', required = True)
-
-        pub_name = parser.parse_args()['pub_name']
-
-        search_query = scholarly.search_pubs(pub_name)
-        pub = next(search_query)
-        if not pub:
-            return {}
-        json = {
-            'abstract': pub.bib['abstract'],
-            'author': [author.strip(" ") for author in pub.bib['author']],
-            'eprint_url': pub.bib['eprint'],
-            'title': pub.bib['title'],
-            'url': pub.bib['url']
-        }
-        return json
+    if not pub:
+        return {}
+    json = {
+        'abstract': pub.bib['abstract'],
+        'author': [author.strip(" ") for author in pub.bib['author']],
+        'eprint_url': pub.bib['eprint'],
+        'title': pub.bib['title'],
+        'url': pub.bib['url']
+    }
+    return json
 
 class UserProfile(Resource):
     def get(self):
@@ -152,8 +95,8 @@ class UserProfile(Resource):
 
         name = parser.parse_args()['name']
 
-        author_data = SearchAuthorName.get(name, 1)
-        author_pubs = AuthorPublic.get(name, 3)
+        author_data = getAuthors.get(name, 1)
+        author_pubs = getAuthorsPublications.get(name, 3)
 
         author_data_filtered = author_data["author_search_result"][0]
         author_pubs_filtered = author_pubs
@@ -165,16 +108,3 @@ class UserProfile(Resource):
         }
 
         return context
-
-
-
-
-
-
-
-
-
-
-
-
-pass
