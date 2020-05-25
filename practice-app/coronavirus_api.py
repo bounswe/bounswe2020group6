@@ -65,7 +65,7 @@ def CoronavirusByCountry(country):
     for index, day_info in enumerate(j):
         country_data.append({
             'date': day_info['Date'],
-            'day': index + 1,
+            'province': day_info['Province'],
             'confirmed': day_info['Confirmed'],
             'deaths': day_info['Deaths'],
             'recovered': day_info['Recovered'],
