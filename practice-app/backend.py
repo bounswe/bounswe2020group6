@@ -36,8 +36,35 @@ def api_search():
     
     req_data = request.get_json()
     name = req_data['name']
-    json  = scholar_util(name)
+    json  = scholar_util.getAuthors(name)
     return jsonify(json)
+
+
+@app.route('/api/authorpublications', methods=['GET'])
+def api_authorpublications():
+        
+    req_data = request.get_json()
+    name = req_data['name']
+    json = scholar_util.getAuthorsPublications(name)
+    return jsonify(json)  
+
+
+@app.route('/api/publicationsearch', methods=['GET'])
+def api_publicationsearch():
+        
+    req_data = request.get_json()
+    name = req_data['pub_name']
+    countryData = scholar_util.searchPublication(name)
+    return jsonify(json)  
+
+
+@app.route('/api/authorstats', methods=['GET'])
+def api_authorstats():
+        
+    req_data = request.get_json()
+    name = req_data['pub_name']
+    countryData = scholar_util.getAuthorCitationStats(name)
+    return jsonify(json)  
 
 
 @app.route('/profile',methods=['POST'])
@@ -117,7 +144,7 @@ def api_coronavirusByCountry():
         context = {}
 
     return context
-  
+
   
 @app.route('/dashboard')
 def dashboard():
