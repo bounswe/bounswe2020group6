@@ -33,17 +33,6 @@ def search():
     return render_template('search.html', context=context)
 
 
-@app.route('/profile/<name>', methods=['GET'])
-def profile(name):
-
-    url = request.url_root+'/userdata?name=' + name
-    results = requests.get(url)
-    results = json.loads(results.text)
-
-    context = results
-
-    return render_template("profile.html", context=context)
-
 @app.route('/api/search', methods=['POST'])
 def api_search():
 
@@ -81,7 +70,6 @@ def api_authorstats():
 
 @app.route('/profile/<name>', methods=['GET'])
 def profile(name):
-
     url = request.url_root+'api/profiledata?name=' + name
     results = requests.get(url)
     results = json.loads(results.text)
@@ -189,8 +177,5 @@ def dashboard():
     return render_template('dashboard.html')
 
 
-
-
 if __name__ == '__main__':
-    api.add_resource(scholar_util.UserProfile,'/userdata')
     app.run(debug=True)
