@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, jsonify, request
 from flask_restful import Api, reqparse
 
@@ -192,4 +193,4 @@ def dashboard():
 
 if __name__ == '__main__':
 
-    app.run(debug=True)
+    app.run(port=80)
