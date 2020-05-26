@@ -22,7 +22,7 @@ def getAuthors(name, max_range=5):
 
 
 #gets recent publications of an author
-def getAuthorsPublications(name, _range):
+def getAuthorsPublications(name, _range = None):
     search_query = scholarly.search_author(name)
     author = next(search_query).fill()
     author_pubs = author.publications
@@ -48,9 +48,9 @@ def getAuthorsPublications(name, _range):
         pub = {
             "title": bib.get("title", "unknown"),
             "author": bib.get("author", "unknown"),
-            "summary": bib.get("abstract", "unknown"),
+            "summary": bib.get("abstract", "Summary not provided."),
             "year": bib.get("year", "unknown"),
-            "url": bib.get("url", "unknown")
+            "url": bib.get("url", "#")
         }
         pubs.append(pub)
 
