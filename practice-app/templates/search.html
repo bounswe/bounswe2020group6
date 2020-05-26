@@ -1,5 +1,13 @@
 {% extends "base_template.html" %}
 
+{% block navlinks %}
+
+<li><a href="{{ url_for('form_post') }}">home</a></li>
+<li><a href="{{ url_for('search') }}">search academician</a></li>
+<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+
+{% endblock %}
+
 {% block content %} 
 
 <section class="search-bar">
@@ -8,7 +16,7 @@
 
       <input type="text" name="search_param" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit">Button</button>
+        <button class="btn btn-outline-secondary" type="submit">Submit</button>
       </div>
   </div>
   </form>
