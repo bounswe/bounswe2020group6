@@ -3,7 +3,7 @@ import json
 import coronavirus_api  
 
 
-def isJson():
+def isCoronavirusJson():
     
     list = coronavirus_api.coronavirus_summary_search()     
     
@@ -16,7 +16,7 @@ class SimpleTest(unittest.TestCase):
   
     # Returns True or False.  
     def test(self):            
-        self.assertTrue(isJson() == True) 
+        self.assertTrue(isCoronavirusJson() == True) 
 
 
 
