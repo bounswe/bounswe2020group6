@@ -87,12 +87,17 @@ def api_profile_data():
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   countryData = coronavirus_api.coronavirus_summary_search()
-   return render_template('coronavirus.html', context=countryData)
+   
+    countryData = coronavirus_api.coronavirus_summary_search()
+    if countryData == False:
+        return "Server is overloaded, please try again!"
+    else:
+        return render_template('coronavirus.html', context=countryData)
 
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
+    
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
