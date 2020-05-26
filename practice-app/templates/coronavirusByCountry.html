@@ -18,7 +18,7 @@
         aria-describedby="basic-addon2"
       />
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit">Button</button>
+        <button class="btn btn-outline-secondary" type="submit">Submit</button>
       </div>
     </div>
   </form>
@@ -39,18 +39,17 @@
       </tr>
     </thead>
     {% for result in context.results %}
-      <tbody>
-        <tr>
-          <td>{{ result.date }}</td>
-          <td>{{ result.province }}</td>
-          <td>{{ result.confirmed }}</td>
-          <td>{{ result.deaths }}</td>
-          <td>{{ result.recovered }}</td>
-          <td>{{ result.active }}</td>
-        </tr>
-      </tbody>
+    <tbody>
+      <tr>
+        <td>{{ result.date }}</td>
+        <td>{{ result.province }}</td>
+        <td>{{ result.confirmed }}</td>
+        <td>{{ result.deaths }}</td>
+        <td>{{ result.recovered }}</td>
+        <td>{{ result.active }}</td>
+      </tr>
+    </tbody>
     {% endfor %}
-
   </table>
 </section>
 
