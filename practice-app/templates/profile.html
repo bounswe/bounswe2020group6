@@ -8,19 +8,34 @@
 
 <section class="profile">
   <div class="profile-card">
-    <div class="profile-img">
-      <img src="{{ context.url_picture }}" alt="" style="object-fit: cover;" />
-      <h3>{{ context.name }}</h3>
-      <div
-        class="profile-numerics"
-        style="font-size: smaller; text-align: center;"
-      >
-        <span>cited {{ context.citedby }} times</span>
+      <div class="profile-img">
+          <img src="{{ context.url_picture }}" alt="" style="object-fit:cover;">
+          <h3>{{ context.name }}</h3>
+          <div class="profile-numerics" style="font-size: smaller; text-align: center;">
+            <span>cited {{ context.citedby }} times</span>
 
-        {% if context.i10index %}
-        <br />
-        <span>i10-index: {{ context.i10index }}</span>
-        {% endif %}
+            {% if context.i10index %}
+              <br>
+              <span>i10-index: {{ context.i10index }}</span>
+            {% endif %}
+
+          </div>
+          <a href="https://scholar.google.com/citations?user={{ context.id }}">Scholar Profile</a>
+      </div>
+      <div class="profile-body">
+          <ul style="max-width:15em;">
+              <li><h5>Affiliation:</h5>
+                {{ context.affiliation }}
+
+              {% if context.interests %}
+                <li><h5>Interests:</h5>
+                  {% for interest in context.interests %}
+                    • {{ interest }}
+                    <br>
+                  {% endfor %}
+              {% endif %}
+
+          </ul>
       </div>
       <a href="https://scholar.google.com/citations?user={{ context.id }}"
         >Scholar Profile</a
@@ -48,43 +63,26 @@
 
       {% for publication in context.publications %}
       <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">
-            {{ publication.title }} {% if publication.year != "unknown" %} | ({{
-            publication.year }}) {% endif%}
-          </h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ publication.title }}
+              {% if publication.year != "unknown" %}
+                | ({{ publication.year }})
+              {% endif%}
+            </h5>
 
-          <p class="card-text">{{ publication.summary }}</p>
 
-          {% if publication.url != "unknown" %}
-          <a href="{{ publication.url }}" class="btn-sm btn-secondary"
-            >Read more</a
-          >
-          {% endif %}
-        </div>
+            <p class="card-text">{{ publication.summary }}</p>
+
+            {% if publication.url != "unknown" %}
+              <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
+            {% endif %}
+
+          </div>
       </div>
       {% endfor %}
     </div>
   </div>
-  <div class="seeall">
-    <h4>See All Publications</h4>
-    <div class="list">
-      <div class="card">
-        <h2>∀</h2>
-        <div class="card-body">
-          <a
-            href="#"
-            id="see_all"
-            style="background-color: transparent; margin: 0; padding: 0;"
-            ><h5 class="card-title">
-              <i>See all publications from {{ context.name }}</i>
-            </h5></a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
+  {% if context.collaborators %}
   <div class="collaborators">
     <h4>Collaborators</h4>
     <div class="list">
@@ -108,6 +106,7 @@
       {% endfor %}
     </div>
   </div>
+  {% endif %}
 </section>
 
 {% endblock %}
