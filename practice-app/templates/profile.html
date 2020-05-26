@@ -56,9 +56,9 @@
 
           <p class="card-text">{{ publication.summary }}</p>
 
-          {% if publication.url != "unknown" %}
+          {% if publication.url != "#" %}
           <a href="{{ publication.url }}" class="btn-sm btn-secondary"
-            >Read more</a
+            >Go to Paper</a
           >
           {% endif %}
         </div>
