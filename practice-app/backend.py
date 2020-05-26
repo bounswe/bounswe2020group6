@@ -90,7 +90,7 @@ def coronavirus():
    
     countryData = coronavirus_api.coronavirus_summary_search()
     if countryData == False:
-        return "Server is overloaded, please try again!"
+        return "Server is overloaded, please wait for a couple of seconds and try again!"
     else:
         return render_template('coronavirus.html', context=countryData)
 
