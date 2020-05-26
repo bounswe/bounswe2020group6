@@ -32,19 +32,20 @@
         <th scope="col">Active Cases</th>
       </tr>
     </thead>
-    {% for result in context.results %}
 
-    <tbody>
-      <tr>
-        <td>{{ result.date }}</td>
-        <td>{{ result.province }}</td>
-        <td>{{ result.confirmed }}</td>
-        <td>{{ result.deaths }}</td>
-        <td>{{ result.recovered }}</td>
-        <td>{{ result.active }}</td>
-      </tr>
-    </tbody>
+    {% for result in context.results %}
+      <tbody>
+        <tr>
+          <td>{{ result.date }}</td>
+          <td>{{ result.province }}</td>
+          <td>{{ result.confirmed }}</td>
+          <td>{{ result.deaths }}</td>
+          <td>{{ result.recovered }}</td>
+          <td>{{ result.active }}</td>
+        </tr>
+      </tbody>
     {% endfor %}
+
   </table>
 </section>
 
