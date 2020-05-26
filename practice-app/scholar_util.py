@@ -11,10 +11,20 @@ def getAuthors(name, max_range=5):
         if result is None:
             break
         authors_summary.append({
-              "name": result.name,
-              "affiliation": result.affiliation,
-              "url_picture": result.url_picture,
+              "name":           result.name,
+              "affiliation":    result.affiliation,
+              "url_picture":    result.url_picture,
+              "id":             result.id,
         })
+
+        # these parameters aren't present in all `Author` instances,
+        # so we check if they exist before adding them to the author instance
+        other_params = ["citedby", "i10index", "hindex", "coauthors", "interests"]
+
+        for param in other_params:
+            if param in dir(result):
+                authors_summary[-1][param] = getattr(result, param)
+
     json = {
          "author_search_result": authors_summary
     }
@@ -36,7 +46,7 @@ def getAuthorsPublications(name, _range):
             return json
     else:
         _range = 5
-        
+
     #create publications array
     pubs = []
     for i in range(0,_range):
@@ -44,7 +54,7 @@ def getAuthorsPublications(name, _range):
             bib = author_pubs[len(author_pubs)-i-1].fill().bib
         except:
             bib = author_pubs[len(author_pubs)-i-1].bib
-            
+
         pub = {
             "title": bib.get("title", "unknown"),
             "author": bib.get("author", "unknown"),

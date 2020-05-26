@@ -150,16 +150,17 @@
 				  <th scope="col">Total Recovered</th>
 				</tr>
 			  </thead>
-          {% for result in context.world_stats %}
 
-			  <tbody>
-				<tr>
-				  <td>{{ result.total_confirmed }}</td>
-				  <td>{{ result.total_deaths }}</td>
-				  <td>{{ result.total_recovered }}</td>
-				</tr>
-			  </tbody>
+          {% for result in context.world_stats %}
+    			  <tbody>
+    				<tr>
+    				  <td>{{ result.total_confirmed }}</td>
+    				  <td>{{ result.total_deaths }}</td>
+    				  <td>{{ result.total_recovered }}</td>
+    				</tr>
+    			  </tbody>
           {% endfor %}
+
 		  </table>
 
         </section>

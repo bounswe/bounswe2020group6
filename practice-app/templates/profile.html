@@ -9,19 +9,28 @@
           <h3>{{ context.name }}</h3>
           <div class="profile-numerics" style="font-size: smaller; text-align: center;">
             <span>cited {{ context.citedby }} times</span>
-            <br>
-            <span>i10-index: {{ context.i10index }}</span>
+
+            {% if context.i10index %}
+              <br>
+              <span>i10-index: {{ context.i10index }}</span>
+            {% endif %}
+
           </div>
           <a href="https://scholar.google.com/citations?user={{ context.id }}">Scholar Profile</a>
       </div>
       <div class="profile-body">
-          <ul>
-              <li><h5>Affiliation:</h5> {{ context.affiliation }}</h5>
-              <!--
-                <li><h5>Constitution:</h5> -</h5>
-                <li><h5>Location:</h5> -</li>
-                <li><h5>Interests:</h5> -</li>
-              -->
+          <ul style="max-width:15em;">
+              <li><h5>Affiliation:</h5>
+                {{ context.affiliation }}
+
+              {% if context.interests %}
+                <li><h5>Interests:</h5>
+                  {% for interest in context.interests %}
+                    • {{ interest }}
+                    <br>
+                  {% endfor %}
+              {% endif %}
+
           </ul>
       </div>
   </div>
@@ -37,26 +46,25 @@
                 | ({{ publication.year }})
               {% endif%}
             </h5>
-            <p class="card-text">{{ publication.summary }}</p>
-            <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
+
+            {% if publication.summary %}
+              <p class="card-text">{{ publication.summary }}</p>
+            {% else %}
+              <p class="card-text">-</p>
+            {% endif %}
+
+            {% if publication.url %}
+              <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
+            {% endif %}
+
           </div>
       </div>
       {% endfor %}
 
     </div>
   </div>
-  <div class="seeall">
-    <h4>See All Publications</h4>
-    <div class="list">
-      <div class="card">
-        <h2>∀</h2>
-        <div class="card-body">
-          <a href="#" id="see_all" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>See all publications from {{ context.name }}</i></h5></a>
-        </div>
-      </div>
-    </div>
-  </div>
 
+  {% if context.collaborators %}
   <div class="collaborators">
     <h4>Collaborators</h4>
     <div class="list">
@@ -73,6 +81,7 @@
       {% endfor %}
     </div>
   </div>
+  {% endif %}
 </section>
 
 {% endblock %}
