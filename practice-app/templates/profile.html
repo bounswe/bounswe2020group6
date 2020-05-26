@@ -47,13 +47,10 @@
               {% endif%}
             </h5>
 
-            {% if publication.summary %}
-              <p class="card-text">{{ publication.summary }}</p>
-            {% else %}
-              <p class="card-text">-</p>
-            {% endif %}
 
-            {% if publication.url %}
+            <p class="card-text">{{ publication.summary }}</p>
+
+            {% if publication.url != "unknown" %}
               <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
             {% endif %}
 
