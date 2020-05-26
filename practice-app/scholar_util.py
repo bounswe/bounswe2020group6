@@ -24,7 +24,7 @@ def getAuthors(name, max_range=5):
 #gets recent publications of an author
 def getAuthorsPublications(name, _range = None):
     search_query = scholarly.search_author(name)
-    author = next(search_query).fill()
+    author = next(search_query).fill(["publications"])
     author_pubs = author.publications
 
     #determine range
