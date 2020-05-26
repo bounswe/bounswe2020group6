@@ -1,4 +1,10 @@
-{% extends "base_template.html" %} {% block content %}
+{% extends "base_template.html" %} {% block navlinks %}
+
+<li><a href="{{ url_for('form_post') }}">home</a></li>
+<li><a href="coronavirusCountryLive">Search Country</a></li>
+<li><a href="worldStats">Worldwide Overview</a></li>
+
+{% endblock %} {% block content %}
 
 <section class="search-bar">
   <form action="{{ url_for('coronavirusByCountry') }}" method="post">
@@ -33,7 +39,6 @@
       </tr>
     </thead>
     {% for result in context.results %}
-
     <tbody>
       <tr>
         <td>{{ result.date }}</td>

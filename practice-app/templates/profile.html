@@ -1,29 +1,46 @@
-{% extends "base_template.html" %}
+{% extends "base_template.html" %} {% block navlinks %}
 
-{% block content %}
+<li><a href="{{ url_for('form_post') }}">home</a></li>
+<li><a href="{{ url_for('search') }}">search academician</a></li>
+<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+
+{% endblock %} {% block content %}
 
 <section class="profile">
   <div class="profile-card">
-      <div class="profile-img">
-          <img src="{{ context.url_picture }}" alt="" style="object-fit:cover;">
-          <h3>{{ context.name }}</h3>
-          <div class="profile-numerics" style="font-size: smaller; text-align: center;">
-            <span>cited {{ context.citedby }} times</span>
-            <br>
-            <span>i10-index: {{ context.i10index }}</span>
-          </div>
-          <a href="https://scholar.google.com/citations?user={{ context.id }}">Scholar Profile</a>
+    <div class="profile-img">
+      <img src="{{ context.url_picture }}" alt="" style="object-fit: cover;" />
+      <h3>{{ context.name }}</h3>
+      <div
+        class="profile-numerics"
+        style="font-size: smaller; text-align: center;"
+      >
+        <span>cited {{ context.citedby }} times</span>
+
+        {% if context.i10index %}
+        <br />
+        <span>i10-index: {{ context.i10index }}</span>
+        {% endif %}
       </div>
-      <div class="profile-body">
-          <ul>
-              <li><h5>Affiliation:</h5> {{ context.affiliation }}</h5>
-              <!--
-                <li><h5>Constitution:</h5> -</h5>
-                <li><h5>Location:</h5> -</li>
-                <li><h5>Interests:</h5> -</li>
-              -->
-          </ul>
-      </div>
+      <a href="https://scholar.google.com/citations?user={{ context.id }}"
+        >Scholar Profile</a
+      >
+    </div>
+    <div class="profile-body">
+      <ul style="max-width: 15em;">
+        <li>
+          <h5>Affiliation:</h5>
+          {{ context.affiliation }} {% if context.interests %}
+        </li>
+
+        <li>
+          <h5>Interests:</h5>
+          {% for interest in context.interests %} • {{ interest }}
+          <br />
+          {% endfor %} {% endif %}
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="recent-publications">
     <div class="list">
@@ -31,18 +48,22 @@
 
       {% for publication in context.publications %}
       <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ publication.title }}
-              {% if publication.year != "unknown" %}
-                | ({{ publication.year }})
-              {% endif%}
-            </h5>
-            <p class="card-text">{{ publication.summary }}</p>
-            <a href="{{ publication.url }}" class="btn-sm btn-secondary">Read more</a>
-          </div>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ publication.title }} {% if publication.year != "unknown" %} | ({{
+            publication.year }}) {% endif%}
+          </h5>
+
+          <p class="card-text">{{ publication.summary }}</p>
+
+          {% if publication.url != "unknown" %}
+          <a href="{{ publication.url }}" class="btn-sm btn-secondary"
+            >Read more</a
+          >
+          {% endif %}
+        </div>
       </div>
       {% endfor %}
-
     </div>
   </div>
   <div class="seeall">
@@ -51,7 +72,14 @@
       <div class="card">
         <h2>∀</h2>
         <div class="card-body">
-          <a href="#" id="see_all" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>See all publications from {{ context.name }}</i></h5></a>
+          <a
+            href="#"
+            id="see_all"
+            style="background-color: transparent; margin: 0; padding: 0;"
+            ><h5 class="card-title">
+              <i>See all publications from {{ context.name }}</i>
+            </h5></a
+          >
         </div>
       </div>
     </div>
@@ -62,12 +90,19 @@
     <div class="list">
       {% for collaborator in context.collaborators %}
       <div class="card">
-        <img src="{{ collaborator.url_picture }}" alt="Avatar">
+        <img src="{{ collaborator.url_picture }}" alt="Avatar" />
         <div class="card-body">
-          <a href="#" style="background-color: transparent; margin: 0; padding: 0;"><h5 class="card-title"><i>{{ collaborator.name }}</i></h5></a>
-          <div class="profile-numerics" style="font-size: smaller; text-align: center; padding: 0px 10px;">
+          <a
+            href="#"
+            style="background-color: transparent; margin: 0; padding: 0;"
+            ><h5 class="card-title"><i>{{ collaborator.name }}</i></h5></a
+          >
+          <div
+            class="profile-numerics"
+            style="font-size: smaller; text-align: center; padding: 0px 10px;"
+          >
             <span>Affiliation: {{ collaborator.affiliation }}</span>
-        </div>
+          </div>
         </div>
       </div>
       {% endfor %}

@@ -1,4 +1,10 @@
-{% extends "base_template.html" %} {% block content %}
+{% extends "base_template.html" %} {% block navlinks %}
+
+<li><a href="{{ url_for('form_post') }}">home</a></li>
+<li><a href="{{ url_for('search') }}">search academician</a></li>
+<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+
+{% endblock %} {% block content %}
 
 <div style="padding: 5%;">
   <h4 style="text-align: center;">Random Dad-Joke</h4>
