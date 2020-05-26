@@ -5,18 +5,23 @@ import json
 
 def coronavirus_summary_search():
     r = requests.get('https://api.covid19api.com/summary')
-    j = json.loads(r.text)
     
-    countryList = j["Countries"]
-    CountryCount = 186	
+    if 'json' in r.headers.get('Content-Type'):
+        j = json.loads(r.text)
+    
+        countryList = j["Countries"]
+        CountryCount = 186	
 
-    for i in range(CountryCount):	
-        x = countryList[i]
-        countryCode = x["CountryCode"] 
-        url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
-        x["CountryCode"] = url
+        for i in range(CountryCount):	
+            x = countryList[i]
+            countryCode = x["CountryCode"] 
+            url = "https://www.countryflags.io/" + countryCode + "/shiny/64.png"        
+            x["CountryCode"] = url
 
-    return countryList
+        return countryList
+
+    else:
+        return False
 
 
 def coronavirusCountryLive(country):
