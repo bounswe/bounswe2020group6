@@ -5,6 +5,7 @@ import requests
 import json
 import scholar_util
 import coronavirus_api
+import bitcoin_api
 
 app = Flask(__name__)
 #Template for flask backend
@@ -45,7 +46,7 @@ def api_authorpublications():
     name = request.args.get("name")
     _range = request.args.get("range")
     json = scholar_util.getAuthorsPublications(name, _range)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/api/publicationsearch', methods=['GET'])
@@ -61,7 +62,7 @@ def api_authorstats():
 
     name = request.args.get("name")
     json = scholar_util.getAuthorCitationStats(name)
-    return jsonify(json)  
+    return jsonify(json)
 
 
 @app.route('/profile/<name>', methods=['GET'])
@@ -81,11 +82,25 @@ def api_profile_data():
     name = request.args.get("name")
     json = scholar_util.getUserProfileData(name)
     return jsonify(json)
- 
+
+
+@app.route('/api/bitcoinprice', methods=['GET'])
+def api_bitcoin_price():
+
+    json = bitcoin_api.getBitcoinPrice()
+    return jsonify(json)
+
+@app.route('/bitcoinprice', methods=['GET'])
+def bitcoin_price():
+
+    context = bitcoin_api.getBitcoinPrice()
+
+    return render_template('bitcoin.html', context=context)
+
 
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
-   
+
     countryData = coronavirus_api.coronavirus_summary_search()
     if countryData == False:
         return "Server is overloaded, please wait for a couple of seconds and try again!"
@@ -95,20 +110,20 @@ def coronavirus():
 
 @app.route('/api/coronavirus', methods=['GET'])
 def api_coronavirus():
-    
+
     countryData = coronavirus_api.coronavirus_summary_search()
     return jsonify(countryData)
 
 @app.route('/coronavirusCountryLive', methods=['POST', 'GET'])
 def coronavirusCountryLive():
-   
+
    if request.method == 'POST':
         results = coronavirus_api.coronavirusCountryLive(request.form["search_param"])
         print(results)
         context = {
             "results": results,
             "param":   request.form["search_param"],
-        } 
+        }
         #print(context)
    else:
         context = {}
@@ -118,7 +133,7 @@ def coronavirusCountryLive():
 
 @app.route('/api/coronavirusCountryLive',  methods=['POST', 'GET'])
 def api_coronavirusCountryLive():
-    
+
         context = {}
         req_data = request.get_json()
         country = req_data['country']
@@ -126,8 +141,8 @@ def api_coronavirusCountryLive():
         context = {
             "results": results,
             "param":   country,
-        } 
-        
+        }
+
 
         return context
 

@@ -1,0 +1,75 @@
+{% extends "base_template.html" %} {% block navlinks %}
+
+<li><a href="{{ url_for('form_post') }}">home</a></li>
+<li><a href="{{ url_for('search') }}">search academician</a></li>
+<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+
+<style>
+table.simp {
+  border-collapse: separate;
+  border-spacing: 1em;
+}
+
+</style>
+
+<title>Bitcoin Price Index | Akademise</title>
+
+{% endblock %} {% block content %}
+
+<div style="padding: 5%;">
+
+  <h5>Bitcoin Price Index</h5>
+  <div style="border: 1px solid rgb(0, 0, 0); margin: auto;">
+    <table class="simp">
+
+      <tr>
+        <td>
+          <span>CURRENCY</span>
+        </td>
+        <td>
+          <span>EXCHANGE RATE (per BTC)</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <span title="{{ context.rates.USD.description }}" >{{ context.rates.USD.code }}</span>
+        </td>
+        <td>
+          <span style="font-weight:600">{{ context.rates.USD.symbol|safe }}</span> <span>{{ context.rates.USD.rate_float }}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <span title="{{ context.rates.EUR.description }}" >{{ context.rates.EUR.code }}</span>
+        </td>
+        <td>
+          <span style="font-weight:600">{{ context.rates.EUR.symbol|safe }}</span> <span>{{ context.rates.EUR.rate_float }}</span>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <span title="{{ context.rates.GBP.description }}" >{{ context.rates.GBP.code }}</span>
+        </td>
+        <td>
+          <span style="font-weight:600">{{ context.rates.GBP.symbol|safe }}</span> <span>{{ context.rates.GBP.rate_float }}</span>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+  <small>(Updated on {{ context.time_updated }}, updates every minute.)</small>
+  <div style="text-align: center;">
+    <button style="margin-top: 2em;" onClick="window.location.reload();">
+      Update
+    </button>
+  </div>
+</div>
+
+<div style="margin:auto;">
+  <small>{{ context.disclaimer }}</small>
+</div>
+
+{% endblock %}
