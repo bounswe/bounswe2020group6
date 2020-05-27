@@ -17,3 +17,30 @@ def getBitcoinPrice():
         }
 
         return json
+
+
+def getCoinRanks():
+
+        url = "https://api.coinranking.com/v1/public/coins"
+
+        response = requests.request("GET", url)
+
+        result = response.json()
+
+        coinlist = [result["data"]["coins"][i] for i in range(10)]
+
+        coinlist = [
+            { 
+              "rank": coin["rank"],
+              "symbol": coin["symbol"],
+              "name": coin["name"],
+              "url": coin["websiteUrl"],
+              "price": coin["price"]
+            } 
+         for coin in coinlist]
+
+        json = {
+            "coins" : coinlist
+        }
+
+        return json

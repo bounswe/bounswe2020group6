@@ -98,6 +98,20 @@ def bitcoin_price():
     return render_template('bitcoin.html', context=context)
 
 
+@app.route('/api/coinranks', methods=['GET'])
+def api_coin_ranks():
+
+    json = bitcoin_api.getCoinRanks()
+    return jsonify(json)
+
+@app.route('/coinranks', methods=['GET'])
+def coin_ranks():
+
+    context = bitcoin_api.getCoinRanks()
+
+    return render_template('rankcoin.html', context=context)
+
+
 @app.route('/coronavirus', methods=['GET'])
 def coronavirus():
 
