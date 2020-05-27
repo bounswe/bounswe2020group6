@@ -1,48 +1,116 @@
 {% extends "base_template.html" %} {% block navlinks %}
 
-<li><a href="{{ url_for('form_post') }}">home</a></li>
-<li><a href="coronavirusCountryLive">Search Country</a></li>
-<li><a href="worldStats">Worldwide Overview</a></li>
-<li><a href="coronavirusByCountry">Search Country-Detailed</a></li>
+<div
+  style="
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  "
+>
+  <style>
+    .dropdown-toggle {
+      box-shadow: none !important;
+    }
+  </style>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Covid-19
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="coronavirusCountryLive">Search Country</a>
+      <a class="dropdown-item" href="worldStats">Worldwide Overview</a>
+      <a class="dropdown-item" href="coronavirus">Covid By Countries</a>
+      <a class="dropdown-item" href="coronavirusByCountry"
+        >Search Country-Detailed</a
+      >
+    </div>
+  </div>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Alt-Coins
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="{{ url_for('bitcoin_price') }}">BTC</a>
+      <a class="dropdown-item" href="{{ url_for('coin_ranks') }}">Coin Ranks</a>
+    </div>
+  </div>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Scholarly
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="{{ url_for('search') }}"
+        >Academician Search</a
+      >
+    </div>
+  </div>
+</div>
 
 {% endblock %} {% block content %}
 
-<section class="search-bar">
-  <form action="{{ url_for('coronavirusByCountry') }}" method="post">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        name="search_param"
-        class="form-control"
-        placeholder="Search"
-        aria-label="Recipient's username"
-        aria-describedby="basic-addon2"
-      />
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit">Submit</button>
-      </div>
-    </div>
-  </form>
-  {% if context.param %}
-  <small style="margin: auto;">Results for "{{ context.param }}":</small>
-  {% endif %}
-</section>
-<section class="search-results">
+
   <table class="table table-dark">
     <thead>
       <tr>
-        <th scope="col">Total Confirmed</th>
-        <th scope="col">Total Deaths</th>
-        <th scope="col">Total Recovered</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Total Confirmed</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal Deaths</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal Recovered</th>
       </tr>
     </thead>
 
     {% for result in context.world_stats %}
     <tbody>
       <tr>
-        <td>{{ result.total_confirmed }}</td>
-        <td>{{ result.total_deaths }}</td>
-        <td>{{ result.total_recovered }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_confirmed }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_deaths }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_recovered }}</td>
       </tr>
     </tbody>
     {% endfor %}

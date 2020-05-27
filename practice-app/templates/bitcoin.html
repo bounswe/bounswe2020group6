@@ -1,15 +1,103 @@
 {% extends "base_template.html" %} {% block navlinks %}
 
-<li><a href="{{ url_for('form_post') }}">home</a></li>
-<li><a href="{{ url_for('search') }}">search academician</a></li>
-<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+<div
+  style="
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  "
+>
+  <style>
+    .dropdown-toggle {
+      box-shadow: none !important;
+    }
+  </style>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Covid-19
+    </a>
+
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="coronavirusCountryLive">Search Country</a>
+      <a class="dropdown-item" href="worldStats">Worldwide Overview</a>
+      <a class="dropdown-item" href="coronavirus">Covid By Countries</a>
+      <a class="dropdown-item" href="coronavirusByCountry"
+        >Search Country-Detailed</a
+      >
+    </div>
+  </div>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Alt-Coins
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="{{ url_for('bitcoin_price') }}">BTC</a>
+      <a class="dropdown-item" href="{{ url_for('coin_ranks') }}">Coin Ranks</a>
+    </div>
+  </div>
+
+  <div class="dropdown show">
+    <a
+      class="btn btn-info dropdown-toggle ddbtn"
+      style="
+        background: transparent;
+        border: none;
+        color: black;
+        outline: none;
+      "
+      href="#"
+      role="button"
+      id="dropdownMenuLink"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      Scholarly
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="{{ url_for('search') }}"
+        >Academician Search</a
+      >
+    </div>
+  </div>
+</div>
 
 <style>
-table.simp {
-  border-collapse: separate;
-  border-spacing: 1em;
-}
-
+  table.simp {
+    border-collapse: separate;
+    border-spacing: 1em;
+  }
 </style>
 
 <title>Bitcoin Price Index | Akademise</title>
@@ -17,11 +105,9 @@ table.simp {
 {% endblock %} {% block content %}
 
 <div style="padding: 5%;">
-
   <h5>Bitcoin Price Index</h5>
   <div style="border: 1px solid rgb(0, 0, 0); margin: auto;">
     <table class="simp">
-
       <tr>
         <td>
           <span>CURRENCY</span>
@@ -33,31 +119,45 @@ table.simp {
 
       <tr>
         <td>
-          <span title="{{ context.rates.USD.description }}" >{{ context.rates.USD.code }}</span>
+          <span title="{{ context.rates.USD.description }}"
+            >{{ context.rates.USD.code }}</span
+          >
         </td>
         <td>
-          <span style="font-weight:600">{{ context.rates.USD.symbol|safe }}</span> <span>{{ context.rates.USD.rate_float }}</span>
+          <span style="font-weight: 600;"
+            >{{ context.rates.USD.symbol|safe }}</span
+          >
+          <span>{{ context.rates.USD.rate_float }}</span>
         </td>
       </tr>
 
       <tr>
         <td>
-          <span title="{{ context.rates.EUR.description }}" >{{ context.rates.EUR.code }}</span>
+          <span title="{{ context.rates.EUR.description }}"
+            >{{ context.rates.EUR.code }}</span
+          >
         </td>
         <td>
-          <span style="font-weight:600">{{ context.rates.EUR.symbol|safe }}</span> <span>{{ context.rates.EUR.rate_float }}</span>
+          <span style="font-weight: 600;"
+            >{{ context.rates.EUR.symbol|safe }}</span
+          >
+          <span>{{ context.rates.EUR.rate_float }}</span>
         </td>
       </tr>
 
       <tr>
         <td>
-          <span title="{{ context.rates.GBP.description }}" >{{ context.rates.GBP.code }}</span>
+          <span title="{{ context.rates.GBP.description }}"
+            >{{ context.rates.GBP.code }}</span
+          >
         </td>
         <td>
-          <span style="font-weight:600">{{ context.rates.GBP.symbol|safe }}</span> <span>{{ context.rates.GBP.rate_float }}</span>
+          <span style="font-weight: 600;"
+            >{{ context.rates.GBP.symbol|safe }}</span
+          >
+          <span>{{ context.rates.GBP.rate_float }}</span>
         </td>
       </tr>
-
     </table>
   </div>
   <small>(Updated on {{ context.time_updated }}, updates every minute.)</small>
@@ -68,7 +168,7 @@ table.simp {
   </div>
 </div>
 
-<div style="margin:auto;">
+<div style="margin: auto;">
   <small>{{ context.disclaimer }}</small>
 </div>
 

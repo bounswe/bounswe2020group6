@@ -6,12 +6,15 @@ import json
 import scholar_util
 import coronavirus_api
 import bitcoin_api
+
 #For plot
+
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import io
 from flask import Response
 import numpy as np
+
 
 app = Flask(__name__)
 #Template for flask backend
@@ -102,6 +105,20 @@ def bitcoin_price():
     context = bitcoin_api.getBitcoinPrice()
 
     return render_template('bitcoin.html', context=context)
+
+
+@app.route('/api/coinranks', methods=['GET'])
+def api_coin_ranks():
+
+    json = bitcoin_api.getCoinRanks()
+    return jsonify(json)
+
+@app.route('/coinranks', methods=['GET'])
+def coin_ranks():
+
+    context = bitcoin_api.getCoinRanks()
+
+    return render_template('rankcoin.html', context=context)
 
 
 @app.route('/coronavirus', methods=['GET'])
@@ -218,4 +235,4 @@ def api_plot_png():
 
 if __name__ == '__main__':
 
-    app.run(port = 80)
+    app.run(host="0.0.0.0", port = 80)
