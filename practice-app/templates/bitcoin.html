@@ -104,7 +104,8 @@
 
 {% endblock %} {% block content %}
 
-<div style="padding: 5%;">
+<div style="padding: 5%;position:relative">
+
   <h5>Bitcoin Price Index</h5>
   <div style="border: 1px solid rgb(0, 0, 0); margin: auto;">
     <table class="simp">
@@ -165,10 +166,12 @@
     <button style="margin-top: 2em;" onClick="window.location.reload();">
       Update
     </button>
+    <br><br>
+    <a href="{{ url_for('coin_ranks') }}"> SEE MORE ALTCOINS</a>
   </div>
 </div>
 
-<div style="margin: auto;">
+<div style="margin: auto;max-width:80%;text-align:center;">
   <small>{{ context.disclaimer }}</small>
 </div>
 
