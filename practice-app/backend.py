@@ -196,20 +196,12 @@ def coronavirusByCountry():
 #
 # MIGHT BE WRONG. WILL BE FIXED IF SO.
 #
-@app.route('/api/coronavirusByCountry', methods=['POST', 'GET'])
+@app.route('/api/coronavirusByCountry', methods=['POST'])
 def api_coronavirusByCountry():
     if request.method == 'POST':
         req_data = request.get_json()
         country = req_data['country']
         country_data = coronavirus_api.CoronavirusByCountry(country)
-        context = {
-            "results": country_data["country_results"],
-            "param": country
-        }
-    elif request.method == 'GET':
-        country = request.args.get('country')
-        country_data = coronavirus_api.CoronavirusByCountry(country)
-        print(country_data)
         context = {
             "results": country_data["country_results"],
             "param": country
