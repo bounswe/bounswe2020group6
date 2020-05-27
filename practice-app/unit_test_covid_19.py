@@ -41,9 +41,29 @@ def isPlotDataFetchCorrect():
 
 def isCoronavirusJson():
     
-    list = coronavirus_api.coronavirus_summary_search()     
+    list = coronavirus_summary_search()     
     
-    if 'Country' not in list[0]:
+    if list == False:
+        return False
+    elif 'Country' not in list[0]:
+        return False
+    elif 'CountryCode' not in list[0]:
+        return False
+    elif 'Date' not in list[0]:
+        return False
+    elif 'NewConfirmed' not in list[0]:
+        return False
+    elif 'NewDeaths' not in list[0]:
+        return False
+    elif 'NewRecovered' not in list[0]:
+        return False
+    elif 'Slug' not in list[0]:
+        return False
+    elif 'TotalConfirmed' not in list[0]:
+        return False
+    elif 'TotalDeaths' not in list[0]:
+        return False
+    elif 'TotalRecovered' not in list[0]:
         return False
     else:
         return True
