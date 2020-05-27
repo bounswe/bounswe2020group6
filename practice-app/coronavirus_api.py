@@ -95,16 +95,16 @@ def plotDataFetch(countryName):
     r=requests.get(link)
     if not 'json' in r.headers.get('Content-Type'):
         return False
-    return r
+    return json.loads(r.text)
 
 #Returns plot from total case request
 def create_figure(countryName):
-    r=plotDataFetch(countryName)
-    if r==False:
+    j=plotDataFetch(countryName)
+    if j==False:
         return False
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
-    j = json.loads(r.text)
+    
     dayNo=len(j)
     dayByDayTotalNo=np.zeros(dayNo)    
     for i in range(len(j)):
