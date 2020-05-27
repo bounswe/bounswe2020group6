@@ -41,7 +41,7 @@ def isPlotDataFetchCorrect():
 
 def isCoronavirusJson():
     
-    list = coronavirus_api.pycoronavirus_summary_search()     
+    list = coronavirus_api.coronavirus_summary_search()     
     
     if list == False:
         return False
