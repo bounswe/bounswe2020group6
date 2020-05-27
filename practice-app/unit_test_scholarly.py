@@ -1,122 +1,72 @@
-from flask import Flask
-from scholarly import scholarly
+import unittest
+import json
+import scholar_util
 
-#gets authors features
-def getAuthors(name, max_range=5):
+def author_citation(name):
+    data = scholar_util.getAuthorCitationStats(name)
+    data = dict(data["cites_per_year"])
 
-    search_query = scholarly.search_author(name)
-    authors_summary = []
-    for i in range(0, max_range):
-        result = next(search_query, None)
-        if result is None:
-            break
-        authors_summary.append({
-              "name":           result.name,
-              "affiliation":    result.affiliation,
-              "url_picture":    result.url_picture,
-              "id":             result.id,
-        })
-
-        # these parameters aren't present in all `Author` instances,
-        # so we check if they exist before adding them to the author instance
-        other_params = ["citedby", "i10index", "hindex", "coauthors", "interests"]
-
-        for param in other_params:
-            if param in dir(result):
-                authors_summary[-1][param] = getattr(result, param)
-
-    json = {
-         "author_search_result": authors_summary
-    }
-    return json
+    return data.get(2019)
 
 
-#gets recent publications of an author
-def getAuthorsPublications(name, _range = None):
-    search_query = scholarly.search_author(name)
-    author = next(search_query).fill(["publications"])
-    author_pubs = author.publications
+def isGetAuthorsPublicationsCorrect():
+    response = scholar_util.getAuthorsPublications("Ali")
+    if response is not None:
+        if response["publications"] is not None:
+            isCorrect = True
+            for publication in response["publications"]:
+                isCorrect = (isCorrect
+                             and type(publication["title"]) == str
+                             and type(publication["author"]) == str
+                             and type(publication["summary"]) == str
+                             and type(publication["year"]) == str
+                             and type(publication["url"]) == str)
 
-    #determine range
-    if _range is not None:
-        try:
-            _range = min(int(_range), len(author_pubs))
-        except:
-            json = {"message": "Invalid range argument."}
-            return json
+    return isCorrect
+
+
+def isSearchCorrect():
+    json = scholar_util.searchPublication("cell")
+
+    if 'FM Gill' not in json["author"]:
+        return False
     else:
-        _range = 5
-
-    #create publications array
-    pubs = []
-    for i in range(0,_range):
-        try:
-            bib = author_pubs[len(author_pubs)-i-1].fill().bib
-        except:
-            bib = author_pubs[len(author_pubs)-i-1].bib
-
-        pub = {
-            "title": bib.get("title", "unknown"),
-            "author": bib.get("author", "unknown"),
-            "summary": bib.get("abstract", "Summary not provided."),
-            "year": bib.get("year", "unknown"),
-            "url": bib.get("url", "#")
-        }
-        pubs.append(pub)
-
-    #return json object
-    json = {"publications": pubs}
-    return json
-
-# def getNameOutOfAuthorJson(authorJson):
-#     #This is an example, pls edit this for appropriate header in the json
-#     #Other info can be added as json as well,
-#     return authorJson[0][0]
+        return True
 
 
-# def getAuthorsColloborators():
-#     #ToDO: get authors colloborators
-
-#     return None
-
-#gets Author Citation Stats
-def getAuthorCitationStats(name):
-
-    search_query = scholarly.search_author(name)
-    author = next(search_query).fill()
-    cites_per_year = author.cites_per_year
-    return {"cites_per_year":cites_per_year}
-
-#gets publication features
-def searchPublication(pub_name):
-
-    search_query = scholarly.search_pubs(pub_name)
-    pub = next(search_query)
-
-    if not pub:
-        return {}
-    json = {
-        'abstract': pub.bib['abstract'],
-        'author': [author.strip(" ") for author in pub.bib['author']],
-        'eprint_url': pub.bib['eprint'],
-        'title': pub.bib['title'],
-        'url': pub.bib['url']
-    }
-    return json
-
-def getUserProfileData(name):
-    author_data = getAuthors(name, 1)
-    author_pubs = getAuthorsPublications(name, 3)
+def isGetAuthorCorrect():
+    for i in range(1, 10):
+        json = scholar_util.getAuthors("Hawking", i)["author_search_result"]
+        for author in json:
+            if (author["name"] is None or
+                    author["affiliation"] is None or
+                    author["url_picture"] is None or
+                    author["id"] is None):
+                return False
+        return True
 
 
-    author_data_filtered = author_data["author_search_result"][0]
-    author_pubs_filtered = author_pubs
+class ScholarlyTest(unittest.TestCase):
 
-    context = {
-        **author_data_filtered,
-        **author_pubs_filtered,
+    # Returns True or False.
+    def test_author_publications(self):
+        self.assertTrue(isGetAuthorsPublicationsCorrect() == True)
+        
+    def test_search(self):
+        self.assertTrue(isSearchCorrect() == True)
+        
+    def test_get_author(self):
+        self.assertTrue(isGetAuthorCorrect() == True)
+    
+    def test_author_citation_that_exists(self):
+        can_kozcaz = 184
 
+        self.assertEqual(author_citation("Can Kozcaz"), can_kozcaz)
 
-    }
+    def test_author_citation_that_doesnt_exist(self):
+        ibrahim_semiz = None
 
-    return context
+        self.assertEqual(author_citation("İbrahim Semiz"), ibrahim_semiz)
+
+if __name__ == '__main__':
+    unittest.main()
