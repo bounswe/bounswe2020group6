@@ -196,7 +196,7 @@ def coronavirusByCountry():
 #
 # MIGHT BE WRONG. WILL BE FIXED IF SO.
 #
-@app.route('/api/coronavirusByCountry', methods=['POST'])
+@app.route('/api/coronavirusByCountry', methods=['POST', 'GET'])
 def api_coronavirusByCountry():
     if request.method == 'POST':
         req_data = request.get_json()
