@@ -206,6 +206,14 @@ def api_coronavirusByCountry():
             "results": country_data["country_results"],
             "param": country
         }
+    elif request.method == 'GET':
+        country = request.args.get('country')
+        country_data = coronavirus_api.CoronavirusByCountry(country)
+        print(country_data)
+        context = {
+            "results": country_data["country_results"],
+            "param": country
+        }
     else:
         context = {}
 
