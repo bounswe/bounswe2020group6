@@ -7,13 +7,14 @@ import scholar_util
 import coronavirus_api
 import bitcoin_api
 
-#For plot
+#For plot	
 
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-import io
-from flask import Response
-import numpy as np
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas	
+from matplotlib.figure import Figure	
+import io	
+from flask import Response	
+import numpy as np	
+
 
 
 app = Flask(__name__)
@@ -22,6 +23,10 @@ app = Flask(__name__)
 @app.route('/')
 def form_post():
     return render_template('home.html')
+
+@app.route('/api-list')
+def api_list():
+    return render_template('api_list.html')
 
 
 @app.route('/search', methods=['POST', 'GET'])
