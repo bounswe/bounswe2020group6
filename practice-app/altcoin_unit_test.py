@@ -10,7 +10,7 @@ def isGetCoinRanksCorrect():
             isCorrect = True
             for coin in response["coins"]:
                 isCorrect = (isCorrect
-                            and type(coin["rank"]) == str
+                            and type(coin["rank"]) == int
                             and type(coin["symbol"]) == str
                             and type(coin["name"]) == str
                             and type(coin["price"]) == str
