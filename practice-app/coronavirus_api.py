@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_restful import Resource, reqparse
 import requests
 import json
 
