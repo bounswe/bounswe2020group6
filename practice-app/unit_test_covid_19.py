@@ -63,12 +63,15 @@ def isJson():
 
 class SimpleTest(unittest.TestCase):
 
-    # Returns True or False.
-    def test(self):
+    def test_cv_by_country(self):
         self.assertTrue(isCoronavirusByCountryCorrect() == True)
+    def test_plot(self):
         self.assertTrue(isPlotDataFetchCorrect() == True)
+    def test_world(self):
         self.assertTrue(isWorldStatsCorrect() == True)
+    def test_cov_json(self):
         self.assertTrue(isCoronavirusJson() == True)
+    def test_json(self):
         self.assertTrue(isJson() == True) 
 
 if __name__ == '__main__':
