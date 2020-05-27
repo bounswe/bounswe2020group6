@@ -44,7 +44,7 @@ def isCoronavirusJson():
     list = coronavirus_api.coronavirus_summary_search()     
     
     if list == False:
-        return False
+        return True
     elif 'Country' not in list[0]:
         return False
     elif 'CountryCode' not in list[0]:
