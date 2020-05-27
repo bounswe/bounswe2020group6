@@ -37,13 +37,62 @@ def isPlotDataFetchCorrect():
     if not type(json[0]["Cases"])==int:
         return False
     return True
+
+
+def isCoronavirusJson():
+    
+    list = coronavirus_api.coronavirus_summary_search()     
+    
+    if list == False:
+        return True
+    elif 'Country' not in list[0]:
+        return False
+    elif 'CountryCode' not in list[0]:
+        return False
+    elif 'Date' not in list[0]:
+        return False
+    elif 'NewConfirmed' not in list[0]:
+        return False
+    elif 'NewDeaths' not in list[0]:
+        return False
+    elif 'NewRecovered' not in list[0]:
+        return False
+    elif 'Slug' not in list[0]:
+        return False
+    elif 'TotalConfirmed' not in list[0]:
+        return False
+    elif 'TotalDeaths' not in list[0]:
+        return False
+    elif 'TotalRecovered' not in list[0]:
+        return False
+    else:
+        return True
+
+
+def isJson():
+    
+    list = coronavirus_api.coronavirusCountryLive("France")     
+    if 'Cases' not in list[0]:
+        return False
+    else:
+        if type(list[0]["Cases"]) == int and list[0]["Status"] == 'confirmed':
+            return True
+        else:
+            return False
+
+
 class SimpleTest(unittest.TestCase):
 
-    # Returns True or False.
-    def test(self):
+    def test_cv_by_country(self):
         self.assertTrue(isCoronavirusByCountryCorrect() == True)
+    def test_plot(self):
         self.assertTrue(isPlotDataFetchCorrect() == True)
+    def test_world(self):
         self.assertTrue(isWorldStatsCorrect() == True)
+    def test_cov_json(self):
+        self.assertTrue(isCoronavirusJson() == True)
+    def test_json(self):
+        self.assertTrue(isJson() == True) 
 
 if __name__ == '__main__':
     unittest.main()
