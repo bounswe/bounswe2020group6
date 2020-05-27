@@ -68,6 +68,12 @@ def getWorldStatistics():
 def CoronavirusByCountry(country):
     req_url = 'https://api.covid19api.com/country/' + country
     r = requests.get(req_url)
+    if r.status_code != 200:
+        json_return = {
+            "country_results" : []
+        }
+        return json_return
+
     j = json.loads(r.text)
 
     # TODO: Check if request resulted in a success.
