@@ -2,31 +2,37 @@
 
 <li><a href="{{ url_for('form_post') }}">home</a></li>
 <li><a href="{{ url_for('search') }}">search academician</a></li>
-<li><a href="{{ url_for('coronavirus') }}">Covid19</a></li>
+<li><a href="{{ url_for('bitcoin_price') }}">BTC</a></li>
+<li><a href="{{ url_for('coin_ranks') }}">Coin Ranks</a></li>
 
 {% endblock %} {% block content %}
 
-<table class="table" style="width: 75%; margin-top: 20px;">
-  <thead>
-    <tr>
-      <th scope="col">Rank</th>
-      <th scope="col">Symbol</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price (USD)</th>
-      <th scope="col">Link</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for coin in context.coins %}
-    <tr>
-      <td>{{ coin.rank }}</td>
-      <td>{{ coin.symbol }}</td>
-      <td>{{ coin.name }}</td>
-      <td>{{ coin.price }}</td>
-      <td><a href="{{ coin.url }}">{{ coin.url }}</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div style="margin-top: 2em;">
+  <br>
+  <h5>Alt-Coin Prices</h5>
+  <br>
+  <table class="table" style="table-layout: auto; margin:auto;">
+    <thead>
+      <tr>
+        <th scope="col">Rank</th>
+        <th scope="col">Symbol</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price (USD)</th>
+        <th scope="col">Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for coin in context.coins %}
+      <tr>
+        <td>{{ coin.rank }}</td>
+        <td>{{ coin.symbol }}</td>
+        <td>{{ coin.name }}</td>
+        <td>{{ coin.price }}</td>
+        <td><a href="{{ coin.url }}">{{ coin.url }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}
