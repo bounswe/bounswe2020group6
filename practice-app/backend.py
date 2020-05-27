@@ -6,7 +6,13 @@ import json
 import scholar_util
 import coronavirus_api
 import bitcoin_api
-#For plot
+#For Plot
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import io
+from flask import Response
+import numpy as np
+
 
 
 app = Flask(__name__)
