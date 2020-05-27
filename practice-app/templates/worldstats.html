@@ -7,42 +7,22 @@
 
 {% endblock %} {% block content %}
 
-<section class="search-bar">
-  <form action="{{ url_for('coronavirusByCountry') }}" method="post">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        name="search_param"
-        class="form-control"
-        placeholder="Search"
-        aria-label="Recipient's username"
-        aria-describedby="basic-addon2"
-      />
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit">Submit</button>
-      </div>
-    </div>
-  </form>
-  {% if context.param %}
-  <small style="margin: auto;">Results for "{{ context.param }}":</small>
-  {% endif %}
-</section>
-<section class="search-results">
+
   <table class="table table-dark">
     <thead>
       <tr>
-        <th scope="col">Total Confirmed</th>
-        <th scope="col">Total Deaths</th>
-        <th scope="col">Total Recovered</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Total Confirmed</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal Deaths</th>
+        <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTotal Recovered</th>
       </tr>
     </thead>
 
     {% for result in context.world_stats %}
     <tbody>
       <tr>
-        <td>{{ result.total_confirmed }}</td>
-        <td>{{ result.total_deaths }}</td>
-        <td>{{ result.total_recovered }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_confirmed }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_deaths }}</td>
+        <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp {{ result.total_recovered }}</td>
       </tr>
     </tbody>
     {% endfor %}
