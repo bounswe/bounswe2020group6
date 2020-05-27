@@ -5,7 +5,6 @@ import scholar_util
 
 def isGetAuthorsPublicationsCorrect():
     response = scholar_util.getAuthorsPublications("Ali")
-    print("Hello")
     if response is not None:
         if response["publications"] is not None:
             isCorrect = True
