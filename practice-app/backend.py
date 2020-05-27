@@ -221,14 +221,16 @@ def api_coronavirusByCountry():
 def dashboard():
     return render_template('dashboard.html')
 
+# Unfortunately this endpoint was not integrated into frontend.However you can call it like this:
+# http://localhost/plotCountry?country=sweden
+# http://localhost/plotCountry?country=turkey
+# http://localhost/plotCountry?country=iran
+# http://localhost/plotCountry?country=russia
+# http://localhost/plotCountry?country=us
 #Plots a plot of total cases, needs to parametrized by country name
-@app.route('/plot.png')#, methods=['POST'])
+@app.route('/plotCountry', methods=['GET','POST'])
 def plot_png():   
-    if request.method == 'POST':
-        req_data = request.get_json()
-        country = req_data['country']
-    else:
-        country="turkey"
+    country = request.args.get('country')
     fig = coronavirus_api.create_figure(country)
     if fig==False:
         return "Error 404: No country as such, or service is busy"
