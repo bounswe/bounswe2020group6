@@ -90,8 +90,14 @@ def CoronavirusByCountry(country):
 
     return json_return
 
+def plotDataFetch(countryName):
+    link="https://api.covid19api.com/total/country/"+countryName+"/status/confirmed"
+    r=requests.get(link)
+    return r
+
 #Returns plot from total case request
-def create_figure(r):
+def create_figure(countryName):
+    r=plotDataFetch(countryName)
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
     j = json.loads(r.text)
