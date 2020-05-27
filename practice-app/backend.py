@@ -1,6 +1,5 @@
 
 from flask import Flask, render_template, jsonify, request
-from flask_restful import Api, reqparse
 
 import requests
 import json
@@ -8,7 +7,6 @@ import scholar_util
 import coronavirus_api
 
 app = Flask(__name__)
-api = Api(app)
 #Template for flask backend
 
 @app.route('/')
@@ -170,16 +168,6 @@ def api_coronavirusByCountry():
             "results": country_data["country_results"],
             "param": country
         }
-    elif request.method == 'GET':
-        parser = reqparse.RequestParser()
-        parser.add_argument('country', required=True)
-        args = parser.parse_args()
-        country = args['country']
-        country_data = coronavirus_api.CoronavirusByCountry(country)
-        context = {
-            "results": country_data["country_results"],
-            "param": country
-        }
     else:
         context = {}
 
@@ -193,4 +181,4 @@ def dashboard():
 
 if __name__ == '__main__':
 
-    app.run()
+    app.run(host="0.0.0.0", port = 80)
