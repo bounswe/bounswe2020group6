@@ -2,6 +2,14 @@ from flask import Flask
 import requests
 import json
 
+#For Plot
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import io
+from flask import Response
+import numpy as np
+
+
 def coronavirus_summary_search():
     r = requests.get('https://api.covid19api.com/summary')
     
@@ -81,3 +89,18 @@ def CoronavirusByCountry(country):
     }
 
     return json_return
+
+#Returns plot from total case request
+def create_figure(r):
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    j = json.loads(r.text)
+    dayNo=len(j)
+    dayByDayTotalNo=np.zeros(dayNo)    
+    for i in range(len(j)):
+        dayByDayTotalNo[i]=j[i]["Cases"]    
+    print(dayByDayTotalNo)
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.plot(dayByDayTotalNo)
+    return fig

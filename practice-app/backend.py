@@ -6,6 +6,8 @@ import json
 import scholar_util
 import coronavirus_api
 import bitcoin_api
+#For plot
+
 
 app = Flask(__name__)
 #Template for flask backend
@@ -207,6 +209,14 @@ def api_coronavirusByCountry():
 def dashboard():
     return render_template('dashboard.html')
 
+#Plots a plot of total cases, needs to parametrized by country name
+@app.route('/plot.png')
+def plot_png():    
+    r=requests.get("https://api.covid19api.com/total/country/turkey/status/confirmed")
+    fig = coronavirus_api.create_figure(r)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 if __name__ == '__main__':
 
