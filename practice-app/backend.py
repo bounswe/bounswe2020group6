@@ -217,9 +217,16 @@ def dashboard():
     return render_template('dashboard.html')
 
 #Plots a plot of total cases, needs to parametrized by country name
-@app.route('/plot.png')
+@app.route('/plot.png')#, methods=['POST'])
 def plot_png():   
-    fig = coronavirus_api.create_figure("turkey")
+    if request.method == 'POST':
+        req_data = request.get_json()
+        country = req_data['country']
+    else:
+        country="turkey"
+    fig = coronavirus_api.create_figure(country)
+    if fig==False:
+        return "Error 404: No country as such, or service is busy"
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
@@ -231,8 +238,10 @@ def api_plot_png():
     req_data = request.get_json()
     name = req_data['name']
     json  = coronavirus_api.plotDataFetch(name)
+    if json==False:
+        return "Error 404: No country as such, or service is busy"
     return jsonify(json)
 
 if __name__ == '__main__':
 
-    app.run(host="0.0.0.0", port = 80)
+    app.run(port = 80)
