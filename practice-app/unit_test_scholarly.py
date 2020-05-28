@@ -2,6 +2,14 @@ import unittest
 import json
 import scholar_util
 
+def isProfileCorrect():
+    json = scholar_util.getUserProfileData(name="cemre")
+
+    if json["id"] and "cemre" in json["name"].lower():
+        return True
+    else:
+        return False
+
 def author_citation(name):
     data = scholar_util.getAuthorCitationStats(name)
     data = dict(data["cites_per_year"])
@@ -51,13 +59,16 @@ class ScholarlyTest(unittest.TestCase):
     # Returns True or False.
     def test_author_publications(self):
         self.assertTrue(isGetAuthorsPublicationsCorrect() == True)
-        
+
     def test_search(self):
         self.assertTrue(isSearchCorrect() == True)
-        
+
+    def test_profile_data(self):
+        self.assertTrue(isProfileCorrect() == True)
+
     def test_get_author(self):
         self.assertTrue(isGetAuthorCorrect() == True)
-    
+
     def test_author_citation_that_exists(self):
         can_kozcaz = 184
 
