@@ -15,6 +15,7 @@ python backend.py
 
 ## Requirements
 
-* Flask library
-* Flask_RESTful library
-* requests library
+* Flask
+* requests
+* matplotlib
+* numpy
