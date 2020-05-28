@@ -1,4 +1,8 @@
-# How to run
+# Visit Website
+
+http://ec2-54-229-68-140.eu-west-1.compute.amazonaws.com/
+
+# How to run locally
 
 if you have both python 2 and 3
 ```sh
