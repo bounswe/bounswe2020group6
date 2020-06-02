@@ -242,8 +242,7 @@ def plot_png():
 @app.route('/api/plot.png', methods=['POST'])
 def api_plot_png():
    
-    req_data = request.get_json()
-    name = req_data['name']
+    name = request.form['name']
     json  = coronavirus_api.plotDataFetch(name)
     if json==False:
         return "Error 404: No country as such, or service is busy"
