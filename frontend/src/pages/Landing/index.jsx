@@ -51,7 +51,7 @@ const Landing = () => {
               }}
             >
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-              has been the industry's standard dummy text ever since the 1500s.{" "}
+              has been the industry's standard dummy text ever since the 1500s. hello
             </p>
           </Col>
         </Row>
