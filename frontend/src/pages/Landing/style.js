@@ -7,8 +7,24 @@ export const footerStyle = {
   height: "200px",
 };
 
+export const Content = styled.div`
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-image: url(cactus.jpeg);
+  background-size: cover;
+  height: 80vh;
+
+  @media only screen and (max-width: 600px) {
+    background-position: initial;
+  }
+`;
+
 export const LoginModal = styled(Modal)`
   left: 160px;
+
+  @media only screen and (max-width: 700px) {
+    left: 0;
+  }
 
   .ant-modal-content {
     border-radius: 15px;
@@ -65,6 +81,20 @@ export const Nav = styled(Col)`
   }
 `;
 
+export const SideBar = styled(Col)`
+  text-align: center;
+  margin-left: -70px;
+  margin-top: 8px;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+
+  :hover {
+    color: sandybrown;
+  }
+`;
+
 export const Header = styled(Layout.Header)`
   width: 100%;
   background-color: ${theme.main.colors.first};
@@ -96,6 +126,10 @@ export const CtaButton = styled.button`
   cursor: pointer;
   border: none;
 
+  :focus {
+    outline: none;
+  }
+
   :hover {
     color: sandybrown;
   }
@@ -113,6 +147,10 @@ export const LoginButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   border: none;
+
+  :focus {
+    outline: none;
+  }
 
   :hover {
     color: sandybrown;

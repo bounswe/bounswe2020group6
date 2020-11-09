@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Layout, Row, Col, Form, Input, Checkbox } from "antd";
+import { Layout, Row, Col, Form, Input, Checkbox, Menu } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
 import {
   Header,
   Logo,
@@ -11,12 +12,36 @@ import {
   LoginTitle,
   LoginButton,
   LoginLabel,
+  Content,
+  SideBar,
 } from "./style";
 
-const { Footer } = Layout;
+const { Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
 const Landing = () => {
   const [loginVisible, setLoginVisible] = useState(false);
+  const [sideMenuCollapsed, setSideMenuCollapsed] = useState(false);
+
+  const sideMenu = (
+    <Sider collapsible collapsed={sideMenuCollapsed}>
+      <div className="logo" />
+      <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+        <Menu.Item key="1">Option 1</Menu.Item>
+        <Menu.Item key="2">Option 2</Menu.Item>
+        <SubMenu key="sub1" title="User">
+          <Menu.Item key="3">Tom</Menu.Item>
+          <Menu.Item key="4">Bill</Menu.Item>
+          <Menu.Item key="5">Alex</Menu.Item>
+        </SubMenu>
+        <SubMenu key="sub2" title="Team">
+          <Menu.Item key="6">Team 1</Menu.Item>
+          <Menu.Item key="8">Team 2</Menu.Item>
+        </SubMenu>
+        <Menu.Item key="9">Files</Menu.Item>
+      </Menu>
+    </Sider>
+  );
 
   return (
     <Layout>
@@ -57,20 +82,40 @@ const Landing = () => {
       </LoginModal>
       <Header style={{ width: "100%" }}>
         <Row justify="center">
-          <Nav span={2}>Menu</Nav>
-          <Nav span={2}>Events</Nav>
-          <Col span={3}>
+          <SideBar xs={3} sm={0} md={0} onClick={() => setSideMenuCollapsed((prev) => !prev)}>
+            <MenuOutlined style={{ fontSize: "32px" }} />
+          </SideBar>
+          <Nav xs={0} sm={4} md={4} lg={3}>
+            Menu
+          </Nav>
+          <Nav xs={0} sm={5} md={4} lg={3}>
+            Events
+          </Nav>
+          <Col
+            xs={{ span: 10, offset: 6 }}
+            sm={{ span: 6, offset: 0 }}
+            md={{ span: 4, offset: 0 }}
+            lg={{ span: 3, offset: 0 }}
+          >
             <Logo>akademise</Logo>
           </Col>
-          <Nav span={2}>About Us</Nav>
-          <Nav onClick={() => setLoginVisible(true)} span={2}>
+          <Nav xs={0} sm={5} md={4} lg={3}>
+            About Us
+          </Nav>
+          <Nav
+            xs={{ span: 2, offset: 3 }}
+            sm={{ span: 4, offset: 0 }}
+            md={{ span: 4, offset: 0 }}
+            lg={{ span: 3, offset: 0 }}
+            onClick={() => setLoginVisible(true)}
+          >
             Login
           </Nav>
         </Row>
       </Header>
-      <div style={{ backgroundImage: "url(cactus.jpeg)", backgroundSize: "cover", height: "80vh" }}>
+      <Content>
         <Row style={{ height: "100%" }} align="middle">
-          <Col span={12} offset={1}>
+          <Col xs={{ span: 22, offset: 1 }} sm={12} offset={2}>
             <div style={{ textAlign: "center", fontSize: "54px", fontFamily: "Philosopher" }}>
               Akademise
             </div>
@@ -90,7 +135,7 @@ const Landing = () => {
             </Row>
           </Col>
         </Row>
-      </div>
+      </Content>
       <Footer style={footerStyle}></Footer>
     </Layout>
   );
