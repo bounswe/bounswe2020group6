@@ -1,0 +1,107 @@
+import styled from "styled-components";
+import theme from "../../theme";
+//import { Modal } from "antd";
+
+export const footerStyle = {
+  backgroundColor: theme.main.colors.third,
+  height: "200px",
+};
+
+export const Content = styled.div`
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 80vh;
+
+  @media only screen and (max-width: 600px) {
+    background-position: initial;
+  }
+`;
+
+export const FormWrapper = styled.div`
+
+  @media only screen and (max-width: 700px) {
+    left: 0;
+  }
+
+  .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+  .ant-checkbox:hover .ant-checkbox-inner,
+  .ant-checkbox-input:focus + .ant-checkbox-inner {
+    border-color: ${theme.main.colors.sixth};
+  }
+
+  .ant-checkbox-checked::after {
+    border-color: ${theme.main.colors.sixth};
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: ${theme.main.colors.sixth};
+    border-color: ${theme.main.colors.sixth};
+  }
+
+  .ant-input,
+  .ant-input-affix-wrapper {
+    border-radius: 20px;
+
+    :hover {
+      border-color: ${theme.main.colors.first};
+    }
+  }
+  .ant-input-affix-wrapper .ant-input {
+    border-radius: 0;
+  }
+`;
+
+export const FormTitle = styled.h1`
+  border-bottom: 3px solid ${theme.main.colors.sixth};
+`;
+
+export const FormLabel = styled.div`
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+export const FormButton = styled.button`
+  background-color: ${theme.main.colors.first};
+  height: 50px;
+  width: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  float: right;
+
+  :focus {
+    outline: none;
+  }
+
+  :hover {
+    color: ${theme.main.colors.sixth};
+  }
+`;
+
+export const ConfirmButton = styled.button`
+  background-color: ${theme.main.colors.first};
+  height: 80px;
+  width: 180px;
+  text-align: center;
+  line-height: 80px;
+  font-size: 32px;
+  font-family: Rasa;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+
+  :focus {
+    outline: none;
+  }
+
+  :hover {
+    color: ${theme.main.colors.sixth};
+  }
+`;

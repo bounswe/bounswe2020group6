@@ -28,7 +28,9 @@ const Landing = () => {
               has been the industry's standard dummy text ever since the 1500s.
             </p>
             <Row justify="center">
-              <CtaButton>JOIN</CtaButton>
+              <a href="/join">
+                <CtaButton>JOIN</CtaButton>
+              </a>
             </Row>
           </Col>
         </Row>
