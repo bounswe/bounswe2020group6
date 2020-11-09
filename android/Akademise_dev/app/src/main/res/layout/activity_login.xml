@@ -5,14 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/signup"
+        android:layout_marginBottom="20dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
         android:text="Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></Button>
-
+        android:layout_below="@id/btnSignup"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignup" />
+</RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
