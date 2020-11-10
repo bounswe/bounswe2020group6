@@ -45,7 +45,7 @@ const SignUp = () => {
           <FormWrapper>
             <Form layout="vertical">
               <Row align="middle" justify="center">
-                <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 0 }}>
+                <Col xs={{ span: 24, offset: 0 }} sm={{ span: 12, offset: 1 }} lg={{ span: 6, offset: 1 }}>
                   <FormTitle>Sign Up</FormTitle>
                   <br />
                   <Form.Item
@@ -72,7 +72,7 @@ const SignUp = () => {
                     <Input.Password />
                   </Form.Item>
                 </Col>
-                <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+                <Col xs={{ span: 24, offset: 0 }} sm={{ span: 12, offset: 1 }} lg={{ span: 6, offset: 1 }}>
                   <Input.Group compact>
                     <Form.Item
                       label={<FormLabel>Name</FormLabel>}

@@ -11,10 +11,19 @@ export const Content = styled.div`
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 80vh;
+
 
   @media only screen and (max-width: 600px) {
     background-position: initial;
+  }
+
+  @media only screen and (max-width: 600px) {
+    max-width: 80%;
+    margin:auto;
+  }
+
+  @media only screen and (min-width: 600px) {
+    padding-bottom: 100px;
   }
 `;
 
@@ -50,6 +59,7 @@ export const FormWrapper = styled.div`
   .ant-input-affix-wrapper .ant-input {
     border-radius: 0;
   }
+
 `;
 
 export const FormTitle = styled.h1`
