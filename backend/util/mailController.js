@@ -8,13 +8,16 @@ var transporter = nodemailer.createTransport({
     }
 })
 
+var createValidationCode = function() {
+    return Math.floor(Math.random() * (1000000 - 0)).toString().padStart(6,"0")
+}
 
-var sendValidationCode = function(email) {
+var sendValidationCode = function(email, code) {
     var mailOptions = {
-        from: "academise.help@gmail.com",
+        from: "Akademise Registration",
         to: email,
-        subject: "Academise - Validation Code",
-        text: "123"
+        subject: "Akademise - Validation Code",
+        text: code
     }
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
@@ -27,5 +30,6 @@ var sendValidationCode = function(email) {
 }
 
 module.exports = {
-    sendValidationCode
+    sendValidationCode,
+    createValidationCode,
 }
