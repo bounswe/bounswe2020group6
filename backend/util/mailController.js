@@ -8,16 +8,14 @@ var transporter = nodemailer.createTransport({
     }
 })
 
-var mailOptions = {
-    from: "academise.help@gmail.com",
-    to: "isiktashamza@gmail.com",
-    subject: "Academise - Validation Code",
-    text: "123"
-}
 
 var sendValidationCode = function(email) {
-    mailOptions.to = email
-    mailOptions.text = "123123"
+    var mailOptions = {
+        from: "academise.help@gmail.com",
+        to: email,
+        subject: "Academise - Validation Code",
+        text: "123"
+    }
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
