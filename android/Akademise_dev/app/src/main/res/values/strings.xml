@@ -3,4 +3,19 @@
     <string name="signup">SIGN UP</string>
     <string name="next">NEXT</string>
     <string name="done">DONE</string>
+
+
+    <string-array name="college_array">
+        <item>"Choose Your University"</item>
+        <item>"Zoom University"</item>
+        <item>"Bogazici University"</item>
+
+    </string-array>
+
+    <string-array name="department_array">
+        <item>"Choose Your Department"</item>
+        <item>"CMPE"</item>
+        <item>"M*S"</item>
+
+    </string-array>
 </resources>
