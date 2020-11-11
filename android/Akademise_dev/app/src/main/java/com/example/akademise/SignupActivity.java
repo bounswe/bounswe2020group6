@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,6 +18,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_signup);
 
         btn = (Button) findViewById(R.id.btnNext);
@@ -32,7 +34,12 @@ public class SignupActivity extends AppCompatActivity {
         public void onClick(View v) {
             Fragment selectedFragment = null;
             Boolean gotologin = false;
+
             if(btn.getText().equals(getString(R.string.signup))){
+                btn.setText(getString(R.string.next));
+                selectedFragment = new ValidationFragment();
+            }
+            else if(btn.getText().equals(getString(R.string.next))){
                 btn.setText(getString(R.string.next));
                 selectedFragment = new PersonalInfoFragment();
             }
