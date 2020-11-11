@@ -3,6 +3,7 @@
     <string name="signup">SIGN UP</string>
     <string name="next">NEXT</string>
     <string name="done">DONE</string>
+    <string name="validate">VALIDATE</string>
 
 
     <string-array name="college_array">
@@ -17,5 +18,15 @@
         <item>"CMPE"</item>
         <item>"M*S"</item>
 
+    </string-array>
+
+    <string name="research_tags_info">Please select your research interests</string>
+
+    <string-array name="research_tags">
+        <item>"Choose"</item>
+        <item>Nanonetworking</item>
+        <item>Bioinformatics</item>
+        <item>Public Health Systems</item>
+        <item>Infectious Diseases</item>
     </string-array>
 </resources>

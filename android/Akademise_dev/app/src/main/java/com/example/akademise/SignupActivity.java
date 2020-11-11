@@ -36,10 +36,10 @@ public class SignupActivity extends AppCompatActivity {
             Boolean gotologin = false;
 
             if(btn.getText().equals(getString(R.string.signup))){
-                btn.setText(getString(R.string.next));
+                btn.setText(getString(R.string.validate));
                 selectedFragment = new ValidationFragment();
             }
-            else if(btn.getText().equals(getString(R.string.next))){
+            else if(btn.getText().equals(getString(R.string.validate))){
                 btn.setText(getString(R.string.next));
                 selectedFragment = new PersonalInfoFragment();
             }
