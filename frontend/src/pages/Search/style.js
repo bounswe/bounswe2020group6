@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import theme from "../../theme";
 import { Layout, Col } from "antd";
 
 export const Content = styled(Layout)`

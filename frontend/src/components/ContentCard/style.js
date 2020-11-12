@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import theme from "../../theme";
-import { Col, Row, Input } from "antd";
+import { Row } from "antd";
 
 export const Layout = styled(Row)`
   border-bottom: 1px solid rgba(0,0,0,0.15);

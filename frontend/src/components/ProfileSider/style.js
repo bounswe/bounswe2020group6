@@ -18,7 +18,7 @@ export const Layout = styled(Col)`
 export const Title = styled.h3` 
   font-size: 18px;
   color: white;
-  margin: 1em;
+  margin: 1em 0;
 `;
 
 export const NameText = styled.p` 

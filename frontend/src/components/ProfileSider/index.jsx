@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import theme from "../../theme";
-import { Rate, Avatar } from "antd";
+import { Rate } from "antd";
 import { CaretRightOutlined  } from "@ant-design/icons";
 import {
   Layout,
@@ -9,8 +8,6 @@ import {
   Title,
   Img
 } from "./style";
-import logo from '../../assets/ad-logo-b9f5d8.png';
-import searchIcon from '../../assets/search-icon.png';
 
 const ProfileSider = () => {
   return (
@@ -18,6 +15,7 @@ const ProfileSider = () => {
       <Img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" alt="profile photo"/>
       <NameText>Ertuğrul Düldül</NameText>
       <Rate/>
+      <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
       <Title>Papers</Title>
       <span style={{color: "white"}}><CaretRightOutlined /> paper 1 </span>
       <span style={{color: "white"}}><CaretRightOutlined /> paper 2 </span>
@@ -26,6 +24,7 @@ const ProfileSider = () => {
       <span style={{color: "white"}}><CaretRightOutlined /> project 1 </span>
       <span style={{color: "white"}}><CaretRightOutlined /> project 2 </span>
       <span style={{color: "white"}}><CaretRightOutlined /> project 3 </span>
+      </div>
     </Layout>
   );
 };

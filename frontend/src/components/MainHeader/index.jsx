@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import theme from "../../theme";
-import { Row, Col, Input } from "antd";
+import { Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
   Header,
@@ -30,7 +30,7 @@ const SiteHeader = () => {
   );
 
   const suffix = (
-    <img src={searchIcon} onClick={() => console.log("hello")} style={{height: "15px", width: "15px"}} />
+    <img src={searchIcon} alt="search icon" onClick={() => console.log("hello")} style={{height: "15px", width: "15px"}} />
   );
 
   return (

@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Row, Rate } from "antd";
+import { Row } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ContentCard from "../../components/ContentCard";
 import ProfileSider from "../../components/ProfileSider";
-import {Content, Sider, Main, H1, H2, H3, NameText, Img} from "./style";
+import { Content, Main, H1, H2 } from "./style";
 
 const Search = () => {
   return (
