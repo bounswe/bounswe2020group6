@@ -13,6 +13,10 @@ export const Layout = styled(Col)`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media only screen and (max-width: 992px) {
+    display: none;
+  }
 `;
 
 export const Title = styled.h3` 
@@ -28,9 +32,17 @@ export const NameText = styled.p`
 `;
 
 export const Img = styled.img` 
-  height: 160px;
-  width: 160px;
   margin-top: 2.5em;
   border: 4px solid ${theme.main.colors.first};
   border-radius: 50%;
+
+  @media only screen and (min-width: 992px) {
+    height: 120px;
+    width: 120px;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    height: 160px;
+    width: 160px;
+  }
 `;

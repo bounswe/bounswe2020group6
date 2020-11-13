@@ -13,17 +13,17 @@ export const Main = styled(Col)`
 export const H1 = styled.h1` 
   color: #4E4E4E;
   font-size: 32px;
-  margin-top: 1.2em;
+  margin-top: 32px;
   margin-bottom: 0;
 `;
 
 export const H2 = styled.h2` 
   font-size: 24px;
-  margin: 1em auto;
+  margin: 24px auto;
 `;
 
 export const H3 = styled.h3` 
   font-size: 18px;
   color: white;
-  margin: 1em;
+  margin: 24px;
 `;

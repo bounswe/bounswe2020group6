@@ -12,7 +12,11 @@ const Search = () => {
       <MainHeader />
       <Row style={{ height: "100vh"}} align="middle">
           <ProfileSider/>
-          <Main xs={0} sm={16} md={15} lg={14} offset={5}>
+          <Main 
+          xs={{span: 22, offset: 1}}
+          sm={{span: 22, offset: 1}}
+          md={{span: 22, offset: 1}}
+          lg={{span: 14, offset: 5}}>
             <H1>
               Search Results For "blockchain"
             </H1>
