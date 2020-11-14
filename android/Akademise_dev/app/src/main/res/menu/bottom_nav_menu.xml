@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_home_foreground" />
     <item
         android:id="@+id/miCreate"
-        android:title="Create"
+        android:title="Publications"
         android:icon="@drawable/ic_create_foreground" />
     <item
         android:id="@+id/miProfile"

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
                             selectedFragment).commit();
+                            
                     return true;
                 }
             };

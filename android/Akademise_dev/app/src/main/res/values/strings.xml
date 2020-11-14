@@ -4,6 +4,13 @@
     <string name="next">NEXT</string>
     <string name="done">DONE</string>
     <string name="validate">VALIDATE</string>
+    <string name="topic">Topic</string>
+    <string name="_abstract">Abstract</string>
+    <string name="content">Content</string>
+    <string name="deadline">Deadline</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="isPublic"> Public</string>
+    <string name="tags"> Tags</string>
 
 
     <string-array name="college_array">
@@ -29,4 +36,6 @@
         <item>Public Health Systems</item>
         <item>Infectious Diseases</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
