@@ -32,7 +32,8 @@ addPost = async function(req,res) {
 		res.send(500,{"error": error})
 		console.log(error)
 	}
-	//database table for storing path of uploaded file will be created 
+	//database table for storing path of uploaded file will be created
+	//after that this function will be extended for handling this database operation. 
 }
 
 //updates posts with respect to their post id
@@ -75,6 +76,7 @@ deletePost = async function (req,res){
 }
 
 //gathers posts from database according to parameters
+//function can extend according to frontend wishes
 getPosts = async function(req,res){
 	try {
 		userId = req.body.userId
