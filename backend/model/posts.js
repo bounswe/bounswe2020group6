@@ -1,4 +1,5 @@
 module.exports = (sequelize, Seq) => {
+	//database model for posts, timestamps is false now, if required it can be changed to true
 	return sequelize.define('post', {
 		id : {
 			type : Seq.INTEGER,
