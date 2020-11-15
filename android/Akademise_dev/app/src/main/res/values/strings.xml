@@ -11,6 +11,7 @@
     <string name="creation_date">Creation Date</string>
     <string name="isPublic"> Public</string>
     <string name="tags"> Tags</string>
+    <string name="project">Project</string>
 
 
     <string-array name="college_array">
