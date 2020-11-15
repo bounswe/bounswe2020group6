@@ -7,23 +7,53 @@ export const Content = styled(Layout)`
   `;
 
 export const Main = styled(Col)` 
-  margin-top: 60px;
+  @media only screen and (max-width: 768px) {
+    margin-top: 50px;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    margin-top: 60px;
+  }
 `;
 
 export const H1 = styled.h1` 
   color: #4E4E4E;
-  font-size: 32px;
-  margin-top: 32px;
   margin-bottom: 0;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 24px;
+    margin-top: 24px;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    font-size: 32px;
+    margin-top: 32px;
+  }
 `;
 
 export const H2 = styled.h2` 
-  font-size: 24px;
-  margin: 24px auto;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 18px;
+    margin: 18px auto;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    font-size: 24px;
+    margin: 24px auto;
+  }
 `;
 
 export const H3 = styled.h3` 
-  font-size: 18px;
   color: white;
-  margin: 24px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 14px;
+    margin: 18px auto;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    font-size: 18px;
+    margin: 24px auto;
+  }
 `;

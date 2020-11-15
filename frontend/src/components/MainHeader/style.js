@@ -26,9 +26,10 @@ export const SearchBar = styled(Input)`
 `;
 
 export const SideBarIcon = styled(Col)`
+  position: fixed;  
+  top: 16px;
+  left: 16px;
   text-align: center;
-  margin-left: -70px;
-  margin-top: 8px;
   color: white;
   font-size: 18px;
   font-weight: 500;
@@ -69,4 +70,19 @@ export const SideBarItem = styled.div`
 export const Header = styled(Layout.Header)`
   width: 100%;
   background-color: ${theme.main.colors.first};
+`;
+
+export const LogoText = styled.h1`
+  margin: 0;
+  padding: 0;
+
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
+
+  @media only screen and (min-width: 768px) {
+    font-family: Philosopher;
+    font-size: 18px;
+    color: ${theme.main.colors.fourth};
+  }
 `;

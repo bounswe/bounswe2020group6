@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import theme from "../../theme";
 import { Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
@@ -11,7 +10,8 @@ import {
   SideBarMenu,
   SideBarItem,
   Anchor,
-  SearchBar
+  SearchBar,
+  LogoText
 } from "./style";
 import logo from '../../assets/ad-logo-b9f5d8.png';
 import searchIcon from '../../assets/search-icon.png';
@@ -36,22 +36,26 @@ const SiteHeader = () => {
   return (
     <div style={{position: "fixed", top: "0", width: "100%", zIndex: "2"}}>
       {sideBar}
+      <SideBarIcon sm={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
+            <MenuOutlined style={{ fontSize: "32px" }} />
+      </SideBarIcon>
       <Header style={{ width: "100%" }}>
         <Row>
-          <SideBarIcon xs={3} sm={0} md={0} lg={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
-            <MenuOutlined style={{ fontSize: "32px" }} />
-          </SideBarIcon>
-          <Col xs={3} sm={2} md={2} lg={3} align="center" justify="center" style={{fontFamily: "Philosopher", fontSize: "20px", color: theme.main.colors.fourth}}>
-            <img src={logo} alt="logo" style={{height: "30px",  marginRight: "10px"}}/>
-            Akademise
+          <Col xs={6} sm={5} md={6}>
+            <Row>
+              <img src={logo} alt="logo" style={{height: "32px",  margin: "auto 10px", marginTop: "16px"}}/>
+              <LogoText>
+              Akademise
+              </LogoText>
+            </Row>
           </Col>
-          <Col xs={3} sm={4} md={4} lg={6} align="center" offset={6}>
+          <Col xs={{span:16, offset: 1}} sm={{span:8, offset: 0}} md={{span:6, offset: 1}} align="center" offset={6}>
           <SearchBar
           suffix={suffix}
           size="small"
           />
           </Col>
-          <Nav xs={0} sm={11} md={11} lg={9} >
+          <Nav xs={0} sm={{span:10, offset: 1}} md={{span:10, offset: 1}}>
             <Anchor href="#">Home</Anchor> | <Anchor href="">Profile</Anchor> | <Anchor href="#">Settings</Anchor>
           </Nav>
         </Row>  
