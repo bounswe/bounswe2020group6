@@ -2,6 +2,7 @@ const {Post} = require('../model/db')
 const {tokenDecoder} = require('../util/tokenDecoder')
 const multer = require('multer')
 const path = require('path');
+//modifies storage path and file name
 const storage = multer.diskStorage({
 	destination: './uploads/',
 	filename: function(req, file, cb){
@@ -11,6 +12,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({storage : storage});
 
+//Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
 	decodedToken = tokenDecoder(req)
 	postData = {
@@ -33,6 +35,7 @@ addPost = async function(req,res) {
 	//database table for storing path of uploaded file will be created 
 }
 
+//updates posts with respect to their post id
 updatePost = async function (req,res){
 	postData = {
 		topic : req.body.topic,
@@ -56,6 +59,7 @@ updatePost = async function (req,res){
 	}
 }
 
+//deletes posts with respect to their post id
 deletePost = async function (req,res){
 	try {
 		await Post.destroy({
@@ -70,6 +74,7 @@ deletePost = async function (req,res){
 	}				 
 }
 
+//gathers posts from database according to parameters
 getPosts = async function(req,res){
 	try {
 		userId = req.body.userId
