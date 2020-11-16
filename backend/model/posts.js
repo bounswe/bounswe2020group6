@@ -15,6 +15,6 @@ module.exports = (sequelize, Seq) => {
 		isFunded : Seq.TINYINT,
 		privacy : Seq.TINYINT }, {
 		
-		timestamps : false
+		timestamps : true
 	})
 }
