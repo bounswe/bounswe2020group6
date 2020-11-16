@@ -2,6 +2,7 @@ const express =  require("express");
 const app = express();
 const bodyParser =  require("body-parser");
 const authRouter = require('./routers/authRouter')
+const postRouter = require('./routers/postRouter')
 const tokenController = require('./util/authCheck')
 
 const port = process.env.PORT || 3000;
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/auth', authRouter)
+app.use('/post', postRouter)
 app.use(tokenController.authCheckMiddleware)
 app.get('*',(req,res) => {
     res.send(404)

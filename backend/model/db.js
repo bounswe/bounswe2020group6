@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const UserModel = require('./users')
+const PostModel = require('./posts')
 
 const sequelize = new Sequelize('akademise', 'root', 'password', {
   host: 'localhost',
@@ -7,6 +8,7 @@ const sequelize = new Sequelize('akademise', 'root', 'password', {
 })
 
 const User = UserModel(sequelize, Sequelize)
+const Post = PostModel(sequelize, Sequelize)
 
 sequelize.sync()
   .then(() => {
@@ -14,5 +16,6 @@ sequelize.sync()
   })
 
 module.exports = {
-  User
+  User,
+  Post
 }
