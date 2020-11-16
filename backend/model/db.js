@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const UserModel = require('./users')
 const PostModel = require('./posts')
 
-const sequelize = new Sequelize('akademise', 'root', 'password', {
+const sequelize = new Sequelize('academise', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
 })

@@ -12,18 +12,16 @@ login = async function(req, res){
     if(loggingUser != null){
         let isSame = await compare(req.body.password, loggingUser.password)
         if(isSame){
-            const token = jwt.sign({
-                    username: loggingUser.username,
-                    userId: loggingUser.id,
-                    email: loggingUser.email,
-                },
-                "top_secret_key"
-            )
-            return res.send(200,{message: 'Success', accessToken: token})
+            const token = createJwt(loggingUser.id)
+            return res.status(200).send({message: "Success", accessToken: token})
         }
-        return res.send(401,{message:"Wrong password"});
+        return res.status(401).send({message: "Wrong password"})
     }
-    return res.send(404,{message:"User not found"});
+    return res.status(404).send({message: "User not found"})
+}
+
+createJwt = function(id) {
+    return jwt.sign(id,"top_secret_key")
 }
 
 signup = async function(req,res) {
@@ -35,15 +33,17 @@ signup = async function(req,res) {
         password,
         name: req.body.name,
         surname: req.body.surname,
-        validation: validationCode
+        validation: validationCode,
+        isValidated: false
     }
     try {
         userDb = await User.create(userData)
         mailController.sendValidationCode(userData.email, validationCode)
         console.log(userData)
-        res.send(201,{"message": "User created", "id": userDb.id});
+        const token = createJwt(userDb.id)
+        res.status(201).send({message: "User created", accessToken: token})
     } catch (error) {
-        res.send(500, {"error": error})
+        res.status(500).send({error: "Something went wrong."})
         console.log(error)
     }
     

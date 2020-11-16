@@ -23,6 +23,7 @@ module.exports = (sequelize, Seq) => {
             allowNull: false,
         },
         validation: Seq.STRING,
+        isValidated: Seq.BOOLEAN,
         createdAt: Seq.DATE,
     })
 }
