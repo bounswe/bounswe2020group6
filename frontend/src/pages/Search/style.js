@@ -31,8 +31,7 @@ export const H1 = styled.h1`
   }
 `;
 
-export const H2 = styled.h2` 
-
+export const H2 = styled.h2`  
   @media only screen and (max-width: 768px) {
     font-size: 18px;
     margin: 18px auto;
@@ -45,15 +44,23 @@ export const H2 = styled.h2`
 `;
 
 export const H3 = styled.h3` 
-  color: white;
+  text-align: left;
 
   @media only screen and (max-width: 768px) {
     font-size: 14px;
-    margin: 18px auto;
+    margin: 8px;
   }
   
   @media only screen and (min-width: 768px) {
     font-size: 18px;
-    margin: 24px auto;
+    margin-left: 10px;
   }
+`;
+
+export const FilterButton = styled.div`
+  height: 70px;
+  width: 70%;
+  padding: 5px 0;
+  border-radius: 10px;
+  background-color: beige;
 `;

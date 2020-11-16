@@ -1,16 +1,22 @@
 import React from "react";
 
-import { Row } from "antd";
+import { Row, Col } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ContentCard from "../../components/ContentCard";
+import FilterButton from "../../components/FilterButton";
 import ProfileSider from "../../components/ProfileSider";
-import { Content, Main, H1, H2 } from "./style";
+import { 
+  Content, 
+  Main, 
+  H1, 
+  H2
+} from "./style";
 
 const Search = () => {
   return (
     <Content>
       <MainHeader />
-      <Row style={{ height: "100vh"}} align="middle">
+      <Row style={{ height: "100vh"}} align="top" justify="start">
           <ProfileSider/>
           <Main 
           xs={{span: 22, offset: 1}}
@@ -41,8 +47,32 @@ const Search = () => {
             info="ODTÜ"
             summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
             />
-
           </Main>
+          <Col align="center"
+          style={{marginTop: "175px"}}
+          md={0}
+          lg={{span: 5, offset: 0}}
+          xl={{span: 4, offset: 1}}
+          >
+            <FilterButton type="all" selected={true}>
+              All
+            </FilterButton>
+            <FilterButton type="paper">
+              Papers
+            </FilterButton>
+            <FilterButton type="project">
+              Projects
+            </FilterButton>
+            <FilterButton type="event">
+              Events
+            </FilterButton>
+            <FilterButton type="people">
+              People
+            </FilterButton>
+            <FilterButton type="advanced">
+              Advanced
+            </FilterButton>
+          </Col>
       </Row>
     </Content>
   );
