@@ -1,5 +1,4 @@
 const {Post} = require('../model/db')
-const {tokenDecoder} = require('../util/tokenDecoder')
 const multer = require('multer')
 const path = require('path');
 //modifies storage path and file name
@@ -14,7 +13,7 @@ var upload = multer({storage : storage});
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
-	decodedToken = tokenDecoder(req)
+	decodedToken = req.decodedToken
 	postData = {
 		userId : decodedToken.userId,
 		topic : req.body.topic,
