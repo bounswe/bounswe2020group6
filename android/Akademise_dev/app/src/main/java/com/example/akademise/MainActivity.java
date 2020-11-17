@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             break;
                         case R.id.miCreate:
-                            selectedFragment = new CreateFragment();
+                            selectedFragment = new PublicationFragment();
                             break;
                         case R.id.miProfile:
                             selectedFragment = new ProfileFragment();

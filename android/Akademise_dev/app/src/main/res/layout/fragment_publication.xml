@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/scroll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\nPublications      "
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnAddPublication"
+            android:layout_width="134dp"
+            android:layout_height="63dp"
+            android:drawableLeft="@drawable/ic_add_publication_foreground"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
+    <ScrollView
+        android:id = "@+id/scroll"
+        android:layout_width="350dp"
+        android:layout_height="376dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/purple_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Euclidean Distance in 5D " />
+
+                    <Button
+                        android:id="@+id/btn_view1"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit1"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete1"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="P" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Covid Spread Predictor A " />
+
+                    <Button
+                        android:id="@+id/btn_view2"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit2"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete2"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="C" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/purple_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Covid Spread Predictor B " />
+
+                    <Button
+                        android:id="@+id/btn_view3"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit3"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete3"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="C" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Automated Color Mapper " />
+
+                    <Button
+                        android:id="@+id/btn_view4"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit4"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete4"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="P" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/purple_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantum Computing         " />
+
+                    <Button
+                        android:id="@+id/btn_view5"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit5"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete5"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="C" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cosine Similarities             " />
+
+                    <Button
+                        android:id="@+id/btn_view6"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit6"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete6"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="P" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/purple_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publication7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Construction of Junction  " />
+
+                    <Button
+                        android:id="@+id/btn_view7"
+                        android:layout_width="58dp"
+                        android:layout_height="37dp"
+                        android:text="View"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_edit7"
+                        android:layout_width="54dp"
+                        android:layout_height="37dp"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+
+                    <Button
+                        android:id="@+id/btn_delete7"
+                        android:layout_width="70dp"
+                        android:layout_height="37dp"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textSize="10dp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/type7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:text="P" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
