@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ProfileFragment extends Fragment {
     private Button statsAndOverviewButton;
@@ -20,17 +22,30 @@ public class ProfileFragment extends Fragment {
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
         publicationsButton = view.findViewById(R.id.publications);
 
-        System.out.println(statsAndOverviewButton.getText().toString());
 
         statsAndOverviewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { // NOT WORKING FOR NOW !
-                System.out.println("Hellawwww");
-                getFragmentManager().beginTransaction().replace(R.id.flFragment, new HomeFragment()).commit();
+            public void onClick(View v) {
+                Fragment fragment = new StatsAndOverviewFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flFragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        publicationsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment fragment = new PublicationsFragment(); //
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.flFragment, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        return view;
 
     }
 }
