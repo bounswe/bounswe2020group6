@@ -4,6 +4,7 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
+import Project from "./pages/Project";
 
 export default function App() {
   return (
@@ -17,6 +18,9 @@ export default function App() {
         </Route>
         <Route path="/join">
           <SignUp />
+        </Route>
+        <Route path="/project">
+          <Project />
         </Route>
         <Route path="/">
           <Landing />
