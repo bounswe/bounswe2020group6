@@ -16,11 +16,12 @@ module.exports = {
 
         try {
             jwt.verify(accessToken, "top_secret_key", 
-            (err, id) => {
+            (err, json) => {
                 if(err){
                     return res.status(401).send()
                 } 
-                req.userId = id
+                console.log(json.id)
+                req.userId = json.id
                 next()
             })
         }

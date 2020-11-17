@@ -21,7 +21,7 @@ login = async function(req, res){
 }
 
 createJwt = function(id) {
-    return jwt.sign(id,"top_secret_key")
+    return jwt.sign({id: id},"top_secret_key")
 }
 
 signup = async function(req,res) {
