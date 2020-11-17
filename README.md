@@ -6,6 +6,7 @@ We are group of Boğaziçi University computer engineering students. Here is our
 
 ## Group Members
 
+* [Ali Ramazan Mert](https://github.com/aliramazanmert)
 * [Ahmet Berat Can](https://github.com/aberatcan)
 * [Cemre Efe Karakaş](https://github.com/cemreefe)
 * [Doğukan Kalkan](https://github.com/DogukanKalkan)
