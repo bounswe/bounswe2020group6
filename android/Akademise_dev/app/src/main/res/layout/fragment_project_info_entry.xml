@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PublicationCommonEntryFragment">
+    tools:context=".ProjectInfoEntryFragment">
 
     <EditText
         android:id="@+id/etTopic"
@@ -181,30 +181,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDeadline" />
-
-    <TextView
-        android:id="@+id/tvPaperProject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:text="@string/project"
-        app:layout_constraintBottom_toTopOf="@+id/tvCreationDate"
-        app:layout_constraintEnd_toStartOf="@+id/cbIfProject"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvIsPublic" />
-
-    <CheckBox
-        android:id="@+id/cbIfProject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/etdCreationDate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvPaperProject"
-        app:layout_constraintTop_toBottomOf="@+id/cbIsPublic"
-        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

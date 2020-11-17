@@ -139,13 +139,13 @@
         </Button>
 
         <Button
-            android:id="@+id/publications"
+            android:id="@+id/projects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/stats_and_overview"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
-            android:text="Publications">
+            android:text="Projects">
         </Button>
 
 

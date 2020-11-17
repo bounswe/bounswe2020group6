@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Akademise">
-        <activity android:name=".PublicationCreationActivity"
+        <activity android:name=".ProjectCreationActivity"
             android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".LoginActivity">

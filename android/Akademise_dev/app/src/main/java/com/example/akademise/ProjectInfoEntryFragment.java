@@ -13,14 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class PublicationCommonEntryFragment extends Fragment {
+public class ProjectInfoEntryFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_publication_common_entry, container, false);
+        return inflater.inflate(R.layout.fragment_project_info_entry, container, false);
     }
 
     @Override

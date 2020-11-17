@@ -11,11 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class PublicationFragment extends Fragment {
+public class ProjectFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_publication, container, false);
+        return inflater.inflate(R.layout.fragment_project, container, false);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class PublicationFragment extends Fragment {
     }
 
     private void gotoPublicationCreation(){
-        Intent intent = new Intent(getActivity().getBaseContext(), PublicationCreationActivity.class);
+        Intent intent = new Intent(getActivity().getBaseContext(), ProjectCreationActivity.class);
         startActivity(intent);
     }
 }

@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\nPublications      "
+            android:text="\nProjects      "
             android:textSize="30sp"
             android:textStyle="bold" />
 
