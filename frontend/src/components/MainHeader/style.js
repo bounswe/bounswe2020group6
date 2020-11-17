@@ -23,10 +23,11 @@ export const Anchor = styled.a`
 export const SearchBar = styled(Input)`
   width: 100%;
   margin-top: 28px;
+  border-radius: 10px;
 `;
 
 export const SideBarIcon = styled(Col)`
-  position: fixed;  
+  position: fixed;
   top: 16px;
   left: 16px;
   text-align: center;
