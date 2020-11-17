@@ -43,8 +43,14 @@ signup = async function(req,res) {
         const token = createJwt(userDb.id)
         res.status(201).send({message: "User created", accessToken: token})
     } catch (error) {
-        res.status(500).send({error: "Something went wrong."})
-        console.log(error)
+        console.log(error.message)
+        if(error.message.includes('Validation')){
+            return res.status(400).send({error: "This mail address is already used"})
+        }
+        else {
+            res.status(400).send({error: "Something went wrong."})
+        }
+       // console.log(error)
     }
     
 }
