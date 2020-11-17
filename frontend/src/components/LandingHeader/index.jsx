@@ -5,6 +5,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import {
   Header,
   Logo,
+  LogoDock,
   Nav,
   LoginModal,
   LoginTitle,
@@ -84,7 +85,20 @@ const LandingHeader = () => {
             md={{ span: 4, offset: 0 }}
             lg={{ span: 3, offset: 0 }}
           >
-            <Logo>akademise</Logo>
+            <LogoDock>
+              <table>
+                <tr>
+                  <td>
+                    <Logo src={'ad-logo-1d1e19.png'}/>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    akademise
+                  </td>
+                </tr>
+              </table>
+            </LogoDock>
           </Col>
           <Nav xs={0} sm={5} md={4} lg={3}>
             About Us

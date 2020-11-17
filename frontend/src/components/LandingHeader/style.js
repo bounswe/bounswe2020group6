@@ -110,9 +110,9 @@ export const Header = styled(Layout.Header)`
   background-color: ${theme.main.colors.first};
 `;
 
-export const Logo = styled.div`
+export const LogoDock = styled.div`
   position: relative;
-  z-index: 10;
+  z-index: 2;
   height: 80px;
   width: 100%;
   background-color: ${theme.main.colors.second};
@@ -121,6 +121,15 @@ export const Logo = styled.div`
   align-items: flex-end;
   font-weight: 600;
   font-size: 16px;
+  position: relative;
+  line-height:2em;
+`;
+
+export const Logo = styled.img`
+  display: block;
+  display: flex;
+  margin:auto;
+  height: 2em;
 `;
 
 export const LoginButton = styled.button`
