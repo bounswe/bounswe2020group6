@@ -1,12 +1,10 @@
 import React from "react";
 
-import { Row, Col } from "antd";
-import MainHeader from "../../components/MainHeader";
+import { Col } from "antd";
+import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import FilterButton from "../../components/FilterButton";
-import ProfileSider from "../../components/ProfileSider";
-import { 
-  Content, 
+import {
   Main, 
   H1, 
   H2
@@ -14,11 +12,8 @@ import {
 
 const Search = () => {
   return (
-    <Content>
-      <MainHeader />
-      <Row style={{ height: "100vh"}} align="top" justify="start">
-          <ProfileSider/>
-          <Main 
+    <Frame>
+      <Main 
           xs={{span: 22, offset: 1}}
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
@@ -73,8 +68,7 @@ const Search = () => {
               Advanced
             </FilterButton>
           </Col>
-      </Row>
-    </Content>
+    </Frame>
   );
 };
 

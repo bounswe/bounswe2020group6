@@ -7,13 +7,7 @@ export const Content = styled(Layout)`
   `;
 
 export const Main = styled(Col)` 
-  @media only screen and (max-width: 768px) {
-    margin-top: 50px;
-  }
-  
-  @media only screen and (min-width: 768px) {
-    margin-top: 60px;
-  }
+  margin-top: 0px;
 `;
 
 export const H1 = styled.h1` 
