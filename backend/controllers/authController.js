@@ -50,12 +50,28 @@ signup = async function(req,res) {
         else {
             res.status(400).send({error: "Something went wrong."})
         }
-       // console.log(error)
     }
     
+}
+
+jwtValidation = async function(req, res) {
+    token = req.body.token
+    try {
+        jwt.verify(token, "top_secret_key",
+        (err, id) => {
+            if(err){
+                return res.status(400).send({message: "Token has expired"})
+            }
+            return res.status(200).send({message: "Token is valid", accessToken: token})
+        })
+    }
+    catch(e){
+        return res.status(400).send("Token is invalid.")
+    }
 }
 
 module.exports = {
     login,
     signup,
+    jwtValidation,
 };
