@@ -3,7 +3,7 @@ module.exports = (sequelize, Seq) => {
         tag: {
           type: Seq.STRING,
           primaryKey: true,
-          unique=true,
+          unique: true,
         }
     }, 
     {   

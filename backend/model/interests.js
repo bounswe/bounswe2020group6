@@ -3,7 +3,7 @@ module.exports = (sequelize, Seq) => {
         interest: {
           type: Seq.STRING,
           primaryKey: true,
-          unique=true,
+          unique: true,
         }
     }, 
     {   
