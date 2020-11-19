@@ -21,34 +21,28 @@ const Home = () => {
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
             <ContentCard
-            title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, velit."
-            topnote="20/10/2020"
-            summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
-            footer="User Name"
+            title="Translational Studies in light of Semantic Embedding Engines"
+            topnote="12/10/2019"
+            summary="Ontologies as means for formally specifying the vocabulary and relationship of concepts are seen playing a key role on the Semantic Web. However, the Web’s distributed nature makes ontology translation one of the most difficult problems that web-based agents must cope with when they share information. Ontology translation is required when translating datasets, generating ontology extensions and querying through different ontologies. "
+            footer="Edgard Guðmundur"
             />
             <ContentCard
-            title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, velit."
+            title="Extraterrastrial Food Production Units"
             topnote="20/10/2020"
-            summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
-            footer="User Name"
+            summary="Ontologies as means for formally specifying the vocabulary and relationship of concepts are seen playing a key role on the Semantic Web. However, the Web’s distributed nature makes ontology translation one of the most difficult problems that web-based agents must cope with when they share information. Ontology translation is required when translating datasets, generating ontology extensions and querying through different ontologies. "
+            footer="Jens Søgaard"
             />
             <ContentCard
-            title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, velit."
+            title="A Study of Reactiveness in Liquid Semi-Conductors"
             topnote="20/10/2020"
-            summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
-            footer="User Name"
+            summary="Ontologies as means for formally specifying the vocabulary and relationship of concepts are seen playing a key role on the Semantic Web. However, the Web’s distributed nature makes ontology translation one of the most difficult problems that web-based agents must cope with when they share information. Ontology translation is required when translating datasets, generating ontology extensions and querying through different ontologies. "
+            footer="Vladislav Kocúr"
             />
             <ContentCard
-            title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, velit."
-            topnote="20/10/2020"
-            summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
-            footer="User Name"
-            />
-            <ContentCard
-            title="Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus, velit."
-            topnote="20/10/2020"
-            summary="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis ipsam nostrum distinctio repellendus quis necessitatibus facilis accusamus labore, suscipit vel iure fugit veritatis minus fugiat?"
-            footer="User Name"
+            title="Terraformation of Europa: A Challenge Beyond Worlds"
+            topnote="23/10/2020"
+            summary="Ontologies as means for formally specifying the vocabulary and relationship of concepts are seen playing a key role on the Semantic Web. However, the Web’s distributed nature makes ontology translation one of the most difficult problems that web-based agents must cope with when they share information. Ontology translation is required when translating datasets, generating ontology extensions and querying through different ontologies. "
+            footer="Jihaad Hesbani"
             />
           </Main>
           <Col align="center"
@@ -58,8 +52,8 @@ const Home = () => {
           >
             <H3>Recommended users...</H3>
             <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={0} />
-            <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={1} />
-            <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={2} />
+            <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
+            <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
             <H3>Projects you might like...</H3>
             <ProjectRecommendationCard name="Bu bir projedir" />
             <ProjectRecommendationCard name="Bu bir projedir" />
