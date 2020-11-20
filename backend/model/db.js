@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const UserModel = require('./users')
-const ProjectModel = require('./posts')
+const ProjectModel = require('./projects')
 const UserProjectModel = require('./userProjects')
 const ProjectTagModel = require('./projectTags')
 const ProjectCollaboratorModel = require('./projectCollaborators')
