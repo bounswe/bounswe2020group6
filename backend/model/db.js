@@ -1,14 +1,30 @@
 const Sequelize = require('sequelize')
 const UserModel = require('./users')
-const PostModel = require('./posts')
+const ProjectModel = require('./posts')
+const UserProjectModel = require('./userProjects')
+const ProjectTagModel = require('./projectTags')
+const ProjectCollaboratorModel = require('./projectCollaborators')
+const ProjectFileModel = require('./projectFiles')
 
 const sequelize = new Sequelize('akademise', 'root', 'password', {
   host: 'ec2-54-173-244-46.compute-1.amazonaws.com',
   dialect: 'mysql',
 })
 
+
 const User = UserModel(sequelize, Sequelize)
-const Post = PostModel(sequelize, Sequelize)
+const Project = ProjectModel(sequelize, Sequelize)
+const UserProject = UserProjectModel(sequelize,Sequelize)
+const ProjectTag = ProjectTagModel(sequelize, Sequelize)
+const ProjectCollaborator = ProjectCollaboratorModel(sequelize, Sequelize)
+const ProjectFile = ProjectFileModel(sequelize, Sequelize)
+
+Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE'})
+/*ProjectFile.belongsTo(Project, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+Project.hasMany(ProjectFile)*/
+
 
 sequelize.sync()
   .then(() => {
@@ -17,5 +33,9 @@ sequelize.sync()
 
 module.exports = {
   User,
-  Post
+  Project,
+  UserProject,
+  ProjectTag,
+  ProjectCollaborator,
+  ProjectFile
 }
