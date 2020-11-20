@@ -2,6 +2,7 @@ const {Project, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = req
 const {tokenDecoder} = require('../util/tokenDecoder')
 const multer = require('multer')
 const path = require('path');
+//modifies storage path and file name
 const storage = multer.diskStorage({
 	destination: './uploads/',
 	filename: function(req, file, cb){
@@ -11,6 +12,7 @@ const storage = multer.diskStorage({
 
 var upload = multer({storage : storage});
 
+//Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
 	const obj = JSON.parse(JSON.stringify(req.body));
 	//req.userId = 4;
@@ -51,6 +53,7 @@ addPost = async function(req,res) {
 	}
 }
 
+//updates posts specifications with respect to post id
 updatePost = async function (req,res){
 	postData = {
 		topic : req.body.topic,
@@ -74,6 +77,7 @@ updatePost = async function (req,res){
 	}
 }
 
+//deletes posts with respect to their post id
 deletePost = async function (req,res){
 	try {
 		await Project.destroy({
@@ -88,6 +92,8 @@ deletePost = async function (req,res){
 	}				 
 }
 
+//gathers posts from database according to parameters
+//function can extend according to frontend wishes
 getPosts = async function(req,res){
 	try {
 		userId = req.body.userId
