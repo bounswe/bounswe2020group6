@@ -122,13 +122,17 @@ getPosts = async function(req,res){
     				{	 
       				model: ProjectCollaborator, 
       				required: false,
+      				include : [ {
+      					model: User,
+      					required: false,
+      				}]
       				},
       				{
       				model: ProjectTag,
       				required: false,
       				},
   				]
-			});		
+			});	
 		}
 		res.send(201,posts)
 	}catch(error) {
