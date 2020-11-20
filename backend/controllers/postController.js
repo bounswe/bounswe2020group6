@@ -13,7 +13,7 @@ var upload = multer({storage : storage});
 
 addPost = async function(req,res) {
 	const obj = JSON.parse(JSON.stringify(req.body));
-	req.userId = 4;
+	//req.userId = 4;
 	postData = {
 		userId : req.userId,
 		topic : obj.topic,
