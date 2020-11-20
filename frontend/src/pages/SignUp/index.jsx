@@ -1,4 +1,8 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { authAction } from "../../redux/auth/actions";
+
+import axios from "axios";
 
 import LandingHeader from "../../components/LandingHeader";
 
@@ -8,22 +12,13 @@ import {
 } from "./style";
 
 import { 
-  Layout, 
-  Row, 
-  Col,
-  Form,
-  Input,
-  Checkbox,
-  Select,
-  Steps,
-  Divider,
+  Layout, Row, Col, Form, Input,
+  Checkbox, Select, Steps, Divider,
 } from "antd";
 
 import {
-  FormWrapper,
-  FormTitle,
-  FormButton,
-  FormLabel,
+  FormWrapper, FormTitle,
+  FormButton, FormLabel,
 } from "./style";
 
 const { Footer } = Layout;
@@ -31,28 +26,93 @@ const { Option } = Select;
 const { Step   } = Steps;
 
 //dummy data
-const children = [];
-for (let i = 10; i < 36; i++) {
-    children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
+const children = ["physics", "maths", "engineering", "quantizers", "quantum computing", "computers", "computer engineering", "computer science"];
+
 function handleTagChange(value) {
     console.log(`selected ${value}`);
 }
 
 const SignUp = () => {
+  const [state, setState] = React.useState({
+    //name: "Name",
+    //surname: "Surname",
+    //email: "E-mail",
+    //password: "Password",
+    //confirmPassword: "Confirm Password",
+  });
   const [formStep, setFormStep] = React.useState(0);
   const [displaySteps, setDisplaySteps] = React.useState([true, false, false]);
-  /* TODO: get Ali to check this :( */
-  const onButtonClick = stepNo => {
-    var formIsValid = true; // To be
-    if (formIsValid) {
-      setDisplaySteps([
-        formStep+1===0, 
-        formStep+1===1, 
-        formStep+1===2, 
-      ]);
-      setFormStep(formStep+1);
+  
+  //const dispatch  = useDispatch();
+  const selector  = useSelector;
+  //const authToken = selector((state) => state.auth.token);
+
+  const postSignUpRequest= () => {
+    console.log({
+      email:    state.email,
+      password: state.password,
+      name:     state.name,
+      surname:  state.surname,
+    });
+    axios.post('http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/auth/signup', {
+      email:    state.email,
+      password: state.password,
+      name:     state.name,
+      surname:  state.surname,
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
+  };
+
+  const handleEmailChange = function(e) {
+      setState({ ...state, email: e.target.value});
+  }
+  const handlePasswordChange = function(e) {
+      setState({ ...state, password: e.target.value});
+  }
+  const handleConfirmPasswordChange = function(e) {
+    setState({ ...state, confirmPassword: e.target.value});
+  }
+  const handleNameChange = function(e) {
+    setState({ ...state, name: e.target.value});
+  }
+  const handleSurnameChange = function(e) {
+    setState({ ...state, surname: e.target.value});
+  }
+
+  const signUpSubmit = function(e) {
+    console.log("go");
+    if (state.password === state.confirmPassword 
+      && state.password !== "" && state.password) {
+      console.log("check");
+      postSignUpRequest();
+      console.log("postsur");
+      onButtonClick();
+      console.log("next");
+    } else {
+      alert("Passwords don't match!");
     }
+  }
+  const validateSubmit = function(e) {
+    // TODO: post validate code to endpoint
+    // according to result, continue and call `onButtonClick`
+  }
+  const infoSubmit = function(e) {
+    // TODO: post info to endpoint
+    // redirect to profile / home
+  }
+
+  /* TODO: get Ali to check this :( */
+  const onButtonClick = function(e) {
+    setDisplaySteps([
+      formStep+1===0, 
+      formStep+1===1, 
+      formStep+1===2, 
+    ]);
+    setFormStep(formStep+1);
   };
   return (
     <Layout>
@@ -63,9 +123,9 @@ const SignUp = () => {
               <Row align="middle" justify="center">
                 <Col xs={{ span: 24, offset: 0 }} sm={{ span: 16, offset: 0 }} lg={{ span: 9, offset: 0 }} align="middle" justify="center">
                   <Steps current={formStep}>
-                    <Step title="Step 1" description="This is a description." />
-                    <Step title="Step 2" description="This is a description." />
-                    <Step title="Step 3" description="This is a description." />
+                    <Step title="Step 1" description="Signup" />
+                    <Step title="Step 2" description="Validate your email" />
+                    <Step title="Step 3" description="Additional information" />
                   </Steps>
                   <Divider />
                   
@@ -80,12 +140,28 @@ const SignUp = () => {
                   >
                     <FormTitle>Sign Up</FormTitle>
                     <br />
+                    <Input.Group compact>
+                      <Form.Item
+                        label={<FormLabel>Name</FormLabel>}
+                        name="name"
+                        rules={[{ required: true, message: "Please input your first name!" }]}
+                      >
+                        <Input onChange={handleNameChange} value={state.name}/>
+                      </Form.Item>
+                      <Form.Item
+                        label={<FormLabel>Surname</FormLabel>}
+                        name="surname"
+                        rules={[{ required: true, message: "Please input your last name!" }]}
+                      >
+                        <Input onChange={handleSurnameChange} value={state.surname}/>
+                      </Form.Item>
+                    </Input.Group>
                     <Form.Item
                       label={<FormLabel>Email</FormLabel>}
                       name="email"
                       rules={[{ required: true, message: "Please input your email!" }]}
                     >
-                      <Input />
+                      <Input onChange={handleEmailChange} value={state.email}/>
                     </Form.Item>
 
                     <Form.Item
@@ -93,7 +169,7 @@ const SignUp = () => {
                       name="password"
                       rules={[{ required: true, message: "Please input your password!" }]}
                     >
-                      <Input.Password />
+                      <Input.Password onChange={handlePasswordChange} value={state.password}/>
                     </Form.Item>
 
                     <Form.Item
@@ -101,10 +177,10 @@ const SignUp = () => {
                       name="confirm-password"
                       rules={[{ required: true, message: "Please confirm your password!" }]}
                     >
-                      <Input.Password />
+                      <Input.Password onChange={handleConfirmPasswordChange} value={state.confirmPassword}/>
                     </Form.Item>
                     <Form.Item>
-                      <FormButton type="primary" htmlType="submit" onClick={onButtonClick}>
+                      <FormButton type="primary" htmlType="submit" onClick={signUpSubmit}>
                         Confirm
                       </FormButton>
                     </Form.Item>
@@ -130,7 +206,7 @@ const SignUp = () => {
                       <Input.Password />
                     </Form.Item>
                     <Form.Item>
-                      <FormButton type="primary" htmlType="submit" onClick={onButtonClick}>
+                      <FormButton type="primary" htmlType="submit" onClick={validateSubmit}>
                         Confirm
                       </FormButton>
                     </Form.Item>
@@ -150,22 +226,6 @@ const SignUp = () => {
                   >
                     <FormTitle>Additional Information</FormTitle>
                       <br />
-                    <Input.Group compact>
-                      <Form.Item
-                        label={<FormLabel>Name</FormLabel>}
-                        name="name"
-                        rules={[{ required: true, message: "Please input your first name!" }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        label={<FormLabel>Surname</FormLabel>}
-                        name="surname"
-                        rules={[{ required: true, message: "Please input your last name!" }]}
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Input.Group>
                     <Form.Item
                         label={<FormLabel>Research area interests</FormLabel>}
                         name="interests"
@@ -191,7 +251,7 @@ const SignUp = () => {
                     </Form.Item>
                     <br />
                     <Form.Item>
-                      <FormButton type="primary" htmlType="submit">
+                      <FormButton type="primary" htmlType="submit" onClick={infoSubmit}>
                         Confirm
                       </FormButton>
                     </Form.Item>
@@ -208,3 +268,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

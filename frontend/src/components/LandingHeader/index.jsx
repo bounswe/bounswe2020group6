@@ -86,17 +86,19 @@ const LandingHeader = () => {
             lg={{ span: 3, offset: 0 }}
           >
             <LogoDock>
-              <table>
-                <tr>
-                  <td>
-                    <Logo src={'ad-logo-1d1e19.png'}/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    akademise
-                  </td>
-                </tr>
+               <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <Logo src={'ad-logo-1d1e19.png'}/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      akademise
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </LogoDock>
           </Col>
