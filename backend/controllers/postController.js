@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
 const multer = require('multer')
 const path = require('path');
@@ -94,17 +95,26 @@ deletePost = async function (req,res){
 //gathers posts from database according to parameters
 //function can extend according to frontend wishes
 getPosts = async function(req,res){
+	user_id = req.userId
+	userParameter = req.param('userId')
 	try {
-		userId = req.body.userId
-		if(userId == null){
+		if(userParameter != userId){
 			posts = await Project.findAll({
 				where : {
-					privacy : 1
+					userId : userParameter,
+					[Op.or] : [
+						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+						{'$project.privacy' : {[Op.eq]: 1}}
+					]
 				},
 				include : [
     				{	 
       				model: ProjectCollaborator, 
       				required: false,
+				include : [ {
+      					model: User,
+      					required: false,
+      				}]
       				},
       				{
       				model: ProjectTag,
@@ -115,7 +125,7 @@ getPosts = async function(req,res){
 		}else{
 			posts = await Project.findAll({
 				where: {
-					userId: userId
+					userId: user_id
 				},
 				include : [
     				{	 
