@@ -1,4 +1,4 @@
-const {Project, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
+const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
 const multer = require('multer')
 const path = require('path');
 //modifies storage path and file name
