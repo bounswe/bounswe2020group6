@@ -37,7 +37,7 @@ addPost = async function(req,res) {
 		}
 		for(var key in collaborators){
 			currentCollaborator = collaborators[key]
-			projectCollaborator = await ProjectCollaborator.create({project_id : userProject.project_id, collaborator_id : currentCollaborator})
+			projectCollaborator = await ProjectCollaborator.create({project_id : userProject.project_id, user_id : currentCollaborator})
 		}
 		if(file != undefined){
 			for(var i = 0; i < file.length; i++){
@@ -45,9 +45,9 @@ addPost = async function(req,res) {
 				projectFile = await ProjectFile.create({project_id : userProject.project_id, file_name : currentFile.originalname, file_path : currentFile.path})
 			}
 		}
-		res.send(201,{"message" : "Post is created", "id" : postDb.id})
+		res.status(201).send({message: "Post is created", id: postDb.id})
 	}catch (error){
-		res.send(500,{"error": error})
+		res.status(500).send({error: error})
 		console.log(error)
 	}
 }
@@ -84,9 +84,9 @@ deletePost = async function (req,res){
 				id : req.body.id
 			}
 		});
-		res.send(201,{"message" : "Post is deleted"})
+		res.status(201).send({message: "Post is deleted"})
 	}catch(error) {
-		res.send(500,{"error": error})
+		res.status(500).send({error: error})
 		console.log(error)
 	}				 
 }
