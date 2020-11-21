@@ -1,9 +1,13 @@
+sudo: required
 language: node_js
 node_js:
   - "stable"
+services:
+  - docker
 cache:
   directories:
     - node_modules
+before_install: cd frontend
 install:
   - yarn install
 script:
