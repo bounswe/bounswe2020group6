@@ -6,9 +6,7 @@ import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import ProjectRecommendationCard from "../../components/ProjectRecommendationCard";
 import {
-  Main, 
-  H1, 
-  H2,
+  Main,
   H3
 } from "./style";
 
