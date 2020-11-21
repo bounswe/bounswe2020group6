@@ -104,7 +104,7 @@ getPosts = async function(req,res){
 					userId : userParameter,
 					[Op.or] : [
 						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-						{'$project.privacy' : {[Op.eq]: 1}}
+						{'$project.privacy$' : {[Op.eq]: 1}}
 					]
 				},
 				include : [
