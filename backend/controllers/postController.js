@@ -98,7 +98,7 @@ getPosts = async function(req,res){
 	user_id = req.userId
 	userParameter = req.param('userId')
 	try {
-		if(userParameter != userId){
+		if(userParameter != user_id){
 			posts = await Project.findAll({
 				where : {
 					userId : userParameter,
