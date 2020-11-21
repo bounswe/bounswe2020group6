@@ -1,6 +1,6 @@
 const { User, Project } = require("../model/db")
 const Sequelize = require('sequelize')
-const projectCollaborators = require("../model/projectCollaborators")
+const projectCollaborators = require("../model/project_collaborators")
 
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()
