@@ -31,19 +31,19 @@ addPost = async function(req,res) {
 	file = req.files
 	try {
 		postDb = await Project.create(postData)
-		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id, is_finished : 0 })
+		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id})
 		for(var key in tags){
 			currentTag = tags[key]
-			projectTag = await ProjectTag.create({ project_id : userProject.project_id, tag : currentTag})
+			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
 		}
 		for(var key in collaborators){
 			currentCollaborator = collaborators[key]
-			projectCollaborator = await ProjectCollaborator.create({project_id : userProject.project_id, user_id : currentCollaborator})
+			projectCollaborator = await ProjectCollaborator.create({project_id : postDb.id, user_id : currentCollaborator})
 		}
 		if(file != undefined){
 			for(var i = 0; i < file.length; i++){
 				currentFile = file[i]
-				projectFile = await ProjectFile.create({project_id : userProject.project_id, file_name : currentFile.originalname, file_path : currentFile.path})
+				projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_path : currentFile.path})
 			}
 		}
 		res.status(201).send({message: "Post is created", id: postDb.id})
