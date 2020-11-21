@@ -55,7 +55,6 @@ const Tag = TagModel(sequelize, Sequelize)
 
 
 
-
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 .then(function(){
     return sequelize.sync({ force: false });
@@ -68,6 +67,9 @@ sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 }, function(err){
     console.log(err);
 });
+
+
+
 
 module.exports = {
   User,
