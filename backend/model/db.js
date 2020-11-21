@@ -2,7 +2,11 @@ const Sequelize = require('sequelize')
 
 //Prototype models
 const UserModel = require('./users')
-const PostModel = require('./posts')
+const ProjectModel = require('./projects')
+const UserProjectModel = require('./userProjects')
+const ProjectTagModel = require('./projectTags')
+const ProjectCollaboratorModel = require('./projectCollaborators')
+const ProjectFileModel = require('./projectFiles')
 
 //New models
 //User models:
@@ -30,9 +34,24 @@ const sequelize = new Sequelize('akademise', 'root', 'password', {
 })
 
 
+<<<<<<< HEAD
+=======
 //Prototype modeller duruyor
+>>>>>>> backend
 const User = UserModel(sequelize, Sequelize)
-const Post = PostModel(sequelize, Sequelize)
+const Project = ProjectModel(sequelize, Sequelize)
+const UserProject = UserProjectModel(sequelize,Sequelize)
+const ProjectTag = ProjectTagModel(sequelize, Sequelize)
+const ProjectCollaborator = ProjectCollaboratorModel(sequelize, Sequelize)
+const ProjectFile = ProjectFileModel(sequelize, Sequelize)
+
+Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE'})
+ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id'})
+/*ProjectFile.belongsTo(Project, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
+Project.hasMany(ProjectFile)*/
+
 
 //Yeni db modelleri:
 const Interest = InterestModel(sequelize, Sequelize)
@@ -59,6 +78,13 @@ sequelize.sync()
 
 module.exports = {
   User,
+<<<<<<< HEAD
+  Project,
+  UserProject,
+  ProjectTag,
+  ProjectCollaborator,
+  ProjectFile
+=======
   Post,
   Interest,
   User_new,
@@ -72,4 +98,5 @@ module.exports = {
   ProjectMilestone,
   ProjectFile,
   Tag
+>>>>>>> backend
 }

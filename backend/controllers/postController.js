@@ -1,4 +1,4 @@
-const {Post} = require('../model/db')
+const {Project, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
 const multer = require('multer')
 const path = require('path');
 //modifies storage path and file name
@@ -13,41 +13,58 @@ var upload = multer({storage : storage});
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
-	decodedToken = req.decodedToken
+	const obj = JSON.parse(JSON.stringify(req.body));
+	//req.userId = 4;
 	postData = {
-		userId : decodedToken.userId,
-		topic : req.body.topic,
-		summary : req.body.summary,
-		publicationType : req.body.publicationType,
-		deadline : req.body.deadline,
-		requirements : req.body.requirements,
-		isFunded : req.body.funded,
-		privacy : req.body.privacy
+		userId : req.userId,
+		topic : obj.topic,
+		abstract : obj.abstract,
+		privacy : obj.privacy,
+		status : obj.status,
+		publicationType : obj.publicationType,
+		deadline : obj.deadline,
+		requirements : obj.requirements
 	}
+	collaborators = obj.collaborators
+	tags = obj.tags
+	file = req.files
 	try {
-		postDb = await Post.create(postData)
+		postDb = await Project.create(postData)
+		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id, is_finished : 0 })
+		for(var key in tags){
+			currentTag = tags[key]
+			projectTag = await ProjectTag.create({ project_id : userProject.project_id, tag : currentTag})
+		}
+		for(var key in collaborators){
+			currentCollaborator = collaborators[key]
+			projectCollaborator = await ProjectCollaborator.create({project_id : userProject.project_id, collaborator_id : currentCollaborator})
+		}
+		if(file != undefined){
+			for(var i = 0; i < file.length; i++){
+				currentFile = file[i]
+				projectFile = await ProjectFile.create({project_id : userProject.project_id, file_name : currentFile.originalname, file_path : currentFile.path})
+			}
+		}
 		res.send(201,{"message" : "Post is created", "id" : postDb.id})
 	}catch (error){
 		res.send(500,{"error": error})
 		console.log(error)
 	}
-	//database table for storing path of uploaded file will be created
-	//after that this function will be extended for handling this database operation. 
 }
 
-//updates posts with respect to their post id
+//updates posts specifications with respect to post id
 updatePost = async function (req,res){
 	postData = {
 		topic : req.body.topic,
-		summary : req.body.summary,
+		abstract : req.body.abstract,
+		privacy : req.body.privacy,
+		status : req.body.status,
 		publicationType : req.body.publicationType,
 		deadline : req.body.deadline,
-		requirements : req.body.requirements,
-		isFunded : req.body.fund,
-		privacy : req.body.privacy
+		requirements : req.body.requirements
 	}
 	try {
-		await Post.update(postData, {
+		await Project.update(postData, {
 		where : {
 			id : req.body.id
 			}
@@ -62,7 +79,7 @@ updatePost = async function (req,res){
 //deletes posts with respect to their post id
 deletePost = async function (req,res){
 	try {
-		await Post.destroy({
+		await Project.destroy({
 			where : {
 				id : req.body.id
 			}
@@ -80,17 +97,41 @@ getPosts = async function(req,res){
 	try {
 		userId = req.body.userId
 		if(userId == null){
-			posts = await Post.findAll({
+			posts = await Project.findAll({
 				where : {
 					privacy : 1
-				}
+				},
+				include : [
+    				{	 
+      				model: ProjectCollaborator, 
+      				required: false,
+      				},
+      				{
+      				model: ProjectTag,
+      				required: false,
+      				},
+  				]
 			});
 		}else{
-			posts = await Post.findAll({
+			posts = await Project.findAll({
 				where: {
 					userId: userId
-				}
-			});		
+				},
+				include : [
+    				{	 
+      				model: ProjectCollaborator, 
+      				required: false,
+      				include : [ {
+      					model: User,
+      					required: false,
+      				}]
+      				},
+      				{
+      				model: ProjectTag,
+      				required: false,
+      				},
+  				]
+			});	
 		}
 		res.send(201,posts)
 	}catch(error) {
