@@ -1,12 +1,11 @@
 const Sequelize = require('sequelize')
-
 //Prototype models
 const UserModel = require('./users')
 const ProjectModel = require('./projects')
-const UserProjectModel = require('./userProjects')
-const ProjectTagModel = require('./projectTags')
-const ProjectCollaboratorModel = require('./projectCollaborators')
-const ProjectFileModel = require('./projectFiles')
+const UserProjectModel = require('./user_projects')
+const ProjectTagModel = require('./project_tags')
+const ProjectCollaboratorModel = require('./project_collaborators')
+const ProjectFileModel = require('./project_files')
 
 //New models
 //User models:
