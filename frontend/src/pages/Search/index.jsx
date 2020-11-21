@@ -64,7 +64,7 @@ const Search = () => {
           </Main>
           <Col align="center"
           style={{marginTop: "64px"}}
-          md={0}
+          xs={0}
           lg={{span: 5, offset: 0}}
           xl={{span: 4, offset: 1}}
           >
