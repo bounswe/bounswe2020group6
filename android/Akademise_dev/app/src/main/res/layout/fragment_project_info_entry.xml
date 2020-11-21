@@ -89,20 +89,6 @@
         app:layout_constraintStart_toEndOf="@+id/tvTags"
         app:layout_constraintTop_toBottomOf="@+id/etAbstract" />
 
-    <EditText
-        android:id="@+id/etContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/content"
-        android:inputType="text"
-        android:maxEms="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvContent"
-        app:layout_constraintTop_toBottomOf="@+id/etdDeadline" />
-
     <TextView
         android:id="@+id/tvIsPublic"
         android:layout_width="wrap_content"
@@ -130,7 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/deadline"
-        app:layout_constraintBottom_toTopOf="@+id/tvContent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etdDeadline"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -165,22 +151,11 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/etContent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvDeadline"
         app:layout_constraintTop_toBottomOf="@+id/etdCreationDate" />
-
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etContent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDeadline" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

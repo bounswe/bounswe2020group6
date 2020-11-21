@@ -7,10 +7,10 @@
     tools:context=".ProjectEntryFragment">
 
     <EditText
-        android:id="@+id/etPaperContent"
+        android:id="@+id/etContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Detailed Entry"
+        android:hint="Content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
