@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface AkademiseApi {
 
@@ -15,6 +16,8 @@ public interface AkademiseApi {
     })
 
    */
+    @GET("posts") //relative path (/search?query=er&type=1)
+    Call<List<Post>> getPostsSearched(@Query("userId") int userId);
 
     @GET("posts") //relative path (auth/post/add)
     Call<List<Post>> getPosts();
