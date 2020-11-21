@@ -7,20 +7,29 @@ services:
 cache:
   directories:
     - node_modules
-before_install: cd frontend
-install:
-  - yarn install
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on: &2
+      repo: bounswe/bounswe2020group6
+    bucket: akademise-frontend-bucket
+    region: us-east-1
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: akademise-frontend-bucket
+    key: latest.zip
+    bundle_type: zip
+    application: akademise-frontend
+    deployment_group: akademise-frontend-depgrp
+    region: us-east-1
+    on: *2
 script:
-  - yarn build
-# deploy:
-#   - provider: codedeploy
-#     wait_until_deployed: true
-#     revision_type: github
-#     access_key_id: "YOUR AWS ACCESS KEY"
-#     secret_access_key: "YOUR AWS SECRET KEY"
-#     application: "Your Codedeploy application"
-#     deployment_group: "The Deployment group associated with the codedeploy application"
-#     region: "Region in which your ec2 instance is."
-#     project: ./build/
+  - zip -r latest *
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/latest.zip
 on:
   branch: frontend
