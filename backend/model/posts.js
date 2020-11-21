@@ -13,8 +13,10 @@ module.exports = (sequelize, Seq) => {
 		deadline : Seq.STRING,
 		requirements : Seq.STRING,
 		isFunded : Seq.TINYINT,
-		privacy : Seq.TINYINT }, {
-		
+		privacy : Seq.TINYINT 
+	}, 
+	{	
 		timestamps : true
-	})
+	}
+	)
 }
