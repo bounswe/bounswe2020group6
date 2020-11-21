@@ -109,15 +109,18 @@ getPosts = async function(req,res){
 				},
 				include : [
     				{	 
-      				model: ProjectCollaborator, 
+      				model: ProjectCollaborator,
+				attributes : ['user_id'],
       				required: false,
 				include : [ {
       					model: User,
+					attributes : ['name','surname'],
       					required: false,
       				}]
       				},
       				{
       				model: ProjectTag,
+				attributes : ['tag'],
       				required: false,
       				},
   				]
@@ -129,10 +132,12 @@ getPosts = async function(req,res){
 				},
 				include : [
     				{	 
-      				model: ProjectCollaborator, 
+      				model: ProjectCollaborator,
+				attributes : ['user_id'],
       				required: false,
       				include : [ {
       					model: User,
+					attributes : ['name','surname'],
       					required: false,
       				}]
       				},
