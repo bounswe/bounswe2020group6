@@ -16,7 +16,7 @@ import {
 
 
 
-const FilterButton = ({ type, children, selected }) => {
+const FilterButton = ({ type, children, selected, onClick }) => {
     let buttonLogo = () => {
         switch(type) {
             case "all":
@@ -37,7 +37,7 @@ const FilterButton = ({ type, children, selected }) => {
     }
     
     return (
-        <Layout style={selected ? {} : {backgroundColor: "white"}}>
+        <Layout style={selected ? {} : {backgroundColor: "white"}} onClick={() => onClick(type)}>
             {buttonLogo()}
 
             <ButtonText>
