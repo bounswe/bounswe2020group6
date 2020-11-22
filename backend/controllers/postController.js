@@ -18,11 +18,10 @@ addPost = async function(req,res) {
 	//req.userId = 4;
 	postData = {
 		userId : req.userId,
-		topic : obj.topic,
+		title : obj.topic,
 		abstract : obj.abstract,
 		privacy : obj.privacy,
 		status : obj.status,
-		publicationType : obj.publicationType,
 		deadline : obj.deadline,
 		requirements : obj.requirements
 	}
