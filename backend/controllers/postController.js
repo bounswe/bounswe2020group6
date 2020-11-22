@@ -101,10 +101,15 @@ getPosts = async function(req,res){
 		if(userParameter != user_id){
 			posts = await Project.findAll({
 				where : {
-					userId : userParameter,
 					[Op.or] : [
-						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-						{'$project.privacy$' : {[Op.eq]: 1}}
+						{'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
+						'$project.privacy$' : {[Op.eq] : 1}
+						},
+						{userId : userParameter,
+						[Op.or] : [
+							{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+							{'$project.privacy$' : {[Op.eq]: 1}}
+					]}
 					]
 				},
 				include : [
@@ -128,7 +133,10 @@ getPosts = async function(req,res){
 		}else{
 			posts = await Project.findAll({
 				where: {
-					userId: user_id
+					[Op.or] : [
+						{userId : user_id},
+						{'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
+					]
 				},
 				include : [
     				{	 
