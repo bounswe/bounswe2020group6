@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/auth', authRouter)
 app.use(tokenController.authCheckMiddleware)
+app.use('/static', express.static(path.join(__dirname,'./uploads')));
 app.use('/post', postRouter)
 app.use('/validate', validateRouter)
 app.use('/search', searchRouter)
