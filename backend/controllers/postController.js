@@ -63,7 +63,7 @@ updatePost = async function (req,res){
 			id : req.param('id')
 			}
 		});
-		res.send(201,{"message" : "Post is updated"})		
+		res.send(200,{"message" : "Post is updated"})		
 	}catch(error) {
 		res.send(500,{"error": error})
 		console.log(error)
@@ -78,7 +78,7 @@ deletePost = async function (req,res){
 				id : req.param('id')
 			}
 		});
-		res.status(201).send({message: "Post is deleted"})
+		res.status(204).send({message: "Post is deleted"})
 	}catch(error) {
 		res.status(500).send({error: error})
 		console.log(error)
@@ -149,7 +149,7 @@ getPosts = async function(req,res){
   				]
 			});	
 		}
-		res.send(201,posts)
+		res.send(200,posts)
 	}catch(error) {
 		res.send(500,{"error": error})
 		console.log(error)

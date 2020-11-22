@@ -10,7 +10,6 @@ addProfile = async function (req, res) {
                 user_id: req.userId,
                 interest
             })
-            res.status(500).send(error)
         })
     
         await UserAffiliation.create({
@@ -61,7 +60,7 @@ getProfile = async function (req, res) {
     try {
         user_profile = await User.findOne({
             where: {
-                id: parseInt(req.query.id)
+                id: parseInt(req.params.userId)
             },
             attributes: ["id","name","surname","email","profile_picture_url","scholar_profile_url","number_of_ups"],
             include: [
