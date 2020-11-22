@@ -55,20 +55,14 @@ addPost = async function(req,res) {
 
 //updates posts specifications with respect to post id
 updatePost = async function (req,res){
-	postData = {
-		topic : req.body.topic,
-		abstract : req.body.abstract,
-		privacy : req.body.privacy,
-		status : req.body.status,
-		content : req.body.content,
-		publicationType : req.body.publicationType,
-		deadline : req.body.deadline,
-		requirements : req.body.requirements
-	}
+	var fieldsToUpdate = {};
+	for(var field of Object.keys(req.body)){
+		fieldsToUpdate[field] = req.body[field]
+	}	
 	try {
-		await Project.update(postData, {
+		await Project.update(fieldsToUpdate, {
 		where : {
-			id : req.body.id
+			id : req.param('index')
 			}
 		});
 		res.send(201,{"message" : "Post is updated"})		
