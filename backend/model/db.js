@@ -21,7 +21,7 @@ const TagModel = require('./tags')
 
 
 //Connection to server database
-const sequelize = new Sequelize('akademise_test', 'root', 'password', {
+const sequelize = new Sequelize('akademise', 'root', 'password', {
   host: 'ec2-54-173-244-46.compute-1.amazonaws.com',
   dialect: 'mysql',
 })
