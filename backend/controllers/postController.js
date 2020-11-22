@@ -15,7 +15,6 @@ var upload = multer({storage : storage});
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
 	const obj = JSON.parse(JSON.stringify(req.body));
-	//req.userId = 4;
 	postData = {
 		userId : req.userId,
 		topic : obj.topic,
@@ -109,19 +108,19 @@ getPosts = async function(req,res){
 				},
 				include : [
     				{	 
-      				model: ProjectCollaborator,
-				attributes : ['user_id'],
-      				required: false,
-				include : [ {
-      					model: User,
-					attributes : ['name','surname'],
+      					model: ProjectCollaborator,
+						attributes : ['user_id'],
       					required: false,
-      				}]
+						include : [ {
+      						model: User,
+							attributes : ['name','surname'],
+      						required: false,
+      					}]
       				},
       				{
-      				model: ProjectTag,
-				attributes : ['tag'],
-      				required: false,
+						model: ProjectTag,
+						attributes : ['tag'],
+						required: false,
       				},
   				]
 			});
@@ -132,18 +131,18 @@ getPosts = async function(req,res){
 				},
 				include : [
     				{	 
-      				model: ProjectCollaborator,
-				attributes : ['user_id'],
-      				required: false,
-      				include : [ {
-      					model: User,
-					attributes : ['name','surname'],
-      					required: false,
-      				}]
+						model: ProjectCollaborator,
+						attributes : ['user_id'],
+						required: false,
+						include : [ {
+							model: User,
+							attributes : ['name','surname'],
+							required: false,
+						}]
       				},
       				{
-      				model: ProjectTag,
-      				required: false,
+						model: ProjectTag,
+						required: false,
       				},
   				]
 			});	
