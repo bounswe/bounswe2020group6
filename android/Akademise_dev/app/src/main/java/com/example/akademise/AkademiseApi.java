@@ -24,4 +24,7 @@ public interface AkademiseApi {
 
     @POST("posts")
     Call<Post> createPost(@Body Post post);
+
+    @POST("auth/signup")
+    Call<User> createUser(@Body User user);
 }
