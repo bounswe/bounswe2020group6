@@ -60,6 +60,7 @@ updatePost = async function (req,res){
 		abstract : req.body.abstract,
 		privacy : req.body.privacy,
 		status : req.body.status,
+		content : req.body.content,
 		publicationType : req.body.publicationType,
 		deadline : req.body.deadline,
 		requirements : req.body.requirements
