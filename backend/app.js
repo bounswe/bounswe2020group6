@@ -5,8 +5,8 @@ const authRouter = require('./routers/authRouter')
 const postRouter = require('./routers/postRouter')
 const searchRouter = require("./routers/searchRouter")
 const validateRouter = require('./routers/validateRouter')
+const profileRouter = require('./routers/profileRouter')
 const tokenController = require('./util/authCheck')
-
 
 const port = process.env.PORT || 3000;
 
@@ -18,6 +18,7 @@ app.use(tokenController.authCheckMiddleware)
 app.use('/post', postRouter)
 app.use('/validate', validateRouter)
 app.use('/search', searchRouter)
+app.use('/profile',profileRouter)
 
 
 app.get('*',(req,res) => {
