@@ -64,6 +64,8 @@ public class SignupFragment extends Fragment {
 
         Call<User> call = akademiseApi.createUser(user);
 
+        System.out.println(call.toString());
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -71,11 +73,14 @@ public class SignupFragment extends Fragment {
                     System.out.println("NOT SUCCESSFUL");
                     System.out.println("Code: " + response.code());
                     System.out.println("Body: " + response.body());
+                    System.out.println("Error body: " + response.errorBody());
+                    System.out.println("RAW: " + response.raw());
                     return;
                 }
                 System.out.println("SUCCESSFUL");
                 System.out.println(response.code());
                 System.out.println(response);
+
             }
 
             @Override
