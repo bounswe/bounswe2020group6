@@ -77,7 +77,7 @@ deletePost = async function (req,res){
 	try {
 		await Project.destroy({
 			where : {
-				id : req.body.id
+				id : req.param('id')
 			}
 		});
 		res.status(201).send({message: "Post is deleted"})
