@@ -1,5 +1,7 @@
 package com.example.akademise;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,20 +22,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupFragment extends Fragment {
+    public static final String MyPEREFERENCES = "MyPrefs";
+    public static final String accessToken = "XXXXX";
     String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     Button btn;
+    private String myToken;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
         btn = this.getActivity().findViewById(R.id.btnNext);
+        loadData();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
@@ -64,22 +73,18 @@ public class SignupFragment extends Fragment {
 
         Call<User> call = akademiseApi.createUser(user);
 
-        System.out.println(call.toString());
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
                     System.out.println("NOT SUCCESSFUL");
-                    System.out.println("Code: " + response.code());
-                    System.out.println("Body: " + response.body());
-                    System.out.println("Error body: " + response.errorBody());
-                    System.out.println("RAW: " + response.raw());
                     return;
                 }
+                User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
-                System.out.println(response.code());
-                System.out.println(response);
+                System.out.println("Token: " + userResponse.getAccessToken());
+                saveData(userResponse.getAccessToken());
 
             }
 
@@ -89,5 +94,18 @@ public class SignupFragment extends Fragment {
                 System.out.println(t.getMessage());
             }
         });
+    }
+
+    private void saveData(String token){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(accessToken, token);
+        editor.apply();
+    }
+
+    private void loadData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        myToken = sharedPreferences.getString(accessToken, "");
+
     }
 }

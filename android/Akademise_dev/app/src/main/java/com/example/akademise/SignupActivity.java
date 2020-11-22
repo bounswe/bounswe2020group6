@@ -29,6 +29,7 @@ public class SignupActivity extends AppCompatActivity {
         btn.setOnClickListener(next);
 
     }
+
     View.OnClickListener next = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
