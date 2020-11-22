@@ -6,12 +6,11 @@ module.exports = (sequelize, Seq) => {
 			autoIncrement: true,
 		},
 		userId : Seq.INTEGER,
-		topic: Seq.STRING,
+		title: Seq.STRING,
 		abstract : Seq.STRING,
 		content : Seq.STRING,
 		privacy : Seq.TINYINT,
 		status : Seq.TINYINT,
-		publicationType : Seq.STRING,
 		deadline : Seq.STRING,
 		requirements : Seq.STRING }, {
 		

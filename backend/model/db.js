@@ -53,11 +53,21 @@ Project.hasMany(ProjectFile)*/
 
 
 
+sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
+.then(function(){
+    return sequelize.sync({ force: false });
+})
+.then(function(){
+    return sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+})
+.then(function(){
+    console.log('Database & tables are created.');
+}, function(err){
+    console.log(err);
+});
 
-sequelize.sync()
-  .then(() => {
-    console.log(`Database & tables created!`)
-  })
+
+
 
 module.exports = {
   User,

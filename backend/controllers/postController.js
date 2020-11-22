@@ -17,11 +17,10 @@ addPost = async function(req,res) {
 	const obj = JSON.parse(JSON.stringify(req.body));
 	postData = {
 		userId : req.userId,
-		topic : obj.topic,
+		title : obj.topic,
 		abstract : obj.abstract,
 		privacy : obj.privacy,
 		status : obj.status,
-		publicationType : obj.publicationType,
 		deadline : obj.deadline,
 		requirements : obj.requirements
 	}
@@ -30,19 +29,19 @@ addPost = async function(req,res) {
 	file = req.files
 	try {
 		postDb = await Project.create(postData)
-		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id, is_finished : 0 })
+		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id})
 		for(var key in tags){
 			currentTag = tags[key]
-			projectTag = await ProjectTag.create({ project_id : userProject.project_id, tag : currentTag})
+			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
 		}
 		for(var key in collaborators){
 			currentCollaborator = collaborators[key]
-			projectCollaborator = await ProjectCollaborator.create({project_id : userProject.project_id, user_id : currentCollaborator})
+			projectCollaborator = await ProjectCollaborator.create({project_id : postDb.id, user_id : currentCollaborator})
 		}
 		if(file != undefined){
 			for(var i = 0; i < file.length; i++){
 				currentFile = file[i]
-				projectFile = await ProjectFile.create({project_id : userProject.project_id, file_name : currentFile.originalname, file_path : currentFile.path})
+				projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_path : currentFile.path})
 			}
 		}
 		res.status(201).send({message: "Post is created", id: postDb.id})
@@ -54,19 +53,14 @@ addPost = async function(req,res) {
 
 //updates posts specifications with respect to post id
 updatePost = async function (req,res){
-	postData = {
-		topic : req.body.topic,
-		abstract : req.body.abstract,
-		privacy : req.body.privacy,
-		status : req.body.status,
-		publicationType : req.body.publicationType,
-		deadline : req.body.deadline,
-		requirements : req.body.requirements
-	}
+	var fieldsToUpdate = {};
+	for(var field of Object.keys(req.body)){
+		fieldsToUpdate[field] = req.body[field]
+	}	
 	try {
-		await Project.update(postData, {
+		await Project.update(fieldsToUpdate, {
 		where : {
-			id : req.body.id
+			id : req.param('id')
 			}
 		});
 		res.send(201,{"message" : "Post is updated"})		
@@ -81,7 +75,7 @@ deletePost = async function (req,res){
 	try {
 		await Project.destroy({
 			where : {
-				id : req.body.id
+				id : req.param('id')
 			}
 		});
 		res.status(201).send({message: "Post is deleted"})
@@ -97,13 +91,18 @@ getPosts = async function(req,res){
 	user_id = req.userId
 	userParameter = req.param('userId')
 	try {
-		if(userParameter != userId){
+		if(userParameter != user_id){
 			posts = await Project.findAll({
 				where : {
-					userId : userParameter,
 					[Op.or] : [
-						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-						{'$project.privacy' : {[Op.eq]: 1}}
+						{'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
+						'$project.privacy$' : {[Op.eq] : 1}
+						},
+						{userId : userParameter,
+						[Op.or] : [
+							{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+							{'$project.privacy$' : {[Op.eq]: 1}}
+					]}
 					]
 				},
 				include : [
@@ -127,7 +126,10 @@ getPosts = async function(req,res){
 		}else{
 			posts = await Project.findAll({
 				where: {
-					userId: user_id
+					[Op.or] : [
+						{userId : user_id},
+						{'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
+					]
 				},
 				include : [
     				{	 
