@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Col } from "antd";
+import { Col, Row } from "antd";
 import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import FilterButton from "../../components/FilterButton";
+import FilterButtonSmall from "../../components/FilterButtonSmall";
 import {
   Main, 
   H1, 
@@ -11,6 +12,8 @@ import {
 } from "./style";
 
 const Search = () => {
+  const [selectedFilter, setSelectedFilter] = useState("all");
+
   return (
     <Frame>
       <Main 
@@ -18,6 +21,22 @@ const Search = () => {
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
+            <Col lg={0}>
+            <Row align="center">
+            <FilterButtonSmall type="all" selected={selectedFilter === "all"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+            <FilterButtonSmall type="paper" selected={selectedFilter === "paper"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+            <FilterButtonSmall type="project" selected={selectedFilter === "project"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+            <FilterButtonSmall type="event" selected={selectedFilter === "event"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+            <FilterButtonSmall type="people" selected={selectedFilter === "people"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+            <FilterButtonSmall type="advanced" selected={selectedFilter === "advanced"} onClick={setSelectedFilter}>
+            </FilterButtonSmall>
+          </Row>
+            </Col>
             <H1>
               Search Results For "blockchain"
             </H1>
@@ -44,27 +63,27 @@ const Search = () => {
             />
           </Main>
           <Col align="center"
-          style={{marginTop: "175px"}}
-          md={0}
+          style={{marginTop: "64px"}}
+          xs={0}
           lg={{span: 5, offset: 0}}
           xl={{span: 4, offset: 1}}
           >
-            <FilterButton type="all" selected={true}>
+            <FilterButton type="all" selected={selectedFilter === "all"} onClick={setSelectedFilter}>
               All
             </FilterButton>
-            <FilterButton type="paper">
+            <FilterButton type="paper" selected={selectedFilter === "paper"} onClick={setSelectedFilter}>
               Papers
             </FilterButton>
-            <FilterButton type="project">
+            <FilterButton type="project" selected={selectedFilter === "project"} onClick={setSelectedFilter}>
               Projects
             </FilterButton>
-            <FilterButton type="event">
+            <FilterButton type="event" selected={selectedFilter === "event"} onClick={setSelectedFilter}>
               Events
             </FilterButton>
-            <FilterButton type="people">
+            <FilterButton type="people" selected={selectedFilter === "people"} onClick={setSelectedFilter}>
               People
             </FilterButton>
-            <FilterButton type="advanced">
+            <FilterButton type="advanced" selected={selectedFilter === "advanced"} onClick={setSelectedFilter}>
               Advanced
             </FilterButton>
           </Col>
