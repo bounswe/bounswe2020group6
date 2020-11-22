@@ -93,7 +93,7 @@ const SignUp = () => {
     setConfirmPassword( e.target.value );
   };
 
-  // TODO: onfinish fonksiyona çevrilicek
+  // TODO: onfinish fonksiyona çevrilicek, values eklenecek
   const signUpSubmit = function (e) {
     console.log("go");
     const formIsValid = matchingPassword;
