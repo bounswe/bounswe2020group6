@@ -17,7 +17,7 @@ addPost = async function(req,res) {
 	const obj = JSON.parse(JSON.stringify(req.body));
 	postData = {
 		userId : req.userId,
-		title : obj.topic,
+		title : obj.title,
 		abstract : obj.abstract,
 		privacy : obj.privacy,
 		status : obj.status,
