@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { signUp } from "../../redux/auth/api";
+import { signUp, validateCode, infoUpdate } from "../../redux/auth/api";
 import { authClearMessagesAction } from "../../redux/auth/actions";
 
 import LandingHeader from "../../components/LandingHeader";
@@ -17,7 +18,8 @@ const { Option } = Select;
 const { Step } = Steps;
 
 //dummy data
-const children = [
+const interestChoicesList = [
+  "stuff",
   "physics",
   "maths",
   "engineering",
@@ -28,8 +30,9 @@ const children = [
   "computer science",
 ];
 
-function handleTagChange(value) {
-  console.log(`selected ${value}`);
+const interestChoices = [];
+for (let i = 0; i < interestChoicesList.length; i++) {
+  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
 }
 
 const SignUp = () => {
@@ -44,9 +47,12 @@ const SignUp = () => {
 
   const [matchingPassword, setMatchingPassword] = React.useState(false);
 
-  //const [validationCode, setValidationCode] = React.useState();
-  //const [affiliation, setAffiliation] = React.useState();
-  //const [interests, setInterests] = React.useState([]);
+  const [validationCode, setValidationCode] = React.useState();
+  
+  const [university, setUniversity] = React.useState([]);
+  const [department, setDepartment] = React.useState([]);
+  const [degree, setDegree] = React.useState([]);
+  const [interests, setInterests] = React.useState([]);
 
   const dispatch = useDispatch();
   const selector = useSelector;
@@ -54,8 +60,17 @@ const SignUp = () => {
   const signupSuccessMessage = selector((state) => state.auth.signupSuccessMessage);
   const signupFailMessage = selector((state) => state.auth.signupFailMessage);
   const signupLoading = selector((state) => state.auth.signupLoading);
+  
+  const validationSuccessMessage = selector((state) => state.auth.validationSuccessMessage);
+  const validationFailMessage = selector((state) => state.auth.validationFailMessage);
+  const validationLoading = selector((state) => state.auth.validationLoading);
+
+  const infoUpdateSuccessMessage = selector((state) => state.auth.infoUpdateSuccessMessage);
+  const infoUpdateFailMessage = selector((state) => state.auth.infoUpdateFailMessage);
+  const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
 
   useEffect(() => {
+    // signup
     if (signupSuccessMessage) {
       message.success(signupSuccessMessage);
       moveToNextStep();
@@ -63,9 +78,32 @@ const SignUp = () => {
     if (signupFailMessage) {
       message.error(signupFailMessage);
     }
+    // validation
+    if (validationSuccessMessage) {
+      message.success(validationSuccessMessage);
+      moveToNextStep();
+    }
+    if (validationFailMessage) {
+      message.error(validationFailMessage);
+    }
+    // info update
+    if (infoUpdateSuccessMessage) {
+      message.success(infoUpdateSuccessMessage);
+      //moveToNextStep();
+      redirectToPath("/home");
+    }
+    if (infoUpdateFailMessage) {
+      message.error(infoUpdateFailMessage);
+    }
     dispatch(authClearMessagesAction());
-    // eslint-disable-next-line
-  }, [signupSuccessMessage, signupFailMessage]);
+  }, [
+    signupSuccessMessage, 
+    signupFailMessage,
+    validationSuccessMessage,
+    validationFailMessage,
+    infoUpdateSuccessMessage,
+    infoUpdateFailMessage,
+  ]);
 
   useEffect(() => {
     if (password === confirmPassword) {
@@ -83,48 +121,83 @@ const SignUp = () => {
     }
   };
 
+  // API calls
   const postSignUpRequest = (values) => {
     dispatch(signUp(values));
   };
+  const postValidateRequest = (values) => {
+    console.log("ho")
+    dispatch(validateCode(values));
+  };
+  const postInfoUpdateRequest = (values) => {
+    dispatch(infoUpdate(values));
+  };
+
+  // password change handlers
   const handlePasswordChange = function (e) {
     setPassword( e.target.value );
   };
   const handleConfirmPasswordChange = function (e) {
     setConfirmPassword( e.target.value );
   };
+  const handleValidationCodeChange = function (e) {
+    setValidationCode( e.target.value );
+  };
+  const handleTagChange = function (value) {
+    setInterests( value );
+  }
 
   // TODO: onfinish fonksiyona çevrilicek, values eklenecek
   const signUpSubmit = function (e) {
     console.log("go");
     const formIsValid = matchingPassword;
-    var values = {
+    const signupValues = {
       name,
       surname,
       password,
       email,
     }
     if (formIsValid) {
-      postSignUpRequest(values);
+      postSignUpRequest(signupValues);
     }
   };
   const validateSubmit = function (e) {
     // TODO: post validate code to endpoint
     // according to result, continue and call `onButtonClick`
+    console.log(validationCode)
+    if (validationCode) {
+      console.log("hey")
+      postValidateRequest({code: validationCode})
+    }
   };
   const infoSubmit = function (e) {
-    // TODO: post info to endpoint
-    // redirect to profile / home
+    if (university && department && degree) {
+      postInfoUpdateRequest({
+        affiliation: {
+          university,
+          department,
+          degree
+        },
+        researchAreas: interests,
+      });
+    }
   };
 
   const moveToNextStep = function (e) {
     setFormStep((x) => x + 1);
   };
 
+  const history = useHistory();
+
+  const redirectToPath = (path) => {
+    history.push(path);
+  }
+
   return (
     <Layout>
       <LandingHeader />
       <Content>
-        <Row style={{ height: "70px" }} />
+        <Row style={{ height: "50px" }} />
         <FormWrapper>
           <Row align="middle" justify="center">
             <Col
@@ -134,7 +207,7 @@ const SignUp = () => {
               align="middle"
               justify="center"
             >
-              <Steps current={formStep}>
+              <Steps current={formStep} onChange={(current) => setFormStep(current)}>
                 <Step title="Step 1" description="Signup" />
                 <Step title="Step 2" description="Validate your email" />
                 <Step title="Step 3" description="Additional information" />
@@ -142,12 +215,12 @@ const SignUp = () => {
               <Divider />
 
               {/* Step 1 - Credentials  */}
-              <Form layout="vertical">
+              <Form onFinish={(values) => console.log(values)} layout="vertical">
                 <Col
                   id="col-step1"
                   xs={{ span: 24, offset: 0 }}
-                  sm={{ span: 14, offset: 0 }}
-                  lg={{ span: 14, offset: 0 }}
+                  sm={{ span: 16, offset: 0 }}
+                  lg={{ span: 16, offset: 0 }}
                   align="left"
                   justify="left"
                   style={{ display: formStep === 0 ? "block" : "none" }}
@@ -158,6 +231,7 @@ const SignUp = () => {
                     <Form.Item
                       label={<FormLabel>Name</FormLabel>}
                       name="name"
+                      style={{width: "50%"}}
                       rules={[{ required: true, message: "Please enter your first name!" }]}
                     >
                       <Input value={name} onChange={(e) => setName(e.target.value)}/>
@@ -165,6 +239,7 @@ const SignUp = () => {
                     <Form.Item
                       label={<FormLabel>Surname</FormLabel>}
                       name="surname"
+                      style={{width: "50%"}}
                       rules={[{ required: true, message: "Please enter your last name!" }]}
                     >
                       <Input value={surname} onChange={(e) => setSurname(e.target.value)}/>
@@ -220,7 +295,7 @@ const SignUp = () => {
                   id="col-step2"
                   xs={{ span: 24, offset: 0 }}
                   sm={{ span: 14, offset: 0 }}
-                  lg={{ span: 14, offset: 0 }}
+                  lg={{ span: 18, offset: 0 }}
                   align="left"
                   justify="left"
                   style={{ display: formStep === 1 ? "block" : "none" }}
@@ -232,10 +307,15 @@ const SignUp = () => {
                     name="verification-code"
                     rules={[{ required: true, message: "Please enter your verification code!" }]}
                   >
-                    <Input.Password />
+                    <Input.Password value={validationCode} onChange={handleValidationCodeChange}/>
                   </Form.Item>
                   <Form.Item>
-                    <FormButton type="primary" htmlType="submit" onClick={validateSubmit}>
+                    <FormButton 
+                      loading={validationLoading}
+                      type="primary" 
+                      htmlType="submit" 
+                      onClick={validateSubmit}
+                    >
                       Confirm
                     </FormButton>
                   </Form.Item>
@@ -257,6 +337,30 @@ const SignUp = () => {
                   <FormTitle>Additional Information</FormTitle>
                   <br />
                   <Form.Item
+                    label={<FormLabel>University</FormLabel>}
+                    name="university"
+                    style={{width: "50%"}}
+                    rules={[{ required: true, message: "Please enter your university!" }]}
+                  >
+                    <Input value={university} onChange={(e) => setUniversity(e.target.value)}/>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Department</FormLabel>}
+                    name="department"
+                    style={{width: "50%"}}
+                    rules={[{ required: true, message: "Please enter your department!" }]}
+                  >
+                    <Input value={department} onChange={(e) => setDepartment(e.target.value)}/>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Degree</FormLabel>}
+                    name="degree"
+                    style={{width: "50%"}}
+                    rules={[{ required: true, message: "Please enter your degree!" }]}
+                  >
+                    <Input value={degree} onChange={(e) => setDegree(e.target.value)}/>
+                  </Form.Item>
+                  <Form.Item
                     label={<FormLabel>Research area interests</FormLabel>}
                     name="interests"
                     rules={[
@@ -268,10 +372,11 @@ const SignUp = () => {
                       allowClear
                       style={{ width: "100%" }}
                       placeholder="Please select"
-                      defaultValue={["a10", "c12"]}
+                      //defaultValue={["stuff"]}
+                      //value={interests}
                       onChange={handleTagChange}
                     >
-                      {children}
+                      {interestChoices}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -285,7 +390,12 @@ const SignUp = () => {
                   </Form.Item>
                   <br />
                   <Form.Item>
-                    <FormButton type="primary" htmlType="submit" onClick={infoSubmit}>
+                    <FormButton 
+                      loading={infoUpdateLoading}
+                      type="primary" 
+                      htmlType="submit" 
+                      onClick={infoSubmit}
+                    >
                       Confirm
                     </FormButton>
                   </Form.Item>
