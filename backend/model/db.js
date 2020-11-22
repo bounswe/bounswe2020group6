@@ -48,8 +48,7 @@ UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',c
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
 User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
 User.hasOne(UserAffiliation, {foreignKey: 'id'})
-/*ProjectFile.belongsTo(Project, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
-Project.hasMany(ProjectFile)*/
+Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 
 
 
