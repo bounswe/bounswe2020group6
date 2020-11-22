@@ -62,7 +62,7 @@ updatePost = async function (req,res){
 	try {
 		await Project.update(fieldsToUpdate, {
 		where : {
-			id : req.param('index')
+			id : req.param('id')
 			}
 		});
 		res.send(201,{"message" : "Post is updated"})		
