@@ -33,7 +33,7 @@ function handleTagChange(value) {
 }
 
 const SignUp = () => {
-  const [state, setState] = React.useState({}); // state temizlencek password confirm password dışında
+  const [state, setState] = React.useState({}); // state temizlencek password confirm password dışında.
   const [formStep, setFormStep] = React.useState(0); // check conditionları düzeltilcek
   const [displaySteps, setDisplaySteps] = React.useState([true, false, false]); // TODO: remove
 
