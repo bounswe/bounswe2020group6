@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,17 +80,22 @@ public class SignupFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
                     System.out.println("NOT SUCCESSFUL");
+                    Toast.makeText(getActivity(), "Try again", Toast.LENGTH_LONG).show();
                     return;
                 }
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
                 saveData(userResponse.getAccessToken());
+                btn.setText(getString(R.string.validate));
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,
+                        new ValidationFragment()).commit();
 
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(getActivity(), "Be sure to be connected", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());
             }

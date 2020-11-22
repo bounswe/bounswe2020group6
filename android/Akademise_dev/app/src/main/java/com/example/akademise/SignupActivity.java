@@ -21,16 +21,16 @@ public class SignupActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_signup);
 
-        btn = (Button) findViewById(R.id.btnNext);
+       // btn = (Button) findViewById(R.id.btnNext);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,
                 new SignupFragment()).commit();
 
-        btn.setOnClickListener(next);
+       // btn.setOnClickListener(next);
 
     }
 
-    View.OnClickListener next = new View.OnClickListener() {
+    /* View.OnClickListener next = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Fragment selectedFragment = null;
@@ -60,6 +60,8 @@ public class SignupActivity extends AppCompatActivity {
             }
         }
     };
+
+     */
 
     private void goToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
