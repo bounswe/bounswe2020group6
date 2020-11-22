@@ -33,9 +33,20 @@ function handleTagChange(value) {
 }
 
 const SignUp = () => {
-  const [state, setState] = React.useState({}); // state temizlencek password confirm password dışında
-  const [formStep, setFormStep] = React.useState(0); // check conditionları düzeltilcek
-  const [displaySteps, setDisplaySteps] = React.useState([true, false, false]); // TODO: remove
+
+  const [formStep, setFormStep] = React.useState(0);
+
+  const [name, setName] = React.useState();
+  const [surname, setSurname] = React.useState();
+  const [email, setEmail] = React.useState();
+  const [password, setPassword] = React.useState();
+  const [confirmPassword, setConfirmPassword] = React.useState();
+
+  const [matchingPassword, setMatchingPassword] = React.useState(false);
+
+  //const [validationCode, setValidationCode] = React.useState();
+  //const [affiliation, setAffiliation] = React.useState();
+  //const [interests, setInterests] = React.useState([]);
 
   const dispatch = useDispatch();
   const selector = useSelector;
@@ -56,39 +67,44 @@ const SignUp = () => {
     // eslint-disable-next-line
   }, [signupSuccessMessage, signupFailMessage]);
 
-  // useeffect ile password validasyonu
+  useEffect(() => {
+    if (password === confirmPassword) {
+      setMatchingPassword(true);
+    } else {
+      setMatchingPassword(false);
+    }
+  }, [password, confirmPassword]);
 
-  const postSignUpRequest = () => {
-    dispatch(signUp(state));
+  const validatePassword = (rule, value, callback) => {
+    if (value !== password) {
+      callback("Passwords don't match!");
+    } else {
+      //callback("deneme");
+    }
   };
 
-  const handleEmailChange = function (e) {
-    setState({ ...state, email: e.target.value });
+  const postSignUpRequest = (values) => {
+    dispatch(signUp(values));
   };
   const handlePasswordChange = function (e) {
-    setState({ ...state, password: e.target.value });
+    setPassword( e.target.value );
   };
   const handleConfirmPasswordChange = function (e) {
-    setState({ ...state, confirmPassword: e.target.value });
-  };
-  const handleNameChange = function (e) {
-    setState({ ...state, name: e.target.value });
-  };
-  const handleSurnameChange = function (e) {
-    setState({ ...state, surname: e.target.value });
+    setConfirmPassword( e.target.value );
   };
 
   // TODO: onfinish fonksiyona çevrilicek
-  const signUpSubmit = function (values) {
-    //console.log("go");
-    if (state.password === state.confirmPassword && state.password !== "" && state.password) {
-      //console.log("check");
-      postSignUpRequest();
-      //console.log("postsur");
-      //onButtonClick();
-      //console.log("next");
-    } else {
-      alert("Passwords don't match!");
+  const signUpSubmit = function (e) {
+    console.log("go");
+    const formIsValid = matchingPassword;
+    var values = {
+      name,
+      surname,
+      password,
+      email,
+    }
+    if (formIsValid) {
+      postSignUpRequest(values);
     }
   };
   const validateSubmit = function (e) {
@@ -100,9 +116,7 @@ const SignUp = () => {
     // redirect to profile / home
   };
 
-  /* TODO: get Ali to check this :( */
   const moveToNextStep = function (e) {
-    setDisplaySteps([formStep + 1 === 0, formStep + 1 === 1, formStep + 1 === 2]);
     setFormStep((x) => x + 1);
   };
 
@@ -128,7 +142,7 @@ const SignUp = () => {
               <Divider />
 
               {/* Step 1 - Credentials  */}
-              <Form onFinish={signUpSubmit} layout="vertical">
+              <Form layout="vertical">
                 <Col
                   id="col-step1"
                   xs={{ span: 24, offset: 0 }}
@@ -136,7 +150,7 @@ const SignUp = () => {
                   lg={{ span: 14, offset: 0 }}
                   align="left"
                   justify="left"
-                  style={{ display: displaySteps[0] ? "block" : "none" }}
+                  style={{ display: formStep === 0 ? "block" : "none" }}
                 >
                   <FormTitle>Sign Up</FormTitle>
                   <br />
@@ -144,42 +158,47 @@ const SignUp = () => {
                     <Form.Item
                       label={<FormLabel>Name</FormLabel>}
                       name="name"
-                      rules={[{ required: true, message: "Please input your first name!" }]}
+                      rules={[{ required: true, message: "Please enter your first name!" }]}
                     >
-                      <Input onChange={handleNameChange} value={state.name} />
+                      <Input value={name} onChange={(e) => setName(e.target.value)}/>
                     </Form.Item>
                     <Form.Item
                       label={<FormLabel>Surname</FormLabel>}
                       name="surname"
-                      rules={[{ required: true, message: "Please input your last name!" }]}
+                      rules={[{ required: true, message: "Please enter your last name!" }]}
                     >
-                      <Input onChange={handleSurnameChange} value={state.surname} />
+                      <Input value={surname} onChange={(e) => setSurname(e.target.value)}/>
                     </Form.Item>
                   </Input.Group>
                   <Form.Item
                     label={<FormLabel>Email</FormLabel>}
                     name="email"
-                    rules={[{ required: true, message: "Please input your email!" }]}
+                    rules={[{ required: true, message: "Please enter your email!" }]}
                   >
-                    <Input onChange={handleEmailChange} value={state.email} />
+                    <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
                   </Form.Item>
 
                   <Form.Item
                     label={<FormLabel>Password</FormLabel>}
                     name="password"
-                    rules={[{ required: true, message: "Please input your password!" }]}
+                    rules={[{ required: true, message: "Please enter your password!" }]}
                   >
-                    <Input.Password onChange={handlePasswordChange} value={state.password} />
+                    <Input.Password 
+                      onChange={handlePasswordChange} 
+                      value={password}/>
                   </Form.Item>
 
                   <Form.Item
                     label={<FormLabel>Confirm Password</FormLabel>}
                     name="confirm-password"
-                    rules={[{ required: true, message: "Please confirm your password!" }]}
+                    rules={[
+                      { required: true, message: "Please confirm your password!" },
+                      { validator: validatePassword }
+                    ]}
                   >
                     <Input.Password
                       onChange={handleConfirmPasswordChange}
-                      value={state.confirmPassword}
+                      value={confirmPassword}
                     />
                   </Form.Item>
                   <Form.Item>
@@ -187,7 +206,7 @@ const SignUp = () => {
                       loading={signupLoading}
                       type="primary"
                       htmlType="submit"
-                      //onClick={signUpSubmit}
+                      onClick={signUpSubmit}
                     >
                       Confirm
                     </FormButton>
@@ -204,7 +223,7 @@ const SignUp = () => {
                   lg={{ span: 14, offset: 0 }}
                   align="left"
                   justify="left"
-                  style={{ display: displaySteps[1] ? "block" : "none" }}
+                  style={{ display: formStep === 1 ? "block" : "none" }}
                 >
                   <FormTitle>Verify your e-mail</FormTitle>
                   <br />
@@ -233,7 +252,7 @@ const SignUp = () => {
                   lg={{ span: 14, offset: 0 }}
                   align="left"
                   justify="left"
-                  style={{ display: displaySteps[2] ? "block" : "none" }}
+                  style={{ display: formStep === 2 ? "block" : "none" }}
                 >
                   <FormTitle>Additional Information</FormTitle>
                   <br />
