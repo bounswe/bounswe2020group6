@@ -9,7 +9,7 @@ cache:
     - node_modules
 deploy:
   - provider: s3
-    access_key_id: rnVs3FL9rOfaFV7jFcmWJO5l2xCioakReCCRKRMFVzId04UgjdA1l/fE2GDomGrDBa1sXMlkn5v76M/JKcRHMrLZlPdnPf1mB0WAat9deLs0dgTqoDkBispC+gSsunjfFv25P3Id6r+CAGqIcQnQ0Kj7L+qUig9c8ZS3S6Ljs4/VgNmxyHmXH8lhfjteK72UVpm9UwciNoOnO1StL6ho8ZGE+8i8MEMaLuxTIW81LYcIdFkNPvLe2gRGEJSWhg0lzDC2lmCe+Y+4qr/HLvF1bInVGcBUR2uZ8GZaQRZz/hDor15jHk5fpjScvF6WAnHeyi711qF5W+T/MJi6V5CsLyWgDZBVcRtHL6vXC3SwIbRMrds9OiAHWoZZHNPPQhurWh82soeobmmBbT3tFBqtLSTpf1P2vo7X4UXtx+eF2fG5oVKp8/F3rxWs5qYNFunBx9vhVimjbc1NjFjrKlQuX9bjZtyu/QA4F1CYD6tTcLhljhHVYUxl/pYkGFcwD56VnURzDsp+1k721aCjP11GBNelGKz6d+Shj6hECnzz8rErUAzmvkzwAqTsL/I4xg1t3G39EzWe9AXw+7y1FsmjkVSRMiGhgxqgJCDcgtYd8jdNP3qQXstvFlVTlUQMG/1vZqpsZUa3tQCgLQWfiLN2p+S+25Si43aNI5xvf634cW0=
+    access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     local_dir: dpl_cd_upload
     skip_cleanup: true

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useHistory } from "react-router-dom";
 import { Layout, Row, Col } from "antd";
 import LandingHeader from "../../components/LandingHeader";
 import { footerStyle, CtaButton, Content } from "./style";
@@ -7,6 +7,8 @@ import { footerStyle, CtaButton, Content } from "./style";
 const { Footer } = Layout;
 
 const Landing = () => {
+  const history = useHistory();
+
   return (
     <Layout>
       <LandingHeader />
@@ -24,13 +26,10 @@ const Landing = () => {
                 fontWeight: "500",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-              has been the industry's standard dummy text ever since the 1500s.
+              Akademise is a social network for academic purposes.
             </p>
             <Row justify="center">
-              <a href="/join">
-                <CtaButton>JOIN</CtaButton>
-              </a>
+              <CtaButton onClick={() => history.push("/join")}>JOIN</CtaButton>
             </Row>
           </Col>
         </Row>
