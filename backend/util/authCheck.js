@@ -20,7 +20,6 @@ module.exports = {
                 if(err){
                     return res.status(401).send()
                 } 
-                console.log(json.id)
                 req.userId = json.id
                 next()
             })
