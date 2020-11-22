@@ -121,6 +121,11 @@ getPosts = async function(req,res){
 						attributes : ['tag'],
 						required: false,
       				},
+					{
+						model: ProjectFile,
+						attributes: ['file_name','file_path'],
+						required : false
+					}
   				]
 			});
 		}else{
@@ -146,6 +151,11 @@ getPosts = async function(req,res){
 						model: ProjectTag,
 						required: false,
       				},
+					{
+						model: ProjectFile,
+						attributes: ['file_name','file_path'],
+						required : false
+					}
   				]
 			});	
 		}
