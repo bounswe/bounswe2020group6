@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 
+import { useHistory } from "react-router-dom";
 import { Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
@@ -22,6 +22,7 @@ import searchIcon from "../../assets/search-icon.png";
 
 const SiteHeader = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
+  const [searchText, setSearchText] = useState(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,13 +43,12 @@ const SiteHeader = () => {
     </SideBar>
   );
 
+  const redirectToSearchPage = () => {
+    history.push({ pathname: "/search", search: searchText})
+  }
+
   const suffix = (
-    <img
-      src={searchIcon}
-      alt="search icon"
-      onClick={() => console.log("hello")}
-      style={{ height: "15px", width: "15px" }}
-    />
+    <img src={searchIcon} alt="search icon" onClick={redirectToSearchPage} style={{height: "15px", width: "15px", cursor: "pointer"}} />
   );
 
   return (
@@ -69,14 +69,18 @@ const SiteHeader = () => {
               <LogoText>Akademise</LogoText>
             </Row>
           </Col>
-          <Col
+          <Col 
             xs={{ span: 16, offset: 1 }}
             sm={{ span: 8, offset: 0 }}
             md={{ span: 6, offset: 1 }}
             align="center"
-            offset={6}
-          >
-            <SearchBar suffix={suffix} size="small" />
+            offset={6}>
+          <SearchBar
+          suffix={suffix}
+          size="small"
+          onPressEnter={redirectToSearchPage} 
+          onChange={(e) => {setSearchText(e.target.value);}}
+          />
           </Col>
           <Nav xs={0} sm={{ span: 10, offset: 1 }} md={{ span: 10, offset: 1 }}>
             <Anchor onClick={() => history.push("/home")}>Home</Anchor> |{" "}
