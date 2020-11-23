@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 
@@ -24,7 +23,6 @@ import searchIcon from "../../assets/search-icon.png";
 const SiteHeader = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [searchText, setSearchText] = useState(null);
-  const history = useHistory();
 
   const dispatch = useDispatch();
   const history = useHistory();
