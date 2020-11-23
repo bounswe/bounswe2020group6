@@ -35,13 +35,15 @@ const Search = () => {
 
   useEffect(() => {
     dispatch(search({query: "", type: 0}, setAllPeople, setLoadingAllPeople))
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     console.log(searchText)
     dispatch(search({query: searchText, type: 0}, setUserResults, setLoadingUserResults))
     dispatch(search({query: searchText, type: 1}, setProjectResults, setLoadingProjectResults))
-  }, [selectedFilter, searchText, dispatch]);
+    // eslint-disable-next-line
+  }, [selectedFilter, searchText]);
 
   const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
     return (<ContentCard
@@ -112,6 +114,8 @@ const Search = () => {
         else{
           return spin;
         }
+      default:
+        return ""
     }
 
   }

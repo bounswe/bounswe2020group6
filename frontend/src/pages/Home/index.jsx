@@ -23,11 +23,13 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(search({query: "", type: 0}, setAllPeople, setLoadingAllPeople))
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     dispatch(search({query: "", type: 1}, setFeed, setLoading))
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
     return (<ContentCard
@@ -59,7 +61,7 @@ const Home = () => {
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
-            {loading || loadingAllPeople ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, "", getUserNameById(p.userId),getUserPhotoById(p.userId)))}
+            {loading || loadingAllPeople ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId),getUserPhotoById(p.userId)))}
           </Main>
           <Col align="center"
           md={0}
