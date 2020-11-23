@@ -16,18 +16,29 @@
 
     <string-array name="college_array">
         <item>"Choose Your University"</item>
-        <item>"Zoom University"</item>
+        <item>"Middle East Technical University"</item>
+        <item>"Istanbul Technical University"</item>
         <item>"Bogazici University"</item>
 
     </string-array>
 
     <string-array name="department_array">
         <item>"Choose Your Department"</item>
-        <item>"CMPE"</item>
-        <item>"M*S"</item>
+        <item>"Computer Engineering"</item>
+        <item>"Electrical Engineering"</item>
+        <item>"Physics"</item>
 
     </string-array>
+    <string-array name="degree_array">
+        <item>"Choose Your Degree"</item>
+        <item>"Student - Undergrad"</item>
+        <item>"Student - Master's"</item>
+        <item>"Student -PhD."</item>
+        <item>"Academician - Instructor"</item>
+        <item>"Academician - Professor"</item>
 
+
+    </string-array>
     <string name="research_tags_info">Please select your research interests</string>
 
     <string-array name="research_tags">
