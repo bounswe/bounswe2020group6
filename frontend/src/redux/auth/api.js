@@ -7,16 +7,63 @@ export const signUp = (body) => {
     api()
       .post("/auth/signup", body)
       .then((response) => {
+        console.log(response)
         dispatch(
           actions.authSignupSuccessAction(
             "Activation code has been sent to your email",
-            response.data.accessToken
+            response.data.accessToken,
+            response.data.id,
           )
         );
       })
       .catch((e) => {
         const errorMessage = e.response.data.error;
         dispatch(actions.authSignupFailAction(errorMessage));
+      });
+  };
+};
+
+export const validateCode = (body) => {
+  return (dispatch) => {
+    dispatch(actions.authCodeValidationStartAction());
+    api({sendToken: true})
+      .post("/validate", body)
+      .then((response) => {
+        dispatch(
+          actions.authCodeValidationSuccessAction(
+            "Email validation successful!",
+            response.data.accessToken
+          )
+        );
+      })
+      .catch((e) => {
+        console.log("error");
+        const errorMessage = e.response.data.error;
+        dispatch(actions.authCodeValidationFailAction(errorMessage));
+      });
+  };
+};
+
+export const infoUpdate = (body) => {
+  console.log(body)
+  return (dispatch) => {
+    dispatch(actions.authInfoUpdateStartAction());
+    api({sendToken: true})
+      .post("/profile/update", body)
+      .then((response) => {
+        console.log(response)
+        dispatch(
+          actions.authInfoUpdateSuccessAction(
+            "Profile updated!",
+            response.data.accessToken
+          )
+        );
+      })
+      .catch((e) => {
+        console.log(e)
+        const errorMessage = e.response.data.error;
+        dispatch(actions.authInfoUpdateFailAction(errorMessage));
+
       });
   };
 };
@@ -32,6 +79,7 @@ export const login = (body) => {
       .catch((e) => {
         const errorMessage = e.response.data.message;
         dispatch(actions.authLoginFailAction(errorMessage));
+
       });
   };
 };
