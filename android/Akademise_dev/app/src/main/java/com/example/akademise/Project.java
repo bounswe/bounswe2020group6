@@ -17,7 +17,7 @@ public class Project {
     private String abstract1;
     @SerializedName("content")
     private String content;
-    @SerializedName("privacty")
+    @SerializedName("privacy")
     private Integer privacy;
     @SerializedName("status")
     private Integer status;
@@ -84,7 +84,9 @@ public class Project {
         this.deadline = deadline;
         this.requirements = requirements;
     }
-    public Project(int privacy, int status, String title, String abstract1, String content, String createdat, String updatedat, String deadline, String requirements) {
+    public Project(int privacy, int status, String title, String abstract1,
+                   String content, String createdat, String updatedat,
+                   String deadline, String requirements) {
 
         this.privacy = privacy;
         this.status = status;

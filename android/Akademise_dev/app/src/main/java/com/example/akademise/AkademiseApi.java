@@ -35,7 +35,7 @@ public interface AkademiseApi {
     Call<List<Project>> getProjects(@Query("id") int id, @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("posts/add")
+    @POST("post/add")
     Call<Project> createProject(@Body Project project, @Header("Authorization") String auth);
 
     @POST("auth/signup")

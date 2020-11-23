@@ -151,6 +151,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
             if(!response.isSuccessful()){
                 Log.d("Project", "onResponse: not successful");
                 Log.d("Project", myToken);
+                Log.d("NotCreated", response.toString());
                 Toast.makeText(ProjectCreationActivity.this, "Not created, try again", Toast.LENGTH_LONG).show();
                 return;
             }
