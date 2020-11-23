@@ -27,7 +27,7 @@ export const login = (body) => {
     api()
       .post("/auth/login", body)
       .then((response) => {
-        dispatch(actions.authLoginSuccessAction(response.data.accessToken));
+        dispatch(actions.authLoginSuccessAction(response.data.accessToken, response.data.id));
       })
       .catch((e) => {
         const errorMessage = e.response.data.message;

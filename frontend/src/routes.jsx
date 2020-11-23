@@ -17,7 +17,7 @@ export default function App() {
   const history = useHistory();
   const selector = useSelector;
 
-  const reduxToken = selector((state) => state.auth.token);
+  const user = selector((state) => state.auth.user);
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("token");
@@ -49,7 +49,10 @@ export default function App() {
     </Switch>
   );
 
-  if (storageToken && reduxToken) {
+  console.log(storageToken && user);
+
+  if (storageToken && user) {
+    console.log("test");
     routes = (
       <Switch>
         <Route path="/home">
@@ -65,7 +68,7 @@ export default function App() {
       </Switch>
     );
   }
-  //loading ? <Spinner /> : routes;
+
   return loading ? (
     <Row style={{ height: "100vh" }} justify="center" align="middle">
       <Col>

@@ -7,10 +7,11 @@ export const authLoginStartAction = () => {
   };
 };
 
-export const authLoginSuccessAction = (token) => {
+export const authLoginSuccessAction = (token, id) => {
   return {
     type: actions.AUTH_LOGIN_SUCCESS,
     token,
+    id,
   };
 };
 
