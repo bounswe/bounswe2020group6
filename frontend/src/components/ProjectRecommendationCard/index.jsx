@@ -19,8 +19,8 @@ const ProjectRecommendationCard = ({ name, commoncolabsnum, tags}) => {
         </Title>
       </Row>
       <Tags>
-        { tags !== undefined ? tags.map((t) => {
-          return <Tag color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
+        { tags !== undefined ? tags.map((t, index) => {
+          return <Tag key={index} color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
             {t}
           </Tag>
         }): ":S"}
