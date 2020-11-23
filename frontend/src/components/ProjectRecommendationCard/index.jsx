@@ -6,7 +6,7 @@ import {
 } from "./style";
 import theme from "../../theme";
 
-const ProjectRecommendationCard = ({ name, commoncolabsnum}) => {
+const ProjectRecommendationCard = ({ name, commoncolabsnum, tags}) => {
   return (
     <Layout wrap={false} xs={18} sm={18} md={18} lg={18}>
       <Col flex="40px">
@@ -19,15 +19,11 @@ const ProjectRecommendationCard = ({ name, commoncolabsnum}) => {
         </Title>
       </Row>
       <Tags>
-      <Tag color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
-          Deep Learning
-        </Tag>
-        <Tag color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
-          Quantum Computing
-        </Tag>
-        <Tag color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
-          Blockchain
-        </Tag>
+        { tags !== undefined ? tags.map((t) => {
+          return <Tag color={theme.main.colors.first} style={{borderRadius: "8px", height: "16px", fontSize: "10px", lineHeight: "14px"}}>
+            {t}
+          </Tag>
+        }): ":S"}
       </Tags>
       </Col>
     </Layout>
