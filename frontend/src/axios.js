@@ -8,8 +8,7 @@ export default function api(config) {
   }
   const pkg = {
     baseURL: "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000",
-    headers: config.sendToken && { Authorization: `Bearer ${jwtToken}`},
+    headers: config.sendToken && { Authorization: `Bearer ${jwtToken}` },
   };
-  console.log(pkg)
   return axios.create(pkg);
 }
