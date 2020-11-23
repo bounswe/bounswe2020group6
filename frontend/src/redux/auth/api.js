@@ -64,6 +64,10 @@ export const infoUpdate = (body) => {
         const errorMessage = e.response.data.error;
         dispatch(actions.authInfoUpdateFailAction(errorMessage));
 
+      });
+  };
+};
+
 export const login = (body) => {
   return (dispatch) => {
     dispatch(actions.authLoginStartAction());
