@@ -144,9 +144,6 @@ const authClearMessagesReducer = (state, action) => {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
 
-    case actions.AUTH_LOGIN:
-      return authLoginReducer(state, action);
-    
     case actions.AUTH_CLEAR_MESSAGES:
       return authClearMessagesReducer(state, action);
 
