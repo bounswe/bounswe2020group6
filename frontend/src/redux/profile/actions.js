@@ -12,3 +12,8 @@ export const profileInfoLoadingAction = () => {
   };
 };
 
+export const profileInfoSuccessAction = () => {
+  return {
+    type: actions.PROFILE_INFO_SUCCESS,
+  };
+};
