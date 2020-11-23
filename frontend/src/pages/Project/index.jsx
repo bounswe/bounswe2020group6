@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Row, Col } from "antd";
+import { Space, Row, Col } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
 import { Content } from "./style";
@@ -11,6 +11,9 @@ import { FormButton, FormLabel, FormTitle } from "./style";
 
 function onChange(date, dateString) {
   console.log(date, dateString);
+}
+function handleChange(value) {
+  console.log(`selected ${value}`);
 }
 
 const Project = () => {
@@ -43,26 +46,34 @@ const Project = () => {
                   <Form.Item
                     label={<FormLabel>Title</FormLabel>}
                     name="title"
-                    rules={[{ required: true, message: "Title" }]}
+                    rules={[{ required: true, message: "Required" }]}
                   >
                     <Input />
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Summary</FormLabel>}
-                    name="summary"
-                    rules={[{ required: true, message: "Summary" }]}
+                    label={<FormLabel>Abstract</FormLabel>}
+                    name="abstract"
+                    rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={8} />
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Publication Type</FormLabel>}
-                    name="pubtype"
+                    label={<FormLabel>Privacy</FormLabel>}
+                    name="privacy"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Required",
+                      },
+                    ]}
                   >
-                    <Radio.Group value={1}>
-                      <Radio value={1}>Paper</Radio>
-                      <Radio value={2}>Project</Radio>
+                    <Radio.Group value={1} defaultValue={2} al>
+                      <Space size={20}>
+                        <Radio value={1}>Public</Radio>
+                        <Radio value={2}>Private</Radio>
+                      </Space>
                     </Radio.Group>
                   </Form.Item>
                 </Form>
@@ -75,66 +86,50 @@ const Project = () => {
                   <br />
                   <Form.Item
                     label={<FormLabel>Deadline</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
+                    name="deadline"
+                    rules={[{ required: true, message: "Required" }]}
                   >
                     <DatePicker onChange={onChange} />
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Upload File About Publication</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
+                    name="upload"
+                    rules={[{ required: false, message: "Optional" }]}
                   >
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Add Collabrators</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
+                    name="collabrators"
+                    rules={[{ required: true, message: "Required" }]}
                   >
                     <Select
-                      mode="multiple"
-                      allowClear
+                      mode="tags"
                       style={{ width: "100%" }}
-                      placeholder="Please select"
-                      defaultValue={["ahmet", "con"]}
+                      placeholder="Collabs"
+                      onChange={handleChange}
                     >
-                      {["a", "b", "c", "d"]}
+                      {}
                     </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Add Tags</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
+                    name="tags"
+                    rules={[{ required: true, message: "Required" }]}
                   >
                     <Select
-                      mode="multiple"
-                      allowClear
+                      mode="tags"
                       style={{ width: "100%" }}
-                      placeholder="Please select"
-                      defaultValue={["ahmet", "con"]}
+                      placeholder="Tags"
+                      onChange={handleChange}
                     >
-                      {["a", "b", "c", "d"]}
+                      {}
                     </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    label={<FormLabel>Privacy</FormLabel>}
-                    name="confirm-password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please confirm your password!",
-                      },
-                    ]}
-                  >
-                    <Radio.Group value={1}>
-                      <Radio value={1}>Paper</Radio>
-                      <Radio value={2}>Project</Radio>
-                    </Radio.Group>
                   </Form.Item>
                 </Form>
               </Col>
+              <br />
+              <br />
               <FormButton type="primary" htmlType="submit">
                 Confirm
               </FormButton>
