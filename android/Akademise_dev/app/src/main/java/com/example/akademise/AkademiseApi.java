@@ -22,8 +22,12 @@ public interface AkademiseApi {
     @POST("validate")
     Call<Validation> createValidation(@Body Validation validation, @Header("Authorization") String auth);
 
-    @GET("posts") //relative path (/search?query=er&type=1)
-    Call<List<Post>> getPostsSearched(@Query("userId") int userId);
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("search")
+    Call<Projects> getProjectsSearched(@Query("query") String query,
+                                            @Query("type") String type,
+                                            @Header("Authorization") String auth);
+
 
     @GET("posts") //relative path (auth/post/add)
     Call<List<Post>> getPosts();

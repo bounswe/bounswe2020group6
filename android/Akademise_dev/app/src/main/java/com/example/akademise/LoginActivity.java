@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             createUser(email.getText().toString(), password.getText().toString());
-            openMainActivity();
         }
     };
     View.OnClickListener signup = new View.OnClickListener() {
@@ -93,8 +92,9 @@ public class LoginActivity extends AppCompatActivity {
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
-                //saveData(userResponse.getAccessToken());
+                saveData(userResponse.getAccessToken());
                 Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+                openMainActivity();
 
             }
             @Override
