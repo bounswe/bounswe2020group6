@@ -49,10 +49,7 @@ export default function App() {
     </Switch>
   );
 
-  console.log(storageToken && user);
-
   if (storageToken && user) {
-    console.log("test");
     routes = (
       <Switch>
         <Route path="/home">
