@@ -96,9 +96,9 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
                 saveData(userResponse.getAccessToken());
-                loadData();
-                System.out.println("myToken: " + myToken);
-                //Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+
+                Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+
                 openMainActivity();
 
             }
