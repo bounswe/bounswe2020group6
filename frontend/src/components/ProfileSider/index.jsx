@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { profileInfo } from "../../redux/profile/api";
 
-import { Rate } from "antd";
-import { CaretRightOutlined  } from "@ant-design/icons";
+import { Spin } from "antd";
+import { RocketOutlined } from "@ant-design/icons";
 import {
   Layout,
   NameText,
@@ -10,21 +12,33 @@ import {
 } from "./style";
 
 const ProfileSider = () => {
+  const [loading, setLoading] = useState(true);
+  const [profileData, setProfileData] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const myId = 1
+
+  useEffect(() => {
+    dispatch(profileInfo(myId , setProfileData, setLoading))
+  },[dispatch]);
+
   return (
     <Layout>
-      <Img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" alt="profile photo"/>
-      <NameText>Ertuğrul Düldül</NameText>
-      <Rate/>
-      <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
-      <Title>Papers</Title>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 1 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 2 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 3 </span>
-      <Title>Projects</Title>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 1 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 2 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 3 </span>
+      {
+        loading ? <Spin size="large" style={{ margin: "auto" }}/> : <>
+        <Img src={profileData.profile_picture_url === null ? "https://britz.mcmaster.ca/images/nouserimage.gif/image" : profileData.profile_picture_url} alt="profile photo"/>
+        <NameText>{profileData.name + " " + profileData.surname}</NameText>
+        <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
+        <a href="#" style={{textAlign: "center", color: "white"}}>
+          <RocketOutlined style={{fontSize: 20, color: "green"}}/> 
+          {profileData.number_of_ups === null ? " " +0 + " UPs" : " " + profileData.number_of_ups + " ups"}
+        </a>
+        <Title>Google Scholar</Title>
+        <Title>Projects</Title>
       </div>
+        </>
+      }
     </Layout>
   );
 };
