@@ -56,24 +56,28 @@ for (let i = 0; i < interestChoicesList.length; i++) {
 }
 
 const SignUp = () => {
-  const [formStep, setFormStep] = React.useState(0);
-
-  const [password, setPassword] = React.useState();
 
   const dispatch = useDispatch();
   const selector = useSelector;
+  
+  const [signUpForm]     = Form.useForm()
+  const [validationForm] = Form.useForm()
+  const [infoUpdateForm] = Form.useForm()
 
-  const signupSuccessMessage = selector((state) => state.auth.signupSuccessMessage);
-  const signupFailMessage = selector((state) => state.auth.signupFailMessage);
-  const signupLoading = selector((state) => state.auth.signupLoading);
+  const [formStep, setFormStep] = React.useState(0);
+  const [password, setPassword] = React.useState();
 
-  const validationSuccessMessage = selector((state) => state.auth.validationSuccessMessage);
-  const validationFailMessage = selector((state) => state.auth.validationFailMessage);
-  const validationLoading = selector((state) => state.auth.validationLoading);
+  const signupSuccessMessage      = selector((state) => state.auth.signupSuccessMessage);
+  const signupFailMessage         = selector((state) => state.auth.signupFailMessage);
+  const signupLoading             = selector((state) => state.auth.signupLoading);
 
-  const infoUpdateSuccessMessage = selector((state) => state.auth.infoUpdateSuccessMessage);
-  const infoUpdateFailMessage = selector((state) => state.auth.infoUpdateFailMessage);
-  const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
+  const validationSuccessMessage  = selector((state) => state.auth.validationSuccessMessage);
+  const validationFailMessage     = selector((state) => state.auth.validationFailMessage);
+  const validationLoading         = selector((state) => state.auth.validationLoading);
+
+  const infoUpdateSuccessMessage  = selector((state) => state.auth.infoUpdateSuccessMessage);
+  const infoUpdateFailMessage     = selector((state) => state.auth.infoUpdateFailMessage);
+  const infoUpdateLoading         = selector((state) => state.auth.infoUpdateLoading);
 
   useEffect(() => {
     // signup
@@ -95,7 +99,6 @@ const SignUp = () => {
     // info update
     if (infoUpdateSuccessMessage) {
       message.success(infoUpdateSuccessMessage);
-      //moveToNextStep();
       redirectToPath("/home");
     }
     if (infoUpdateFailMessage) {
@@ -111,13 +114,14 @@ const SignUp = () => {
     infoUpdateFailMessage,
   ]);
 
-  const validatePassword = (rule, value) => {
-    if (value !== password) {
+
+  const validatePasswordAndConfirmPassword = (rule, value) => {
+    if (value && value !== signUpForm.getFieldValue('password')) {
       return Promise.reject("Passwords don't match!");
     } else {
       return Promise.resolve();
     }
-  };
+  }
 
   const signUpSubmit = function (values) {
     dispatch(signUp(values));
@@ -172,7 +176,7 @@ const SignUp = () => {
               <Divider />
 
               {/* Step 1 - Credentials  */}
-              <Form onFinish={(values) => signUpSubmit(values)} layout="vertical">
+              <Form onFinish={(values) => signUpSubmit(values)} form={signUpForm} layout="vertical">
                 <Col
                   id="col-step1"
                   xs={{ span: 24, offset: 0 }}
@@ -223,7 +227,7 @@ const SignUp = () => {
                     name="confirm-password"
                     rules={[
                       { required: true, message: "Please confirm your password!" },
-                      { validator: validatePassword },
+                      { validator: validatePasswordAndConfirmPassword },
                     ]}
                   >
                     <Input.Password />
@@ -241,7 +245,7 @@ const SignUp = () => {
               </Form>
 
               {/* Step 2 - Verification */}
-              <Form onFinish={(values) => validateSubmit(values)} layout="vertical">
+              <Form onFinish={(values) => validateSubmit(values)} form={validationForm} layout="vertical">
                 <Col
                   id="col-step2"
                   xs={{ span: 24, offset: 0 }}
@@ -274,7 +278,7 @@ const SignUp = () => {
               </Form>
 
               {/* Step 3 - Interests    */}
-              <Form onFinish={(values) => infoSubmit(values)} layout="vertical">
+              <Form onFinish={(values) => infoSubmit(values)} form={infoUpdateForm} layout="vertical">
                 <Col
                   id="col-step3"
                   xs={{ span: 24, offset: 0 }}
