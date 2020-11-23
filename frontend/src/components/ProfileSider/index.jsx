@@ -30,10 +30,10 @@ const ProfileSider = () => {
         <Img src={profileData.profile_picture_url === null ? "https://britz.mcmaster.ca/images/nouserimage.gif/image" : profileData.profile_picture_url} alt="profile photo"/>
         <NameText>{profileData.name + " " + profileData.surname}</NameText>
         <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
-        <a href="#" style={{textAlign: "center", color: "white"}}>
+        <div href="#" style={{textAlign: "center", color: "white", cursor: "pointer"}}>
           <RocketOutlined style={{fontSize: 20, color: "green"}}/> 
           {profileData.number_of_ups === null ? " " + 0 + " UPs" : " " + profileData.number_of_ups + " ups"}
-        </a>
+        </div>
         <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
         <Title>Projects</Title>
       </div>
