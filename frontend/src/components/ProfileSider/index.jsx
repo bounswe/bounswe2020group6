@@ -32,9 +32,9 @@ const ProfileSider = () => {
         <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
         <a href="#" style={{textAlign: "center", color: "white"}}>
           <RocketOutlined style={{fontSize: 20, color: "green"}}/> 
-          {profileData.number_of_ups === null ? " " +0 + " UPs" : " " + profileData.number_of_ups + " ups"}
+          {profileData.number_of_ups === null ? " " + 0 + " UPs" : " " + profileData.number_of_ups + " ups"}
         </a>
-        <Title>Google Scholar</Title>
+        <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
         <Title>Projects</Title>
       </div>
         </>

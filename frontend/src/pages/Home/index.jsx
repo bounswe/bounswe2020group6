@@ -16,21 +16,40 @@ import {
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
+  const [loadingAllPeople, setLoadingAllPeople] = useState(true);
+  const [allPeople, setAllPeople] = useState(null);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(search({query: "", type: 0}, setAllPeople, setLoadingAllPeople))
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(search({query: "", type: 1}, setFeed, setLoading))
   }, [dispatch]);
 
-  const createContentCard = (Id, Title, TopNote, Summary, Footer) => {
+  const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
     return (<ContentCard
       key={Id}
       title={Title}
       topnote={TopNote}
       summary={Summary}
       footer={Footer}
+      img={ImgUrl}
       />)
+  }
+
+  const getUserNameById = (userId) => {
+    var userList = allPeople.users
+    var user = userList.find(u => u.id === userId)
+    return user ? (user.name + " " + user.surname) : null
+  }
+
+  const getUserPhotoById = (userId) => {
+    var userList = allPeople.users
+    var user = userList.find(u => u.id === userId)
+    return user ? (user.profile_picture_url) : null
   }
   
   return (
@@ -40,7 +59,7 @@ const Home = () => {
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
-            {loading ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, ""))}
+            {loading || loadingAllPeople ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, "", getUserNameById(p.userId),getUserPhotoById(p.userId)))}
           </Main>
           <Col align="center"
           md={0}

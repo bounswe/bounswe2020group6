@@ -43,13 +43,14 @@ const Search = () => {
     dispatch(search({query: searchText, type: 1}, setProjectResults, setLoadingProjectResults))
   }, [selectedFilter, searchText, dispatch]);
 
-  const createContentCard = (Id, Title, TopNote, Summary, Footer) => {
+  const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
     return (<ContentCard
       key={Id}
       title={Title}
       topnote={TopNote}
       summary={Summary}
       footer={Footer}
+      img={ImgUrl}
       />)
   }
 
@@ -67,6 +68,12 @@ const Search = () => {
     return user ? (user.name + " " + user.surname) : null
   }
 
+  const getUserPhotoById = (userId) => {
+    var userList = allPeople.users
+    var user = userList.find(u => u.id === userId)
+    return user ? (user.profile_picture_url) : null
+  }
+
   const content = () => {
     var spin = <H2><Spin/></H2>;
     if (loadingAllPeople) return spin;
@@ -74,7 +81,7 @@ const Search = () => {
       case "people":
         if (!loadingUserResults) {
           return userResults.users.length > 0 ?
-          <> <H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", ""))}</>
+          <> <H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", "", u.profile_picture_url))}</>
           : <H2>"No users found."</H2>
         }
         else{
@@ -83,7 +90,7 @@ const Search = () => {
       case "project":
         if (!loadingProjectResults) {
           return projectResults.projects.length > 0 ?
-          <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId)))}</> 
+          <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId), getUserPhotoById(p.userId)))}</> 
           : <H2>"No projects found."</H2>
         }
         else{
@@ -94,10 +101,10 @@ const Search = () => {
           return projectResults.projects.length > 0 || projectResults.projects.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
-            <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId)))}</>
+            <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId), getUserPhotoById(p.userId)))}</>
             :""}
             {userResults.users.length > 0 ? 
-            <><H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", ""))}</>
+            <><H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", "", u.profile_picture_url))}</>
             :""}
           </>
           :<H2>"No results found."</H2>
