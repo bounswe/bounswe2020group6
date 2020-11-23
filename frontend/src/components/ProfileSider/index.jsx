@@ -17,9 +17,8 @@ const ProfileSider = () => {
 
   const dispatch = useDispatch();
 
-  const myId = 1
-
   useEffect(() => {
+    var  myId = localStorage.getItem("userId")
     dispatch(profileInfo(myId , setProfileData, setLoading))
   },[dispatch]);
 
