@@ -19,15 +19,35 @@ const { Step } = Steps;
 
 //dummy data
 const interestChoicesList = [
-  "stuff",
-  "physics",
-  "maths",
-  "engineering",
-  "quantizers",
-  "quantum computing",
-  "computers",
-  "computer engineering",
-  "computer science",
+  "Humanities",
+  "Performing arts",
+  "Visual arts",
+  "History",
+  "Languages and literature",
+  "Law",
+  "Philosophy",
+  "Theology",
+  "Social Sciences",
+  "Anthropology",
+  "Economics",
+  "Geography",
+  "Political science",
+  "Psychology",
+  "Sociology",
+  "Social Work",
+  "Natural Sciences",
+  "Biology",
+  "Chemistry",
+  "Earth science",
+  "Space sciences",
+  "Physics",
+  "Formal Sciences",
+  "Computer Science",
+  "Mathematics",
+  "Applied Sciences",
+  "Business",
+  "Engineering and technology",
+  "Medicine and health",
 ];
 
 const interestChoices = [];
@@ -38,20 +58,7 @@ for (let i = 0; i < interestChoicesList.length; i++) {
 const SignUp = () => {
   const [formStep, setFormStep] = React.useState(0);
 
-  const [name, setName] = React.useState();
-  const [surname, setSurname] = React.useState();
-  const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
-  const [confirmPassword, setConfirmPassword] = React.useState();
-
-  const [matchingPassword, setMatchingPassword] = React.useState(false);
-
-  const [validationCode, setValidationCode] = React.useState();
-
-  const [university, setUniversity] = React.useState([]);
-  const [department, setDepartment] = React.useState([]);
-  const [degree, setDegree] = React.useState([]);
-  const [interests, setInterests] = React.useState([]);
 
   const dispatch = useDispatch();
   const selector = useSelector;
@@ -104,14 +111,6 @@ const SignUp = () => {
     infoUpdateFailMessage,
   ]);
 
-  useEffect(() => {
-    if (password === confirmPassword) {
-      setMatchingPassword(true);
-    } else {
-      setMatchingPassword(false);
-    }
-  }, [password, confirmPassword]);
-
   const validatePassword = (rule, value) => {
     if (value !== password) {
       return Promise.reject("Passwords don't match!");
@@ -120,59 +119,25 @@ const SignUp = () => {
     }
   };
 
-  // API calls
-  const postSignUpRequest = (values) => {
+  const signUpSubmit = function (values) {
     dispatch(signUp(values));
   };
-  const postValidateRequest = (values) => {
-    console.log("ho");
+  const validateSubmit = function (values) {
     dispatch(validateCode(values));
   };
-  const postInfoUpdateRequest = (values) => {
-    dispatch(infoUpdate(values));
-  };
-
-  // password change handlers
-  const handlePasswordChange = function (e) {
-    setPassword(e.target.value);
-  };
-  const handleConfirmPasswordChange = function (e) {
-    setConfirmPassword(e.target.value);
-  };
-  const handleValidationCodeChange = function (e) {
-    setValidationCode(e.target.value);
-  };
-  const handleTagChange = function (value) {
-    setInterests(value);
-  };
-
-  // TODO: onfinish fonksiyona çevrilicek, values eklenecek
-  const signUpSubmit = function (signupValues) {
-    const formIsValid = matchingPassword;
-    if (formIsValid) {
-      postSignUpRequest(signupValues);
-    }
-  };
-  const validateSubmit = function (values) {
-    // TODO: post validate code to endpoint
-    // according to result, continue and call `onButtonClick`
-    console.log(validationCode);
-    if (validationCode) {
-      console.log("hey");
-      postValidateRequest(values);
-    }
-  };
-  const infoSubmit = function (e) {
-    if (university && department && degree) {
-      postInfoUpdateRequest({
-        affiliation: {
-          university,
-          department,
-          degree,
-        },
-        researchAreas: interests,
-      });
-    }
+  const infoSubmit = function (values) {
+    dispatch(infoUpdate(
+      (
+        {
+          affiliation: {
+            university: values.university,
+            department: values.department,
+            degree:     values.degree,
+          },
+          researchAreas: values.interests,
+        }
+      )
+    ));
   };
 
   const moveToNextStep = function (e) {
@@ -207,7 +172,7 @@ const SignUp = () => {
               <Divider />
 
               {/* Step 1 - Credentials  */}
-              <Form onFinish={signUpSubmit} layout="vertical">
+              <Form onFinish={(values) => signUpSubmit(values)} layout="vertical">
                 <Col
                   id="col-step1"
                   xs={{ span: 24, offset: 0 }}
@@ -226,7 +191,7 @@ const SignUp = () => {
                       style={{ width: "50%" }}
                       rules={[{ required: true, message: "Please enter your first name!" }]}
                     >
-                      <Input value={name} onChange={(e) => setName(e.target.value)} />
+                      <Input />
                     </Form.Item>
                     <Form.Item
                       label={<FormLabel>Surname</FormLabel>}
@@ -234,7 +199,7 @@ const SignUp = () => {
                       style={{ width: "50%" }}
                       rules={[{ required: true, message: "Please enter your last name!" }]}
                     >
-                      <Input value={surname} onChange={(e) => setSurname(e.target.value)} />
+                      <Input />
                     </Form.Item>
                   </Input.Group>
                   <Form.Item
@@ -242,7 +207,7 @@ const SignUp = () => {
                     name="email"
                     rules={[{ required: true, message: "Please enter your email!" }]}
                   >
-                    <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input />
                   </Form.Item>
 
                   <Form.Item
@@ -250,7 +215,7 @@ const SignUp = () => {
                     name="password"
                     rules={[{ required: true, message: "Please enter your password!" }]}
                   >
-                    <Input.Password onChange={handlePasswordChange} value={password} />
+                    <Input.Password onChange={(e) => setPassword(e.target.value)} value={password} />
                   </Form.Item>
 
                   <Form.Item
@@ -261,17 +226,13 @@ const SignUp = () => {
                       { validator: validatePassword },
                     ]}
                   >
-                    <Input.Password
-                      onChange={handleConfirmPasswordChange}
-                      value={confirmPassword}
-                    />
+                    <Input.Password />
                   </Form.Item>
                   <Form.Item>
                     <FormButton
                       loading={signupLoading}
                       type="primary"
                       htmlType="submit"
-                      //onClick={signUpSubmit}
                     >
                       Confirm
                     </FormButton>
@@ -280,7 +241,7 @@ const SignUp = () => {
               </Form>
 
               {/* Step 2 - Verification */}
-              <Form onFinish={validateSubmit} layout="vertical">
+              <Form onFinish={(values) => validateSubmit(values)} layout="vertical">
                 <Col
                   id="col-step2"
                   xs={{ span: 24, offset: 0 }}
@@ -297,14 +258,13 @@ const SignUp = () => {
                     name="code"
                     rules={[{ required: true, message: "Please enter your verification code!" }]}
                   >
-                    <Input.Password value={validationCode} onChange={handleValidationCodeChange} />
+                    <Input />
                   </Form.Item>
                   <Form.Item>
                     <FormButton
                       loading={validationLoading}
                       type="primary"
                       htmlType="submit"
-                      //onClick={validateSubmit}
                     >
                       Confirm
                     </FormButton>
@@ -314,7 +274,7 @@ const SignUp = () => {
               </Form>
 
               {/* Step 3 - Interests    */}
-              <Form layout="vertical">
+              <Form onFinish={(values) => infoSubmit(values)} layout="vertical">
                 <Col
                   id="col-step3"
                   xs={{ span: 24, offset: 0 }}
@@ -332,7 +292,7 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your university!" }]}
                   >
-                    <Input value={university} onChange={(e) => setUniversity(e.target.value)} />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Department</FormLabel>}
@@ -340,7 +300,7 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your department!" }]}
                   >
-                    <Input value={department} onChange={(e) => setDepartment(e.target.value)} />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Degree</FormLabel>}
@@ -348,7 +308,7 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your degree!" }]}
                   >
-                    <Input value={degree} onChange={(e) => setDegree(e.target.value)} />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Research area interests</FormLabel>}
@@ -361,10 +321,7 @@ const SignUp = () => {
                       mode="multiple"
                       allowClear
                       style={{ width: "100%" }}
-                      placeholder="Please select"
-                      //defaultValue={["stuff"]}
-                      //value={interests}
-                      onChange={handleTagChange}
+                      placeholder="Please select at least one research interest"
                     >
                       {interestChoices}
                     </Select>
@@ -384,7 +341,6 @@ const SignUp = () => {
                       loading={infoUpdateLoading}
                       type="primary"
                       htmlType="submit"
-                      onClick={infoSubmit}
                     >
                       Confirm
                     </FormButton>

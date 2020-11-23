@@ -13,11 +13,12 @@ export const authSignupStartAction = () => {
     type: actions.AUTH_SIGNUP_START,
   };
 };
-export const authSignupSuccessAction = (message, token) => {
+export const authSignupSuccessAction = (message, token, userId) => {
   return {
     type: actions.AUTH_SIGNUP_SUCCESS,
     message,
     token,
+    userId,
   };
 };
 export const authSignupFailAction = (message) => {
@@ -57,7 +58,6 @@ export const authInfoUpdateSuccessAction = (message, token) => {
   return {
     type: actions.AUTH_INFOUPDATE_SUCCESS,
     message,
-    token,
   };
 };
 export const authInfoUpdateFailAction = (message) => {

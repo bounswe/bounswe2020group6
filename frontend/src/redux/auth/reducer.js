@@ -32,11 +32,13 @@ const authSignupStartReducer = (state, action) => {
 
 const authSignupSuccessReducer = (state, action) => {
   localStorage.setItem("token", action.token);
+  localStorage.setItem("userId", action.userId);
   return {
     ...state,
     signupSuccessMessage: action.message,
     signupLoading: false,
     token: action.token,
+    userId: action.userId,
   };
 };
 

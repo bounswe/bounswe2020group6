@@ -7,10 +7,12 @@ export const signUp = (body) => {
     api()
       .post("/auth/signup", body)
       .then((response) => {
+        console.log(response)
         dispatch(
           actions.authSignupSuccessAction(
             "Activation code has been sent to your email",
-            response.data.accessToken
+            response.data.accessToken,
+            response.data.id,
           )
         );
       })
