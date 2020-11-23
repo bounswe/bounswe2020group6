@@ -79,7 +79,8 @@ const SiteHeader = () => {
             <SearchBar suffix={suffix} size="small" />
           </Col>
           <Nav xs={0} sm={{ span: 10, offset: 1 }} md={{ span: 10, offset: 1 }}>
-            <Anchor href="#">Home</Anchor> | <Anchor href="">Profile</Anchor> |{" "}
+            <Anchor onClick={() => history.push("/home")}>Home</Anchor> |{" "}
+            <Anchor onClick={() => history.push("/project")}>Profile</Anchor> |{" "}
             <Anchor href="#">Settings</Anchor> | <Anchor onClick={handleLogout}>Logout</Anchor>
           </Nav>
         </Row>

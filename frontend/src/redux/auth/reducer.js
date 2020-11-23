@@ -1,7 +1,7 @@
 import * as actions from "../actionTypes";
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("token"),
 
   signupLoading: false,
   signupSuccessMessage: null,

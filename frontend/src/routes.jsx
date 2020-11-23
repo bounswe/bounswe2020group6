@@ -8,6 +8,8 @@ import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import Project from "./pages/Project";
 import api from "./axios";
+import Spinner from "./components/Spinner";
+import { Row, Col } from "antd";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -47,7 +49,7 @@ export default function App() {
     </Switch>
   );
 
-  if (storageToken || reduxToken) {
+  if (storageToken && reduxToken) {
     routes = (
       <Switch>
         <Route path="/home">
@@ -63,6 +65,14 @@ export default function App() {
       </Switch>
     );
   }
-
-  return routes;
+  //loading ? <Spinner /> : routes;
+  return loading ? (
+    <Row style={{ height: "100vh" }} justify="center" align="middle">
+      <Col>
+        <Spinner size={200} />
+      </Col>
+    </Row>
+  ) : (
+    routes
+  );
 }
