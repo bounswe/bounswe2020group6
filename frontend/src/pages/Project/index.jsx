@@ -16,6 +16,8 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
+const { Option } = Select;
+
 //dummy data //TODO: remove
 const interestChoicesList = [
   "Humanities",
@@ -48,6 +50,11 @@ const interestChoicesList = [
   "Engineering and technology",
   "Medicine and health",
 ];
+
+const interestChoices = [];
+for (let i = 0; i < interestChoicesList.length; i++) {
+  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
+}
 
 
 const Project = () => {
@@ -157,7 +164,7 @@ const Project = () => {
                       placeholder="Tags"
                       onChange={handleChange}
                     >
-                      {interestChoicesList}
+                      {interestChoices}
                     </Select>
                   </Form.Item>
                 </Form>
