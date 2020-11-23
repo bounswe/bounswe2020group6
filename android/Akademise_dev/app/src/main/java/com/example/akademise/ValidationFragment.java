@@ -54,18 +54,14 @@ public class ValidationFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createValidationCode(validation.getText().toString());
+                Log.d("button_name", btn.getText().toString());
+                if (btn.getText().equals(getString(R.string.validate))) {
+                    createValidationCode(validation.getText().toString());
+                }
             }
         });
 
 
-    }
-
-    private void saveData(String token){
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(accessToken, token);
-        editor.apply();
     }
 
     private void loadData(){
@@ -83,19 +79,18 @@ public class ValidationFragment extends Fragment {
         call.enqueue(new Callback<Validation>() {
             @Override
             public void onResponse(Call<Validation> call, Response<Validation> response) {
-                if(!response.isSuccessful()){
-                    System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(getActivity(), "Try Again", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Validation validationResponse = response.body();
-                System.out.println("SUCCESSFUL");
-                System.out.println("Token: " + validationResponse.getAccessToken());
-                System.out.println("Token: " + myToken);
-                //saveData(validationResponse.getAccessToken());
-                btn.setText(getString(R.string.next));
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,
-                        new PersonalInfoFragment()).commit();
+                    if (!response.isSuccessful()) {
+                        System.out.println("NOT SUCCESSFUL");
+                        Toast.makeText(getActivity(), "Try Again", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Validation validationResponse = response.body();
+                    System.out.println("Validation - SUCCESSFUL");
+                    System.out.println("Validation - Token: " + myToken);
+                    btn.setText(getString(R.string.next));
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,
+                            new PersonalInfoFragment()).commit();
+
 
             }
 

@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loadData();
 
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignup = (Button) findViewById(R.id.btnSignup);
         btnLogin.setOnClickListener(login);
@@ -52,13 +53,14 @@ public class LoginActivity extends AppCompatActivity {
 
         akademiseApi = retrofit.create(AkademiseApi.class);
 
+
+
     }
 
     View.OnClickListener login = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             createUser(email.getText().toString(), password.getText().toString());
-            openMainActivity();
         }
     };
     View.OnClickListener signup = new View.OnClickListener() {
@@ -93,8 +95,11 @@ public class LoginActivity extends AppCompatActivity {
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
-                //saveData(userResponse.getAccessToken());
-                Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+                saveData(userResponse.getAccessToken());
+                loadData();
+                System.out.println("myToken: " + myToken);
+                //Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+                openMainActivity();
 
             }
             @Override

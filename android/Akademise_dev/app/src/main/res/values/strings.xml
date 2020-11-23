@@ -4,7 +4,7 @@
     <string name="next">NEXT</string>
     <string name="done">DONE</string>
     <string name="validate">VALIDATE</string>
-    <string name="topic">Topic</string>
+    <string name="title">Title</string>
     <string name="_abstract">Abstract</string>
     <string name="content">Content</string>
     <string name="deadline">Deadline</string>

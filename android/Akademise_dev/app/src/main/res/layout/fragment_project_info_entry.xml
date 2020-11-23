@@ -7,25 +7,25 @@
     tools:context=".ProjectInfoEntryFragment">
 
     <EditText
-        android:id="@+id/etTopic"
+        android:id="@+id/etTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/topic"
+        android:hint="@string/title"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/etAbstract"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvTopic"
+        app:layout_constraintStart_toEndOf="@+id/tvTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTopic"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/topic"
+        android:text="@string/title"
         app:layout_constraintBottom_toTopOf="@+id/tvAbstract"
-        app:layout_constraintEnd_toStartOf="@+id/etTopic"
+        app:layout_constraintEnd_toStartOf="@+id/etTitle"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvAbstract"
-        app:layout_constraintTop_toBottomOf="@+id/etTopic" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
     <TextView
         android:id="@+id/tvAbstract"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toStartOf="@+id/etAbstract"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTopic" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <Spinner
         android:id="@+id/sAddResearchTag"
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/etdCreationDate"
+        app:layout_constraintBottom_toTopOf="@+id/etdRequirements"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvIsPublic"
@@ -120,29 +120,29 @@
         app:layout_constraintEnd_toStartOf="@+id/etdDeadline"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCreationDate" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRequirements" />
 
     <TextView
-        android:id="@+id/tvCreationDate"
+        android:id="@+id/tvRequirements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/creation_date"
+        android:text="Requirements"
         app:layout_constraintBottom_toTopOf="@+id/tvDeadline"
-        app:layout_constraintEnd_toStartOf="@+id/etdCreationDate"
+        app:layout_constraintEnd_toStartOf="@+id/etdRequirements"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvIsPublic" />
 
     <EditText
-        android:id="@+id/etdCreationDate"
+        android:id="@+id/etdRequirements"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/etdDeadline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvCreationDate"
+        app:layout_constraintStart_toEndOf="@+id/tvRequirements"
         app:layout_constraintTop_toBottomOf="@+id/cbIsPublic" />
 
     <EditText
@@ -155,7 +155,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvDeadline"
-        app:layout_constraintTop_toBottomOf="@+id/etdCreationDate" />
+        app:layout_constraintTop_toBottomOf="@+id/etdRequirements" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

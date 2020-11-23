@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -23,7 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
-    //List<Post> searchedPosts;
+    //List<Project> searchedPosts;
     AkademiseApi akademiseApi;
     SearchView searchView;
     TextView tvScroll;
@@ -67,30 +65,30 @@ public class HomeFragment extends Fragment {
 
     private  void getPosts(){
 
-        Call<List<Post>> call= akademiseApi.getPostsSearched(2);
-        call.enqueue(new Callback<List<Post>>() {
+        Call<List<Project>> call= akademiseApi.getPostsSearched(2);
+        call.enqueue(new Callback<List<Project>>() {
             @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
 
                 if(!response.isSuccessful()){
-                    Log.d("Post", "onResponse: not successful");
+                    Log.d("Project", "onResponse: not successful");
                     return;
                 }
 
-                List<Post> posts = response.body();
+                List<Project> projects = response.body();
 
-                for (Post post : posts){
+                for (Project project : projects){
 
-                    tvScroll.setText(tvScroll.getText()+post.getText()+"\n");
+                    tvScroll.setText(tvScroll.getText()+ project.getTitle()+"\n");
 
                 }
 
             }
 
             @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
+            public void onFailure(Call<List<Project>> call, Throwable t) {
 
-                Log.d("Post", "onFailure: failed");
+                Log.d("Project", "onFailure: failed");
 
             }
         });
