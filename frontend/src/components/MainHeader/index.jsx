@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { useHistory } from "react-router-dom";
 import { Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
@@ -18,6 +19,8 @@ import searchIcon from '../../assets/search-icon.png';
 
 const SiteHeader = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
+  const [searchText, setSearchText] = useState(null);
+  const history = useHistory();
 
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
@@ -29,8 +32,12 @@ const SiteHeader = () => {
     </SideBar>
   );
 
+  const redirectToSearchPage = () => {
+    history.push({ pathname: "/search", search: searchText})
+  }
+
   const suffix = (
-    <img src={searchIcon} alt="search icon" onClick={() => console.log("hello")} style={{height: "15px", width: "15px"}} />
+    <img src={searchIcon} alt="search icon" onClick={redirectToSearchPage} style={{height: "15px", width: "15px", cursor: "pointer"}} />
   );
 
   return (
@@ -53,6 +60,8 @@ const SiteHeader = () => {
           <SearchBar
           suffix={suffix}
           size="small"
+          onPressEnter={redirectToSearchPage} 
+          onChange={(e) => {setSearchText(e.target.value);}}
           />
           </Col>
           <Nav xs={0} sm={{span:10, offset: 1}} md={{span:10, offset: 1}}>
