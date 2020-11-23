@@ -47,4 +47,9 @@ public interface AkademiseApi {
 
     @POST("auth/jwt")
     Call<Token> sendToken(@Body Token token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("profile/update")
+    Call<Affiliation> createAffiliation(@Body Affiliation affiliation, @Header("Authorization") String auth);
+
 }
