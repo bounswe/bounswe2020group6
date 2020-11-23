@@ -20,3 +20,18 @@ export const signUp = (body) => {
       });
   };
 };
+
+export const login = (body) => {
+  return (dispatch) => {
+    dispatch(actions.authLoginStartAction());
+    api()
+      .post("/auth/login", body)
+      .then((response) => {
+        dispatch(actions.authLoginSuccessAction(response.data.accessToken));
+      })
+      .catch((e) => {
+        const errorMessage = e.response.data.message;
+        dispatch(actions.authLoginFailAction(errorMessage));
+      });
+  };
+};
