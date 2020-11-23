@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { Row, Col, Form, Input, Checkbox } from "antd";
+import { login } from "../../redux/auth/api";
+import { authClearMessagesAction } from "../../redux/auth/actions";
+
+import { Row, Col, Form, Input, Checkbox, message } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
   Header,
@@ -21,6 +26,25 @@ const LandingHeader = () => {
   const [loginVisible, setLoginVisible] = useState(false);
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
 
+  const dispatch = useDispatch();
+  const selector = useSelector;
+  const history = useHistory();
+
+  const loginLoading = selector((state) => state.auth.loginLoading);
+  const loginFailMessage = selector((state) => state.auth.loginFailMessage);
+  const token = selector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (loginFailMessage) {
+      message.error(loginFailMessage);
+      dispatch(authClearMessagesAction());
+    }
+    if (token) {
+      history.push("/home");
+    }
+    // eslint-disable-next-line
+  }, [loginFailMessage, token]);
+
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
@@ -30,6 +54,11 @@ const LandingHeader = () => {
       </SideBarMenu>
     </SideBar>
   );
+
+  const handleLogin = (values) => {
+    dispatch(login(values));
+  };
+
   return (
     <div>
       {sideBar}
@@ -40,7 +69,7 @@ const LandingHeader = () => {
         onCancel={() => setLoginVisible(false)}
       >
         <LoginTitle>Login</LoginTitle>
-        <Form layout="vertical">
+        <Form onFinish={handleLogin} layout="vertical">
           <Form.Item
             label={<LoginLabel>Email</LoginLabel>}
             name="email"
@@ -62,7 +91,7 @@ const LandingHeader = () => {
           </Form.Item>
 
           <Form.Item>
-            <LoginButton type="primary" htmlType="submit">
+            <LoginButton loading={loginLoading} type="primary" htmlType="submit">
               Login
             </LoginButton>
           </Form.Item>
@@ -86,17 +115,15 @@ const LandingHeader = () => {
             lg={{ span: 3, offset: 0 }}
           >
             <LogoDock>
-               <table>
+              <table>
                 <tbody>
                   <tr>
                     <td>
-                      <Logo src={'ad-logo-1d1e19.png'}/>
+                      <Logo src={"ad-logo-1d1e19.png"} />
                     </td>
                   </tr>
                   <tr>
-                    <td>
-                      akademise
-                    </td>
+                    <td>akademise</td>
                   </tr>
                 </tbody>
               </table>

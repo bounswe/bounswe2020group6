@@ -1,9 +1,30 @@
 import * as actions from "../actionTypes";
 
-export const authLoginAction = (userToken) => {
+// LOGIN
+export const authLoginStartAction = () => {
   return {
-    type: actions.AUTH_LOGIN,
-    token: userToken,
+    type: actions.AUTH_LOGIN_START,
+  };
+};
+
+export const authLoginSuccessAction = (token) => {
+  return {
+    type: actions.AUTH_LOGIN_SUCCESS,
+    token,
+  };
+};
+
+export const authLoginFailAction = (message) => {
+  return {
+    type: actions.AUTH_LOGIN_FAIL,
+    message,
+  };
+};
+
+// LOGOUT
+export const authLogoutAction = (message) => {
+  return {
+    type: actions.AUTH_LOGOUT,
   };
 };
 

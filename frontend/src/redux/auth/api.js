@@ -63,6 +63,19 @@ export const infoUpdate = (body) => {
         console.log(e)
         const errorMessage = e.response.data.error;
         dispatch(actions.authInfoUpdateFailAction(errorMessage));
+
+export const login = (body) => {
+  return (dispatch) => {
+    dispatch(actions.authLoginStartAction());
+    api()
+      .post("/auth/login", body)
+      .then((response) => {
+        dispatch(actions.authLoginSuccessAction(response.data.accessToken));
+      })
+      .catch((e) => {
+        const errorMessage = e.response.data.message;
+        dispatch(actions.authLoginFailAction(errorMessage));
+
       });
   };
 };
