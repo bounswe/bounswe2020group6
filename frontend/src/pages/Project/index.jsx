@@ -16,6 +16,40 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
+//dummy data //TODO: remove
+const interestChoicesList = [
+  "Humanities",
+  "Performing arts",
+  "Visual arts",
+  "History",
+  "Languages and literature",
+  "Law",
+  "Philosophy",
+  "Theology",
+  "Social Sciences",
+  "Anthropology",
+  "Economics",
+  "Geography",
+  "Political science",
+  "Psychology",
+  "Sociology",
+  "Social Work",
+  "Natural Sciences",
+  "Biology",
+  "Chemistry",
+  "Earth science",
+  "Space sciences",
+  "Physics",
+  "Formal Sciences",
+  "Computer Science",
+  "Mathematics",
+  "Applied Sciences",
+  "Business",
+  "Engineering and technology",
+  "Medicine and health",
+];
+
+
 const Project = () => {
   return (
     <Content>
@@ -101,7 +135,7 @@ const Project = () => {
                   <Form.Item
                     label={<FormLabel>Add Collabrators</FormLabel>}
                     name="collabrators"
-                    rules={[{ required: true, message: "Required" }]}
+                    rules={[{ required: false, message: "Optional" }]}
                   >
                     <Select
                       mode="tags"
@@ -123,7 +157,7 @@ const Project = () => {
                       placeholder="Tags"
                       onChange={handleChange}
                     >
-                      {}
+                      {interestChoicesList}
                     </Select>
                   </Form.Item>
                 </Form>

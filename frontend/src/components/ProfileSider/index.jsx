@@ -26,7 +26,7 @@ const ProfileSider = () => {
     <Layout>
       {
         loading ? <Spin size="large" style={{ margin: "auto" }}/> : <>
-        <Img src={profileData.profile_picture_url === null ? "https://britz.mcmaster.ca/images/nouserimage.gif/image" : profileData.profile_picture_url} alt="profile photo"/>
+        <Img style={ {height: "90px", width: "90px"} } src={profileData.profile_picture_url === null ? "https://britz.mcmaster.ca/images/nouserimage.gif/image" : profileData.profile_picture_url} alt="profile photo"/>
         <NameText>{profileData.name + " " + profileData.surname}</NameText>
         <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
         <div href="#" style={{textAlign: "center", color: "white", cursor: "pointer"}}>

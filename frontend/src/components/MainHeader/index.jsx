@@ -76,10 +76,10 @@ const SiteHeader = () => {
             align="center"
             offset={6}>
           <SearchBar
-          suffix={suffix}
-          size="small"
-          onPressEnter={redirectToSearchPage} 
-          onChange={(e) => {setSearchText(e.target.value);}}
+            suffix={suffix}
+            size="small"
+            onPressEnter={redirectToSearchPage} 
+            onChange={(e) => {setSearchText(e.target.value);}}
           />
           </Col>
           <Nav xs={0} sm={{ span: 10, offset: 1 }} md={{ span: 10, offset: 1 }}>
