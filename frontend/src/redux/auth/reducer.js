@@ -31,6 +31,7 @@ const authLoginStartReducer = (state, action) => {
 const authLoginSuccessReducer = (state, action) => {
   localStorage.setItem("token", action.token);
   localStorage.setItem("user", action.id);
+  localStorage.setItem("userId", action.id);
   return {
     ...state,
     loginLoading: false,

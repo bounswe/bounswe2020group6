@@ -11,13 +11,6 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 const { Option } = Select;
 
 //dummy data //TODO: remove
