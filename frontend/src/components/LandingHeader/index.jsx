@@ -32,18 +32,18 @@ const LandingHeader = () => {
 
   const loginLoading = selector((state) => state.auth.loginLoading);
   const loginFailMessage = selector((state) => state.auth.loginFailMessage);
-  const token = selector((state) => state.auth.token);
+  const user = selector((state) => state.auth.user);
 
   useEffect(() => {
     if (loginFailMessage) {
       message.error(loginFailMessage);
       dispatch(authClearMessagesAction());
     }
-    if (token) {
+    if (user) {
       history.push("/home");
     }
     // eslint-disable-next-line
-  }, [loginFailMessage, token]);
+  }, [loginFailMessage, user]);
 
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>

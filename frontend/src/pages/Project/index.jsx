@@ -10,6 +10,53 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
+function onChange(date, dateString) {
+  console.log(date, dateString);
+}
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
+
+const { Option } = Select;
+
+//dummy data //TODO: remove
+const interestChoicesList = [
+  "Humanities",
+  "Performing arts",
+  "Visual arts",
+  "History",
+  "Languages and literature",
+  "Law",
+  "Philosophy",
+  "Theology",
+  "Social Sciences",
+  "Anthropology",
+  "Economics",
+  "Geography",
+  "Political science",
+  "Psychology",
+  "Sociology",
+  "Social Work",
+  "Natural Sciences",
+  "Biology",
+  "Chemistry",
+  "Earth science",
+  "Space sciences",
+  "Physics",
+  "Formal Sciences",
+  "Computer Science",
+  "Mathematics",
+  "Applied Sciences",
+  "Business",
+  "Engineering and technology",
+  "Medicine and health",
+];
+
+const interestChoices = [];
+for (let i = 0; i < interestChoicesList.length; i++) {
+  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
+}
+                    
 const Project = () => {
   const handleSubmit = function (values) {
     var form_data = new FormData();
@@ -72,7 +119,6 @@ const Project = () => {
                     >
                       <Input.TextArea rows={8} />
                     </Form.Item>
-
                     <Form.Item
                       label={<FormLabel>Privacy</FormLabel>}
                       name="privacy"
@@ -150,7 +196,7 @@ const Project = () => {
                         style={{ width: "100%" }}
                         placeholder="Tags"
                       >
-                        {}
+                        {interestChoices}
                       </Select>
                     </Form.Item>
                     <FormButton type="primary" htmlType="submit">

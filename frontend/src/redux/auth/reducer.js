@@ -2,6 +2,7 @@ import * as actions from "../actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
+  user: localStorage.getItem("user"),
 
   signupLoading: false,
   signupSuccessMessage: null,
@@ -29,10 +30,12 @@ const authLoginStartReducer = (state, action) => {
 
 const authLoginSuccessReducer = (state, action) => {
   localStorage.setItem("token", action.token);
+  localStorage.setItem("user", action.id);
   return {
     ...state,
     loginLoading: false,
     token: action.token,
+    user: action.id,
   };
 };
 
@@ -47,9 +50,11 @@ const authLoginFailReducer = (state, action) => {
 // LOGOUT
 const authLogoutReducer = (state, action) => {
   localStorage.removeItem("token");
+  localStorage.removeItem("user");
   return {
     ...state,
     token: null,
+    user: null,
   };
 };
 
@@ -112,10 +117,12 @@ const authInfoUpdateStartReducer = (state, action) => {
 };
 
 const authInfoUpdateSuccessReducer = (state, action) => {
+  const id = localStorage.getItem("userId");
   return {
     ...state,
     infoUpdateSuccessMessage: action.message,
     infoUpdateLoading: false,
+    user: id,
   };
 };
 
