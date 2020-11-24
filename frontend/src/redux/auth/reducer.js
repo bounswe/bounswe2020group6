@@ -137,16 +137,11 @@ const authClearMessagesReducer = (state, action) => {
     infoUpdateFailMessage: null,
     infoUpdateSuccessMessage: null,
     loginFailMessage: null,
-
   };
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-
-    case actions.AUTH_LOGIN:
-      return authLoginReducer(state, action);
-    
     case actions.AUTH_CLEAR_MESSAGES:
       return authClearMessagesReducer(state, action);
 
@@ -158,7 +153,7 @@ export default function reducer(state = initialState, action) {
       return authLoginSuccessReducer(state, action);
     case actions.AUTH_LOGIN_FAIL:
       return authLoginFailReducer(state, action);
-      
+
     case actions.AUTH_SIGNUP_START:
       return authSignupStartReducer(state, action);
     case actions.AUTH_SIGNUP_SUCCESS:
@@ -179,7 +174,6 @@ export default function reducer(state = initialState, action) {
       return authInfoUpdateSuccessReducer(state, action);
     case actions.AUTH_INFOUPDATE_FAIL:
       return authInfoUpdateFailReducer(state, action);
-
 
     default:
       return state;
