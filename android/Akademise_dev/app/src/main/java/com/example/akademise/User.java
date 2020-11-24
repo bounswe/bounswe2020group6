@@ -13,6 +13,8 @@ public class User {
 
     private String message;
 
+    private Integer id;
+
     //SIGNUP
     public User(String email, String password, String name, String surname) {
         this.email = email;
@@ -43,4 +45,8 @@ public class User {
     }
 
     public String getAccessToken() { return accessToken; }
+
+    public Integer getUserId() {
+        return id;
+    }
 }

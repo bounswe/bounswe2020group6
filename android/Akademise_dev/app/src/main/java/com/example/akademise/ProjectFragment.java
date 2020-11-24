@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,10 +27,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProjectFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    public static final String MyIDPEREFERENCES = "MyIDPrefs";
+    public static final String accessID = "XXXXXID";
     String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
-
+    private  Integer myId;
+    TextView myProjects;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class ProjectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        myProjects= getView().findViewById(R.id.tvScrollViewMyProjects);
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -47,7 +52,8 @@ public class ProjectFragment extends Fragment {
                 .build();
 
         akademiseApi = retrofit.create(AkademiseApi.class);
-        getProjects(1);
+        loadIDData();
+        getProjects(myId);
 
         Button btnAdd = view.findViewById(R.id.btnAddPublication);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +90,9 @@ public class ProjectFragment extends Fragment {
 
                 List<Project> projects = response.body();
                 int count=0;
+                myProjects.setText("\n\n\n");
                 for (Project project : projects){
+                    myProjects.setText(myProjects.getText()+project.getTitle()+"\n\n");
                     count++;
                 }
                 Log.d("Get_Project", String.valueOf(count));
@@ -97,6 +105,12 @@ public class ProjectFragment extends Fragment {
 
             }
         });
+
+    }
+
+    private void loadIDData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
+        myId = sharedPreferences.getInt(accessID, 0);
 
     }
 

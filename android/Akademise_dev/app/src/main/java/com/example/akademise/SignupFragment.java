@@ -25,10 +25,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignupFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    public static final String MyIDPEREFERENCES = "MyIDPrefs";
+    public static final String accessID = "XXXXXID";
     String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     Button btn;
     private String myToken;
+    private  Integer myId;
 
     @Nullable
     @Override
@@ -86,7 +89,9 @@ public class SignupFragment extends Fragment {
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
+                System.out.println("userId: " + userResponse.getUserId());
                 saveData(userResponse.getAccessToken());
+                saveIDData(userResponse.getUserId());
                 btn.setText(getString(R.string.validate));
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,
                         new ValidationFragment()).commit();
@@ -112,6 +117,19 @@ public class SignupFragment extends Fragment {
     private void loadData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
+
+    }
+
+    private void saveIDData(Integer id){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(accessID, id);
+        editor.apply();
+    }
+
+    private void loadIDData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
+        myId = sharedPreferences.getInt(accessID, 0);
 
     }
 }

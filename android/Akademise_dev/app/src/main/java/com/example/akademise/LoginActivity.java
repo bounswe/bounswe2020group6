@@ -53,8 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         akademiseApi = retrofit.create(AkademiseApi.class);
 
-
-
+        //jwt_validation();
     }
 
     View.OnClickListener login = new View.OnClickListener() {
@@ -94,10 +93,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
-                System.out.println("Token: " + userResponse.getAccessToken());
+                //System.out.println("userId: " + userResponse.getUserId());
                 saveData(userResponse.getAccessToken());
 
-                Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
 
                 openMainActivity();
 
@@ -122,4 +121,29 @@ public class LoginActivity extends AppCompatActivity {
         myToken = sharedPreferences.getString(accessToken, "");
 
     }
+
+    private void jwt_validation(){
+        Token token = new Token(myToken);
+        Call<Token> call = akademiseApi.sendToken(token);
+
+        call.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if(!response.isSuccessful()){
+                    System.out.println("NOT SUCCESSFUL");
+                    return;
+                }
+                openMainActivity();
+                Toast.makeText(LoginActivity.this, "Already logged in ", Toast.LENGTH_LONG).show();
+
+            }
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                System.out.println("FAILURE");
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+
 }

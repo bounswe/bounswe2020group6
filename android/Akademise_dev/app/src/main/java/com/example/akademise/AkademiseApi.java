@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface AkademiseApi {
@@ -31,8 +32,8 @@ public interface AkademiseApi {
 
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("post/get")
-    Call<List<Project>> getProjects(@Query("id") int id, @Header("Authorization") String auth);
+    @GET("post/get/{id}")
+    Call<List<Project>> getProjects(@Path("id") int id, @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")
@@ -43,4 +44,7 @@ public interface AkademiseApi {
 
     @POST("auth/login")
     Call<User> createUserLogin(@Body User user);
+
+    @POST("auth/jwt")
+    Call<Token> sendToken(@Body Token token);
 }
