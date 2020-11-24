@@ -13,11 +13,6 @@ import retrofit2.http.Query;
 
 public interface AkademiseApi {
 
-  /*  @Headers({
-            "token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjA1NjIyMzkwfQ.5t4GG2JF-SJB-orXi25rQiaAdw-a27I9Fw_0-IVu8pk"
-    })
-
-   */
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("validate")
@@ -51,5 +46,9 @@ public interface AkademiseApi {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("profile/update")
     Call<Affiliation> createAffiliation(@Body Affiliation affiliation, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("profile/{id}")
+    Call<Affiliation> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
 
 }

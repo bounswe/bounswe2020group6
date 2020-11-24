@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if(!response.isSuccessful()){
                     System.out.println("NOT SUCCESSFUL");
+                    Toast.makeText(LoginActivity.this, "Wrong email or password. Try again. ", Toast.LENGTH_LONG).show();
                     return;
                 }
                 User userResponse = response.body();
@@ -97,12 +98,13 @@ public class LoginActivity extends AppCompatActivity {
                 saveData(userResponse.getAccessToken());
 
                 //Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
-
+                Toast.makeText(LoginActivity.this, "Successful. ", Toast.LENGTH_LONG).show();
                 openMainActivity();
 
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Be sure to be connected. ", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());
             }
@@ -131,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if(!response.isSuccessful()){
                     System.out.println("NOT SUCCESSFUL");
+
                     return;
                 }
                 openMainActivity();
@@ -139,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Be sure to be connected ", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());
             }

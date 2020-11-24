@@ -16,7 +16,8 @@
             android:layout_height="120dp"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/avatar">
+            android:src="@drawable/pp"
+            >
 
         </ImageView>
 
@@ -26,27 +27,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/avatar"
             android:layout_marginTop="5dp"
-            android:text="Ertuğrul Düldül"
+            android:text="Justin Johnson"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true">
         </TextView>
 
-        <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
-            android:id="@+id/rating_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:rating="4">
-        </RatingBar>
 
         <RelativeLayout
             android:id="@+id/about_me_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rating_bar"
+            android:layout_below="@id/name"
             android:layout_marginLeft="5dp"
             android:background="@drawable/circle">
             <TextView
@@ -65,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/about_me"
                 android:layout_marginLeft="5dp"
-                android:text="I'm a computer engineering stuednt who is into physics">
+                android:hint="Please provide your personal information">
             </TextView>
         </RelativeLayout>
 
@@ -94,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/affiliation"
                 android:layout_marginLeft="5dp"
-                android:text="Boğaziçi University, Computer Engineering,BSc">
+                android:text="University: Bogazici University\nDepartment: Computer Engineering\nDegree: Academician - Professor">
             </TextView>
         </RelativeLayout>
 
@@ -123,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/contact"
                 android:layout_marginLeft="5dp"
-                android:text="ertugrul.dudul@bau.eduç.tr">
+                android:hint="Change contact settings">
             </TextView>
         </RelativeLayout>
 
