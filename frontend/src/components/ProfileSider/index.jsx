@@ -1,30 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { profileInfo } from "../../redux/profile/api";
 
-import { Rate } from "antd";
-import { CaretRightOutlined  } from "@ant-design/icons";
-import {
-  Layout,
-  NameText,
-  Title,
-  Img
-} from "./style";
+import { Spin } from "antd";
+import { RocketOutlined } from "@ant-design/icons";
+import { Layout, NameText, Title, Img } from "./style";
 
 const ProfileSider = () => {
+  const [loading, setLoading] = useState(true);
+  const [profileData, setProfileData] = useState(null);
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    var myId = localStorage.getItem("userId");
+    dispatch(profileInfo(myId, setProfileData, setLoading));
+  }, [dispatch]);
+
   return (
     <Layout>
-      <Img src="https://britz.mcmaster.ca/images/nouserimage.gif/image" alt="profile photo"/>
-      <NameText>Ertuğrul Düldül</NameText>
-      <Rate/>
-      <div style={{width: "70%", display: "flex", flexDirection: "column"}}>
-      <Title>Papers</Title>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 1 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 2 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> paper 3 </span>
-      <Title>Projects</Title>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 1 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 2 </span>
-      <span style={{color: "white"}}><CaretRightOutlined /> project 3 </span>
-      </div>
+      {loading ? (
+        <Spin size="large" style={{ margin: "auto" }} />
+      ) : (
+        <>
+          <Img
+            style={{ height: "90px", width: "90px" }}
+            src={
+              profileData.profile_picture_url === null
+                ? "https://britz.mcmaster.ca/images/nouserimage.gif/image"
+                : profileData.profile_picture_url
+            }
+            alt="profile photo"
+          />
+          <NameText>{profileData.name + " " + profileData.surname}</NameText>
+          <div style={{ width: "70%", display: "flex", flexDirection: "column" }}>
+            <div href="#" style={{ textAlign: "center", color: "white", cursor: "pointer" }}>
+              <RocketOutlined style={{ fontSize: 20, color: "green" }} />
+              {profileData.number_of_ups === null
+                ? " " + 0 + " UPs"
+                : " " + profileData.number_of_ups + " ups"}
+            </div>
+            <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
+            <Title>Projects</Title>
+            <Title onClick={() => history.push("/project")}>Create New Project</Title>
+          </div>
+        </>
+      )}
     </Layout>
   );
 };

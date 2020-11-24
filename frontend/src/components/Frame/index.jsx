@@ -12,7 +12,7 @@ const Frame = ({ children }) => {
     <Content>
       <MainHeader />
       <ProfileSider/>
-      <Row style={{ height: "100vh"}} align="top" justify="start">
+      <Row align="top" justify="start">
         {children}
       </Row>
     </Content>

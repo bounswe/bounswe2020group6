@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Layout, Col, Modal } from "antd";
+import { Layout, Col, Modal, Button } from "antd";
 
 export const LoginModal = styled(Modal)`
   left: 160px;
@@ -122,22 +122,21 @@ export const LogoDock = styled.div`
   font-weight: 600;
   font-size: 16px;
   position: relative;
-  line-height:2em;
+  line-height: 2em;
 `;
 
 export const Logo = styled.img`
   display: block;
   display: flex;
-  margin:auto;
+  margin: auto;
   height: 2em;
 `;
 
-export const LoginButton = styled.button`
+export const LoginButton = styled(Button)`
   background-color: ${theme.main.colors.first};
   height: 40px;
   width: 100%;
   text-align: center;
-  line-height: 40px;
   font-size: 16px;
   font-weight: 500;
   color: white;
@@ -147,9 +146,19 @@ export const LoginButton = styled.button`
 
   :focus {
     outline: none;
+    background: ${theme.main.colors.first} !important;
+    border-color: ${theme.main.colors.first} !important;
+  }
+
+  :active {
+    outline: none;
+    background: ${theme.main.colors.first} !important;
+    border-color: ${theme.main.colors.first} !important;
   }
 
   :hover {
     color: ${theme.main.colors.sixth};
+    background-color: ${theme.main.colors.first};
+    border-color: ${theme.main.colors.first} !important;
   }
 `;

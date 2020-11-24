@@ -1,6 +1,8 @@
 import React from "react";
+import api from "../../axios";
+import { useHistory } from "react-router-dom";
 
-import { Row, Col } from "antd";
+import { Space, Row, Col, Upload, message } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
 import { Content } from "./style";
@@ -9,139 +11,190 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
-function onChange(date, dateString) {
-  console.log(date, dateString);
+const { Option } = Select;
+
+//dummy data //TODO: remove
+const interestChoicesList = [
+  "Humanities",
+  "Performing arts",
+  "Visual arts",
+  "History",
+  "Languages and literature",
+  "Law",
+  "Philosophy",
+  "Theology",
+  "Social Sciences",
+  "Anthropology",
+  "Economics",
+  "Geography",
+  "Political science",
+  "Psychology",
+  "Sociology",
+  "Social Work",
+  "Natural Sciences",
+  "Biology",
+  "Chemistry",
+  "Earth science",
+  "Space sciences",
+  "Physics",
+  "Formal Sciences",
+  "Computer Science",
+  "Mathematics",
+  "Applied Sciences",
+  "Business",
+  "Engineering and technology",
+  "Medicine and health",
+];
+
+const interestChoices = [];
+for (let i = 0; i < interestChoicesList.length; i++) {
+  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
 }
 
 const Project = () => {
+  const history = useHistory();
+
+  const handleSubmit = function (values) {
+    var form_data = new FormData();
+    console.log(values["title"]);
+    for (var key in values) {
+      form_data.append(key, values[key]);
+    }
+    console.log(form_data);
+
+    api({ sendToken: true })
+      .post("/post/add", form_data)
+      .then((response) => {
+        console.log(response.data);
+        message.success("Publication successfully posted.", 4);
+        history.push("/home");
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+        message.success("Publication successfully posted.", 4);
+        history.push("/home");
+      });
+  };
+
   return (
     <Content>
-      <MainHeader />
-      <Divider style={{ marginTop: "90px" }} orientation="center">
-        <FormTitle>New Publication</FormTitle>
-      </Divider>
-      <Row style={{ height: "%100vh" }} align="top" justify="start">
-        <Content>
+      <Col>
+        <MainHeader />
+        <Divider style={{ marginTop: "90px" }} orientation="center">
+          <FormTitle>New Publication</FormTitle>
+        </Divider>
+        <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
-        </Content>
-        <Content
-          style={{
-            marginLeft: "50px",
-            marginRight: "220px",
-          }}
-        >
-          <Row>
-            <Content>
-              <Col
-                style={{
-                  marginRight: "30px",
-                  height: "100px",
-                }}
-              >
-                <Form layout="vertical">
-                  <br />
-                  <Form.Item
-                    label={<FormLabel>Title</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
-                  >
-                    <Input />
-                  </Form.Item>
 
-                  <Form.Item
-                    label={<FormLabel>Summary</FormLabel>}
-                    name="summary"
-                    rules={[{ required: true, message: "Summary" }]}
+          <Content
+            style={{
+              marginLeft: "220px",
+              marginRight: "220px",
+            }}
+          >
+            <Form layout="vertical" onFinish={handleSubmit}>
+              <Row align="middle" justify="center">
+                <Content>
+                  <Col
+                    style={{
+                      marginLeft: "200px",
+                      marginRight: "50px",
+                    }}
                   >
-                    <Input.TextArea rows={8} />
-                  </Form.Item>
-
-                  <Form.Item
-                    label={<FormLabel>Publication Type</FormLabel>}
-                    name="pubtype"
-                  >
-                    <Radio.Group value={1}>
-                      <Radio value={1}>Paper</Radio>
-                      <Radio value={2}>Project</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </Form>
-              </Col>
-            </Content>
-
-            <Content>
-              <Col>
-                <Form layout="vertical">
-                  <br />
-                  <Form.Item
-                    label={<FormLabel>Deadline</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
-                  >
-                    <DatePicker onChange={onChange} />
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Upload File About Publication</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
-                  >
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Add Collabrators</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
-                  >
-                    <Select
-                      mode="multiple"
-                      allowClear
-                      style={{ width: "100%" }}
-                      placeholder="Please select"
-                      defaultValue={["ahmet", "con"]}
+                    <br />
+                    <Form.Item
+                      label={<FormLabel>Title</FormLabel>}
+                      name="title"
+                      rules={[{ required: true, message: "Required" }]}
                     >
-                      {["a", "b", "c", "d"]}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Add Tags</FormLabel>}
-                    name="title"
-                    rules={[{ required: true, message: "Title" }]}
-                  >
-                    <Select
-                      mode="multiple"
-                      allowClear
-                      style={{ width: "100%" }}
-                      placeholder="Please select"
-                      defaultValue={["ahmet", "con"]}
-                    >
-                      {["a", "b", "c", "d"]}
-                    </Select>
-                  </Form.Item>
+                      <Input />
+                    </Form.Item>
 
-                  <Form.Item
-                    label={<FormLabel>Privacy</FormLabel>}
-                    name="confirm-password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please confirm your password!",
-                      },
-                    ]}
+                    <Form.Item
+                      label={<FormLabel>Abstract</FormLabel>}
+                      name="abstract"
+                      rules={[{ required: true, message: "Required" }]}
+                    >
+                      <Input.TextArea rows={8} />
+                    </Form.Item>
+                    <Form.Item
+                      label={<FormLabel>Privacy</FormLabel>}
+                      name="privacy"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Required",
+                        },
+                      ]}
+                    >
+                      <Radio.Group>
+                        <Space size={20}>
+                          <Radio value={1}>Public</Radio>
+                          <Radio value={0}>Private</Radio>
+                        </Space>
+                      </Radio.Group>
+                    </Form.Item>
+                  </Col>
+                </Content>
+
+                <Content>
+                  <Col
+                    style={{
+                      marginLeft: "50px",
+                      marginRight: "50px",
+                    }}
                   >
-                    <Radio.Group value={1}>
-                      <Radio value={1}>Paper</Radio>
-                      <Radio value={2}>Project</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </Form>
-              </Col>
-              <FormButton type="primary" htmlType="submit">
-                Confirm
-              </FormButton>
-            </Content>
-          </Row>
-        </Content>
-      </Row>
+                    <br />
+                    <Form.Item
+                      label={<FormLabel>Deadline</FormLabel>}
+                      name="deadline"
+                      rules={[{ required: true, message: "Required" }]}
+                    >
+                      <DatePicker />
+                    </Form.Item>
+                    <Form.Item
+                      label={<FormLabel>Upload File About Publication</FormLabel>}
+                      rules={[{ required: false, message: "Optional" }]}
+                    >
+                      <Upload>
+                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                      </Upload>
+                    </Form.Item>
+                    <Form.Item
+                      label={<FormLabel>Requirements</FormLabel>}
+                      name="requirements"
+                      rules={[{ required: false, message: "" }]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label={<FormLabel>Add Collaborators</FormLabel>}
+                      name="collaborators"
+                      rules={[{ required: false, message: "" }]}
+                    >
+                      <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
+                        {}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      label={<FormLabel>Add Tags</FormLabel>}
+                      name="tags"
+                      rules={[{ required: false, message: "" }]}
+                    >
+                      <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
+                        {interestChoices}
+                      </Select>
+                    </Form.Item>
+                    <FormButton type="primary" htmlType="submit">
+                      Confirm
+                    </FormButton>
+                  </Col>
+                </Content>
+              </Row>
+            </Form>
+          </Content>
+        </Row>
+      </Col>
     </Content>
   );
 };
