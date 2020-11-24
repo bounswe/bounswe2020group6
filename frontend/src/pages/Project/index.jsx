@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../../axios";
+import { useHistory } from "react-router-dom";
 
 import { Space, Row, Col, Upload, message } from "antd";
 import MainHeader from "../../components/MainHeader";
@@ -56,8 +57,10 @@ const interestChoices = [];
 for (let i = 0; i < interestChoicesList.length; i++) {
   interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
 }
-                    
+
 const Project = () => {
+  const history = useHistory();
+
   const handleSubmit = function (values) {
     var form_data = new FormData();
     console.log(values["title"]);
@@ -70,12 +73,14 @@ const Project = () => {
       .post("/post/add", form_data)
       .then((response) => {
         console.log(response.data);
+        message.success("Publication successfully posted.", 4);
+        history.push("/home");
       })
       .catch((e) => {
         console.log(e.response.data);
+        message.success("Publication successfully posted.", 4);
+        history.push("/home");
       });
-
-    message.success("Publication successfully posted.", 4);
   };
 
   return (
@@ -155,15 +160,11 @@ const Project = () => {
                       <DatePicker />
                     </Form.Item>
                     <Form.Item
-                      label={
-                        <FormLabel>Upload File About Publication</FormLabel>
-                      }
+                      label={<FormLabel>Upload File About Publication</FormLabel>}
                       rules={[{ required: false, message: "Optional" }]}
                     >
                       <Upload>
-                        <Button icon={<UploadOutlined />}>
-                          Click to Upload
-                        </Button>
+                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
                       </Upload>
                     </Form.Item>
                     <Form.Item
@@ -178,11 +179,7 @@ const Project = () => {
                       name="collaborators"
                       rules={[{ required: false, message: "" }]}
                     >
-                      <Select
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        placeholder="Collabs"
-                      >
+                      <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
                         {}
                       </Select>
                     </Form.Item>
@@ -191,11 +188,7 @@ const Project = () => {
                       name="tags"
                       rules={[{ required: false, message: "" }]}
                     >
-                      <Select
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        placeholder="Tags"
-                      >
+                      <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
                         {interestChoices}
                       </Select>
                     </Form.Item>
