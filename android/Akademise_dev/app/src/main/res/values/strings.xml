@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Akademise</string>
+    <string name="signup">SIGN UP</string>
+    <string name="next">NEXT</string>
+    <string name="done">DONE</string>
+    <string name="validate">VALIDATE</string>
+    <string name="title">Title</string>
+    <string name="_abstract">Abstract</string>
+    <string name="content">Content</string>
+    <string name="deadline">Deadline</string>
+    <string name="creation_date">Creation Date</string>
+    <string name="isPublic"> Public</string>
+    <string name="tags"> Tags</string>
+    <string name="project">Project</string>
+
+
+    <string-array name="college_array">
+        <item>"Choose Your University"</item>
+        <item>"Middle East Technical University"</item>
+        <item>"Istanbul Technical University"</item>
+        <item>"Bogazici University"</item>
+
+    </string-array>
+
+    <string-array name="department_array">
+        <item>"Choose Your Department"</item>
+        <item>"Computer Engineering"</item>
+        <item>"Electrical Engineering"</item>
+        <item>"Physics"</item>
+
+    </string-array>
+    <string-array name="degree_array">
+        <item>"Choose Your Degree"</item>
+        <item>"Student - Undergrad"</item>
+        <item>"Student - Master's"</item>
+        <item>"Student -PhD."</item>
+        <item>"Academician - Instructor"</item>
+        <item>"Academician - Professor"</item>
+
+
+    </string-array>
+    <string name="research_tags_info">Please select your research interests</string>
+
+    <string-array name="research_tags">
+        <item>"Choose"</item>
+        <item>Nanonetworking</item>
+        <item>Bioinformatics</item>
+        <item>Public Health Systems</item>
+        <item>Infectious Diseases</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
