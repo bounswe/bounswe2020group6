@@ -23,7 +23,7 @@ const Landing = () => {
                 height: "65px",
               }}
             >
-              AkademiseX
+              Akademise
             </div>
             <div
               style={{
