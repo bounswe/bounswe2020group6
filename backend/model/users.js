@@ -3,12 +3,8 @@ module.exports = (sequelize, Seq) => {
         id: {
           type: Seq.INTEGER,
           primaryKey: true,
+          allowNull: false,
           autoIncrement: true,
-        },
-        email: {
-            type: Seq.STRING,
-            allowNull: false,
-            unique: true,
         },
         name: {
             type: Seq.STRING,
@@ -18,12 +14,40 @@ module.exports = (sequelize, Seq) => {
             type: Seq.STRING,
             allowNull: false,
         },
+        profile_picture_url:{
+            type: Seq.STRING,
+            default: "none"
+        },
+        scholar_profile_url:{
+            type: Seq.STRING,
+        },
+        email: {
+            type: Seq.STRING,
+            allowNull: false,
+            unique: true,
+        },
         password: {
             type: Seq.STRING,
             allowNull: false,
         },
         validation: Seq.STRING,
         isValidated: Seq.BOOLEAN,
-        createdAt: Seq.DATE,
-    })
+        number_of_ups: Seq.INTEGER,
+        university: {
+            type: Seq.STRING,
+            allowNull: false,
+        },
+        department:{
+            type: Seq.STRING,
+            allowNull: false,
+        },
+        degree:{
+            type: Seq.STRING,
+            allowNull: false,
+        }
+    }, 
+    {   
+        timestamps : true
+    }
+    )
 }
