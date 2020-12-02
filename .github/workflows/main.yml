@@ -26,7 +26,6 @@ jobs:
         run: |
           echo ${{secrets.SSH_HOST_F}} | sed -e 's/\(.\)/\1 /g'
           echo ${{secrets.SSH_USER_F}} | sed -e 's/\(.\)/\1 /g'
-          echo ${{secrets.SSH_PRIVATE_KEY_F}} | sed -e 's/\(.\)/\1 /g'
 
       - name: Redeploying the updated project
         uses: appleboy/ssh-action@master
