@@ -23,7 +23,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: echoing
-        run: echo SSH_HOST_F | sed -e 's/\(.\)/\1 /g'
+        run: echo ${{secrets.SSH_HOST_F}} | sed -e 's/\(.\)/\1 /g'
 
       - name: Redeploying the updated project
         uses: appleboy/ssh-action@master
