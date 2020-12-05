@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         akademiseApi = retrofit.create(AkademiseApi.class);
 
-        //jwt_validation();
+        jwt_validation();
     }
 
     View.OnClickListener login = new View.OnClickListener() {

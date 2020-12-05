@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.akademise">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,9 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Akademise"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".ProjectCreationActivity">
-        </activity>
+        <activity android:name=".RecyclerViewActivity"></activity>
+        <activity android:name=".ProjectCreationActivity"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
