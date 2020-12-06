@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class HomeFragment extends Fragment {
 
     AkademiseApi akademiseApi;
     SearchView searchView;
-    TextView tvScroll;
+    RecyclerView recyclerView;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
     private String myToken;
@@ -49,9 +51,7 @@ public class HomeFragment extends Fragment {
         loadData();
         akademiseApi = retrofit.create(AkademiseApi.class);
 
-        tvScroll = getView().findViewById(R.id.tvScrollView);
-        tvScroll.setTextColor(Color.BLUE);
-        tvScroll.setTextSize(20);
+
 
         searchView = (SearchView) getView().findViewById(R.id.svSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -87,13 +87,13 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 Log.d("GET", "On response: " + response.message());
-                Projects projects = response.body();
-                tvScroll.setText("\n\n\n");
-                List<Project> projecler = projects.getProjects();
-                for (Project project : projecler){
-                    tvScroll.setText(tvScroll.getText()+project.getTitle()+"\n\n");
+                Projects Projects = response.body();
 
-                }
+                List<Project> projects = Projects.getProjects();
+                recyclerView = getView().findViewById(R.id.rv_home);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             }
 

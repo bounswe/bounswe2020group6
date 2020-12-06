@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Akademise"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RecyclerViewActivity"></activity>
-        <activity android:name=".ProjectCreationActivity"></activity>
+        <activity android:name=".ProjectDetailsActivity"></activity>
+        <activity android:name=".RecyclerViewActivity" />
+        <activity android:name=".ProjectCreationActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

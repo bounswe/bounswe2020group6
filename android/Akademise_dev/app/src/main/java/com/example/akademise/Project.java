@@ -2,11 +2,12 @@ package com.example.akademise;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 // Projects fields are prepared with respect to return of search
 
-public class Project {
+public class Project implements Serializable {
     @SerializedName("userId")
     private int userId;
     @SerializedName("id")

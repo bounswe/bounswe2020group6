@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProjectDetailsActivity">
+
+    <Button
+        android:id="@+id/btnEditProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        app:layout_constraintBottom_toTopOf="@+id/tvAbstractProject"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteProject"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvTitleProject"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnDeleteProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="@+id/btnEditProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnEditProject"
+        app:layout_constraintTop_toTopOf="@+id/btnEditProject" />
+
+    <TextView
+        android:id="@+id/tvAbstractProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Abstract"
+        app:layout_constraintBottom_toTopOf="@+id/tvTagsProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleProject" />
+
+    <TextView
+        android:id="@+id/tvMilestoneProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Milestone List"
+        app:layout_constraintBottom_toTopOf="@+id/tvRequirementsProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTagsProject" />
+
+    <TextView
+        android:id="@+id/tvStatusProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        app:layout_constraintBottom_toTopOf="@+id/btnReqInvProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRequirementsProject" />
+
+    <TextView
+        android:id="@+id/tvTagsProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tags"
+        app:layout_constraintBottom_toTopOf="@+id/tvMilestoneProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAbstractProject" />
+
+    <TextView
+        android:id="@+id/tvRequirementsProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Requirements"
+        app:layout_constraintBottom_toTopOf="@+id/tvStatusProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMilestoneProject" />
+
+    <TextView
+        android:id="@+id/tvTitleProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        app:layout_constraintBottom_toTopOf="@+id/tvAbstractProject"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditProject"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnReqInvProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Requests and Invitations"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFilesProject"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusProject" />
+
+    <Button
+        android:id="@+id/btnFilesProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Files"
+        app:layout_constraintBottom_toBottomOf="@+id/btnReqInvProject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnReqInvProject"
+        app:layout_constraintTop_toTopOf="@+id/btnReqInvProject" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
