@@ -6,45 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/scroll"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="\nProjects      "
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnAddPublication"
-            android:layout_width="134dp"
-            android:layout_height="63dp"
-            android:drawableLeft="@drawable/ic_add_publication_foreground"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </LinearLayout>
-    <ScrollView
-        android:id = "@+id/scroll"
-        android:layout_width="350dp"
-        android:layout_height="376dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_projects"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/btnAddPublication"
+        tools:layout_editor_absoluteX="0dp" />
 
-        <TextView
-            android:id="@+id/tvScrollViewMyProjects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TextView>
-    </ScrollView>
+    <Button
+        android:id="@+id/btnAddPublication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_add_publication_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

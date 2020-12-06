@@ -28,6 +28,18 @@ public class RecyclerViewActivity extends AppCompatActivity {
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
                 "23/12/2025", "c++, matlab"));
+        projects.add(new Project(0, 0, "Project 3", "Abstract 3",
+                "Content 3", null, null,
+                "23/12/2025", "c++, matlab"));
+        projects.add(new Project(0, 0, "Project 3", "Abstract 3",
+                "Content 3", null, null,
+                "23/12/2025", "c++, matlab"));
+        projects.add(new Project(0, 0, "Project 3", "Abstract 3",
+                "Content 3", null, null,
+                "23/12/2025", "c++, matlab"));
+        projects.add(new Project(0, 0, "Project 3", "Abstract 3",
+                "Content 3", null, null,
+                "23/12/2025", "c++, matlab"));
 
         recyclerView = findViewById(R.id.rv_recyclerView);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, projects);
