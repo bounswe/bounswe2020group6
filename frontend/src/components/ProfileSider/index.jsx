@@ -4,16 +4,8 @@ import { useDispatch } from "react-redux";
 import { profileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
-import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
-import { Layout, NameText, Title, Img } from "./style";
+import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import { Layout, NameText, Img } from "./style";
 
 const ProfileSider = () => {
   const [loading, setLoading] = useState(true);
