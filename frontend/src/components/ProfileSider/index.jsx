@@ -3,7 +3,16 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { profileInfo } from "../../redux/profile/api";
 
-import { Spin } from "antd";
+import { Spin, Menu } from "antd";
+import {
+  AppstoreOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  PieChartOutlined,
+  DesktopOutlined,
+  ContainerOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import { Layout, NameText, Title, Img } from "./style";
 
 const ProfileSider = () => {
@@ -34,7 +43,7 @@ const ProfileSider = () => {
             alt="profile photo"
           />
           <NameText>{profileData.name + " " + profileData.surname}</NameText>
-          <div style={{ width: "70%", display: "flex", flexDirection: "column" }}>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <div
               href="#"
               style={{
@@ -46,9 +55,21 @@ const ProfileSider = () => {
               <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
               {profileData.number_of_ups === null ? " " + 0 : " " + profileData.number_of_ups}
             </div>
-            <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
-            <Title>Projects</Title>
-            <Title onClick={() => history.push("/project")}>Create New Project</Title>
+            <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
+              <Menu.Item key="1" icon={<PieChartOutlined />}>
+                Google Scholar
+              </Menu.Item>
+              <Menu.Item key="2" icon={<DesktopOutlined />}>
+                Projects
+              </Menu.Item>
+              <Menu.Item
+                key="3"
+                onClick={() => history.push("/project")}
+                icon={<ContainerOutlined />}
+              >
+                Create New Project
+              </Menu.Item>
+            </Menu>
           </div>
         </>
       )}
