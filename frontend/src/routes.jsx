@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import Project from "./pages/Project";
+import Profile from "./pages/Profile";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
@@ -60,6 +61,9 @@ export default function App() {
         </Route>
         <Route path="/project">
           <Project />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
         <Redirect to="/home" />
       </Switch>

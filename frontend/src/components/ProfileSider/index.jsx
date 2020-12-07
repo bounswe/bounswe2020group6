@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { profileInfo } from "../../redux/profile/api";
 
 import { Spin } from "antd";
-import { RocketOutlined } from "@ant-design/icons";
 import { Layout, NameText, Title, Img } from "./style";
 
 const ProfileSider = () => {
@@ -36,11 +35,16 @@ const ProfileSider = () => {
           />
           <NameText>{profileData.name + " " + profileData.surname}</NameText>
           <div style={{ width: "70%", display: "flex", flexDirection: "column" }}>
-            <div href="#" style={{ textAlign: "center", color: "white", cursor: "pointer" }}>
-              <RocketOutlined style={{ fontSize: 20, color: "green" }} />
-              {profileData.number_of_ups === null
-                ? " " + 0 + " UPs"
-                : " " + profileData.number_of_ups + " ups"}
+            <div
+              href="#"
+              style={{
+                textAlign: "center",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
+              {profileData.number_of_ups === null ? " " + 0 : " " + profileData.number_of_ups}
             </div>
             <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
             <Title>Projects</Title>
