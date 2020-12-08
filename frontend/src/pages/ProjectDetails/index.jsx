@@ -4,7 +4,7 @@ import { Col, Tag, Avatar } from "antd";
 import { UnlockFilled, PlusOutlined, FileOutlined} from "@ant-design/icons";
 import Frame from "../../components/Frame";
 import {
-  H1,H2,H3,H4,
+  H1,H3,H4,
   Main,
   Date,
   Tags,
