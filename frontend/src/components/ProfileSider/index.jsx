@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { profileInfo } from "../../redux/profile/api";
 
-import { Spin } from "antd";
-import { RocketOutlined } from "@ant-design/icons";
-import { Layout, NameText, Title, Img } from "./style";
+import { Spin, Menu } from "antd";
+import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import { Layout, NameText, Img } from "./style";
 
 const ProfileSider = () => {
   const [loading, setLoading] = useState(true);
@@ -35,16 +35,33 @@ const ProfileSider = () => {
             alt="profile photo"
           />
           <NameText>{profileData.name + " " + profileData.surname}</NameText>
-          <div style={{ width: "70%", display: "flex", flexDirection: "column" }}>
-            <div href="#" style={{ textAlign: "center", color: "white", cursor: "pointer" }}>
-              <RocketOutlined style={{ fontSize: 20, color: "green" }} />
-              {profileData.number_of_ups === null
-                ? " " + 0 + " UPs"
-                : " " + profileData.number_of_ups + " ups"}
+          <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+            <div
+              href="#"
+              style={{
+                textAlign: "center",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
+              {profileData.number_of_ups === null ? " " + 0 : " " + profileData.number_of_ups}
             </div>
-            <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
-            <Title>Projects</Title>
-            <Title onClick={() => history.push("/project")}>Create New Project</Title>
+            <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
+              <Menu.Item key="1" icon={<PieChartOutlined />}>
+                Google Scholar
+              </Menu.Item>
+              <Menu.Item key="2" icon={<DesktopOutlined />}>
+                Projects
+              </Menu.Item>
+              <Menu.Item
+                key="3"
+                onClick={() => history.push("/project")}
+                icon={<ContainerOutlined />}
+              >
+                Create New Project
+              </Menu.Item>
+            </Menu>
           </div>
         </>
       )}
