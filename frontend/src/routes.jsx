@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import Project from "./pages/Project";
+import ProjectDetails from "./pages/ProjectDetails";
 import Profile from "./pages/Profile";
 import api from "./axios";
 import Spinner from "./components/Spinner";
@@ -62,6 +63,8 @@ export default function App() {
         <Route path="/project">
           <Project />
         </Route>
+        <Route path="/project-details">
+          <ProjectDetails />
         <Route path="/profile">
           <Profile />
         </Route>
