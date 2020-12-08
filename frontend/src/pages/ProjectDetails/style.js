@@ -14,23 +14,22 @@ export const Main = styled(Col)`
 `; 
 
 export const Side = styled(Col)`
-  border-left: dotted 2px black; 
   padding: 0 30px;
-
-  border-image:
-  linear-gradient(
-    to bottom, 
-    rgba(255,255,255,1),
-    rgba(107,143,113,0.5), 
-    rgba(255,255,255,1)
-  ) 1 85%;
 
   @media only screen and (max-width: 768px) {
     margin-top: 42px;
   }
 
   @media only screen and (min-width: 768px) {
+    border-left: solid 2px black; 
     margin-top: 70px;
+    border-image:
+    linear-gradient(
+      to bottom, 
+      rgba(255,255,255,1),
+      rgba(107,143,113,0.5), 
+      rgba(255,255,255,1)
+    ) 1 85%;
   }
 `;
 

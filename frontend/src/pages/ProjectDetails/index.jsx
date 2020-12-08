@@ -75,7 +75,6 @@ const ProjectDetails = () => {
         </Files>
       </Main>
       <Side
-        md={0}
         lg={{span: 7, offset: 0}}
         xl={{span: 7, offset: 0}}> 
       <H4> Project Owner and Collaborators</H4>
