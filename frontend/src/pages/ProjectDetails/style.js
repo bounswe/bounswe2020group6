@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../../theme";
 import { Col } from "antd";
 
 export const Main = styled(Col)` 
@@ -82,7 +83,7 @@ export const FileDiv = styled(Col)`
 `; 
 
 export const H1 = styled.h1` 
-  color: #6B8F71;
+  color: ${theme.main.colors.first};
   margin-bottom: 0;
 
   @media only screen and (max-width: 768px) {
