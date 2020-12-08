@@ -17,7 +17,7 @@ const UserProjectModel = require('./user_projects')
 const TagModel = require('./tags')
 const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
-const DegreeModel = require('./degrees')
+const TitleModel = require('./titles')
 
 
 
@@ -43,7 +43,7 @@ const ProjectMilestone = ProjectMilestoneModel(sequelize, Sequelize)
 const Tag = TagModel(sequelize, Sequelize)
 const University = UniversityModel(sequelize, Sequelize)
 const Department = DepartmentModel(sequelize, Sequelize)
-const Degree = DegreeModel(sequelize, Sequelize)
+const Title = TitleModel(sequelize, Sequelize)
 
 Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
@@ -89,5 +89,5 @@ module.exports = {
   Tag,
   University,
   Department,
-  Degree
+  Title
 }
