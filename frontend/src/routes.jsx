@@ -65,6 +65,7 @@ export default function App() {
         </Route>
         <Route path="/project-details">
           <ProjectDetails />
+        </Route>
         <Route path="/profile">
           <Profile />
         </Route>
