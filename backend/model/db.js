@@ -13,6 +13,7 @@ const InterestModel = require('./interests')
 const UserInterestModel = require('./user_interests')
 const UserUpModel = require('./user_ups')
 const UserProjectModel = require('./user_projects')
+const FollowModel = require('./follow')
 
 //List models:
 const TagModel = require('./tags')
@@ -35,6 +36,7 @@ const UserProject = UserProjectModel(sequelize,Sequelize)
 const ProjectTag = ProjectTagModel(sequelize, Sequelize)
 const ProjectCollaborator = ProjectCollaboratorModel(sequelize, Sequelize)
 const ProjectFile = ProjectFileModel(sequelize, Sequelize)
+const Follow = FollowModel(sequelize, Sequelize)
 //Yeni db modelleri:
 const Interest = InterestModel(sequelize, Sequelize)
 const UserInterest = UserInterestModel(sequelize, Sequelize)
@@ -58,9 +60,13 @@ Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CAS
 UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
 User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
-User.hasOne(UserAffiliation, {foreignKey: 'id'})
 Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 
+User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
+Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
+
+User.hasMany(Follow, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
+Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
@@ -112,5 +118,6 @@ module.exports = {
   Tag,
   University,
   Department,
-  Title
+  Title,
+  Follow
 }
