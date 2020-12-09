@@ -7,7 +7,9 @@ const postRouter = require('./routers/postRouter')
 const searchRouter = require("./routers/searchRouter")
 const validateRouter = require('./routers/validateRouter')
 const profileRouter = require('./routers/profileRouter')
+const followRouter = require('./routers/followRouter')
 const tokenController = require('./util/authCheck')
+const path = require("path")
 
 const port = process.env.PORT || 3000;
 
@@ -22,6 +24,7 @@ app.use('/post', postRouter)
 app.use('/validate', validateRouter)
 app.use('/search', searchRouter)
 app.use('/profile',profileRouter)
+app.use('/follow', followRouter)
 
 
 app.get('*',(req,res) => {
