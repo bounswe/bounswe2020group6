@@ -7,12 +7,14 @@ module.exports = (sequelize, Seq) => {
 		},
 		userId : Seq.INTEGER,
 		title: Seq.STRING,
-		abstract : Seq.STRING,
-		content : Seq.STRING,
+		summary : Seq.TEXT,
+		description : Seq.TEXT,
 		privacy : Seq.TINYINT,
 		status : Seq.TINYINT,
-		deadline : Seq.STRING,
-		requirements : Seq.STRING }, {
+		requirements : Seq.TEXT
+	}, 
+	{
+
 		
 		timestamps : true
 	})
