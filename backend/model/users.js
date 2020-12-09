@@ -41,8 +41,36 @@ module.exports = (sequelize, Seq) => {
             type: Seq.STRING,
             allowNull: false,
         },
-        degree:{
+        title:{
             type: Seq.STRING,
+            allowNull: false,
+        },
+        bio:{
+            type: Seq.STRING,
+            allowNull: false,
+        },
+        citations:{
+            type: Seq.INTEGER,
+            allowNull: false,
+        },
+        iIndex:{
+            type: Seq.INTEGER,
+            allowNull: false,
+        },
+        hIndex:{
+            type: Seq.INTEGER,
+            allowNull: false,
+        },
+        last5Year_citations:{
+            type: Seq.INTEGER,
+            allowNull: false,
+        },
+        last5Year_iIndex:{
+            type: Seq.INTEGER,
+            allowNull: false,
+        },
+        last5Year_hIndex:{
+            type: Seq.INTEGER,
             allowNull: false,
         }
     }, 
