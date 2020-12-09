@@ -14,6 +14,7 @@ module.exports = (sequelize, Seq) => {
 		requirements : Seq.TEXT
 	}, 
 	{
+
 		
 		timestamps : true
 	})

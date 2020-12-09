@@ -7,6 +7,7 @@ const ProjectCollaboratorModel = require('./project_collaborators')
 const ProjectFileModel = require('./project_files')
 const ProjectMilestoneModel = require('./project_milestones')
 
+
 //User models:
 const InterestModel = require('./interests')
 const UserInterestModel = require('./user_interests')
@@ -52,6 +53,28 @@ ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
 User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
 Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 
+Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
+Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
+UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',constraints: false})
+ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
+User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
+User.hasOne(UserAffiliation, {foreignKey: 'id'})
+Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
+
+
+
+sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
+.then(function(){
+    return sequelize.sync({ force: false });
+})
+.then(function(){
+    return sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+})
+.then(function(){
+    console.log('Database & tables are created.');
+}, function(err){
+    console.log(err);
+});
 
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')

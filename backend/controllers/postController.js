@@ -1,4 +1,5 @@
-const {Post} = require('../model/db')
+const { Op } = require("sequelize");
+const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
 const multer = require('multer')
 const path = require('path');
 //modifies storage path and file name
@@ -13,46 +14,56 @@ var upload = multer({storage : storage});
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
-	decodedToken = req.decodedToken
+	const obj = JSON.parse(JSON.stringify(req.body));
 	postData = {
-		userId : decodedToken.userId,
-		topic : req.body.topic,
-		summary : req.body.summary,
-		publicationType : req.body.publicationType,
-		deadline : req.body.deadline,
-		requirements : req.body.requirements,
-		isFunded : req.body.funded,
-		privacy : req.body.privacy
+		userId : req.userId,
+		title : obj.title,
+		abstract : obj.abstract,
+		privacy : obj.privacy,
+		status : obj.status,
+		deadline : obj.deadline,
+		requirements : obj.requirements
 	}
+	collaborators = obj.collaborators
+	tags = obj.tags
+	file = req.files
 	try {
-		postDb = await Post.create(postData)
-		res.send(201,{"message" : "Post is created", "id" : postDb.id})
+		postDb = await Project.create(postData)
+		userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id})
+		for(var key in tags){
+			currentTag = tags[key]
+			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
+		}
+		for(var key in collaborators){
+			currentCollaborator = collaborators[key]
+			projectCollaborator = await ProjectCollaborator.create({project_id : postDb.id, user_id : currentCollaborator})
+		}
+		if(file != undefined){
+			for(var i = 0; i < file.length; i++){
+				currentFile = file[i]
+				projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_path : currentFile.path})
+			}
+		}
+		res.status(201).send({message: "Post is created", id: postDb.id})
 	}catch (error){
-		res.send(500,{"error": error})
+		res.status(500).send({error: error})
 		console.log(error)
 	}
-	//database table for storing path of uploaded file will be created
-	//after that this function will be extended for handling this database operation. 
 }
 
-//updates posts with respect to their post id
+//updates posts specifications with respect to post id
 updatePost = async function (req,res){
-	postData = {
-		topic : req.body.topic,
-		summary : req.body.summary,
-		publicationType : req.body.publicationType,
-		deadline : req.body.deadline,
-		requirements : req.body.requirements,
-		isFunded : req.body.fund,
-		privacy : req.body.privacy
-	}
+	var fieldsToUpdate = {};
+	for(var field of Object.keys(req.body)){
+		fieldsToUpdate[field] = req.body[field]
+	}	
 	try {
-		await Post.update(postData, {
+		await Project.update(fieldsToUpdate, {
 		where : {
-			id : req.body.id
+			id : req.param('id')
 			}
 		});
-		res.send(201,{"message" : "Post is updated"})		
+		res.send(200,{"message" : "Post is updated"})		
 	}catch(error) {
 		res.send(500,{"error": error})
 		console.log(error)
@@ -62,14 +73,14 @@ updatePost = async function (req,res){
 //deletes posts with respect to their post id
 deletePost = async function (req,res){
 	try {
-		await Post.destroy({
+		await Project.destroy({
 			where : {
-				id : req.body.id
+				id : req.param('id')
 			}
 		});
-		res.send(201,{"message" : "Post is deleted"})
+		res.status(204).send({message: "Post is deleted"})
 	}catch(error) {
-		res.send(500,{"error": error})
+		res.status(500).send({error: error})
 		console.log(error)
 	}				 
 }
@@ -77,22 +88,78 @@ deletePost = async function (req,res){
 //gathers posts from database according to parameters
 //function can extend according to frontend wishes
 getPosts = async function(req,res){
+	user_id = req.userId
+	userParameter = req.param('userId')
 	try {
-		userId = req.body.userId
-		if(userId == null){
-			posts = await Post.findAll({
+		if(userParameter != user_id){
+			posts = await Project.findAll({
 				where : {
-					privacy : 1
-				}
+					[Op.or] : [
+						{'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
+						'$project.privacy$' : {[Op.eq] : 1}
+						},
+						{userId : userParameter,
+						[Op.or] : [
+							{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+							{'$project.privacy$' : {[Op.eq]: 1}}
+					]}
+					]
+				},
+				include : [
+    				{	 
+      					model: ProjectCollaborator,
+						attributes : ['user_id'],
+      					required: false,
+						include : [ {
+      						model: User,
+							attributes : ['name','surname'],
+      						required: false,
+      					}]
+      				},
+      				{
+						model: ProjectTag,
+						attributes : ['tag'],
+						required: false,
+      				},
+					{
+						model: ProjectFile,
+						attributes: ['file_name','file_path'],
+						required : false
+					}
+  				]
 			});
 		}else{
-			posts = await Post.findAll({
+			posts = await Project.findAll({
 				where: {
-					userId: userId
-				}
-			});		
+					[Op.or] : [
+						{userId : user_id},
+						{'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
+					]
+				},
+				include : [
+    				{	 
+						model: ProjectCollaborator,
+						attributes : ['user_id'],
+						required: false,
+						include : [ {
+							model: User,
+							attributes : ['name','surname'],
+							required: false,
+						}]
+      				},
+      				{
+						model: ProjectTag,
+						required: false,
+      				},
+					{
+						model: ProjectFile,
+						attributes: ['file_name','file_path'],
+						required : false
+					}
+  				]
+			});	
 		}
-		res.send(201,posts)
+		res.send(200,posts)
 	}catch(error) {
 		res.send(500,{"error": error})
 		console.log(error)

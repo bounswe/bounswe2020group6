@@ -41,7 +41,7 @@ signup = async function(req,res) {
         mailController.sendValidationCode(userData.email, validationCode)
         console.log(userData)
         const token = createJwt(userDb.id)
-        res.status(201).send({message: "User created", accessToken: token})
+        res.status(201).send({message: "User created", accessToken: token, id: userDb.id})
     } catch (error) {
         console.log(error.message)
         if(error.message.includes('Validation')){
