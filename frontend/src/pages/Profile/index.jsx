@@ -7,6 +7,7 @@ import { PaperClipOutlined, TeamOutlined, FormOutlined, CheckOutlined } from "@a
 import { getProfileInfo } from "../../redux/profile/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
+import Spinner from "../../components/Spinner";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
@@ -21,17 +22,6 @@ const Profile = () => {
     dispatch(getProfileInfo(id));
     // eslint-disable-next-line
   }, []);
-
-  console.log(profile);
-
-  const tags = [
-    "Physics",
-    "Engineering",
-    "Neuroscience",
-    "AI",
-    "Quantum Computing",
-    "Advanced Robotics",
-  ];
 
   const data = [
     {
@@ -49,6 +39,21 @@ const Profile = () => {
     },
   ];
 
+  if (profileLoading || !profile) {
+    return (
+      <>
+        <MainHeader />
+        <Content>
+          <Row style={{ height: "100vh" }} justify="center" align="middle">
+            <Col>
+              <Spinner size={200} />
+            </Col>
+          </Row>
+        </Content>
+      </>
+    );
+  }
+
   return (
     <div>
       <MainHeader />
@@ -58,16 +63,20 @@ const Profile = () => {
             <Image src="https://britz.mcmaster.ca/images/nouserimage.gif/image" />
           </Col>
           <Col sm={10} lg={6} xl={6}>
-            <Row style={{ fontSize: "28px", fontWeight: "500" }}>Ali Mert</Row>
+            <Row
+              style={{ fontSize: "28px", fontWeight: "500" }}
+            >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>97</span>
             </Row>
             <Row>
-              <div style={{ fontWeight: 500 }}>Boğaziçi University</div>
+              <div style={{ fontWeight: 500 }}>{profile.user_affiliation.university}</div>
             </Row>
             <Row>
-              <div style={{ fontWeight: 500 }}>Computer Engineering BSc</div>
+              <div
+                style={{ fontWeight: 500 }}
+              >{`${profile.user_affiliation.department} ${profile.user_affiliation.degree}`}</div>
             </Row>
           </Col>
           <NumbersCol xs={24} sm={24} lg={12} xl={12}>
@@ -104,10 +113,10 @@ const Profile = () => {
             <Row>
               <SectionTitle>Interest Areas</SectionTitle>
               <Col style={{ marginTop: "10px" }}>
-                {tags &&
-                  tags.map((tag, i) => (
+                {profile &&
+                  profile.user_interests.map((tag, i) => (
                     <Tag key={i} closable={false}>
-                      {tag}
+                      {tag.interest}
                     </Tag>
                   ))}
               </Col>
