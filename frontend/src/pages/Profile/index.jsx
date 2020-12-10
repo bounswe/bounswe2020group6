@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar } from "antd";
 import { PaperClipOutlined, TeamOutlined, FormOutlined, CheckOutlined } from "@ant-design/icons";
 
@@ -9,6 +10,11 @@ import PrimaryButton from "../../components/PrimaryButton";
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
 const Profile = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, []);
+
   const tags = [
     "Physics",
     "Engineering",
@@ -45,7 +51,7 @@ const Profile = () => {
           <Col sm={10} lg={6} xl={6}>
             <Row style={{ fontSize: "28px", fontWeight: "500" }}>Ali Mert</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
-              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
+              <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>97</span>
             </Row>
             <Row>

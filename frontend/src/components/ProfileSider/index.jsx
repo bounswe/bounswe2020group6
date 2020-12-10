@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { profileInfo } from "../../redux/profile/api";
+import { getProfileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
 import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
@@ -16,7 +16,7 @@ const ProfileSider = () => {
 
   useEffect(() => {
     var myId = localStorage.getItem("userId");
-    dispatch(profileInfo(myId, setProfileData, setLoading));
+    dispatch(getProfileInfo(myId, setProfileData, setLoading));
   }, [dispatch]);
 
   return (

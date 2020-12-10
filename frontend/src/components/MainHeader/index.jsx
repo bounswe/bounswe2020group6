@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { authLogoutAction } from "../../redux/auth/actions";
@@ -23,6 +23,12 @@ import searchIcon from "../../assets/search-icon.png";
 const SiteHeader = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [searchText, setSearchText] = useState(null);
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    setUserId(id);
+  }, []);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -92,7 +98,7 @@ const SiteHeader = () => {
           </Col>
           <Nav xs={0} sm={{ span: 10, offset: 1 }} md={{ span: 10, offset: 1 }}>
             <Anchor onClick={() => history.push("/home")}>Home</Anchor> |{" "}
-            <Anchor onClick={() => history.push("/profile")}>Profile</Anchor> |{" "}
+            <Anchor onClick={() => history.push(`/profile/${userId}`)}>Profile</Anchor> |{" "}
             <Anchor href="#">Settings</Anchor> | <Anchor onClick={handleLogout}>Logout</Anchor>
           </Nav>
         </Row>
