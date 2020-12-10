@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProfileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
@@ -8,33 +8,33 @@ import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-desig
 import { Layout, NameText, Img } from "./style";
 
 const ProfileSider = () => {
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState(null);
+  const profile = useSelector((state) => state.profile.profile);
+  const profileLoading = useSelector((state) => state.profile.profileLoading);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
     var myId = localStorage.getItem("userId");
-    dispatch(getProfileInfo(myId, setProfileData, setLoading));
+    dispatch(getProfileInfo(myId));
   }, [dispatch]);
 
   return (
     <Layout>
-      {loading ? (
+      {profileLoading || !profile ? (
         <Spin size="large" style={{ margin: "auto" }} />
       ) : (
         <>
           <Img
             style={{ height: "90px", width: "90px" }}
             src={
-              profileData.profile_picture_url === null
+              profile.profile_picture_url === null
                 ? "https://britz.mcmaster.ca/images/nouserimage.gif/image"
-                : profileData.profile_picture_url
+                : profile.profile_picture_url
             }
             alt="profile photo"
           />
-          <NameText>{profileData.name + " " + profileData.surname}</NameText>
+          <NameText>{profile.name + " " + profile.surname}</NameText>
           <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
             <div
               href="#"
@@ -45,7 +45,7 @@ const ProfileSider = () => {
               }}
             >
               <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
-              {profileData.number_of_ups === null ? " " + 0 : " " + profileData.number_of_ups}
+              {profile.number_of_ups === null ? " " + 0 : " " + profile.number_of_ups}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
               <Menu.Item key="1" icon={<PieChartOutlined />}>

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar } from "antd";
 import { PaperClipOutlined, TeamOutlined, FormOutlined, CheckOutlined } from "@ant-design/icons";
 
+import { getProfileInfo } from "../../redux/profile/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 
@@ -13,7 +14,15 @@ const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  const profile = useSelector((state) => state.profile.profile);
+  const profileLoading = useSelector((state) => state.profile.profileLoading);
+
+  useEffect(() => {
+    dispatch(getProfileInfo(id));
+    // eslint-disable-next-line
+  }, []);
+
+  console.log(profile);
 
   const tags = [
     "Physics",
