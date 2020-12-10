@@ -1,9 +1,10 @@
 import React from "react";
 
 import { Row, Col, Divider, Tag, List, Avatar } from "antd";
-import { PaperClipOutlined, TeamOutlined } from "@ant-design/icons";
+import { PaperClipOutlined, TeamOutlined, FormOutlined, CheckOutlined } from "@ant-design/icons";
 
 import MainHeader from "../../components/MainHeader";
+import PrimaryButton from "../../components/PrimaryButton";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
@@ -54,16 +55,29 @@ const Profile = () => {
               <div style={{ fontWeight: 500 }}>Computer Engineering BSc</div>
             </Row>
           </Col>
-          <NumbersCol xs={24} sm={24} lg={12} xl={10}>
+          <NumbersCol xs={24} sm={24} lg={12} xl={12}>
             <Row style={{ height: "100%" }} align="middle">
-              <Col xs={9} sm={8}>
-                <span style={{ fontWeight: 600 }}>0</span> publications
-              </Col>
-              <Col xs={8} sm={8}>
-                <span style={{ fontWeight: 600 }}>0</span> followers
-              </Col>
-              <Col xs={7} sm={8}>
-                <span style={{ fontWeight: 600 }}>0</span> following
+              <Col span={24}>
+                <Row justify="space-around">
+                  <Col>
+                    <span style={{ fontWeight: 600 }}>0</span> publications
+                  </Col>
+                  <Col>
+                    <span style={{ fontWeight: 600 }}>0</span> followers
+                  </Col>
+                  <Col>
+                    <span style={{ fontWeight: 600 }}>0</span> following
+                  </Col>
+                </Row>
+                <Row style={{ height: "40px" }} />
+                <Row justify="center">
+                  <Col xs={10} sm={8} md={6}>
+                    <PrimaryButton icon={<CheckOutlined />}>Follow</PrimaryButton>
+                  </Col>
+                  <Col xs={10} sm={8} md={6} offset={4}>
+                    <PrimaryButton icon={<FormOutlined />}>Invite</PrimaryButton>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </NumbersCol>
