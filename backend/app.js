@@ -9,7 +9,7 @@ const validateRouter = require('./routers/validateRouter')
 const profileRouter = require('./routers/profileRouter')
 const followRouter = require('./routers/followRouter')
 const tokenController = require('./util/authCheck')
-const path = require("path")
+//const path = require("path")
 
 const port = process.env.PORT || 3000;
 
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/auth', authRouter)
 app.use(tokenController.authCheckMiddleware)
-app.use('/static', express.static(path.join(__dirname,'./uploads')));
+//app.use('/static', express.static(path.join(__dirname,'./uploads')));
 app.use('/post', postRouter)
 app.use('/validate', validateRouter)
 app.use('/search', searchRouter)
