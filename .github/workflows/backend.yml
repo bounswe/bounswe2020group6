@@ -30,7 +30,7 @@ jobs:
           script: |
             cd backend/bounswe2020group6/backend
             git fetch origin backend
-            git checkout origin/backend backend
+            git checkout origin/backend
             sudo docker build -t akademise/akademise .
-            docker rm -f akademise/akademise
-            sudo docker run -p 3000:3000 -d akademise/akademise
+            sudo docker rm -f akademise
+            sudo docker run -p 3000:3000 -d --name akademise akademise/akademise
