@@ -15,11 +15,11 @@ const UserUpModel = require('./user_ups')
 const UserProjectModel = require('./user_projects')
 const FollowModel = require('./follow')
 
-//List models:
+const TitleModel = require('./titles')
 const TagModel = require('./tags')
 const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
-const TitleModel = require('./titles')
+
 
 
 
