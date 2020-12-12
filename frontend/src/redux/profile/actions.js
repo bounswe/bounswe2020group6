@@ -1,19 +1,14 @@
 import * as actions from "../actionTypes";
 
-export const profileInfoAction = () => {
+export const getProfileInfoStartAction = () => {
   return {
-    type: actions.PROFILE_INFO,
+    type: actions.GET_PROFILE_INFO_START,
   };
 };
 
-export const profileInfoLoadingAction = () => {
+export const getProfileInfoSuccessAction = (response) => {
   return {
-    type: actions.PROFILE_INFO_LOADING,
-  };
-};
-
-export const profileInfoSuccessAction = () => {
-  return {
-    type: actions.PROFILE_INFO_SUCCESS,
+    type: actions.GET_PROFILE_INFO_SUCCESS,
+    payload: response,
   };
 };

@@ -66,7 +66,7 @@ export default function App() {
         <Route path="/project-details">
           <ProjectDetails />
         </Route>
-        <Route path="/profile">
+        <Route path="/profile/:id">
           <Profile />
         </Route>
         <Redirect to="/home" />
