@@ -3,11 +3,11 @@ module.exports = (sequelize, Seq) => {
         project_id: {
           type: Seq.INTEGER,
           primaryKey: true,
+          autoIncrement: true,
         },
         milestone_no: {
           type: Seq.INTEGER,
           primaryKey: true,
-          autoIncrement: true,
         },
         milestone_date: {
           type: Seq.DATE,
