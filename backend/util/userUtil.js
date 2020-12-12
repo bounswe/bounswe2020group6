@@ -62,6 +62,26 @@ var getUpCounts = async function(userId){
     return upCount
 }
 
+var getFollowingCounts = async function(userId){
+    followingCount = await Follow.count({
+        where: {
+            follower_user_id: userId
+        }
+    })
+
+    return followingCount
+}
+
+var getFollowedCounts = async function(userId){
+    followedCount = await Follow.count({
+        where: {
+            followed_user_id: userId
+        }
+    })
+
+    return followedCount
+}
+
 var getCitations = async function(url) {
     const response = await got(url);
     const $ = cheerio.load(response.body);
@@ -89,5 +109,7 @@ module.exports = {
     isFollowing,
     getCitations,
     isUpped,
-    getUpCounts
+    getUpCounts,
+    getFollowedCounts,
+    getFollowingCounts
 }
