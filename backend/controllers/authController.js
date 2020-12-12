@@ -15,7 +15,7 @@ login = async function(req, res){
         if(isSame){
             const isValidated = (loggingUser.isValidated == false) ? false : true
             const token = createJwt(loggingUser.id, isValidated)
-            return res.status(200).send({message: "Success", accessToken: token})
+            return res.status(200).send({message: "Success", accessToken: token, id: loggingUser.id})
         }
         return res.status(401).send({message: "Wrong password"})
     }

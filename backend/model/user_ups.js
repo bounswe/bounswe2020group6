@@ -1,9 +1,10 @@
 module.exports = (sequelize, Seq) => {
     return sequelize.define('user_up', {
-        up_Id: {
+        id: {
           type: Seq.INTEGER,
           allowNull: false,
           primaryKey: true,
+          autoIncrement: true,
         },
         upper_user_id: {
             type: Seq.INTEGER,
