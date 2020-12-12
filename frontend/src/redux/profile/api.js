@@ -7,6 +7,7 @@ export const getProfileInfo = (id) => {
     api({ sendToken: true })
       .get("/profile/" + id)
       .then((response) => {
+        //console.log(response.data);
         dispatch(actions.getProfileInfoSuccessAction(response.data));
       })
       .catch((e) => {

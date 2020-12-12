@@ -17,7 +17,7 @@ const { Footer } = Layout;
 const { Option } = Select;
 const { Step } = Steps;
 
-//dummy data
+//dummy data //TODO: remove
 const interestChoicesList = [
   "Humanities",
   "Performing arts",
