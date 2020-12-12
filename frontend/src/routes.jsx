@@ -9,6 +9,7 @@ import Search from "./pages/Search";
 import Project from "./pages/Project";
 import ProjectDetails from "./pages/ProjectDetails";
 import Profile from "./pages/Profile";
+import ListFollowers from "./pages/ListFollowers";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
@@ -68,6 +69,9 @@ export default function App() {
         </Route>
         <Route path="/profile/:id">
           <Profile />
+        </Route>
+        <Route path="/followers">
+          <ListFollowers />
         </Route>
         <Redirect to="/home" />
       </Switch>
