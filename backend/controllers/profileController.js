@@ -1,6 +1,6 @@
 const { User, UserInterest, UserAffiliation, UserUp } = require('../model/db');
 const { v1: uuidv1 } = require('uuid');
-const { getCitations } = require('../util/userUtil');
+const userUtil = require('../util/userUtil');
 const url = require('url');
 const userUtils = require('../util/userUtil')
 
@@ -95,6 +95,24 @@ getProfile = async function (req, res) {
                 }
             ]
         })
+
+        let [upCounts, isUpped, followerCount, followingCount, canFollow] = 
+            await Promise.all([
+                userUtil.getUpCounts(req.params.userId),
+                userUtil.isUpped(req.userId, req.params.userId),
+                userUtil.getFollowedCounts(req.params.userId),
+                userUtil.getFollowingCounts(req.params.userId),
+                userUtil.isFollowing(req.userId, req.params.userId)
+            ])
+
+        user_profile = {
+            ...user_profile.dataValues,
+            upCounts,
+            isUpped,
+            followerCount,
+            followingCount,
+            canFollow: !canFollow
+        }
         res.status(200).send(user_profile)
     } catch (error) {
         res.status(500).send(error)
@@ -157,7 +175,7 @@ addScholar = async function (req, res) {
     }
     else {
         try {
-            let citations = await getCitations(gUrl)
+            let citations = await userUtil.etCitations(gUrl)
             citations.scholar_profile_url = gUrl
             await User.update(citations, {
                 where: {
