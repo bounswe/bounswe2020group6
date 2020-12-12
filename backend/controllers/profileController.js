@@ -1,7 +1,8 @@
-const { User, UserInterest, UserAffiliation } = require('../model/db');
+const { User, UserInterest, UserAffiliation, UserUp } = require('../model/db');
 const { v1: uuidv1 } = require('uuid');
 const { getCitations } = require('../util/userUtil');
 const url = require('url');
+const userUtils = require('../util/userUtil')
 
 addProfile = async function (req, res) {
     user_interests = req.body.researchAreas
@@ -170,6 +171,61 @@ addScholar = async function (req, res) {
     }
 }
 
+addUp = async function(req, res){
+    upper_user_id = Number(req.userId)
+    upped_user_id = req.body.userId
+
+    try{
+        userExistence = await userUtils.isUserExist(upped_user_id)
+        if(!userExistence){
+            return res.status(400).send({message: "User not found"})
+        }
+
+        upExistence = await userUtils.isUpped(upper_user_id, upped_user_id)
+        if(upExistence){
+            return res.status(400).send({message: "You already upped this user."})
+        }
+
+        upData = {
+            upper_user_id,
+            upped_user_id
+        }
+
+        upDb = await UserUp.create(upData)
+        res.status(200).send({message: "Successful"})
+    }
+    catch(error){
+        res.status(500).send({error: "Something is wrong"})
+    }
+}
+
+removeUp = async function(req, res){
+    upper_user_id = Number(req.userId)
+    upped_user_id = req.body.userId
+    try{
+        userExistence = await userUtils.isUserExist(upped_user_id)
+        if(!userExistence){
+            return res.status(400).send({message: "User not found"})
+        }
+
+        upExistence = await userUtils.isUpped(upper_user_id, upped_user_id)
+        if(!upExistence){
+            return res.status(400).send({message: "You have not upped this user."})
+        }
+
+        upDb = await UserUp.destroy({
+            where: {
+                upper_user_id: upper_user_id,
+                upped_user_id: upped_user_id
+            }
+        })
+        res.status(200).send({message: "Successful"})
+    }
+    catch(error){
+        res.status(500).send({error: "Something is wrong"})
+    }
+}
+
 function addhttp(url) {
     if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
         url = "https://" + url;
@@ -183,5 +239,7 @@ module.exports = {
     getProfile,
     changeBio,
     changeProfilePicture,
-    addScholar
+    addScholar,
+    addUp,
+    removeUp
 }
