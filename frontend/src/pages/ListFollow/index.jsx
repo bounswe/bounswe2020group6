@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { getFollowers } from "../../redux/follow/api";
+import { getFollowers, getFollowing } from "../../redux/follow/api";
 
 
 import { Col, Spin } from "antd";
@@ -14,6 +14,11 @@ import {
   H2,
   H3
 } from "./style";
+import { useHistory } from "react-router-dom";
+
+String.prototype.capitalize = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -23,8 +28,18 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
+  const { type } = useParams();
+  
+  const history = useHistory();
+
   useEffect(() => {
-    dispatch(getFollowers(setLoadingAllPeople, setAllPeople));
+    if (type==="followers"){
+      dispatch(getFollowers(setLoadingAllPeople, setAllPeople));
+    } else if (type==="following"){
+      dispatch(getFollowing(setLoadingAllPeople, setAllPeople));
+    } else {
+      history.push("/home")
+    }
   }, []);
 
 // https://github.com/bounswe/bounswe2020group6/blob/backend/backend/controllers/followController.js
@@ -51,6 +66,7 @@ const Home = () => {
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
+            <H2>{type.capitalize()}</H2>
             {loadingAllPeople 
               ? 
                 <H2>Loading... <Spin/></H2>  

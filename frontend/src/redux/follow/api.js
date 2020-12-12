@@ -20,15 +20,20 @@ export const getFollowers = (setLoadingAllPeople, setAllPeople) => {
   };
 };
 
-export const getFollowing = (id) => {
+export const getFollowing = (setLoadingAllPeople, setAllPeople) => {
   return (dispatch) => {
-    dispatch(actions.getFollowingStartAction());
+    dispatch(actions.getFollowingStartAction(setLoadingAllPeople));
     api({ sendToken: true })
-      .get("/follow/followins/" + id)
+      .get("/follow/followings/")
       .then((response) => {
+        console.log(response);
+        setAllPeople(response.data.data);
+        setLoadingAllPeople(false);
         dispatch(actions.getFollowingSuccessAction(response.data));
       })
-      .catch((e) => {
+      .catch((e) => {   
+        setAllPeople([]);
+        setLoadingAllPeople(false);
         console.log(e);
       });
   };
