@@ -15,12 +15,13 @@ module.exports = {
         }
 
         try {
-            jwt.verify(accessToken, "top_secret_key", 
+            jwt.verify(accessToken, process.env.TOKEN_SECRET, 
             (err, json) => {
                 if(err){
-                    return res.status(401).send()
-                } 
+                    return res.status(403).send()
+                }
                 req.userId = json.id
+                req.isValidated = json.isValidated
                 next()
             })
         }
@@ -28,5 +29,16 @@ module.exports = {
             console.log("catch " + e)
             return res.status(403).send()
         }
+    },
+
+    validationCheckMiddleware: (req,res,next) => {
+        if(!req.isValidated) {
+            return res.status(403).send({message: "User is not validated"})
+        }
+        else next()
+    },
+
+    createJwt: (id, ifValidated) => {
+        return jwt.sign({id: id, isValidated: ifValidated}, process.env.TOKEN_SECRET)
     }
 }

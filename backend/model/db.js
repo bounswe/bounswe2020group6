@@ -21,11 +21,11 @@ const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
 
 
-
+console.log(process.env);
 
 //Connection to server database
-const sequelize = new Sequelize('akademise', 'root', 'password', {
-  host: 'ec2-54-173-244-46.compute-1.amazonaws.com',
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: 'mysql',
 })
 
@@ -71,7 +71,7 @@ Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelet
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 .then(function(){
-    return sequelize.sync({ force: true });
+    return sequelize.sync({ force: false });
 })
 .then(function(){
     return sequelize.query('SET FOREIGN_KEY_CHECKS = 1')

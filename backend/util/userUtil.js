@@ -1,5 +1,7 @@
 const { User, Follow } = require("../model/db")
 const { Op } = require("sequelize");
+const cheerio = require('cheerio');
+const got = require('got');
 
 
 var isUserExist = async function(userId) {
@@ -33,7 +35,30 @@ var isFollowing = async function(userId, followedUserId){
     return false
 }
 
+var getCitations = async function(url) {
+    const response = await got(url);
+    const $ = cheerio.load(response.body);
+  
+    a = $('td.gsc_rsb_std')
+  
+    var array = []
+  
+    Object.keys(a).filter(key => !isNaN(parseInt(key))).map( key => array.push(a[key].firstChild.data));
+  
+    const citations = {
+        citations: array[0],
+        hIndex: array[2],
+        iIndex: array[4],
+        last5Year_citations: array[1],
+        last5Year_hIndex: array[3],
+        last5Year_iIndex: array[5],
+    }
+  
+    return citations
+}
+
 module.exports = {
     isUserExist,
-    isFollowing
+    isFollowing,
+    getCitations
 }
