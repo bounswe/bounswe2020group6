@@ -35,12 +35,12 @@ export const authSignupStartAction = () => {
     type: actions.AUTH_SIGNUP_START,
   };
 };
-export const authSignupSuccessAction = (message, token, userId) => {
+export const authSignupSuccessAction = (message, token, id) => {
   return {
     type: actions.AUTH_SIGNUP_SUCCESS,
     message,
     token,
-    userId,
+    id,
   };
 };
 export const authSignupFailAction = (message) => {

@@ -71,12 +71,12 @@ const Profile = () => {
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>97</span>
             </Row>
             <Row>
-              <div style={{ fontWeight: 500 }}>{profile.user_affiliation.university}</div>
+              <div style={{ fontWeight: 500 }}>{profile.university}</div>
             </Row>
             <Row>
               <div
                 style={{ fontWeight: 500 }}
-              >{`${profile.user_affiliation.department} ${profile.user_affiliation.degree}`}</div>
+              >{`${profile.department} ${profile.title}`}</div>
             </Row>
           </Col>
           <NumbersCol xs={24} sm={24} lg={12} xl={12}>
