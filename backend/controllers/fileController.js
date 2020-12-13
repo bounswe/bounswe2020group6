@@ -1,8 +1,8 @@
 const {storage, moveFile} = require('../util/uploadUtil')
 const {ProjectFile} = require('../model/db')
-var fs = require('fs'), async = require('async');
+const fs = require('fs')
 const path = require('path')
-var multer  = require('multer')
+const multer  = require('multer')
 
 
 upload = multer({storage : storage});
