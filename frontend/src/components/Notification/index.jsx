@@ -1,12 +1,8 @@
-import { Row, Col, Avatar, Button } from "antd";
+import { Row } from "antd";
 import { UserAddOutlined, TeamOutlined } from "@ant-design/icons";
 import { 
   Layout,
-  NotifButton,
-  Title,
-  Info,
-  Summary,
-  Footer
+  NotifButton
 } from "./style";
 
 const NotificationCard = ({type, userName, userLink, projectName, projectLink, userId}) => {
@@ -32,6 +28,8 @@ const NotificationCard = ({type, userName, userLink, projectName, projectLink, u
               <NotifButton size={"small"}>Reject</NotifButton>
           </Row>
         </>
+      default:
+        return null
     }
   }
 
