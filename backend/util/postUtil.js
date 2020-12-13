@@ -1,4 +1,4 @@
-const {ProjectTag, Project, User , ProjectCollaborator, ProjectTag, ProjectFile} = require("../model/db")
+const {ProjectTag, Project, User , ProjectCollaborator, ProjectFile} = require("../model/db")
 
 
 
