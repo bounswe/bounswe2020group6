@@ -69,7 +69,7 @@ addTag = async function(req,res){
 
 
 deleteTag = async function(req,res){
-    tags = req.query.tag
+    tags = req.query.tags
     id = req.query.projectId
     try{
 	for(var key in tags){
