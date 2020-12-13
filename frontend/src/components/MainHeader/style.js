@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Layout, Col, Input } from "antd";
+import { Layout, Col, Input, Modal } from "antd";
 
 export const Nav = styled(Col)`
   text-align: right;
@@ -87,4 +87,17 @@ export const LogoText = styled.h1`
     font-size: 32px;
     color: white;
   }
+`;
+
+export const NotificationModal = styled(Modal).attrs({
+  closable: false,
+  footer: null,
+  bodyStyle: {
+    maxHeight: "60vh", 
+    overflowY: "auto"
+  },
+  width: 300
+})`
+top: 74px;
+margin-right:10px;
 `;
