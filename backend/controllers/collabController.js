@@ -145,9 +145,9 @@ deleteCollaborator = async function(req,res){
 
 
 module.exports = {
-	addRequest,
-	deleteRequest,
-	getRequest,
-	addCollaborator,
-	deleteCollaborator
+    addRequest,
+    deleteRequest,
+    getRequest,
+    addCollaborator,
+    deleteCollaborator
 }
