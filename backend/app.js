@@ -18,7 +18,7 @@ const tokenController = require('./util/authCheck')
 
 const port = process.env.PORT || 3000;
 
-app.use(fileUpload({
+app.use('/profile',fileUpload({
     createParentPath: true
 }))
 app.use(cors())
