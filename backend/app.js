@@ -12,6 +12,8 @@ const searchRouter = require("./routers/searchRouter")
 const validateRouter = require('./routers/validateRouter')
 const profileRouter = require('./routers/profileRouter')
 const followRouter = require('./routers/followRouter')
+const fileRouter = require('./routers/fileRouter')
+const collabRouter = require('./routers/collabRouter')
 const tokenController = require('./util/authCheck')
 
 const port = process.env.PORT || 3000;
@@ -32,6 +34,8 @@ app.use('/post', postRouter)
 app.use('/search', searchRouter)
 app.use('/profile',profileRouter)
 app.use('/follow', followRouter)
+app.use('/file',fileRouter)
+app.use('/collab', collabRouter)
 
 app.use('/static', express.static(path.join(__dirname,'./uploads')));
 
