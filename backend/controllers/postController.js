@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
 const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
-const {tagExists} = require('../util/postUtil')
+const {tagExists,projectInfo} = require('../util/postUtil')
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -148,33 +148,7 @@ getPosts = async function(req,res){
 			    ]}
 			]
 		    },
-		    include : [
-			{
-			    model : User,
-			    attributes : ['name','surname'],
-			    required : true
-			},
-    			{	 
-      			    model: ProjectCollaborator,
-			    attributes : ['user_id'],
-      			    required: false,
-			    include : [ {
-      			        model: User,
-			        attributes : ['name','surname'],
-      			        required: false,
-      			    }]
-      			},
-      			{
-			    model: ProjectTag,
-			    attributes : ['tag'],
-			    required: false,
-      			},
-			{
-			    model: ProjectFile,
-			    attributes: ['file_name','file_path'],
-			    required : false
-			}
-  		    ]
+		    include : projectInfo
 		});
 	    }else{
 		posts = await Project.findAll({
@@ -184,32 +158,7 @@ getPosts = async function(req,res){
 			    {'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
 			]
 		    },
-		    include : [
-			{
-			    model : User,
-			    attributes : ['name','surname'],
-			    required : true
-			},
-    			{	 
-			    model: ProjectCollaborator,
-			    attributes : ['user_id'],
-			    required: false,
-			    include : [ {
-			        model: User,
-				attributes : ['name','surname'],
-				required: false,
-			    }]
-      			},
-      			{
-			    model: ProjectTag,
-			    required: false,
-      			},
-			{
-			    model: ProjectFile,
-			    attributes: ['file_name','file_path'],
-			    required : false
-			}
-  		    ]
+		    include : projectInfo
 		});	
 	    }
 	    res.status(201).send(posts)
@@ -224,32 +173,7 @@ getPosts = async function(req,res){
 		where: {
 		    id : project_id
 		},
-		include : [
-		    {
-			model : User,
-			attributes : ['name','surname'],
-			required : true
-		    },
-    		    {	 
-			model: ProjectCollaborator,
-			attributes : ['user_id'],
-			required: false,
-			include : [ {
-			    model: User,
-			    attributes : ['name','surname'],
-			    required: false,
-			}]
-      		    },
-      		    {
-			model: ProjectTag,
-			required: false,
-      		    },
-		    {
-			model: ProjectFile,
-			attributes: ['file_name','file_path'],
-			required : false
-		    }
-  		]
+		include : projectInfo
 	    });	
 	    res.status(201).send(posts)
 	}catch(error){
