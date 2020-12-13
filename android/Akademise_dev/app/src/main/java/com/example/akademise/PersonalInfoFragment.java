@@ -89,7 +89,7 @@ public class PersonalInfoFragment extends Fragment {
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,   new HomeFragment()).commit();
                 createAffiliation(researchTags,affiliations);
 
-                openLoginActivity();
+                openMainActivity();
             }
         });
         Retrofit retrofit = new Retrofit.Builder()
@@ -212,8 +212,8 @@ public class PersonalInfoFragment extends Fragment {
 
     }
 
-    public void openLoginActivity() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+    public void openMainActivity() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
     }
 }

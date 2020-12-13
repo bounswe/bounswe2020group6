@@ -70,6 +70,12 @@ public class ValidationFragment extends Fragment {
         Log.d("mytoken", myToken.toString());
 
     }
+    private void saveData(String token){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(accessToken, token);
+        editor.apply();
+    }
 
     private void createValidationCode(String validation_code){
         Validation validation = new Validation(validation_code);
@@ -85,6 +91,8 @@ public class ValidationFragment extends Fragment {
                         return;
                     }
                     Validation validationResponse = response.body();
+                    saveData(validationResponse.getAccessToken());
+                    loadData();
                     System.out.println("Validation - SUCCESSFUL");
                     System.out.println("Validation - Token: " + myToken);
                     btn.setText(getString(R.string.next));
