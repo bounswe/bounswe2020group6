@@ -62,7 +62,7 @@ getFiles = async function(req,res){
     contentTypes = []
     fs.readdir(dirPath, function (err, filesPath) {
     	if (err) throw err;
-    	filesPath = filesPath.map(function(filePath){ //generating paths to file
+    	filesPath = filesPath.map(function(filePath){
 	    files.push(filePath)
             return dirPath + filePath;
     	});
