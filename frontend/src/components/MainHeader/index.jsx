@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/"
 import { useHistory } from "react-router-dom";
-import { Row, Col, Modal } from "antd";
+import { Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import {
   Header,
