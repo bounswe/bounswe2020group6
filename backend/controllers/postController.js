@@ -110,7 +110,7 @@ updatePost = async function (req,res){
 
 
 //deletes posts with respect to their post id
-deletePost = async function (req,res,next){
+deletePost = async function (req,res){
     try {
 	await Project.destroy({
 	    where : {
