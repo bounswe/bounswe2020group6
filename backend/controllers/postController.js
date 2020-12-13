@@ -150,30 +150,30 @@ getPosts = async function(req,res){
 					},
 					include : [
 						{
-						model : User,
-						attributes : ['name','surname'],
-						required : true
-					},
-    				{	 
-      					model: ProjectCollaborator,
-						attributes : ['user_id'],
-      					required: false,
-						include : [ {
-      						model: User,
+							model : User,
 							attributes : ['name','surname'],
-      						required: false,
-      					}]
-      				},
-      				{
-						model: ProjectTag,
-						attributes : ['tag'],
-						required: false,
-      				},
-					{
-						model: ProjectFile,
-						attributes: ['file_name','file_path'],
-						required : false
-					}
+							required : true
+						},
+    						{	 
+      							model: ProjectCollaborator,
+							attributes : ['user_id'],
+      							required: false,
+							include : [ {
+      								model: User,
+								attributes : ['name','surname'],
+      								required: false,
+      							}]
+      						},
+      						{
+							model: ProjectTag,
+							attributes : ['tag'],
+							required: false,
+      						},
+						{
+							model: ProjectFile,
+							attributes: ['file_name','file_path'],
+							required : false
+						}
   					]
 				});
 			}else{
@@ -190,7 +190,7 @@ getPosts = async function(req,res){
 						attributes : ['name','surname'],
 						required : true
 					},
-    				{	 
+    					{	 
 						model: ProjectCollaborator,
 						attributes : ['user_id'],
 						required: false,
@@ -199,11 +199,11 @@ getPosts = async function(req,res){
 							attributes : ['name','surname'],
 							required: false,
 						}]
-      				},
-      				{
+      					},
+      					{
 						model: ProjectTag,
 						required: false,
-      				},
+      					},
 					{
 						model: ProjectFile,
 						attributes: ['file_name','file_path'],
@@ -230,7 +230,7 @@ getPosts = async function(req,res){
 						attributes : ['name','surname'],
 						required : true
 					},
-    				{	 
+    					{	 
 						model: ProjectCollaborator,
 						attributes : ['user_id'],
 						required: false,
@@ -239,11 +239,11 @@ getPosts = async function(req,res){
 							attributes : ['name','surname'],
 							required: false,
 						}]
-      				},
-      				{
+      					},
+      					{
 						model: ProjectTag,
 						required: false,
-      				},
+      					},
 					{
 						model: ProjectFile,
 						attributes: ['file_name','file_path'],
