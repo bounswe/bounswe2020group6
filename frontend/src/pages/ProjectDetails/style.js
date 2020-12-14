@@ -34,7 +34,7 @@ export const Side = styled(Col)`
   }
 `;
 
-export const Date = styled.p` 
+export const DateSection = styled.p` 
   color: grey;
 `; 
 

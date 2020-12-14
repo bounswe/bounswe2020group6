@@ -21,10 +21,11 @@ import {
 const ProjectDetails = () => {
   const data = {
     title: "Logistic Regression for Bicycle Manufacturers",
+    status: "team building",
     tags: ["Mechanics", "Computer Science", "Statistics", "Artificial Intelligence", "Machine Learning"],
     summary: "The purpose of this article is to provide researchers, editors, and readers with a set of guidelines for what to expect in an article using logistic regression techniques. Tables, figures, and charts that should be included to comprehensively assess the results and assumptions to be verified are discussed.",
     deadlines: [{"date": "04 March, 2021", "desc": "Baseline results"}, {"date": "24 December, 2021", "desc": "Application Deadline for IOCON 2021"}],
-    duedate: "Due 06 July, 2021",
+    duedate: "06 July, 2021",
     requirements: "Here is the requirements.",
     collaborators: [
       {name: "Jens Søgaard", institution: "L’institut des Ponts et des", degree: "Chassures CS MSc", photo: null},
@@ -37,6 +38,22 @@ const ProjectDetails = () => {
     ]
   }
 
+  const statusColor = (status) => {
+    switch(status){
+      case "cancelled":
+        return "red"
+      case "completed":
+        return "green"
+      case "hibernating":
+        return "cyan"
+      case "in progress":
+        return "volcano"
+      case "team building":
+        return "purple"
+      default:
+        return ""
+    }
+  }
   return (
     <Frame>
       <Main
@@ -45,7 +62,7 @@ const ProjectDetails = () => {
         md={{span: 20, offset: 1}}
         lg={{span: 12, offset: 5}}> 
         <H1> {data.title} </H1>
-        <Date><UnlockFilled /> {data.duedate} </Date>
+        <DateSection><UnlockFilled /> Project Due {data.duedate} <Tag color={statusColor(data.status)} style={{marginLeft: "5px"}}>{data.status}</Tag></DateSection>
         <Tags>
           {data.tags.map((t, i) => {return <Tag key={i} style={{color: "grey"}}> {t} </Tag>})}
         </Tags>
