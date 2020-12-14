@@ -5,7 +5,7 @@ import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/"
 import { useHistory } from "react-router-dom";
 import { Row, Col } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import { MenuOutlined, BellOutlined, LogoutOutlined, SettingOutlined, UserOutlined, HomeOutlined} from "@ant-design/icons";
 import {
   Header,
   Nav,
@@ -162,11 +162,11 @@ const SiteHeader = () => {
             />
           </Col>
           <Nav xs={0} sm={{ span: 10, offset: 1 }} md={{ span: 10, offset: 1 }}>
-            <Anchor onClick={() => history.push("/home")}>Home</Anchor> |{" "}
-            <Anchor onClick={() => history.push(`/profile/${userId}`)}>Profile</Anchor> |{" "}
-            <Anchor href="#">Settings</Anchor> |{" "} 
-            <Anchor onClick={() => showModal()}>Notification</Anchor> |{" "} 
-            <Anchor onClick={handleLogout}>Logout</Anchor>
+            <Anchor onClick={() => history.push("/home")}><HomeOutlined /></Anchor> |{" "}
+            <Anchor onClick={() => history.push(`/profile/${userId}`)}><UserOutlined /> </Anchor> |{" "}
+            <Anchor href="#"><SettingOutlined /></Anchor> |{" "} 
+            <Anchor onClick={() => showModal()}><BellOutlined /></Anchor> |{" "} 
+            <Anchor onClick={handleLogout}><LogoutOutlined /></Anchor>
           </Nav>
         </Row>
       </Header>
