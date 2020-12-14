@@ -1,12 +1,12 @@
 import React, {} from "react";
 
 import { Col, Tag, Avatar } from "antd";
-import { UnlockFilled, PlusOutlined, FileOutlined} from "@ant-design/icons";
+import { UnlockFilled, PlusOutlined, FileOutlined, ClockCircleTwoTone} from "@ant-design/icons";
 import Frame from "../../components/Frame";
 import {
   H1,H3,H4,
   Main,
-  Date,
+  DateSection,
   Tags,
   Summary,
   Deadlines,
@@ -54,6 +54,21 @@ const ProjectDetails = () => {
         return ""
     }
   }
+
+  const deadlineColor = (deadline_str) => {
+    var deadline = new Date(deadline_str);
+    var today = new Date();
+    if (today > deadline) {
+      return "red"
+    }
+    else if(today < deadline){
+      return "yellowgreen"
+    }
+    else{
+      return "orange"
+    }
+  }
+
   return (
     <Frame>
       <Main
@@ -74,7 +89,7 @@ const ProjectDetails = () => {
           <H3>Deadlines</H3>
           {data.deadlines.map((dl, i) => {
             return <p key={i}>
-              -{dl.date}
+              <ClockCircleTwoTone twoToneColor={deadlineColor(dl.date)} style={{ fontSize: "12px" }}/> {dl.date}
               <br/>
               {dl.desc}
             </p>
