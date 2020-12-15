@@ -7,18 +7,17 @@ const {tagExists,projectInfo} = require('../util/postUtil')
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
-    const obj = JSON.parse(JSON.stringify(req.body));
     postData = {
 	userId : req.userId,
-	title : obj.title,
-	summary : obj.summary,
-	description : obj.description,
-	privacy : obj.privacy,
-	status : obj.status,
-	requirements : obj.requirements
+	title : req.body.title,
+	summary : req.body.summary,
+	description : req.body.description,
+	privacy : req.body.privacy,
+	status : req.body.status,
+	requirements : req.body.requirements
     }
     //collaborators = obj.collaborators
-    tags = obj.tags
+    tags = req.body.tags
     file = req.files
     try {
 	postDb = await Project.create(postData)
