@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ProjectDetailsActivity extends AppCompatActivity {
+//todo: bu benim projem değili nasıl check etmeli ?
+public class ProjectDetailsUserActivity extends AppCompatActivity {
 
     Project project;
     TextView title;
@@ -30,7 +31,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         getData();
         title.setText(project.getTitle());
         _abstract.setText(project.getAbstract1());
-        //status.setText(project.getStatus());
+        status.setText(project.getStatus());
         milestones.setText(project.getDeadline());
         requirements.setText(project.getRequirements());
 
@@ -38,8 +39,8 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     }
 
     private void getData(){
-       String test= getIntent().getClass().toString();
-       //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
+        String test= getIntent().getClass().toString();
+        //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
         if(getIntent().hasExtra("project")){
             project = (Project) getIntent().getSerializableExtra("project");
         }
