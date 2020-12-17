@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
-const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile} = require('../model/db')
+const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile, ProjectMilestone} = require('../model/db')
 const {tagExists,projectInfo} = require('../util/postUtil')
 
 
@@ -86,6 +86,58 @@ deleteTag = async function(req,res){
 	console.log(err)
     }
 }
+
+
+addMilestone = async function(req,res){
+    try{
+	milestone = {
+	    project_id : req.body.projectId,
+	    date : req.body.date,
+	    title : req.body.title,
+	    description : req.body.description,
+	    type : req.body.type
+	}
+	milestoneDb = await ProjectMilestone.create(milestone)
+	res.status(201).send({message : "Milestone is added"})
+	}catch(error){
+	    res.status(500).send({"error": error})
+	}
+}
+
+
+updateMilestone = async function(req,res){
+    var fieldsToUpdate = {};
+    for(var field of Object.keys(req.body)){
+	fieldsToUpdate[field] = req.body[field]
+    }
+    try {
+	await ProjectMilestone.update(fieldsToUpdate, {
+	    where : {
+	        id : req.params.id
+	    }
+	});
+	res.status(201).send({message : "Milestone is updated"})
+    }catch(error) {
+	res.status(500).send({"error": error})
+    }	
+}
+
+
+deleteMilestone = async function(req,res){
+    try {
+	await ProjectMilestone.destroy({
+	    where : {
+		id : req.params.id
+	    }
+	});
+	res.status(201).send({message : "Milestone is deleted"})
+    }catch(error) {
+	res.status(500).send({error: error})
+    }				 
+}
+
+
+
 
 
 //updates posts specifications with respect to post id
@@ -188,5 +240,8 @@ module.exports = {
     deletePost,
     getPosts,
     addTag,
-    deleteTag
+    deleteTag,
+    addMilestone,
+    updateMilestone,
+    deleteMilestone
 }
