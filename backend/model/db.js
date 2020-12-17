@@ -5,6 +5,7 @@ const ProjectModel = require('./projects')
 const ProjectTagModel = require('./project_tags')
 const ProjectCollaboratorModel = require('./project_collaborators')
 const ProjectFileModel = require('./project_files')
+const CollabRequestModel = require('./collab_requests')
 const ProjectMilestoneModel = require('./project_milestones')
 
 
@@ -21,11 +22,9 @@ const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
 
 
-
-
 //Connection to server database
-const sequelize = new Sequelize('akademise_test', 'root', 'password', {
-  host: 'ec2-54-173-244-46.compute-1.amazonaws.com',
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: 'mysql',
 })
 
@@ -37,6 +36,7 @@ const ProjectTag = ProjectTagModel(sequelize, Sequelize)
 const ProjectCollaborator = ProjectCollaboratorModel(sequelize, Sequelize)
 const ProjectFile = ProjectFileModel(sequelize, Sequelize)
 const Follow = FollowModel(sequelize, Sequelize)
+const CollabRequest = CollabRequestModel(sequelize, Sequelize)
 //Yeni db modelleri:
 const Interest = InterestModel(sequelize, Sequelize)
 const UserInterest = UserInterestModel(sequelize, Sequelize)
@@ -61,6 +61,8 @@ UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',c
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
 User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
 Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
+Project.belongsTo(User, {foreignKey : 'userId', onDelete : 'CASCADE',constraints : false})
+CollabRequest.belongsTo(User,{foreignKey : 'requesterId', onDelete : 'CASCADE', constraints : false})
 
 User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
 Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
@@ -103,5 +105,6 @@ module.exports = {
   University,
   Department,
   Title,
-  Follow
+  Follow,
+  CollabRequest
 }

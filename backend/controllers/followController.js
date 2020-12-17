@@ -31,23 +31,25 @@ addFollow = async function(req, res){
 removeFollow = async function(req, res){
     follower_user_id = Number(req.userId)
     followed_user_id = req.body.userId
-    userExistence = await userUtils.isUserExist(followed_user_id)
-    if(!userExistence){
-        return res.status(400).send({message: "User not found"})
-    }
-
-    followExistence = await userUtils.isFollowing(follower_user_id, followed_user_id)
-    if(!followExistence){
-        return res.status(400).send({message: "You are not following this user."})
-    }
-
     try {
+
+        userExistence = await userUtils.isUserExist(followed_user_id)
+        if(!userExistence){
+            return res.status(400).send({message: "User not found"})
+        }
+
+        followExistence = await userUtils.isFollowing(follower_user_id, followed_user_id)
+        if(!followExistence){
+            return res.status(400).send({message: "You are not following this user."})
+        }
+
         followDb = await Follow.destroy({
             where: {
                 follower_user_id: follower_user_id,
                 followed_user_id: followed_user_id
             }
         })
+
         res.status(200).send({message: "Successful"})
     } catch(error){
         res.status(500).send({error: "Something is wrong"})
