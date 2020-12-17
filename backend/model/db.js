@@ -57,6 +57,7 @@ Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',con
 
 Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
+Project.hasMany(ProjectMilestone, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
 UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
 User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
