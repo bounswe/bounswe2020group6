@@ -101,7 +101,7 @@ var getCitations = async function(url) {
         last5Year_iIndex: array[5],
     }
   
-    return citations
+    return citations;
 }
 
 module.exports = {
