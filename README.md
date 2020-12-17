@@ -2,7 +2,7 @@
 
 ![group logo](https://github.com/bounswe/bounswe2020group6/blob/master/Files/Media/logo.jpg?raw=true)
 
-We are group of Boğaziçi University computer engineering students. Here is our project repository for CmpE 352 course. For detailed information, you can check our [wiki](https://github.com/bounswe/bounswe2020group6/wiki).
+We are group of Boğaziçi University computer engineering students. Here is our project repository for CmpE 352 course. For detailed information, you can check our [wiki](https://github.com/bounswe/bounswe2020group6/wiki). 
 
 ## Group Members
 
