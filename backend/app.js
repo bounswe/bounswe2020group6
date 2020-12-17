@@ -15,6 +15,9 @@ const followRouter = require('./routers/followRouter')
 const fileRouter = require('./routers/fileRouter')
 const collabRouter = require('./routers/collabRouter')
 const tokenController = require('./util/authCheck')
+const autoCompleteRouter = require('./routers/autoCompleteRouter')
+//const path = require("path")
+
 
 const port = process.env.PORT || 3000;
 
@@ -34,6 +37,7 @@ app.use('/post', postRouter)
 app.use('/search', searchRouter)
 app.use('/profile',profileRouter)
 app.use('/follow', followRouter)
+app.use('/autoComplete', autoCompleteRouter)
 app.use('/file',fileRouter)
 app.use('/collab', collabRouter)
 
