@@ -63,6 +63,7 @@ User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
 Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 Project.belongsTo(User, {foreignKey : 'userId', onDelete : 'CASCADE',constraints : false})
 CollabRequest.belongsTo(User,{foreignKey : 'requesterId', onDelete : 'CASCADE', constraints : false})
+CollabRequest.belongsTo(Project,{foreignKey : 'projectId', onDelete : 'CASCADE', constraints : false})
 
 User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
 Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
