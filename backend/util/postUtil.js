@@ -37,7 +37,6 @@ const projectInfo = [
 
 
 var postExists = async function(projectId){
-    console.log("eyvah")
     postDb = await Project.findOne({
         where : {
 	    id  : projectId
