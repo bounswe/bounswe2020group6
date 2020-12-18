@@ -17,6 +17,7 @@ addRequest = async function(req, res){
 	    requesterId = currentRequest[0]
 	    requestedId = currentRequest[1]
 	    projectId = currentRequest[2]
+	    requestType = currentRequest[3]
 	    var userExistsDb = await userUtils.isUserExist(requestedId)
 	    if(!userExistsDb){
 	        notFoundUsers.push(requestedId)
@@ -24,7 +25,7 @@ addRequest = async function(req, res){
             }else{
                 var requestDb = await requestExists(requesterId, requestedId, projectId)
 		if(requestDb == undefined){
-		    newReqDb = await CollabRequest.create({ requesterId : requesterId, requestedId : requestedId, projectId : projectId})
+		    newReqDb = await CollabRequest.create({ requesterId : requesterId, requestedId : requestedId, projectId : projectId, requestType : requestType})
 		}else{
 		    alreadyRequestedUsers.push(requestDb)
 		    requestError = "But, you requested collaboration from these users before:"
@@ -106,7 +107,7 @@ addCollaborator = async function(req,res){
 		raw : true
 	    });
 	    if(request.length == 0){
-		res.status(500).send({message : "Invitation is no longer available"})
+		res.status(500).send({message : "Request is no longer available"})
 	    }else{
 		req.requestId = request[0].id
 		deleteRequest(req,res);	
