@@ -6,63 +6,122 @@
     android:layout_height="match_parent"
     tools:context=".ProjectInfoEntryFragment">
 
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintWidth_percent="1"
+        android:background="@drawable/rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/small_rectangle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintWidth_percent="0.35"
+        android:background="@drawable/small_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/logo2"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintWidth_percent="0.35"
+        android:background="@drawable/small_rectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Space
+        android:id="@+id/spacex"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView">
+    </Space>
+    <TextView
+        android:id="@+id/page_header"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Create a new Project"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spacex"/>
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/page_header">
+    </Space>
     <EditText
         android:id="@+id/etTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/title"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/etAbstract"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/textview_shape"
+        style="@style/textView"
+        android:text="Project Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvTitle"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title"
-        app:layout_constraintBottom_toTopOf="@+id/tvAbstract"
-        app:layout_constraintEnd_toStartOf="@+id/etTitle"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/space"/>
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle">
 
+    </Space>
     <EditText
-        android:id="@+id/etAbstract"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/_abstract"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/tvAddedResearchTags"
+        android:id="@+id/etRequirements"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/textview_shape"
+        style="@style/textView"
+        android:text="Requirements"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvAbstract"
-        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
-
-    <TextView
-        android:id="@+id/tvAbstract"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_abstract"
-        app:layout_constraintBottom_toTopOf="@+id/tvTags"
-        app:layout_constraintEnd_toStartOf="@+id/etAbstract"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
+        app:layout_constraintTop_toBottomOf="@+id/space2" />
+    <Space
+        android:id="@+id/space3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRequirements">
+    </Space>
     <Spinner
         android:id="@+id/sAddResearchTag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/cbIsPublic"
+        style="@style/textView"
+        app:layout_constraintBottom_toTopOf="@+id/etMilestone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddedResearchTags" />
+        app:layout_constraintTop_toBottomOf="@+id/space3" />
 
     <TextView
         android:id="@+id/tvTags"
@@ -87,75 +146,66 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvTags"
-        app:layout_constraintTop_toBottomOf="@+id/etAbstract" />
+        app:layout_constraintTop_toBottomOf="@+id/etRequirements" />
 
-    <TextView
-        android:id="@+id/tvIsPublic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/isPublic"
-        app:layout_constraintBottom_toBottomOf="@+id/cbIsPublic"
-        app:layout_constraintEnd_toStartOf="@+id/cbIsPublic"
-        app:layout_constraintHorizontal_bias="0.5"
+    <Space
+        android:id="@+id/space4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cbIsPublic" />
-
-    <CheckBox
-        android:id="@+id/cbIsPublic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/etdRequirements"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvIsPublic"
-        app:layout_constraintTop_toBottomOf="@+id/sAddResearchTag" />
-
-    <TextView
-        android:id="@+id/tvDeadline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/deadline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etdDeadline"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRequirements" />
-
-    <TextView
-        android:id="@+id/tvRequirements"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Requirements"
-        app:layout_constraintBottom_toTopOf="@+id/tvDeadline"
-        app:layout_constraintEnd_toStartOf="@+id/etdRequirements"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvIsPublic" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tvAddedResearchTags">
+    </Space>
     <EditText
-        android:id="@+id/etdRequirements"
-        android:layout_width="wrap_content"
+        android:id="@+id/etMilestone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/textview_shape"
+        style="@style/textView"
+        android:text="Milestone List"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space4" />
+    <Space
+        android:id="@+id/space5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etMilestone">
+    </Space>
+    <Spinner
+        android:id="@+id/sPrivacy"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/etdDeadline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvRequirements"
-        app:layout_constraintTop_toBottomOf="@+id/cbIsPublic" />
-
-    <EditText
-        android:id="@+id/etdDeadline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space5" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/button_shape"
+        style="@style/textView"
+        android:text="Next"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvDeadline"
-        app:layout_constraintTop_toBottomOf="@+id/etdRequirements" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space5"/>
 
-
+    <Space
+        android:id="@+id/space6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2">
+    </Space>
 </androidx.constraintlayout.widget.ConstraintLayout>

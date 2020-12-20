@@ -9,6 +9,12 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+    <style name="AppStyle.ProjectCreation">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/light_green</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
 
     <style name="textView" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>

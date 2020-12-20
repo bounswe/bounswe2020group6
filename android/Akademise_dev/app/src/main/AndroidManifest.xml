@@ -14,7 +14,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ProjectDetailsActivity"></activity>
         <activity android:name=".RecyclerViewActivity" />
-        <activity android:name=".ProjectCreationActivity" />
+        <activity
+            android:name=".ProjectCreationActivity"
+            android:theme="@style/AppStyle.Signup"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -61,7 +61,7 @@
 
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -85,7 +85,7 @@
 
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -108,7 +108,7 @@
         app:layout_constraintTop_toBottomOf="@+id/password">
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -131,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/name">
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/surname"
         android:layout_width="0dp"
         android:layout_height="0dp"
