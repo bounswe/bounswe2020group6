@@ -83,7 +83,7 @@
             android:background="@drawable/circle">
 
             <TextView
-                android:id="@+id/affiliation"
+                android:id="@+id/personalInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -96,9 +96,9 @@
                 android:id="@+id/affiliation_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/affiliation"
+                android:layout_below="@id/personalInfo"
                 android:layout_marginLeft="5dp"
-                android:text="University: Bogazici University\nDepartment: Computer Engineering\nDegree: Academician - Professor">
+                android:text="">
             </TextView>
         </RelativeLayout>
 

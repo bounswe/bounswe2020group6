@@ -61,10 +61,10 @@ public interface AkademiseApi {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("profile/update")
-    Call<Affiliation> createAffiliation(@Body Affiliation affiliation, @Header("Authorization") String auth);
+    Call<PersonalInfo> createAffiliation(@Body PersonalInfo personalInfo, @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("profile/{id}")
-    Call<Affiliation> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
+    Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
 
 }

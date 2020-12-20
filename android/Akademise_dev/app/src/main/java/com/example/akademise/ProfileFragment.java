@@ -16,9 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import android.content.SharedPreferences;
-
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,30 +114,29 @@ public class ProfileFragment extends Fragment {
 
     private void getAffiliation(){
 
-        Call<Affiliation> call = akademiseApi.getMyProfile(myId, "Bearer "+myToken);
+        Call<Profile> call = akademiseApi.getMyProfile(myId, "Bearer "+myToken);
 
 
-        call.enqueue(new Callback<Affiliation>() {
+        call.enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(Call<Affiliation> call, Response<Affiliation> response) {
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if(!response.isSuccessful()){
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Affiliation affiliation = response.body();
+                Profile profile = response.body();
                 System.out.println("SUCCESSFUL");
                 String str="";
 
-                if(affiliation.getAffiliation() == null) return;
 
-                str="University: "+ affiliation.getAffiliation().get("university")+"\n";
-
-
-                str +="Department: "+ affiliation.getAffiliation().get("department")+"\n";
+                str="University: "+ profile.getUniversity()+"\n";
 
 
-                str+= "Degree: " +affiliation.getAffiliation().get("degree");
+                str +="Department: "+ profile.getDepartment()+"\n";
+
+
+                str+= "Degree: " + profile.getTitle();
 
                 tvAffiliation.setText(str);
 
@@ -150,7 +146,7 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Affiliation> call, Throwable t) {
+            public void onFailure(Call<Profile> call, Throwable t) {
                 Toast.makeText(getActivity(), "Be sure to be connected", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());

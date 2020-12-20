@@ -14,9 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.akademise.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +35,13 @@ public class PersonalInfoFragment extends Fragment {
     AkademiseApi akademiseApi;
     private String myToken;
     Button btn;
-    ArrayList<String> researchTags = new ArrayList<String>();
-    HashMap<String, String> affiliations = new HashMap<String, String>();
+    List<String> researchAreas = new ArrayList<String>();
+    String title;
+    String university;
+    String department;
+    Affiliation affiliation;
+    PersonalInfo personalInfo;
+
     TextView tvChosenTags;
 
     @Nullable
@@ -70,46 +72,26 @@ public class PersonalInfoFragment extends Fragment {
 
         getUniversityList();
 
-        getTitleList();
-
-        getDepartmentList();
-
-        getTagList();
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("buttonId", btn.getText().toString());
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,   new HomeFragment()).commit();
-                createAffiliation(researchTags,affiliations);
-
-                openMainActivity();
-            }
-        });
-
 
     }
 
-    private void createAffiliation(ArrayList<String> researchAreas, HashMap<String, String> affiliations) {
+    private void createAffiliation(PersonalInfo personalInfo) {
 
-        Affiliation affiliation = new Affiliation(researchAreas, affiliations);
-        Call<Affiliation> call = akademiseApi.createAffiliation(affiliation, "Bearer " + myToken);
-        call.enqueue(new Callback<Affiliation>() {
+        Call<PersonalInfo> call = akademiseApi.createAffiliation(personalInfo, "Bearer " + myToken);
+        call.enqueue(new Callback<PersonalInfo>() {
             @Override
-            public void onResponse(Call<Affiliation> call, Response<Affiliation> response) {
+            public void onResponse(Call<PersonalInfo> call, Response<PersonalInfo> response) {
 
 
                 if (!response.isSuccessful()) {
                     Log.d("Project", "onResponse: not successful");
                     Log.d("Project", myToken);
                     Log.d("NotCreated", response.toString());
-                    Log.d("Project", researchAreas.toString());
-                    Log.d("Project", affiliations.toString());
 
 
                     return;
                 }
-                Affiliation affResponse = response.body();
+                PersonalInfo affResponse = response.body();
                 String content = "" + response.code();
                 Log.d("Project", "onResponse: successful" + content);
 
@@ -117,7 +99,7 @@ public class PersonalInfoFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Affiliation> call, Throwable t) {
+            public void onFailure(Call<PersonalInfo> call, Throwable t) {
                 Log.d("Project", "onFailure: failed");
                 String content = "" + t.getMessage();
                 System.out.println(content);
@@ -161,7 +143,8 @@ public class PersonalInfoFragment extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String tag = parent.getItemAtPosition(position).toString();
-                        affiliations.put("title", tag);
+                        title =tag;
+                        getDepartmentList();
 
                     }
 
@@ -204,8 +187,10 @@ public class PersonalInfoFragment extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String tag = parent.getItemAtPosition(position).toString();
-                        affiliations.put("department", tag);
+                        department=tag;
+                        Log.d("PersonalInfo", "onItemSelected: tag "+tag+" department: "+department);
 
+                        getTagList();
                     }
 
                     @Override
@@ -249,10 +234,28 @@ public class PersonalInfoFragment extends Fragment {
                         String currentText = tvChosenTags.getText().toString();
                         String tag = parent.getItemAtPosition(position).toString();
                         if (!currentText.contains(tag)) {
-                            researchTags.add(tag);
+                            researchAreas.add(tag);
                             currentText += " " + tag;
 
                             tvChosenTags.setText(currentText);
+
+                            Log.d("PersonalInfo", "onViewCreated: "+title+" "+university+ ""+department);
+
+                            affiliation= new Affiliation(title, university, department);
+                            personalInfo= new PersonalInfo(researchAreas, affiliation);
+
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Log.d("buttonId", btn.getText().toString());
+                                    //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.suFragment,   new HomeFragment()).commit();
+                                    createAffiliation(personalInfo);
+
+                                    openMainActivity();
+                                }
+                            });
+
+
                         }
 
                     }
@@ -294,7 +297,9 @@ public class PersonalInfoFragment extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String tag = parent.getItemAtPosition(position).toString();
-                        affiliations.put("university", tag);
+                        university=tag;
+
+                        getTitleList();
 
                     }
 
