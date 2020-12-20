@@ -83,7 +83,6 @@
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email">
-
     </Space>
 
     <EditText

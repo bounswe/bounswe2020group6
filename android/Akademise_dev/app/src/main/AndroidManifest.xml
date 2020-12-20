@@ -27,7 +27,9 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppStyle.Signup"/>
-        <activity android:name=".SignupActivity" />
+        <activity
+            android:name=".SignupActivity"
+            android:theme="@style/AppStyle.Signup"/>
     </application>
 
 </manifest>
