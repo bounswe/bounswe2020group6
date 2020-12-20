@@ -38,6 +38,9 @@ public class ProfileFragment extends Fragment {
     private TextView tvAffiliation;
     private String myToken;
     private  Integer myId;
+    private TextView tvName;
+    private  TextView tvContact;
+    private TextView tvTags;
 
     @Nullable
     @Override
@@ -46,6 +49,9 @@ public class ProfileFragment extends Fragment {
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
         publicationsButton = view.findViewById(R.id.projects);
         logoutButton =view.findViewById(R.id.logout_button);
+        tvName = view.findViewById(R.id.name);
+        tvContact=view.findViewById(R.id.contact_content);
+        tvTags = view.findViewById(R.id.tvTagsProfile);
         loadData();
         loadIDData();
 
@@ -62,7 +68,7 @@ public class ProfileFragment extends Fragment {
 
         publicationsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Fragment fragment = new PublicationsFragment(); //
+                Fragment fragment = new ProjectFragment(); //
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.flFragment, fragment);
@@ -139,7 +145,13 @@ public class ProfileFragment extends Fragment {
                 str+= "Degree: " + profile.getTitle();
 
                 tvAffiliation.setText(str);
-
+                tvName.setText(profile.getName()+" "+profile.getSurname());
+                tvContact.setText(profile.getEmail());
+                String temp="User Interests: \n";
+                for(int i=0; i<profile.getUser_interests().size(); i++){
+                    temp+=profile.getUser_interests().get(i).getInterest()+"\n";
+                }
+                tvTags.setText(temp);
                 //Toast.makeText(getActivity(), "Successful", Toast.LENGTH_LONG).show();
 
 
