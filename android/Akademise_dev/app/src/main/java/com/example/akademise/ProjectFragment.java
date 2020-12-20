@@ -81,7 +81,7 @@ public class ProjectFragment extends Fragment {
 
      private  void getProjects(Integer id){
 
-        Call<List<Project>> call= akademiseApi.getProjects(id, "Bearer "+myToken);
+        Call<List<Project>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
         call.enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {

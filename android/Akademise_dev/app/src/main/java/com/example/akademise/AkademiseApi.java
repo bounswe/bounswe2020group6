@@ -43,8 +43,8 @@ public interface AkademiseApi {
 
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("post/get/{id}")
-    Call<List<Project>> getProjects(@Path("id") int id, @Header("Authorization") String auth);
+    @GET("post/get/{id}/{type}")
+    Call<List<Project>> getProjects(@Path("id") int id, @Path("type") int type, @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")

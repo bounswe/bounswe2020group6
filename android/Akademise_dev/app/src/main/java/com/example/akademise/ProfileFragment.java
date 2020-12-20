@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,9 @@ public class ProfileFragment extends Fragment {
     private TextView tvName;
     private  TextView tvContact;
     private TextView tvTags;
+    private ImageView ivProfilePhoto;
+    long pressTime = 0;
+    long lastPressTime = 0;
 
     @Nullable
     @Override
@@ -52,6 +58,7 @@ public class ProfileFragment extends Fragment {
         tvName = view.findViewById(R.id.name);
         tvContact=view.findViewById(R.id.contact_content);
         tvTags = view.findViewById(R.id.tvTagsProfile);
+        ivProfilePhoto=view.findViewById(R.id.avatar);
         loadData();
         loadIDData();
 
@@ -63,6 +70,18 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.replace(R.id.flFragment, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+
+        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressTime = System.currentTimeMillis();
+                if(pressTime - lastPressTime <= ViewConfiguration.getDoubleTapTimeout()){
+                    ivProfilePhoto.setImageResource(R.drawable.cactus);
+                }
+
+                lastPressTime = pressTime;
             }
         });
 
