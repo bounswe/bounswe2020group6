@@ -20,6 +20,7 @@ import com.example.akademise.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,7 @@ public class PersonalInfoFragment extends Fragment {
     Button btn;
     ArrayList<String> researchTags = new ArrayList<String>();
     HashMap<String, String> affiliations = new HashMap<String, String>();
+    TextView tvChosenTags;
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,37 +53,29 @@ public class PersonalInfoFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        akademiseApi = retrofit.create(AkademiseApi.class);
+        loadData();
+
         btn = this.getActivity().findViewById(R.id.btnNext);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        tvChosenTags = view.findViewById(R.id.tvChosenResearchTags);
 
 
-        Spinner uni_select_spinner = (Spinner) getView().findViewById(R.id.uni_select);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
-                R.array.college_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        uni_select_spinner.setAdapter(adapter);
+        getUniversityList();
 
-        Spinner degree_spinner = (Spinner) getView().findViewById(R.id.degree_select);
-        ArrayAdapter<CharSequence> adapter_3 = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
-                R.array.degree_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        degree_spinner.setAdapter(adapter_3);
+        getTitleList();
 
-        Spinner department_select_spinner = (Spinner) getView().findViewById(R.id.department_select);
-        ArrayAdapter<CharSequence> adapter_2 = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
-                R.array.department_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        department_select_spinner.setAdapter(adapter_2);
+        getDepartmentList();
 
-        Spinner research_tag_spinner = (Spinner) getView().findViewById(R.id.sResearchTag);
-        ArrayAdapter<CharSequence> tag_adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
-                R.array.research_tags,
-                android.R.layout.simple_spinner_item);
-        tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        research_tag_spinner.setAdapter(tag_adapter);
+        getTagList();
 
-        loadData();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,81 +86,8 @@ public class PersonalInfoFragment extends Fragment {
                 openMainActivity();
             }
         });
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        akademiseApi = retrofit.create(AkademiseApi.class);
 
-        TextView tvChosenTags = view.findViewById(R.id.tvChosenResearchTags);
-
-        research_tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    String currentText = tvChosenTags.getText().toString();
-                    String tag = parent.getItemAtPosition(position).toString();
-                    if (!currentText.contains(tag)) {
-                        researchTags.add(tag);
-                        currentText += " " + tag;
-
-                        tvChosenTags.setText(currentText);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        uni_select_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tag = parent.getItemAtPosition(position).toString();
-                affiliations.put("university", tag);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        degree_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tag = parent.getItemAtPosition(position).toString();
-                affiliations.put("degree", tag);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        department_select_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String tag = parent.getItemAtPosition(position).toString();
-                affiliations.put("department", tag);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void createAffiliation(ArrayList<String> researchAreas, HashMap<String, String> affiliations) {
@@ -215,6 +136,181 @@ public class PersonalInfoFragment extends Fragment {
     public void openMainActivity() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+    }
+
+    private void getTitleList(){
+        Call<Result> call = akademiseApi.getTitles("Bearer " + myToken);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(!response.isSuccessful()){
+                    Log.d("GetTitles", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GetTitles-success", "On response: " + response.message());
+                 Result result = response.body();
+                Log.d("GetTitles-success","GOR BUNU-------------------------");
+                Log.d("GetTitles-success",result.getResult().toString());
+                Spinner degree_spinner = (Spinner) getView().findViewById(R.id.degree_select);
+                ArrayAdapter<String> adapter_3 = new ArrayAdapter<String> (getActivity().getBaseContext(),
+                        android.R.layout.simple_spinner_dropdown_item,result.getResult());
+                adapter_3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                degree_spinner.setAdapter(adapter_3);
+                degree_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String tag = parent.getItemAtPosition(position).toString();
+                        affiliations.put("title", tag);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
+    }
+
+    private void getDepartmentList(){
+        Call<Result> call = akademiseApi.getDepartments("Bearer " + myToken);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(!response.isSuccessful()){
+                    Log.d("GetDepartments", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GetDepartments-success", "On response: " + response.message());
+                Result result = response.body();
+                Log.d("GetDepartments-success",result.getResult().toString());
+
+                Spinner department_select_spinner = (Spinner) getView().findViewById(R.id.department_select);
+
+                ArrayAdapter<String> adapter_2 = new ArrayAdapter<String> (getActivity().getBaseContext(),
+                        android.R.layout.simple_spinner_dropdown_item,result.getResult());
+                adapter_2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                department_select_spinner.setAdapter(adapter_2);
+                department_select_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String tag = parent.getItemAtPosition(position).toString();
+                        affiliations.put("department", tag);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
+    }
+
+    private void getTagList(){
+        Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(!response.isSuccessful()){
+                    Log.d("GetTags", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GetTags-success", "On response: " + response.message());
+                Result result = response.body();
+                Log.d("GetTags-success","GOR BUNU-------------------------");
+                Log.d("GetTags-success",result.getResult().toString());
+                Spinner tag_spinner = (Spinner) getView().findViewById(R.id.sResearchTag);
+                ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getActivity().getBaseContext(),
+                        android.R.layout.simple_spinner_dropdown_item,result.getResult());
+                tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tag_spinner.setAdapter(tag_adapter);
+                tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        String currentText = tvChosenTags.getText().toString();
+                        String tag = parent.getItemAtPosition(position).toString();
+                        if (!currentText.contains(tag)) {
+                            researchTags.add(tag);
+                            currentText += " " + tag;
+
+                            tvChosenTags.setText(currentText);
+                        }
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
+    }
+
+    private void getUniversityList(){
+        Call<Result> call = akademiseApi.getUniversities("Bearer " + myToken);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(!response.isSuccessful()){
+                    Log.d("GetUniversity", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GetUniversity-success", "On response: " + response.message());
+                Result result = response.body();
+                Log.d("GetUniversity-success",result.getResult().toString());
+                Spinner uni_spinner = (Spinner) getView().findViewById(R.id.uni_select);
+                ArrayAdapter<String> adapter_uni = new ArrayAdapter<String> (getActivity().getBaseContext(),
+                        android.R.layout.simple_spinner_dropdown_item,result.getResult());
+                adapter_uni.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                uni_spinner.setAdapter(adapter_uni);
+                uni_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String tag = parent.getItemAtPosition(position).toString();
+                        affiliations.put("university", tag);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
     }
 }
 
