@@ -72,7 +72,7 @@
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:text="Project Name"
@@ -94,7 +94,7 @@
     <EditText
         android:id="@+id/etRequirements"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:text="Requirements"
@@ -160,7 +160,7 @@
     <EditText
         android:id="@+id/etMilestone"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="60dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:text="Milestone List"
@@ -186,10 +186,19 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space5" />
+    <Space
+        android:id="@+id/space6"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sPrivacy">
+    </Space>
     <Button
         android:id="@+id/button2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="30dp"
         android:background="@drawable/button_shape"
         style="@style/textView"
         android:text="Next"
@@ -197,10 +206,10 @@
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space5"/>
+        app:layout_constraintTop_toBottomOf="@+id/space6"/>
 
     <Space
-        android:id="@+id/space6"
+        android:id="@+id/space7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.15"

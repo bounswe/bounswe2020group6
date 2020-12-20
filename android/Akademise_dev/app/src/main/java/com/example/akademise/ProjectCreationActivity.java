@@ -33,6 +33,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
     private String myToken;
     String currentText;
     List<String> tags;
+    private int privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,11 @@ public class ProjectCreationActivity extends AppCompatActivity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             research_tag_spinner.setAdapter(adapter);
-
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getBaseContext(),
+                    R.array.privacy,
+                    android.R.layout.simple_spinner_item);
+            Spinner privacy_spinner = findViewById(R.id.sPrivacy);
+            privacy_spinner.setAdapter(adapter2);
             TextView tvChosenTags =findViewById(R.id.tvChosenResearchTags);
 
             research_tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -92,16 +97,33 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                 }
             });
+            privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position != 0) {
+                        String s_privacy = parent.getItemAtPosition(position).toString();
+                        if (s_privacy.equals("0")) {
+                            privacy=0;
+                        }
+                        else{
+                            privacy=1;
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             EditText etTitle = findViewById(R.id.etTitle);
-            EditText etAbstract = findViewById(R.id.etAbstract);
-            EditText etDeadline = findViewById(R.id.etdDeadline);
-            EditText etRequirements = findViewById(R.id.etdRequirements);
-            CheckBox isPublic = findViewById(R.id.cbIsPublic);
-            Integer _public =0;
-            if(isPublic.isChecked()) _public=1;
-            createProject(_public,etTitle.getText().toString(),
-                    etAbstract.getText().toString(),
+            EditText etRequirements = findViewById(R.id.etRequirements);
+            EditText etDeadline = findViewById(R.id.etMilestone);
+
+            createProject(privacy,etTitle.getText().toString(),
+                    null,
                     etDeadline.getText().toString(),
                     etRequirements.getText().toString(), tags, null);
 
