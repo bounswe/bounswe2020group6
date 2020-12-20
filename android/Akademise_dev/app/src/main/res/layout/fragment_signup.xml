@@ -61,13 +61,14 @@
 
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="E mail"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -85,13 +86,14 @@
 
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Password"
+        android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,13 +110,13 @@
         app:layout_constraintTop_toBottomOf="@+id/password">
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Name"
+        android:hint="Name"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,13 +133,13 @@
         app:layout_constraintTop_toBottomOf="@+id/name">
     </Space>
 
-    <TextView
+    <EditText
         android:id="@+id/surname"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Name"
+        android:hint="Surname"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"

@@ -25,6 +25,22 @@ public interface AkademiseApi {
                                             @Query("type") String type,
                                             @Header("Authorization") String auth);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("autoComplete/getTitles")
+    Call<Result> getTitles(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("autoComplete/getDepartments")
+    Call<Result> getDepartments(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("autoComplete/getTags")
+    Call<Result> getTags(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("autoComplete/getUniversities")
+    Call<Result> getUniversities(@Header("Authorization") String auth);
+
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("post/get/{id}")
