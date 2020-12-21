@@ -31,7 +31,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         getData();
         title.setText(project.getTitle());
         _abstract.setText(project.getAbstract1());
-        status.setText(project.getStatus());
+        //status.setText(project.getStatus());
         milestones.setText(project.getDeadline());
         requirements.setText(project.getRequirements());
 

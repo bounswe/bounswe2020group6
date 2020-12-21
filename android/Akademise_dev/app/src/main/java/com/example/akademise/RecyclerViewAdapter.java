@@ -2,6 +2,7 @@ package com.example.akademise;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+    public static final String MyIDPEREFERENCES = "MyIDPrefs";
+    private int myId;
+    public static final String accessID = "XXXXXID";
+
     List<Project> projects;
     Context context;
-    public RecyclerViewAdapter(Context ct, List<Project> prj){
-        context=ct;
-        projects=prj;
+
+    public RecyclerViewAdapter(Context ct, List<Project> prj) {
+        context = ct;
+        projects = prj;
 
     }
 
@@ -37,10 +45,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.title.setText(projects.get(position).getTitle());
         holder._abstract.setText(projects.get(position).getAbstract1());
         holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
+        loadIDData();
+        int userId = projects.get(position).getUserId();
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(context, ProjectDetailsActivity.class);
+                Intent intent;
+                if (userId == myId) {
+                    intent = new Intent(context, ProjectDetailsActivity.class);
+
+
+                } else {
+                    intent = new Intent(context, ProjectDetailsUserActivity.class);
+                }
+
                 Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
                 intent.putExtra("project", projects.get(position));
                 context.startActivity(intent);
@@ -65,11 +83,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tv_title);
-            _abstract= itemView.findViewById(R.id.tv_abstract);
+            _abstract = itemView.findViewById(R.id.tv_abstract);
             imageView = itemView.findViewById(R.id.iv_project);
-            mView=itemView;
+            mView = itemView;
         }
 
     }
 
+    private void loadIDData() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
+        myId = sharedPreferences.getInt(accessID, 0);
+
+    }
 }
