@@ -111,7 +111,7 @@
         app:layout_constraintWidth_percent="1">
     </Space>
 
-    <EditText
+    <TextView
         android:id="@+id/tvAbstractProject"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -133,7 +133,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAbstractProject">
 
     </Space>
-    <EditText
+    <TextView
         android:id="@+id/tvTagsProject"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -155,7 +155,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTagsProject">
 
     </Space>
-    <EditText
+    <TextView
         android:id="@+id/tvMilestoneProject"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -176,7 +176,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvMilestoneProject"/>
 
-    <EditText
+    <TextView
         android:id="@+id/tvRequirementsProject"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -197,7 +197,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRequirementsProject"/>
 
-    <EditText
+    <TextView
         android:id="@+id/tvStatusProject"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -218,7 +218,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusProject"/>
 
-    <EditText
+    <TextView
         android:id="@+id/tvCollaborators"
         android:layout_width="0dp"
         android:layout_height="50dp"
