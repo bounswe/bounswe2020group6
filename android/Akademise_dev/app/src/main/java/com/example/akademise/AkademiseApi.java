@@ -41,6 +41,22 @@ public interface AkademiseApi {
     @GET("autoComplete/getUniversities")
     Call<Result> getUniversities(@Header("Authorization") String auth);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("autoComplete/addTitle")
+    Call<Title> addTitle(@Body Title title, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("autoComplete/addDepartment")
+    Call<Department> addDepartment(@Body Department department, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("autoComplete/addTag")
+    Call<Tag> addTag(@Body Tag tag, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("autoComplete/addUniversity")
+    Call<University> addUniversity(@Body University university, @Header("Authorization") String auth);
+
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("post/get/{id}/{type}")

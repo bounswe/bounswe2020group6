@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/space" />
 
     <Space
-        android:id="@+id/space2"
+        android:id="@+id/etResearchTagEntry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.03"
@@ -95,6 +95,6 @@
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2"/>
+        app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

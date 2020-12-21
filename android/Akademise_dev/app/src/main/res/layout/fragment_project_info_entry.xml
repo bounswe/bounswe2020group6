@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space"/>
     <Space
-        android:id="@+id/space2"
+        android:id="@+id/etResearchTagEntry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.03"
@@ -102,9 +102,9 @@
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2" />
+        app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry" />
     <Space
-        android:id="@+id/space3"
+        android:id="@+id/etUniversityEntry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.03"
@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space3" />
+        app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
     <TextView
         android:id="@+id/tvTags"
@@ -149,7 +149,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etRequirements" />
 
     <Space
-        android:id="@+id/space4"
+        android:id="@+id/etDepartmentEntry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.05"
@@ -168,9 +168,9 @@
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space4" />
+        app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
     <Space
-        android:id="@+id/space5"
+        android:id="@+id/etTitleEntry"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.05"
@@ -185,7 +185,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space5" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
     <Space
         android:id="@+id/space6"
         android:layout_width="0dp"

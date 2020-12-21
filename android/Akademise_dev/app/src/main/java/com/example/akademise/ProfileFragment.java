@@ -161,12 +161,12 @@ public class ProfileFragment extends Fragment {
                 str +="Department: "+ profile.getDepartment()+"\n";
 
 
-                str+= "Degree: " + profile.getTitle();
+                str+= "Title: " + profile.getTitle();
 
                 tvAffiliation.setText(str);
                 tvName.setText(profile.getName()+" "+profile.getSurname());
                 tvContact.setText(profile.getEmail());
-                String temp="User Interests: \n";
+                String temp="";
                 for(int i=0; i<profile.getUser_interests().size(); i++){
                     temp+=profile.getUser_interests().get(i).getInterest()+"\n";
                 }

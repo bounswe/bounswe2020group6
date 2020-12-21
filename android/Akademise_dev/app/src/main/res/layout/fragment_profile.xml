@@ -63,7 +63,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Space
-            android:id="@+id/space2"
+            android:id="@+id/etResearchTagEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -80,7 +80,7 @@
             app:layout_constraintHeight_percent="0.15"
             app:layout_constraintWidth_percent="0.25"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space2">
+            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry">
         </ImageView>
 
         <TextView
@@ -104,7 +104,7 @@
             android:text="Log out"
             app:layout_constraintEnd_toStartOf="@+id/right_space"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toBottomOf="@+id/space2"
+            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
             app:layout_constraintWidth_percent="0.25" />
 
         <Button
@@ -116,11 +116,11 @@
             android:text="Edit"
             app:layout_constraintEnd_toStartOf="@+id/logout_button"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toBottomOf="@+id/space2"
+            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
             app:layout_constraintWidth_percent="0.25" />
 
         <Space
-            android:id="@+id/space3"
+            android:id="@+id/etUniversityEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -138,10 +138,10 @@
             android:text="Biography:"
             style="@style/textView"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space3" />
+            app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
         <Space
-            android:id="@+id/space4"
+            android:id="@+id/etDepartmentEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -159,10 +159,10 @@
             android:text="Research Tags:"
             style="@style/textView"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space4" />
+            app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
 
         <Space
-            android:id="@+id/space5"
+            android:id="@+id/etTitleEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -173,20 +173,21 @@
 
         <TextView
             android:id="@+id/affiliation"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="0.40"
             android:text="Affiliation:"
-            style="@style/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/affiliation_content"
+            app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space5" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitleEntry"
+            app:layout_constraintWidth_percent="0.40" />
 
         <Space
             android:id="@+id/space6"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/affiliation"
             app:layout_constraintWidth_percent="1">
@@ -194,14 +195,16 @@
 
         <TextView
             android:id="@+id/contact"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="0.30"
             android:text="Contact:"
-            style="@style/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/contact_content"
+            app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space6" />
+            app:layout_constraintTop_toBottomOf="@+id/space6"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.30" />
 
         <Space
             android:id="@+id/space7"
@@ -243,7 +246,7 @@
             android:layout_height="wrap_content"
             android:text="biograpy_content"
             app:layout_constraintStart_toEndOf="@+id/biography"
-            app:layout_constraintTop_toBottomOf="@+id/space3" />
+            app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
         <TextView
             android:id="@+id/research_tags_content"
@@ -251,7 +254,7 @@
             android:layout_height="wrap_content"
             android:text="research_tags_content"
             app:layout_constraintStart_toEndOf="@+id/research_tags"
-            app:layout_constraintTop_toBottomOf="@+id/space4" />
+            app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
 
         <TextView
             android:id="@+id/affiliation_content"
@@ -259,12 +262,14 @@
             android:layout_height="wrap_content"
             android:text="affiliation_content"
             app:layout_constraintStart_toEndOf="@+id/affiliation"
-            app:layout_constraintTop_toBottomOf="@+id/space5" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
 
         <TextView
             android:id="@+id/contact_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
             android:text="contact_content"
             app:layout_constraintStart_toEndOf="@+id/contact"
             app:layout_constraintTop_toBottomOf="@+id/space6" />

@@ -65,7 +65,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Space
-            android:id="@+id/space2"
+            android:id="@+id/etResearchTagEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -83,10 +83,10 @@
             style="@style/textView"
             android:text="Followers:"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space2" />
+            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry" />
 
         <Space
-            android:id="@+id/space3"
+            android:id="@+id/etUniversityEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -104,10 +104,10 @@
             style="@style/textView"
             android:text="Following:"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space3" />
+            app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
         <Space
-            android:id="@+id/space4"
+            android:id="@+id/etDepartmentEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -125,10 +125,10 @@
             style="@style/textView"
             android:text="Projects Published:"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space4" />
+            app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
 
         <Space
-            android:id="@+id/space5"
+            android:id="@+id/etTitleEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -146,7 +146,7 @@
             style="@style/textView"
             android:text="Interest Areas:"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space5" />
+            app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
 
         <Space
             android:id="@+id/space6"
