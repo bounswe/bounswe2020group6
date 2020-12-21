@@ -27,7 +27,7 @@ public class ProjectInfoEntryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Spinner research_tag_spinner = (Spinner) getView().findViewById(R.id.sAddResearchTag);
+        Spinner research_tag_spinner = getView().findViewById(R.id.sAddResearchTag);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
                 R.array.research_tags,
@@ -37,8 +37,18 @@ public class ProjectInfoEntryFragment extends Fragment {
 
         research_tag_spinner.setAdapter(adapter);
 
-        TextView tvChosenTags = view.findViewById(R.id.tvAddedResearchTags);
+        Spinner privacy_spinner = getView().findViewById(R.id.sPrivacy);
 
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
+                R.array.privacy,
+                android.R.layout.simple_spinner_item);
+
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        privacy_spinner.setAdapter(adapter2);
+
+        TextView tvChosenTags =getView().findViewById(R.id.tvProjectTags);
+        TextView text_privacy =getView().findViewById(R.id.textPrivacy);
         research_tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -52,6 +62,17 @@ public class ProjectInfoEntryFragment extends Fragment {
                     }
 
                 }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                text_privacy.setText(parent.getItemAtPosition(position).toString());
             }
 
             @Override

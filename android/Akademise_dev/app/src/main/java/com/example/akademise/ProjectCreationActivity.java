@@ -33,7 +33,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
     private String myToken;
     String currentText;
     List<String> tags;
-    private int privacy;
+    Integer privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +69,19 @@ public class ProjectCreationActivity extends AppCompatActivity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             research_tag_spinner.setAdapter(adapter);
+
+            Spinner privacy_spinner = findViewById(R.id.sPrivacy);
+
             ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getBaseContext(),
                     R.array.privacy,
                     android.R.layout.simple_spinner_item);
-            Spinner privacy_spinner = findViewById(R.id.sPrivacy);
-            privacy_spinner.setAdapter(adapter2);
-            TextView tvChosenTags =findViewById(R.id.tvChosenResearchTags);
 
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            privacy_spinner.setAdapter(adapter2);
+
+            TextView tvChosenTags =findViewById(R.id.tvProjectTags);
+            TextView text_privacy =findViewById(R.id.textPrivacy);
             research_tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -100,16 +106,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
             privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position != 0) {
-                        String s_privacy = parent.getItemAtPosition(position).toString();
-                        if (s_privacy.equals("0")) {
-                            privacy=0;
-                        }
-                        else{
-                            privacy=1;
-                        }
-
-                    }
+                    text_privacy.setText(parent.getItemAtPosition(position).toString());
                 }
 
                 @Override
@@ -117,10 +114,13 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                 }
             });
-
             EditText etTitle = findViewById(R.id.etTitle);
-            EditText etRequirements = findViewById(R.id.etRequirements);
+            //EditText etAbstract = findViewById(R.id.etAbstract);
             EditText etDeadline = findViewById(R.id.etMilestone);
+            EditText etRequirements = findViewById(R.id.etRequirements);
+            if(text_privacy.getText().toString().equals("1")){
+                privacy=1;
+            }
 
             createProject(privacy,etTitle.getText().toString(),
                     null,
@@ -132,17 +132,14 @@ public class ProjectCreationActivity extends AppCompatActivity {
     };
 
    /* private  void getPosts(Integer id){
-
         Call<List<Project>> call= akademiseApi.getProjects(id, "Bearer "+myToken);
         call.enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-
                 if(!response.isSuccessful()){
                     Log.d("Project", "onResponse: not successful");
                     return;
                 }
-
                 List<Project> projects = response.body();
                 int count=0;
                 for (Project project : projects){
@@ -150,46 +147,41 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 }
                 Log.d("Project", String.valueOf(count));
             }
-
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
-
                 Log.d("Project", "onFailure: failed");
-
             }
         });
-
     }
-
     */
 
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
-    Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements);
-    Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
-    call.enqueue(new Callback<Project>() {
-        @Override
-        public void onResponse(Call<Project> call, Response<Project> response) {
+        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements);
+        Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
+        call.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
 
-            if(!response.isSuccessful()){
-                Log.d("Project", "onResponse: not successful");
-                Log.d("Project", myToken);
-                Log.d("NotCreated", response.toString());
-                Toast.makeText(ProjectCreationActivity.this, "Not created, try again", Toast.LENGTH_LONG).show();
-                return;
+                if(!response.isSuccessful()){
+                    Log.d("Project", "onResponse: not successful");
+                    Log.d("Project", myToken);
+                    Log.d("NotCreated", response.toString());
+                    Toast.makeText(ProjectCreationActivity.this, "Not created, try again", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Log.d("Project", "onResponse: successful");
+                Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
+
+                finish();
             }
 
-            Log.d("Project", "onResponse: successful");
-            Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
-
-            finish();
-        }
-
-        @Override
-        public void onFailure(Call<Project> call, Throwable t) {
-            Toast.makeText(ProjectCreationActivity.this, "Be sure to be connected", Toast.LENGTH_LONG).show();
-            Log.d("Project", "onFailure: failed");
-        }
-    });
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+                Toast.makeText(ProjectCreationActivity.this, "Be sure to be connected", Toast.LENGTH_LONG).show();
+                Log.d("Project", "onFailure: failed");
+            }
+        });
     }
 
     private void loadData(){

@@ -54,6 +54,7 @@
         android:gravity="center"
         android:text="Create a new Project"
         android:textStyle="bold"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -75,14 +76,14 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Project Name"
+        android:hint="Project Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space"/>
     <Space
-        android:id="@+id/etResearchTagEntry"
+        android:id="@+id/space2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.03"
@@ -97,14 +98,14 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Requirements"
+        android:hint="Requirements"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/space2" />
     <Space
-        android:id="@+id/etUniversityEntry"
+        android:id="@+id/space3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.03"
@@ -112,50 +113,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRequirements">
     </Space>
+    <TextView
+        android:id="@+id/tvProjectTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="@string/tags"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space3" />
     <Spinner
         android:id="@+id/sAddResearchTag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/textView"
-        app:layout_constraintBottom_toTopOf="@+id/etMilestone"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.90"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
-
-    <TextView
-        android:id="@+id/tvTags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tags"
-        app:layout_constraintBottom_toBottomOf="@+id/tvAddedResearchTags"
-        app:layout_constraintEnd_toStartOf="@+id/tvAddedResearchTags"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvAddedResearchTags"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tvAddedResearchTags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Chosen Tags"
-        android:maxWidth="200dp"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/sAddResearchTag"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvTags"
-        app:layout_constraintTop_toBottomOf="@+id/etRequirements" />
+        app:layout_constraintTop_toBottomOf="@+id/tvProjectTags" />
 
     <Space
-        android:id="@+id/etDepartmentEntry"
+        android:id="@+id/space4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddedResearchTags">
+        app:layout_constraintTop_toBottomOf="@+id/sAddResearchTag">
     </Space>
     <EditText
         android:id="@+id/etMilestone"
@@ -163,14 +151,14 @@
         android:layout_height="60dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Milestone List"
+        android:hint="Milestone List"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/space4" />
     <Space
-        android:id="@+id/etTitleEntry"
+        android:id="@+id/space5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.05"
@@ -178,14 +166,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etMilestone">
     </Space>
-    <Spinner
-        android:id="@+id/sPrivacy"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvPrivacy"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="13dp"
+        android:text="Privacy:"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/space5"
+        />
+    <Spinner
+        android:id="@+id/sPrivacy"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space5" />
     <Space
         android:id="@+id/space6"
         android:layout_width="0dp"
@@ -195,26 +198,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sPrivacy">
     </Space>
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:background="@drawable/button_shape"
-        style="@style/textView"
-        android:text="Next"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/textPrivacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="13dp"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space6"/>
+        />
 
-    <Space
-        android:id="@+id/space7"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2">
-    </Space>
 </androidx.constraintlayout.widget.ConstraintLayout>
