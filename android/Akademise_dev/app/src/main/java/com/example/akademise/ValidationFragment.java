@@ -39,7 +39,7 @@ public class ValidationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btn = this.getActivity().findViewById(R.id.btnNext);
+        btn = view.findViewById(R.id.validation_button);
 
         loadData();
         validation = getView().findViewById(R.id.validation_code);
@@ -55,9 +55,9 @@ public class ValidationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("button_name", btn.getText().toString());
-                if (btn.getText().equals(getString(R.string.validate))) {
                     createValidationCode(validation.getText().toString());
-                }
+
+
             }
         });
 

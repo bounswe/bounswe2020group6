@@ -142,7 +142,7 @@
     </EditText>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/personal_info_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/button_shape"
