@@ -4,165 +4,272 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    tools:context=".MainActivity"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
+            app:layout_constraintWidth_percent="0.05">
+        </Space>
+
+        <Space
+            android:id="@+id/right_space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
+            app:layout_constraintWidth_percent="0.05">
+        </Space>
+
+        <View
+            android:id="@+id/myRectangleView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="1"
+            android:background="@drawable/rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/small_rectangle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="0.35"
+            android:background="@drawable/small_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/logo2"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="0.35"
+            android:background="@drawable/small_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
+        </Space>
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:src="@drawable/pp"
-            >
-
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space2">
         </ImageView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
+            android:text="Name-Surname"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/avatar">
+        </TextView>
 
         <Button
             android:id="@+id/logout_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="5dp"
-            android:text="Log Out"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/avatar"
-            android:layout_marginTop="5dp"
-            android:hint="Name Surname"
-            android:textColor="@color/black"
-            android:layout_centerHorizontal="true">
-        </TextView>
-
-
-        <TextView
-            android:id="@+id/tvTagsProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
-            android:hint="Tags"
-            android:layout_centerHorizontal="true"/>
-
-        <RelativeLayout
-            android:id="@+id/about_me_layout"
-            android:layout_width="wrap_content"
+            style="@style/textView"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_below="@id/name"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/circle">
-            <TextView
-                android:id="@+id/about_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="About Me"
-                android:textSize="15sp"
-                android:textColor="@color/black">
-            </TextView>
+            android:background="@drawable/button_shape"
+            android:text="Log out"
+            app:layout_constraintEnd_toStartOf="@+id/right_space"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintTop_toBottomOf="@+id/space2"
+            app:layout_constraintWidth_percent="0.25" />
 
-            <TextView
-                android:id="@+id/about_me_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/about_me"
-                android:layout_marginLeft="5dp"
-                android:hint="Please provide your personal information">
-            </TextView>
-        </RelativeLayout>
+        <Button
+            android:id="@+id/button5"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/button_shape"
+            android:text="Edit"
+            app:layout_constraintEnd_toStartOf="@+id/logout_button"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintTop_toBottomOf="@+id/space2"
+            app:layout_constraintWidth_percent="0.25" />
 
-        <RelativeLayout
-            android:id = "@+id/affiliation_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/about_me_layout"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/circle">
+        <Space
+            android:id="@+id/space3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintWidth_percent="1">
+        </Space>
 
-            <TextView
-                android:id="@+id/personalInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Affiliation"
-                android:textSize="15sp"
-                android:textColor="@color/black">
-            </TextView>
+        <TextView
+            android:id="@+id/biography"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            android:text="Biography:"
+            style="@style/textView"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space3" />
 
-            <TextView
-                android:id="@+id/affiliation_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/personalInfo"
-                android:layout_marginLeft="5dp"
-                android:text="">
-            </TextView>
-        </RelativeLayout>
+        <Space
+            android:id="@+id/space4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/biography"
+            app:layout_constraintWidth_percent="1">
+        </Space>
 
-        <RelativeLayout
-            android:id="@+id/contact_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/affiliation_layout"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/circle">
+        <TextView
+            android:id="@+id/research_tags"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            android:text="Research Tags:"
+            style="@style/textView"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space4" />
 
-            <TextView
-                android:id="@+id/contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Contact"
-                android:textSize="15sp"
-                android:textColor="@color/black">
-            </TextView>
+        <Space
+            android:id="@+id/space5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/research_tags"
+            app:layout_constraintWidth_percent="1">
+        </Space>
 
-            <TextView
-                android:id="@+id/contact_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/contact"
-                android:layout_marginLeft="5dp"
-                android:hint="Change contact settings">
-            </TextView>
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/affiliation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.40"
+            android:text="Affiliation:"
+            style="@style/textView"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space5" />
 
+        <Space
+            android:id="@+id/space6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/affiliation"
+            app:layout_constraintWidth_percent="1">
+        </Space>
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            android:text="Contact:"
+            style="@style/textView"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+        <Space
+            android:id="@+id/space7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/contact"
+            app:layout_constraintWidth_percent="1">
+        </Space>
 
         <Button
             android:id="@+id/stats_and_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/contact_layout"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
-            android:text="View Stats and Overview">
-        </Button>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintWidth_percent="0.40"
+            android:text="Stats"
+            android:background="@drawable/button_shape"
+            style="@style/textView"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space7" />
 
         <Button
             android:id="@+id/projects"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/button_shape"
+            android:text="Projects"
+            app:layout_constraintEnd_toStartOf="@+id/right_space"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintTop_toBottomOf="@+id/space7"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <TextView
+            android:id="@+id/biograpy_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/stats_and_overview"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:text="Projects">
-        </Button>
+            android:text="biograpy_content"
+            app:layout_constraintStart_toEndOf="@+id/biography"
+            app:layout_constraintTop_toBottomOf="@+id/space3" />
+
+        <TextView
+            android:id="@+id/research_tags_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="research_tags_content"
+            app:layout_constraintStart_toEndOf="@+id/research_tags"
+            app:layout_constraintTop_toBottomOf="@+id/space4" />
+
+        <TextView
+            android:id="@+id/affiliation_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="affiliation_content"
+            app:layout_constraintStart_toEndOf="@+id/affiliation"
+            app:layout_constraintTop_toBottomOf="@+id/space5" />
+
+        <TextView
+            android:id="@+id/contact_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="contact_content"
+            app:layout_constraintStart_toEndOf="@+id/contact"
+            app:layout_constraintTop_toBottomOf="@+id/space6" />
 
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
