@@ -17,6 +17,10 @@ module.exports = (sequelize, Seq) => {
 	    type : Seq.INTEGER,
 	    allowNull : false,
 	},
+	requestType : {
+	    type : Seq.INTEGER,
+	    allowNull : false,
+	},
 	}, 
     {
         timestamps : true
