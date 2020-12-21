@@ -1,99 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:fillViewport="true">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="Statistics and Overview"
-            android:textColor="@color/black"
-            android:textSize="30sp">
-        </TextView>
+        <Space
+            android:id="@+id/space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
+            app:layout_constraintWidth_percent="0.05">
+        </Space>
+
+        <Space
+            android:id="@+id/right_space"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
+            app:layout_constraintWidth_percent="0.05">
+        </Space>
+
+        <View
+            android:id="@+id/myRectangleView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="1"
+            android:background="@drawable/rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/small_rectangle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="0.35"
+            android:background="@drawable/small_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/logo2"
+            app:layout_constraintHeight_percent="0.09"
+            app:layout_constraintWidth_percent="0.35"
+            android:background="@drawable/small_rectangle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+            android:id="@+id/space2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
+        </Space>
 
         <TextView
-            android:id="@+id/followers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_below="@id/header"
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
             android:text="Followers:"
-            android:textSize="20sp">
-        </TextView>
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space2" />
+
+        <Space
+            android:id="@+id/space3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
+        </Space>
 
         <TextView
-            android:id="@+id/following"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/followers"
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
             android:text="Following:"
-            android:textSize="20sp">
-        </TextView>
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space3" />
+
+        <Space
+            android:id="@+id/space4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
+        </Space>
 
         <TextView
-            android:id="@+id/papers_published"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/following"
-            android:text="Papers Published:"
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/projects_published"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/papers_published"
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
             android:text="Projects Published:"
-            android:textSize="20sp">
-        </TextView>
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space4" />
+
+        <Space
+            android:id="@+id/space5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+        </Space>
 
         <TextView
-            android:id="@+id/most_popular_publication"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/projects_published"
-            android:text="Most Popular Publication:"
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/member_since"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/most_popular_publication"
-            android:text="Member Since:"
-            android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/interest_areas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/member_since"
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
             android:text="Interest Areas:"
-            android:textSize="20sp">
-        </TextView>
-    </RelativeLayout>
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space5" />
+
+        <Space
+            android:id="@+id/space6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+        </Space>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintWidth_percent="0.30"
+            style="@style/textView"
+            android:text="Member Since:"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
