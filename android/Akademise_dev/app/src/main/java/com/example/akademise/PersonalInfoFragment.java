@@ -70,7 +70,7 @@ public class PersonalInfoFragment extends Fragment {
         akademiseApi = retrofit.create(AkademiseApi.class);
         loadData();
 
-        btn = this.getActivity().findViewById(R.id.btnNext);
+        btn = view.findViewById(R.id.personal_info_button);
         getActivity().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         tvChosenTags = view.findViewById(R.id.tvChosenResearchTags);
@@ -256,7 +256,6 @@ public class PersonalInfoFragment extends Fragment {
                 Spinner tag_spinner = (Spinner) getView().findViewById(R.id.sResearchTag);
                 List<String> tagList = result.getResult();
                 tagList.add(0, "Choose Tag");
-                tagList.add("Not Listed");
                 ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getActivity().getBaseContext(),
                         android.R.layout.simple_spinner_dropdown_item,tagList);
 
@@ -339,6 +338,24 @@ public class PersonalInfoFragment extends Fragment {
                                             }
                                         });
                                     }
+                                    if(researchTagEntry.getText().length()>0){
+                                        Tag _tag = new Tag(researchTagEntry.getText().toString());
+                                        researchAreas.add(researchTagEntry.getText().toString());
+                                        Call<Tag> inside_call4 = akademiseApi.addTag(_tag,"Bearer " + myToken );
+                                        inside_call4.enqueue(new Callback<Tag>() {
+                                            @Override
+                                            public void onResponse(Call<Tag> call, Response<Tag> response) {
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Tag> call, Throwable t) {
+
+                                            }
+                                        });
+
+                                    }
+
                                     affiliation= new Affiliation(title, university, department);
                                     personalInfo= new PersonalInfo(researchAreas, affiliation);
                                     Log.d("buttonId", btn.getText().toString());
