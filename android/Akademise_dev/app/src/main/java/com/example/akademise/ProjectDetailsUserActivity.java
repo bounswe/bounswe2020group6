@@ -20,8 +20,8 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_details);
-        title = findViewById(R.id.tvTitleProject);
+        setContentView(R.layout.activity_project_details_u);
+        title = findViewById(R.id.title);
         _abstract = findViewById(R.id.tvAbstractProject);
         status=findViewById(R.id.tvStatusProject);
         milestones=findViewById(R.id.tvMilestoneProject);
