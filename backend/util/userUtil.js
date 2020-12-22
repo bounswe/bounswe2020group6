@@ -83,7 +83,11 @@ var getFollowedCounts = async function(userId){
 }
 
 var getCitations = async function(url) {
-    const response = await got(url);
+    
+    var headers = { 'Origin': 'http://example.com' }
+    
+    url = "https://cors-anywhere.herokuapp.com/" + url;
+    const response = await got(url, {headers});
     const $ = cheerio.load(response.body);
   
     a = $('td.gsc_rsb_std')
