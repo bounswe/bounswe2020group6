@@ -56,7 +56,12 @@ public class ProjectInfoEntryFragment extends Fragment {
                     String currentText = tvChosenTags.getText().toString();
                     String tag = parent.getItemAtPosition(position).toString();
                     if (!currentText.contains(tag)) {
-                        currentText += " " + tag;
+                        if(currentText.endsWith(":")) {
+                            currentText += " " + tag;
+                        }
+                        else{
+                            currentText += ", "+ tag;
+                        }
 
                         tvChosenTags.setText(currentText);
                     }

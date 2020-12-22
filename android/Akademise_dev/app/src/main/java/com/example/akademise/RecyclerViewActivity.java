@@ -21,25 +21,25 @@ public class RecyclerViewActivity extends AppCompatActivity {
         projects = new ArrayList<>();
         projects.add(new Project(0, 0, "Project 1", "Abstract 1",
                 "Content 1", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 2", "Abstract 2",
                 "Content 2", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
         projects.add(new Project(0, 0, "Project 3", "Abstract 3",
                 "Content 3", null, null,
-                "23/12/2025", "c++, matlab"));
+                "23/12/2025", "c++, matlab",null));
 
         recyclerView = findViewById(R.id.rv_recyclerView);
         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, projects);
