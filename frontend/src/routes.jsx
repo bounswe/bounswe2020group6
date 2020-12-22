@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import Project from "./pages/Project";
 import ProjectDetails from "./pages/ProjectDetails";
+import FileEditor from "./pages/FileEditor";
 import Profile from "./pages/Profile";
 import api from "./axios";
 import Spinner from "./components/Spinner";
@@ -65,6 +66,9 @@ export default function App() {
         </Route>
         <Route path="/project-details">
           <ProjectDetails />
+        </Route>
+        <Route path="/project-editfiles/:projectId">
+          <FileEditor />
         </Route>
         <Route path="/profile/:id">
           <Profile />
