@@ -60,8 +60,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 .build();
 
         akademiseApi = retrofit.create(AkademiseApi.class);
-
-
     }
 
     View.OnClickListener btnNextClickListener = new View.OnClickListener() {
@@ -143,30 +141,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
         }
     };
 
-   /* private  void getPosts(Integer id){
-        Call<List<Project>> call= akademiseApi.getProjects(id, "Bearer "+myToken);
-        call.enqueue(new Callback<List<Project>>() {
-            @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-                if(!response.isSuccessful()){
-                    Log.d("Project", "onResponse: not successful");
-                    return;
-                }
-                List<Project> projects = response.body();
-                int count=0;
-                for (Project project : projects){
-                    count++;
-                }
-                Log.d("Project", String.valueOf(count));
-            }
-            @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
-                Log.d("Project", "onFailure: failed");
-            }
-        });
-    }
-    */
-
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
         TextView tvChosenTags =findViewById(R.id.tvProjectTags);
         String thetags = tvChosenTags.getText().toString();
@@ -190,8 +164,9 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
-
+                int id = response.body().getId();
                 Intent intent = new Intent(ProjectCreationActivity.this, ProjectCreationActivity2.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }

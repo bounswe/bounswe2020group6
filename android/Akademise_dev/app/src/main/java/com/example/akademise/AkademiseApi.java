@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -65,6 +66,10 @@ public interface AkademiseApi {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")
     Call<Project> createProject(@Body Project project, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @PATCH("post/update/{id}")
+    Call<Project> updateAbstract(@Path("id") int id, @Body Summary summary, @Header("Authorization") String auth);
 
     @POST("auth/signup")
     Call<User> createUser(@Body User user);
