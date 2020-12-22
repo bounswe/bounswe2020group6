@@ -175,7 +175,7 @@ addScholar = async function (req, res) {
     }
     else {
         try {
-            let citations = await userUtil.etCitations(gUrl)
+            let citations = await userUtil.getCitations(gUrl)
             citations.scholar_profile_url = gUrl
             await User.update(citations, {
                 where: {
