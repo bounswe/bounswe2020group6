@@ -1,5 +1,7 @@
 package com.example.akademise;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,7 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +41,12 @@ public class ProjectCreationActivity extends AppCompatActivity {
     AkademiseApi akademiseApi;
     private String myToken;
     String currentText;
-    List<String> tags;
+    List<String> tags= new ArrayList<String>();
     private int privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_creation);
-
         loadData();
         next = findViewById(R.id.btnPublicationCreation);
         next.setOnClickListener(btnNextClickListener);
@@ -97,7 +104,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
                                 currentText += ", "+ tag;
                             }
                             tags.add(tag);
-
                             tvChosenTags.setText(currentText);
                         }
 
@@ -162,8 +168,13 @@ public class ProjectCreationActivity extends AppCompatActivity {
     */
 
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
+        TextView tvChosenTags =findViewById(R.id.tvProjectTags);
+        String thetags = tvChosenTags.getText().toString();
+        thetags= thetags.replace(" ", "");
+        thetags=thetags.replace("Tags:","");
+        List<String> tagging = Arrays.asList(thetags.split(","));
 
-        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tags);
+        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tagging);
         Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
         call.enqueue(new Callback<Project>() {
             @Override
