@@ -25,7 +25,7 @@ const projectInfo = [
     },
     {
         model: ProjectFile,
-	attributes: ['file_name','file_path'],
+	attributes: ['file_name'],
 	required : false
     }
 ]
