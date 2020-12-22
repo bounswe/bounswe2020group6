@@ -33,7 +33,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
     private String myToken;
     String currentText;
     List<String> tags;
-    Integer privacy;
+    private int privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +89,12 @@ public class ProjectCreationActivity extends AppCompatActivity {
                         currentText = tvChosenTags.getText().toString();
                         String tag = parent.getItemAtPosition(position).toString();
                         if (!currentText.contains(tag)) {
-                            currentText += " " + tag;
+                            if(currentText.endsWith(":")) {
+                                currentText += " " + tag;
+                            }
+                            else{
+                                currentText += ", "+ tag;
+                            }
                             tags.add(tag);
 
                             tvChosenTags.setText(currentText);
@@ -123,7 +128,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
             }
 
             createProject(privacy,etTitle.getText().toString(),
-                    null,
+                    "Insert abstract here!",
                     etDeadline.getText().toString(),
                     etRequirements.getText().toString(), tags, null);
 
