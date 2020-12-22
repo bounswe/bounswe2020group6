@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 // Projects fields are prepared with respect to return of search
 
@@ -30,6 +31,8 @@ public class Project implements Serializable {
     private String createdat;
     @SerializedName("updatedat")
     private String updatedat;
+    @SerializedName("tags")
+    private List<String> tags;
 
 
 
@@ -87,7 +90,7 @@ public class Project implements Serializable {
     }
     public Project(int privacy, int status, String title, String abstract1,
                    String content, String createdat, String updatedat,
-                   String deadline, String requirements) {
+                   String deadline, String requirements, List<String> tags) {
 
         this.privacy = privacy;
         this.status = status;
@@ -98,6 +101,7 @@ public class Project implements Serializable {
         this.content=content;
         this.createdat=createdat;
         this.updatedat=updatedat;
+        this.tags = tags;
     }
 
 }

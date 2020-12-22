@@ -3,6 +3,7 @@ package com.example.akademise;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -161,7 +162,8 @@ public class ProjectCreationActivity extends AppCompatActivity {
     */
 
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
-        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements);
+
+        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tags);
         Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
         call.enqueue(new Callback<Project>() {
             @Override
@@ -178,6 +180,8 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
 
+                Intent intent = new Intent(ProjectCreationActivity.this, ProjectCreationActivity2.class);
+                startActivity(intent);
                 finish();
             }
 
@@ -187,6 +191,8 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 Log.d("Project", "onFailure: failed");
             }
         });
+
+
     }
 
     private void loadData(){

@@ -12,12 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProjectDetailsActivity"></activity>
-        <activity android:name=".ProjectDetailsUserActivity"></activity>
+        <activity android:name=".ProjectDetailsActivity" />
+        <activity android:name=".ProjectDetailsUserActivity" />
 
         <activity android:name=".RecyclerViewActivity" />
         <activity
             android:name=".ProjectCreationActivity"
+            android:theme="@style/AppStyle.Signup"/>
+        <activity
+            android:name=".ProjectCreationActivity2"
             android:theme="@style/AppStyle.Signup"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
