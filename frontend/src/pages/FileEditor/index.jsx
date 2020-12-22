@@ -1,21 +1,15 @@
 import React, {} from "react";
 
-import { Col, Tag, Avatar } from "antd";
-import { UnlockFilled, PlusOutlined, FileOutlined} from "@ant-design/icons";
+import {} from "antd";
+import {FileOutlined} from "@ant-design/icons";
 import Frame from "../../components/Frame";
 import {
-  H1,H2,H3,H4,
+  H2,H3,H4,
   Main,
-  Date,
-  Tags,
-  Summary,
-  Deadlines,
   Files,
   FileContainer,
   FileDiv,
-  Side,
-  UserDiv,
-  FadedText,
+  Side
 } from "./style";
 
 import { Input } from "antd";
