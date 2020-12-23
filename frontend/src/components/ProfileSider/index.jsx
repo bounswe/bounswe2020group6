@@ -45,7 +45,7 @@ const ProfileSider = () => {
               }}
             >
               <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
-              {profile.number_of_ups === null ? " " + 0 : " " + profile.number_of_ups}
+              {profile.number_of_ups === null || profile.number_of_ups === undefined ? " " + 0 : " " + profile.number_of_ups}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
               <Menu.Item key="1" icon={<PieChartOutlined />}>
