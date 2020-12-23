@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authLogoutAction } from "../src/redux/auth/actions";
+import { recommendationsAction } from "../src/redux/search/actions";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -35,6 +36,9 @@ export default function App() {
         setLoading(false);
       });
     // eslint-disable-next-line
+
+    dispatch(recommendationsAction());
+
   }, []);
 
   const storageToken = localStorage.getItem("token");

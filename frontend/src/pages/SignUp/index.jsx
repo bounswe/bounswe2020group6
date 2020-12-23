@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { signUp, validateCode, infoUpdate } from "../../redux/auth/api";
+import { recommendations } from "../../redux/search/api";
+
 import { authClearMessagesAction } from "../../redux/auth/actions";
+import { recommendationsAction } from "../../redux/search/actions";
 
 import LandingHeader from "../../components/LandingHeader";
 
@@ -17,43 +20,7 @@ const { Footer } = Layout;
 const { Option } = Select;
 const { Step } = Steps;
 
-//dummy data //TODO: remove
-const interestChoicesList = [
-  "Humanities",
-  "Performing arts",
-  "Visual arts",
-  "History",
-  "Languages and literature",
-  "Law",
-  "Philosophy",
-  "Theology",
-  "Social Sciences",
-  "Anthropology",
-  "Economics",
-  "Geography",
-  "Political science",
-  "Psychology",
-  "Sociology",
-  "Social Work",
-  "Natural Sciences",
-  "Biology",
-  "Chemistry",
-  "Earth science",
-  "Space sciences",
-  "Physics",
-  "Formal Sciences",
-  "Computer Science",
-  "Mathematics",
-  "Applied Sciences",
-  "Business",
-  "Engineering and technology",
-  "Medicine and health",
-];
-
-const interestChoices = [];
-for (let i = 0; i < interestChoicesList.length; i++) {
-  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
-}
+var interestChoices = [];
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -62,6 +29,14 @@ const SignUp = () => {
   const [signUpForm] = Form.useForm();
   const [validationForm] = Form.useForm();
   const [infoUpdateForm] = Form.useForm();
+
+  const [tags, setTags] = React.useState([]);
+  const [departments, setDepartments] = React.useState([]);
+  const [universities, setUniversities] = React.useState([]);
+
+  const [interestChoices, setInterestChoices] = React.useState([]);
+  const [universityChoices, setUniversityChoices] = React.useState([]);
+  const [departmentChoices, setDepartmentChoices] = React.useState([]);
 
   const [formStep, setFormStep] = React.useState(0);
   const [password, setPassword] = React.useState();
@@ -77,6 +52,46 @@ const SignUp = () => {
   const infoUpdateSuccessMessage = selector((state) => state.auth.infoUpdateSuccessMessage);
   const infoUpdateFailMessage = selector((state) => state.auth.infoUpdateFailMessage);
   const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
+
+  useEffect(() => {
+    console.log('stepchange');
+    if(formStep===0){
+      console.log('0');
+    } else if(formStep===1){
+      console.log('1');
+    } else if(formStep===2){
+      console.log('2');
+      dispatch(recommendations('tag', setTags));
+      dispatch(recommendations('uni', setUniversities));
+      dispatch(recommendations('dep', setDepartments));
+    }
+
+  },[formStep]);
+
+  useEffect(() => {
+    setInterestChoices([]);
+    setUniversityChoices([]);
+    setDepartmentChoices([]);
+    
+    var ic = [];
+    var uc = [];
+    var dc = [];
+    
+    for (let i = 0; i < tags.length; i++) {
+      ic.push(<Option key={tags[i]}>{tags[i]}</Option>);
+    }
+    for (let i = 0; i < universities.length; i++) {
+      uc.push(<Option key={universities[i]}>{universities[i]}</Option>);
+    }
+    for (let i = 0; i < departments.length; i++) {
+      dc.push(<Option key={departments[i]}>{departments[i]}</Option>);
+    }
+    setInterestChoices(ic);
+    setUniversityChoices(uc);
+    setDepartmentChoices(dc);
+  },[tags, universities, departments]);
+
+
 
   useEffect(() => {
     // signup
@@ -134,7 +149,7 @@ const SignUp = () => {
         affiliation: {
           university: values.university,
           department: values.department,
-          degree: values.degree,
+          title: values.title,
         },
         researchAreas: values.interests,
       })
@@ -296,7 +311,14 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your university!" }]}
                   >
-                    <Input />
+                    <Select
+                      mode="single"
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder="Please choose your university."
+                    >
+                      {universityChoices}
+                    </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Department</FormLabel>}
@@ -304,13 +326,20 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your department!" }]}
                   >
-                    <Input />
+                    <Select
+                      mode="single"
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder="Please choose your department."
+                    >
+                      {departmentChoices}
+                    </Select>
                   </Form.Item>
                   <Form.Item
-                    label={<FormLabel>Degree</FormLabel>}
-                    name="degree"
+                    label={<FormLabel>Title</FormLabel>}
+                    name="title"
                     style={{ width: "50%" }}
-                    rules={[{ required: true, message: "Please enter your degree!" }]}
+                    rules={[{ required: true, message: "Please enter your title!" }]}
                   >
                     <Input />
                   </Form.Item>

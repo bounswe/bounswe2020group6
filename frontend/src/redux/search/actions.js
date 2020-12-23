@@ -18,3 +18,22 @@ export const searchCompletedAction = () => {
   };
 };
 
+
+export const recommendationsLoadingAction = () => {
+  return {
+    type: actions.RECOMMENDATIONS_LOADING,
+  };
+};
+
+export const recommendationsAction = () => {
+  return {
+    type: actions.RECOMMENDATIONS,
+  };
+};
+
+export const recommendationsCompletedAction = () => {
+  return {
+    type: actions.RECOMMENDATIONS_COMPLETED,
+  };
+};
+
