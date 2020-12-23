@@ -68,7 +68,9 @@ const Profile = () => {
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
-              <span style={{ marginLeft: "3px", fontSize: "20px" }}>97</span>
+              <span style={{ marginLeft: "3px", fontSize: "20px" }}>
+                {profile.number_of_ups === null ||  profile.number_of_ups === undefined ? " " + 0 : " " + profile.number_of_ups}
+              </span>
             </Row>
             <Row>
               <div style={{ fontWeight: 500 }}>{profile.university}</div>
