@@ -112,6 +112,8 @@ const Profile = () => {
           <Col md={4}>
             <Row>
               <SectionTitle>Interest Areas</SectionTitle>
+            </Row>
+            <Row>
               <Col style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (
