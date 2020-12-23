@@ -91,15 +91,16 @@
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etAbstract"/>
-    <TextView
-        android:id="@+id/tvFile1"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+    <Button
+        android:id="@+id/File1Button"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_shape"
+        style="@style/textView"
         android:text="File 1"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.55"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space2" />
 
@@ -110,17 +111,18 @@
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFile1">
+        app:layout_constraintTop_toBottomOf="@+id/File1Button">
     </Space>
-    <TextView
-        android:id="@+id/tvFile2"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+    <Button
+        android:id="@+id/File2Button"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_shape"
+        style="@style/textView"
         android:text="File 2"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.55"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space4" />
 
@@ -131,7 +133,7 @@
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFile2">
+        app:layout_constraintTop_toBottomOf="@+id/File2Button">
     </Space>
 
 
