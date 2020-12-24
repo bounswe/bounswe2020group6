@@ -106,10 +106,7 @@ addMilestone = async function(req,res){
 
 
 updateMilestone = async function(req,res){
-    var fieldsToUpdate = {};
-    for(var field of Object.keys(req.body)){
-	fieldsToUpdate[field] = req.body[field]
-    }
+    fieldsToUpdate = req.body
     try {
 	await ProjectMilestone.update(fieldsToUpdate, {
 	    where : {
@@ -142,10 +139,7 @@ deleteMilestone = async function(req,res){
 
 //updates posts specifications with respect to post id
 updatePost = async function (req,res){
-    var fieldsToUpdate = {};
-    for(var field of Object.keys(req.body)){
-	fieldsToUpdate[field] = req.body[field]
-    }	
+    fieldsToUpdate = req.body
     try {
 	await Project.update(fieldsToUpdate, {
 	    where : {
