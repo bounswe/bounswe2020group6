@@ -14,6 +14,8 @@ import {
   H2
 } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs"
+
 const Search = () => {
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [allPeople, setAllPeople] = useState(null);
@@ -53,7 +55,7 @@ const Search = () => {
       topnote={TopNote}
       summary={Summary}
       footer={Footer}
-      img={ImgUrl}
+      img={ImgUrl ? ImgUrl : defaultProfilePictureHref }
       />)
   }
 

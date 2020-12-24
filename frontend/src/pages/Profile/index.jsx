@@ -11,6 +11,8 @@ import Spinner from "../../components/Spinner";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs"
+
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -62,7 +64,7 @@ const Profile = () => {
           <Col xs={12} sm={10} md={8} lg={6} xl={4}>
             <Image src={
               profile.profile_picture_url === null || profile.profile_picture_url === undefined
-                ? "https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/User_No-Frame.png"
+                ? defaultProfilePictureHref
                 : profile.profile_picture_url
             }/>
           </Col>
