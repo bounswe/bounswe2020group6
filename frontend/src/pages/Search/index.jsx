@@ -22,10 +22,11 @@ const Search = () => {
   const [loadingProjectResults, setLoadingProjectResults] = useState(true);
   const [projectResults, setProjectResults] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const [searchText, setSearchText] = useState("");
 
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const [searchText, setSearchText] = useState(location.search.substring(1));
 
   useEffect(() => {
     setLoadingUserResults(true);
