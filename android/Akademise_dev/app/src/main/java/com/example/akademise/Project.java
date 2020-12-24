@@ -15,7 +15,7 @@ public class Project implements Serializable {
     private Integer id;
     @SerializedName("title")
     private String title;
-    @SerializedName("abstract")
+    @SerializedName("summary")
     private String abstract1;
     @SerializedName("content")
     private String content;

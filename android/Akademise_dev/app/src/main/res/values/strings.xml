@@ -10,7 +10,7 @@
     <string name="deadline">Deadline</string>
     <string name="creation_date">Creation Date</string>
     <string name="isPublic"> Public</string>
-    <string name="tags"> Tags</string>
+    <string name="tags">Tags: </string>
     <string name="project">Project</string>
 
 
@@ -49,9 +49,8 @@
         <item>Infectious Diseases</item>
     </string-array>
     <string-array name="privacy">
-        <item>"Privacy"</item>
-        <item>"1"</item>
         <item>"0"</item>
+        <item>"1"</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

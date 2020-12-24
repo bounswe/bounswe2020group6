@@ -1,5 +1,7 @@
 package com.example.akademise;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -17,7 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,13 +41,12 @@ public class ProjectCreationActivity extends AppCompatActivity {
     AkademiseApi akademiseApi;
     private String myToken;
     String currentText;
-    List<String> tags;
+    List<String> tags= new ArrayList<String>();
     private int privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_creation);
-
         loadData();
         next = findViewById(R.id.btnPublicationCreation);
         next.setOnClickListener(btnNextClickListener);
@@ -53,8 +60,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 .build();
 
         akademiseApi = retrofit.create(AkademiseApi.class);
-
-
     }
 
     View.OnClickListener btnNextClickListener = new View.OnClickListener() {
@@ -97,7 +102,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
                                 currentText += ", "+ tag;
                             }
                             tags.add(tag);
-
                             tvChosenTags.setText(currentText);
                         }
 
@@ -137,33 +141,14 @@ public class ProjectCreationActivity extends AppCompatActivity {
         }
     };
 
-   /* private  void getPosts(Integer id){
-        Call<List<Project>> call= akademiseApi.getProjects(id, "Bearer "+myToken);
-        call.enqueue(new Callback<List<Project>>() {
-            @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-                if(!response.isSuccessful()){
-                    Log.d("Project", "onResponse: not successful");
-                    return;
-                }
-                List<Project> projects = response.body();
-                int count=0;
-                for (Project project : projects){
-                    count++;
-                }
-                Log.d("Project", String.valueOf(count));
-            }
-            @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
-                Log.d("Project", "onFailure: failed");
-            }
-        });
-    }
-    */
-
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
+        TextView tvChosenTags =findViewById(R.id.tvProjectTags);
+        String thetags = tvChosenTags.getText().toString();
+        thetags= thetags.replace(" ", "");
+        thetags=thetags.replace("Tags:","");
+        List<String> tagging = Arrays.asList(thetags.split(","));
 
-        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tags);
+        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tagging);
         Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
         call.enqueue(new Callback<Project>() {
             @Override
@@ -179,8 +164,9 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
-
+                int id = response.body().getId();
                 Intent intent = new Intent(ProjectCreationActivity.this, ProjectCreationActivity2.class);
+                intent.putExtra("id", id);
                 startActivity(intent);
                 finish();
             }
