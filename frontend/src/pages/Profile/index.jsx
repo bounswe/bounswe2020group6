@@ -8,8 +8,8 @@ import {
   FormOutlined,
   CheckOutlined,
   CloseOutlined,
-  PlusCircleOutlined,
-  MinusCircleOutlined,
+  MinusCircleTwoTone,
+  PlusCircleTwoTone,
 } from "@ant-design/icons";
 
 import { getProfileInfo } from "../../redux/profile/api";
@@ -17,6 +17,7 @@ import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/fol
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
+import theme from "../../theme";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
@@ -105,20 +106,22 @@ const Profile = () => {
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
               {profile.isUpped ? (
-                <MinusCircleOutlined
+                <MinusCircleTwoTone
+                  twoToneColor={theme.main.colors.first}
                   onClick={handleRemoveUp}
                   style={{
                     marginRight: "10px",
-                    fontSize: "18px",
+                    fontSize: "22px",
                     cursor: "pointer",
                   }}
                 />
               ) : (
-                <PlusCircleOutlined
+                <PlusCircleTwoTone
+                  twoToneColor={theme.main.colors.first}
                   onClick={handleAddUp}
                   style={{
                     marginRight: "10px",
-                    fontSize: "18px",
+                    fontSize: "22px",
                     cursor: "pointer",
                   }}
                 />
