@@ -18,14 +18,14 @@ const getTagsSuccessReducer = (state, action) => {
 const getUniversitiesSuccessReducer = (state, action) => {
     return {
         ...state,
-        departments: action.payload,
+        universities: action.payload,
     };
 };
 
 const getDepartmentsSuccessReducer = (state, action) => {
     return {
         ...state,
-        universities: action.payload,
+        departments: action.payload,
     };
 };
 
