@@ -5,32 +5,32 @@ const {ProjectTag, Project, User , ProjectCollaborator, ProjectFile, ProjectMile
 const projectInfo = [
     {
         model : User,
-	attributes : ['name','surname'],
-	required : true
+        attributes : ['name','surname'],
+	      required : true
     },
     {	 
       	model: ProjectCollaborator,
-	attributes : ['user_id'],
+	      attributes : ['user_id'],
       	required: false,
-	include : [ {
+	      include : [ {
       	    model: User,
-	    attributes : ['name','surname'],
+	          attributes : ['name','surname'],
       	    required: false,
       	}]
     },
     {
-	model: ProjectTag,
-	attributes : ['tag'],
-	required: false,
+	      model: ProjectTag,
+	      attributes : ['tag'],
+	      required: false,
     },
     {
         model: ProjectFile,
-	attributes: ['file_name'],
-	required : false
+	      attributes: ['file_name'],
+	      required : false
     },
     {
         model: ProjectMilestone,
-	required : false
+	      required : false
     }
 ]
 
@@ -39,11 +39,11 @@ const projectInfo = [
 var postExists = async function(projectId){
     postDb = await Project.findOne({
         where : {
-	    id  : projectId
-	}
+	          id  : projectId
+	      }
     });
     if(postDb){
-	return true
+	      return true
     }
     return false
 }
@@ -52,15 +52,15 @@ var postExists = async function(projectId){
 
 var tagExists = async function(tags,projectId){
     for(tag of tags){
-	tagDb = await ProjectTag.findOne({
-	    where : {
-		project_id  : projectId,
-		tag : tag
-	    }
-	});
-	if(tagDb){
-	    return tagDb
-	}
+	      tagDb = await ProjectTag.findOne({
+	          where : {
+		            project_id  : projectId,
+		            tag : tag
+	          }
+	      });
+	      if(tagDb){
+	          return tagDb
+	      }
     }
     return undefined
 }
