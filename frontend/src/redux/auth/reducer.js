@@ -159,6 +159,7 @@ export default function reducer(state = initialState, action) {
 
     case actions.AUTH_LOGOUT:
       return authLogoutReducer(state, action);
+      
     case actions.AUTH_LOGIN_START:
       return authLoginStartReducer(state, action);
     case actions.AUTH_LOGIN_SUCCESS:
