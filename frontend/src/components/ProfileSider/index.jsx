@@ -28,8 +28,8 @@ const ProfileSider = () => {
           <Img
             style={{ height: "90px", width: "90px" }}
             src={
-              profile.profile_picture_url === null
-                ? "https://britz.mcmaster.ca/images/nouserimage.gif/image"
+              profile.profile_picture_url === null || profile.profile_picture_url === undefined
+                ? "https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/User_No-Frame.png"
                 : profile.profile_picture_url
             }
             alt="profile photo"

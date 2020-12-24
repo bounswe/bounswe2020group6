@@ -60,7 +60,11 @@ const Profile = () => {
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
           <Col xs={12} sm={10} md={8} lg={6} xl={4}>
-            <Image src="https://britz.mcmaster.ca/images/nouserimage.gif/image" />
+            <Image src={
+              profile.profile_picture_url === null || profile.profile_picture_url === undefined
+                ? "https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/User_No-Frame.png"
+                : profile.profile_picture_url
+            }/>
           </Col>
           <Col sm={10} lg={6} xl={6}>
             <Row
