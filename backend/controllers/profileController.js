@@ -31,7 +31,9 @@ addProfile = async function (req, res) {
 updateProfile = async function (req, res) {
     user_interests = req.body.researchAreas
     user_affiliation = req.body.affiliation
-
+    biography = req.body.biography
+    update = {}
+    
     try {
         if(user_interests){
             await UserInterest.destroy({
@@ -46,8 +48,10 @@ updateProfile = async function (req, res) {
                 })    
             })
         }
-        if(user_affiliation){
-            await User.update(user_affiliation, {
+        if(user_affiliation || biography){
+            if(user_affiliation) update = {...user_affiliation}
+            if(biography) update.bio = biography
+            await User.update( update, {
                 where: {
                     id: req.userId
                 }
@@ -55,7 +59,7 @@ updateProfile = async function (req, res) {
         } 
         res.status(200).send({message: "Successful"})
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send(error.message)
     }
 
 }
@@ -175,16 +179,24 @@ addScholar = async function (req, res) {
     }
     else {
         try {
-            let citations = await userUtil.getCitations(gUrl)
-            citations.scholar_profile_url = gUrl
-            await User.update(citations, {
+            let username = require('url').parse(gUrl,true).query.user;
+            let _citations = await userUtil.getCitations(username)
+            let update = {}
+            update.citations = _citations.total_citations
+            update.scholar_profile_url = gUrl
+
+            let last5Year_citations = Object.keys(_citations.citations_per_year).sort().reverse().slice(0,5);
+            let total = last5Year_citations.reduce((a,b) => a+_citations.citations_per_year[b] , 0);
+            
+            update.last5Year_citations = total
+            await User.update(update, {
                 where: {
                     id: req.userId
                 }
             })
-            res.status(200).send({message: "Successful"})
+            res.status(200).send({message: "Successful", ..._citations, last_5_years_total: total})
         } catch (error) {
-            res.status(500).send(error)
+            res.status(500).send(error.message)
         }
     }
 }
