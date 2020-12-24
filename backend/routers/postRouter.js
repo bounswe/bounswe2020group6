@@ -12,7 +12,7 @@ router.patch('/update_milestone/:id', postController.updateMilestone)
 router.delete('/delete/:id', postController.deletePost)
 router.delete('/delete_tag/',postController.deleteTag)
 router.delete('/delete_milestone/:id', postController.deleteMilestone)
-router.get('/get/:id/:type', postController.getPosts)
+router.get('/get', postController.getPosts)
 
 
 module.exports = router

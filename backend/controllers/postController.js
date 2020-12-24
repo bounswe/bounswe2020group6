@@ -80,7 +80,7 @@ deleteTag = async function(req,res){
 		}
 	    });
 	}
-	res.status(201).send({"message" : "Tags are deleted kankaa"})
+	res.status(204).send({"message" : "Tags are deleted kankaa"})
     }catch(err){
 	res.status(500).send({"error": err})
 	console.log(err)
@@ -113,7 +113,7 @@ updateMilestone = async function(req,res){
 	        id : req.params.id
 	    }
 	});
-	res.status(201).send({message : "Milestone is updated"})
+	res.status(200).send({message : "Milestone is updated"})
     }catch(error) {
 	res.status(500).send({"error": error})
     }	
@@ -127,7 +127,7 @@ deleteMilestone = async function(req,res){
 		id : req.params.id
 	    }
 	});
-	res.status(201).send({message : "Milestone is deleted"})
+	res.status(204).send({message : "Milestone is deleted"})
     }catch(error) {
 	res.status(500).send({error: error})
     }				 
@@ -146,7 +146,7 @@ updatePost = async function (req,res){
 	        id : req.params.id
 	    }
 	});
-	res.status(201).send({message : "Post is updated"})
+	res.status(200).send({message : "Post is updated"})
     }catch(error) {
 	res.status(500).send({"error": error})
 	console.log(error)
@@ -163,7 +163,7 @@ deletePost = async function (req,res){
 	    }
 	});
 	deleteFolder(req.params.id)
-	res.status(201).send({message : "Post is deleted"})
+	res.status(204).send({message : "Post is deleted"})
     }catch(error) {
 	res.status(500).send({error: error})
 	console.log(error)
@@ -175,55 +175,55 @@ deletePost = async function (req,res){
 //function can extend according to frontend wishes
 getPosts = async function(req,res){
     user_id = req.userId
-    type = req.params.type
+    type = req.query.type
     if(type == 0){
-	userParameter = req.params.id
-	try {
-	    if(userParameter != user_id){
-		posts = await Project.findAll({
-		    where : {
-			[Op.or] : [
-			    {'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
-			    '$project.privacy$' : {[Op.eq] : 1}
-			    },
-			    {userId : userParameter,
+		userParameter = req.query.id
+		try {
+			if(userParameter != user_id){
+			posts = await Project.findAll({
+				where : {
 				[Op.or] : [
-				    {'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-				    {'$project.privacy$' : {[Op.eq]: 1}}
-			    ]}
-			]
-		    },
-		    include : projectInfo
-		});
-	    }else{
-		posts = await Project.findAll({
-		    where: {
-			[Op.or] : [
-			    {userId : user_id},
-			    {'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
-			]
-		    },
-		    include : projectInfo
-		});	
-	    }
-	    res.status(201).send(posts)
-	}catch(error) {
-	    res.status(500).send({error: error})
-	    console.log(error)
-	}
+					{'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
+					'$project.privacy$' : {[Op.eq] : 1}
+					},
+					{userId : userParameter,
+					[Op.or] : [
+						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+						{'$project.privacy$' : {[Op.eq]: 1}}
+					]}
+				]
+				},
+				include : projectInfo
+			});
+			}else{
+			posts = await Project.findAll({
+				where: {
+				[Op.or] : [
+					{userId : user_id},
+					{'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
+				]
+				},
+				include : projectInfo
+			});	
+			}
+			res.status(200).send(posts)
+		}catch(error) {
+			res.status(500).send({error: error})
+			console.log(error)
+		}
     }else{
-	project_id = req.params.id
-	try{
-	    posts = await Project.findAll({
-		where: {
-		    id : project_id
-		},
-		include : projectInfo
-	    });	
-	    res.status(201).send(posts)
-	}catch(error){
-	    res.status(500).send({error: error})
-	}
+		project_id = req.query.id
+		try{
+			posts = await Project.findAll({
+				where: {
+					id : project_id
+				},
+				include : projectInfo
+			});	
+			res.status(200).send(posts)
+		}catch(error){
+			res.status(500).send({error: error})
+		}
     }
 }
 
