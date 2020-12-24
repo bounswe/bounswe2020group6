@@ -89,11 +89,6 @@ sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 
 module.exports = {
   User,
-  Project,
-  UserProject,
-  ProjectTag,
-  ProjectCollaborator,
-  ProjectFile,
   Interest,
   UserInterest,
   UserProject,
