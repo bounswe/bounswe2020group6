@@ -45,3 +45,23 @@ export const unfollow = (id) => {
       })
   };
 };
+
+export const addUp = (id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/profile/up", {userId: id})
+      .then((response) => {
+        dispatch(getProfileInfoWithoutLoading(id))
+      })
+  };
+};
+
+export const removeUp = (id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/profile/disup", {userId: id})
+      .then((response) => {
+        dispatch(getProfileInfoWithoutLoading(id))
+      })
+  };
+};

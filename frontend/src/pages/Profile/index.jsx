@@ -8,10 +8,12 @@ import {
   FormOutlined,
   CheckOutlined,
   CloseOutlined,
+  PlusCircleOutlined,
+  MinusCircleOutlined,
 } from "@ant-design/icons";
 
 import { getProfileInfo } from "../../redux/profile/api";
-import { getFollowing, follow, unfollow } from "../../redux/follow/api";
+import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
@@ -33,8 +35,6 @@ const Profile = () => {
 
   const alreadyFollowing = // eslint-disable-next-line
     !isOwnProfile() && followings && followings.filter((f) => f.following.id == id).length > 0;
-
-  console.log(alreadyFollowing);
 
   useEffect(() => {
     dispatch(getProfileInfo(id));
@@ -68,6 +68,14 @@ const Profile = () => {
     }
   };
 
+  const handleAddUp = () => {
+    dispatch(addUp(id));
+  };
+
+  const handleRemoveUp = () => {
+    dispatch(removeUp(id));
+  };
+
   if (profileLoading || !profile) {
     return (
       <>
@@ -96,6 +104,25 @@ const Profile = () => {
               style={{ fontSize: "28px", fontWeight: "500" }}
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
+              {profile.isUpped ? (
+                <MinusCircleOutlined
+                  onClick={handleRemoveUp}
+                  style={{
+                    marginRight: "10px",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                  }}
+                />
+              ) : (
+                <PlusCircleOutlined
+                  onClick={handleAddUp}
+                  style={{
+                    marginRight: "10px",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>{profile.upCounts}</span>
             </Row>
