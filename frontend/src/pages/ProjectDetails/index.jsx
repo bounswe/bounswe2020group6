@@ -85,8 +85,8 @@ const ProjectDetails = () => {
           </Col>
           <Col style={{paddingLeft: "15px"}}>
             <H3 style={{margin: "auto"}}> {c.name} <PlusOutlined /></H3> 
-            <FadedText> {c.institution} </FadedText>
-            <FadedText> {c.degree} </FadedText>
+            <FadedText> {c.university} </FadedText>
+            <FadedText> {c.title} </FadedText>
           </Col>
         </UserDiv>
       })}

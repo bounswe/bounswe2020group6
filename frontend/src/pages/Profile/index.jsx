@@ -21,6 +21,8 @@ import theme from "../../theme";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs";
+
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -98,7 +100,13 @@ const Profile = () => {
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
           <Col xs={12} sm={10} md={8} lg={6} xl={4}>
-            <Image src="https://britz.mcmaster.ca/images/nouserimage.gif/image" />
+            <Image
+              src={
+                profile.profile_picture_url === null || profile.profile_picture_url === undefined
+                  ? defaultProfilePictureHref
+                  : profile.profile_picture_url
+              }
+            />
           </Col>
           <Col sm={10} lg={6} xl={6}>
             <Row
@@ -127,7 +135,11 @@ const Profile = () => {
                 />
               )}
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
-              <span style={{ marginLeft: "3px", fontSize: "20px" }}>{profile.upCounts}</span>
+              <span style={{ marginLeft: "3px", fontSize: "20px" }}>
+                {profile.number_of_ups === null || profile.number_of_ups === undefined
+                  ? " " + 0
+                  : " " + profile.number_of_ups}
+              </span>
             </Row>
             <Row>
               <div style={{ fontWeight: 500 }}>{profile.university}</div>
@@ -184,6 +196,8 @@ const Profile = () => {
           <Col md={4}>
             <Row>
               <SectionTitle>Interest Areas</SectionTitle>
+            </Row>
+            <Row>
               <Col style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (

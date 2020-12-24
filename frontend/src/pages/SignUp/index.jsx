@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { signUp, validateCode, infoUpdate } from "../../redux/auth/api";
+import { getTags, getDepartments, getUniversities } from "../../redux/choices/api";
+
 import { authClearMessagesAction } from "../../redux/auth/actions";
 
 import LandingHeader from "../../components/LandingHeader";
@@ -17,43 +19,6 @@ const { Footer } = Layout;
 const { Option } = Select;
 const { Step } = Steps;
 
-//dummy data //TODO: remove
-const interestChoicesList = [
-  "Humanities",
-  "Performing arts",
-  "Visual arts",
-  "History",
-  "Languages and literature",
-  "Law",
-  "Philosophy",
-  "Theology",
-  "Social Sciences",
-  "Anthropology",
-  "Economics",
-  "Geography",
-  "Political science",
-  "Psychology",
-  "Sociology",
-  "Social Work",
-  "Natural Sciences",
-  "Biology",
-  "Chemistry",
-  "Earth science",
-  "Space sciences",
-  "Physics",
-  "Formal Sciences",
-  "Computer Science",
-  "Mathematics",
-  "Applied Sciences",
-  "Business",
-  "Engineering and technology",
-  "Medicine and health",
-];
-
-const interestChoices = [];
-for (let i = 0; i < interestChoicesList.length; i++) {
-  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
-}
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -62,6 +27,10 @@ const SignUp = () => {
   const [signUpForm] = Form.useForm();
   const [validationForm] = Form.useForm();
   const [infoUpdateForm] = Form.useForm();
+
+  const tags = selector((state) => state.choices.tags);
+  const departments = selector((state) => state.choices.departments);
+  const universities = selector((state) => state.choices.universities);
 
   const [formStep, setFormStep] = React.useState(0);
   const [password, setPassword] = React.useState();
@@ -77,6 +46,15 @@ const SignUp = () => {
   const infoUpdateSuccessMessage = selector((state) => state.auth.infoUpdateSuccessMessage);
   const infoUpdateFailMessage = selector((state) => state.auth.infoUpdateFailMessage);
   const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
+
+  useEffect(() => {
+    if(formStep===2){
+      dispatch(getTags());
+      dispatch(getDepartments());
+      dispatch(getUniversities());
+    }
+    // eslint-disable-next-line
+  },[formStep]);
 
   useEffect(() => {
     // signup
@@ -134,7 +112,7 @@ const SignUp = () => {
         affiliation: {
           university: values.university,
           department: values.department,
-          degree: values.degree,
+          title: values.title,
         },
         researchAreas: values.interests,
       })
@@ -296,7 +274,14 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your university!" }]}
                   >
-                    <Input />
+                    <Select
+                      mode="single"
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder="Please choose your university."
+                    >
+                      {universities.map((x)=>(<Option key={x}>{x}</Option>))}
+                    </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Department</FormLabel>}
@@ -304,13 +289,20 @@ const SignUp = () => {
                     style={{ width: "50%" }}
                     rules={[{ required: true, message: "Please enter your department!" }]}
                   >
-                    <Input />
+                    <Select
+                      mode="single"
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder="Please choose your department."
+                    >
+                      {departments.map((x)=>(<Option key={x}>{x}</Option>))}
+                    </Select>
                   </Form.Item>
                   <Form.Item
-                    label={<FormLabel>Degree</FormLabel>}
-                    name="degree"
+                    label={<FormLabel>Title</FormLabel>}
+                    name="title"
                     style={{ width: "50%" }}
-                    rules={[{ required: true, message: "Please enter your degree!" }]}
+                    rules={[{ required: true, message: "Please enter your title!" }]}
                   >
                     <Input />
                   </Form.Item>
@@ -327,7 +319,7 @@ const SignUp = () => {
                       style={{ width: "100%" }}
                       placeholder="Please select at least one research interest"
                     >
-                      {interestChoices}
+                      {tags.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
                   <Form.Item

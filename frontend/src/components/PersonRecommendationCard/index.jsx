@@ -7,11 +7,13 @@ import {
 } from "./style";
 import theme from "../../theme";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs"
+
 const PersonRecommendationCard = ({ name, commoncolabsnum}) => {
   return (
     <Layout wrap={false} xs={18} sm={18} md={18} lg={18}>
       <Col flex="40px">
-      <Avatar size={44}  src="https://britz.mcmaster.ca/images/nouserimage.gif/image" style={{boxShadow: "0px 4px 4px rgba(0,0,0,0.25)", margin: "10px"}} />
+      <Avatar size={44}  src={defaultProfilePictureHref} style={{boxShadow: "0px 4px 4px rgba(0,0,0,0.25)", margin: "10px"}} />
       </Col>
       <Col flex="auto" justify="start">
       <Row wrap={false}>
