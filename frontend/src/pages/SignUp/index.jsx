@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { signUp, validateCode, infoUpdate } from "../../redux/auth/api";
-import { recommendations } from "../../redux/search/api";
+import { getTags, getDepartments, getUniversities } from "../../redux/choices/api";
 
 import { authClearMessagesAction } from "../../redux/auth/actions";
-import { recommendationsAction } from "../../redux/search/actions";
 
 import LandingHeader from "../../components/LandingHeader";
 
@@ -20,7 +19,6 @@ const { Footer } = Layout;
 const { Option } = Select;
 const { Step } = Steps;
 
-var interestChoices = [];
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -30,13 +28,9 @@ const SignUp = () => {
   const [validationForm] = Form.useForm();
   const [infoUpdateForm] = Form.useForm();
 
-  const [tags, setTags] = React.useState([]);
-  const [departments, setDepartments] = React.useState([]);
-  const [universities, setUniversities] = React.useState([]);
-
-  const [interestChoices, setInterestChoices] = React.useState([]);
-  const [universityChoices, setUniversityChoices] = React.useState([]);
-  const [departmentChoices, setDepartmentChoices] = React.useState([]);
+  const tags = selector((state) => state.choices.tags);
+  const departments = selector((state) => state.choices.departments);
+  const universities = selector((state) => state.choices.universities);
 
   const [formStep, setFormStep] = React.useState(0);
   const [password, setPassword] = React.useState();
@@ -54,44 +48,13 @@ const SignUp = () => {
   const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
 
   useEffect(() => {
-    console.log('stepchange');
-    if(formStep===0){
-      console.log('0');
-    } else if(formStep===1){
-      console.log('1');
-    } else if(formStep===2){
-      console.log('2');
-      dispatch(recommendations('tag', setTags));
-      dispatch(recommendations('uni', setUniversities));
-      dispatch(recommendations('dep', setDepartments));
+    if(formStep===2){
+      dispatch(getTags());
+      dispatch(getDepartments());
+      dispatch(getUniversities());
     }
-
+    // eslint-disable-next-line
   },[formStep]);
-
-  useEffect(() => {
-    setInterestChoices([]);
-    setUniversityChoices([]);
-    setDepartmentChoices([]);
-    
-    var ic = [];
-    var uc = [];
-    var dc = [];
-    
-    for (let i = 0; i < tags.length; i++) {
-      ic.push(<Option key={tags[i]}>{tags[i]}</Option>);
-    }
-    for (let i = 0; i < universities.length; i++) {
-      uc.push(<Option key={universities[i]}>{universities[i]}</Option>);
-    }
-    for (let i = 0; i < departments.length; i++) {
-      dc.push(<Option key={departments[i]}>{departments[i]}</Option>);
-    }
-    setInterestChoices(ic);
-    setUniversityChoices(uc);
-    setDepartmentChoices(dc);
-  },[tags, universities, departments]);
-
-
 
   useEffect(() => {
     // signup
@@ -317,7 +280,7 @@ const SignUp = () => {
                       style={{ width: "100%" }}
                       placeholder="Please choose your university."
                     >
-                      {universityChoices}
+                      {universities.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -332,7 +295,7 @@ const SignUp = () => {
                       style={{ width: "100%" }}
                       placeholder="Please choose your department."
                     >
-                      {departmentChoices}
+                      {departments.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -356,7 +319,7 @@ const SignUp = () => {
                       style={{ width: "100%" }}
                       placeholder="Please select at least one research interest"
                     >
-                      {interestChoices}
+                      {tags.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
                   <Form.Item

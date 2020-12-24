@@ -13,35 +13,3 @@ export const search = (params, setData, setLoading) => {
     })
   };
 };
-
-export const recommendations = (recType, setRecommendations) => {
-
-  var dispatchUrl;
-  switch(recType) {
-    case 'tag':
-      dispatchUrl = "/autoComplete/getTags";
-      break;
-    case 'uni':
-      dispatchUrl = "/autoComplete/getUniversities";
-      break;
-    case 'dep':
-      dispatchUrl = "/autoComplete/getDepartments";
-      break;
-    default:
-      return [];
-  }
-
-  return (dispatch) => {
-    dispatch(actions.recommendationsAction());
-    console.log('x');
-
-    api({sendToken: true})
-    .get(dispatchUrl)
-    .then((response) => {
-      setRecommendations(response.data.result);
-      console.log('c');
-      console.log(response.data.result);
-      dispatch(actions.recommendationsCompletedAction());
-    })
-  };
-};
