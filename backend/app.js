@@ -28,7 +28,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-
+app.use('/static', express.static(path.join(__dirname,'./uploads')));
 app.use('/auth', authRouter)
 app.use(tokenController.authCheckMiddleware)
 app.use('/validate', validateRouter)
@@ -41,7 +41,6 @@ app.use('/autoComplete', autoCompleteRouter)
 app.use('/file',fileRouter)
 app.use('/collab', collabRouter)
 
-app.use('/static', express.static(path.join(__dirname,'./uploads')));
 
 app.get('*',(req,res) => {
     res.status(404).send({error: "Not Found"})
