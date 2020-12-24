@@ -1,40 +1,47 @@
 import api from "../../axios";
+import { getProfileInfoWithoutLoading } from "../../redux/profile/api"
 import * as actions from "./actions";
 
-export const getFollowers = (setLoadingAllPeople, setAllPeople) => {
+export const getFollowers = () => {
   return (dispatch) => {
-    dispatch(actions.getFollowersStartAction(setLoadingAllPeople));
+    dispatch(actions.getFollowersStartAction());
     api({ sendToken: true })
       .get("/follow/followers/")
       .then((response) => {
-        console.log(response);
-        setAllPeople(response.data.data);
-        setLoadingAllPeople(false);
-        dispatch(actions.getFollowersSuccessAction(response.data));
-      })
-      .catch((e) => {   
-        setAllPeople([]);
-        setLoadingAllPeople(false);
-        console.log(e);
-      });
+        dispatch(actions.getFollowersSuccessAction(response.data.data));
+      }) 
   };
 };
 
-export const getFollowing = (setLoadingAllPeople, setAllPeople) => {
+export const getFollowing = () => {
   return (dispatch) => {
-    dispatch(actions.getFollowingStartAction(setLoadingAllPeople));
+    dispatch(actions.getFollowingStartAction());
     api({ sendToken: true })
       .get("/follow/followings/")
       .then((response) => {
-        console.log(response);
-        setAllPeople(response.data.data);
-        setLoadingAllPeople(false);
-        dispatch(actions.getFollowingSuccessAction(response.data));
+        dispatch(actions.getFollowingSuccessAction(response.data.data));
       })
-      .catch((e) => {   
-        setAllPeople([]);
-        setLoadingAllPeople(false);
-        console.log(e);
-      });
+  };
+};
+
+export const follow = (id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/follow/add", {userId: id})
+      .then((response) => {
+        dispatch(getFollowing());
+        dispatch(getProfileInfoWithoutLoading(id))
+      })
+  };
+};
+
+export const unfollow = (id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/follow/remove", {userId: id})
+      .then((response) => {
+        dispatch(getFollowing());
+        dispatch(getProfileInfoWithoutLoading(id))
+      })
   };
 };

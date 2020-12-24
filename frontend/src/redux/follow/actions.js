@@ -6,9 +6,10 @@ export const getFollowersStartAction = () => {
   };
 };
 
-export const getFollowersSuccessAction = () => {
+export const getFollowersSuccessAction = (payload) => {
   return {
     type: actions.GET_FOLLOWERS_SUCCESS,
+    payload,
   };
 };
 
@@ -18,8 +19,9 @@ export const getFollowingStartAction = () => {
   };
 };
 
-export const getFollowingSuccessAction = () => {
+export const getFollowingSuccessAction = (payload) => {
   return {
     type: actions.GET_FOLLOWING_SUCCESS,
+    payload,
   };
 };

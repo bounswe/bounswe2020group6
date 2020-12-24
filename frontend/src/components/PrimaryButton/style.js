@@ -17,14 +17,14 @@ export const ThemedButton = styled(Button)`
   :focus {
     outline: none;
     color: white;
-    background-color: ${theme.main.colors.sixth};
+    background-color: ${theme.main.colors.first};
     border-color: ${theme.main.colors.sixth} !important;
   }
 
   :active {
     outline: none;
     color: white;
-    background-color: ${theme.main.colors.sixth};
+    background-color: ${theme.main.colors.first};
     border-color: ${theme.main.colors.sixth} !important;
   }
 
