@@ -55,37 +55,12 @@ deleteFolder = function(id) {
 
 
 
-getFiles = async function(req,res){
+getFile = async function(req,res){
     projectId = req.params.projectId
-    var dirPath = `./uploads/${projectId}/`;
-    files = []
-    contentTypes = []
-    fs.readdir(dirPath, function (err, filesPath) {
-    	if (err) throw err;
-    	filesPath = filesPath.map(function(filePath){
-	    files.push(filePath)
-            return dirPath + filePath;
-    	});
-	async.map(filesPath, function(filePath, cb){ 
-            fs.readFile(filePath, 'utf8', cb);
-    	}, async function(err, results) {
-    	    for(file of files){
-    		fileDb = await ProjectFile.findAll({
-		    where : {
-		        file_name : file,
-		        project_id : projectId
-		    },
-		    attributes : ['file_type'],
-		    raw : true
-		});
-		contentTypes.push(fileDb[0].file_type)
-    	    }
-            res.setHeader('Content-Type', contentTypes)
-            res.setHeader('Content-Name', files)
-	    res.status(201).send(results)
-    	});
-    });
+    fileName = req.params.fileName
+    res.sendFile(path.join(__dirname, '../uploads', projectId, fileName));
 }
+
 
 
 
@@ -95,6 +70,6 @@ module.exports = {
     addFile,
     deleteFile,
     deleteFolder,
-    getFiles,
+    getFile,
     upload
 }
