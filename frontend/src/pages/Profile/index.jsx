@@ -13,7 +13,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 
-import { getProfileInfo, changeBio } from "../../redux/profile/api";
+import { getProfileInfo, changeBio, getProjectsOfUser } from "../../redux/profile/api";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -32,6 +32,7 @@ const Profile = () => {
 
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
+  const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
   const isOwnProfile = () => {
@@ -44,6 +45,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getProfileInfo(id));
+    dispatch(getProjectsOfUser(id));
     if (!isOwnProfile()) {
       dispatch(getFollowing());
     }
@@ -157,9 +159,10 @@ const Profile = () => {
               <div style={{ fontWeight: 500 }}>{profile.university}</div>
             </Row>
             <Row>
-              <div style={{ fontWeight: 500 }}>{`${profile.department} ${
-                profile.title !== null ? profile.title : ""
-              }`}</div>
+              <div style={{ fontWeight: 500 }}>
+                <div>{`${profile.department}`}</div>
+                <div>{`${profile.title !== null ? profile.title : ""}`}</div>
+              </div>
             </Row>
           </Col>
           <NumbersCol xs={24} sm={24} lg={12} xl={12}>
@@ -167,7 +170,8 @@ const Profile = () => {
               <Col span={24}>
                 <Row justify="space-around">
                   <Col>
-                    <span style={{ fontWeight: 600 }}>0</span> publications
+                    <span style={{ fontWeight: 600 }}>{projects ? projects.length : 0}</span>{" "}
+                    publications
                   </Col>
                   <Col>
                     <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
@@ -273,26 +277,26 @@ const Profile = () => {
         </Row>
         <Divider orientation="left" />
         <Row>
-          <SectionCol xs={24} sm={24} md={{ span: 9, offset: 1 }}>
+          <SectionCol xs={24} sm={24} md={{ span: 10, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={projects}
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      description={item.summary}
                     />
                   </List.Item>
                 )}
               />
             </Scrollable>
           </SectionCol>
-          <SectionCol xs={24} sm={24} md={{ span: 9, offset: 1 }}>
-            <SectionTitle>Collaborations</SectionTitle>
+          <SectionCol xs={24} sm={24} md={{ span: 10, offset: 2 }}>
+            <SectionTitle>Google Scholar Projects</SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"

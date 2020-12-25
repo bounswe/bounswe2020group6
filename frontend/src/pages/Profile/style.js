@@ -27,6 +27,7 @@ export const SectionTitle = styled.div`
 
 export const Content = styled.div`
   padding: 0 80px;
+  padding-bottom: 40px;
 
   .anticon, anticon-edit {
     :hover {

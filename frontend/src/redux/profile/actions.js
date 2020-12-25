@@ -12,3 +12,10 @@ export const getProfileInfoSuccessAction = (response) => {
     payload: response,
   };
 };
+
+export const getProjectsOfUserSuccess = (response) => {
+  return {
+    type: actions.GET_PROJECTS_OF_USER_SUCCESS,
+    payload: response,
+  };
+};
