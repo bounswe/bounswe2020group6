@@ -7,7 +7,19 @@ export const getProfileInfo = (id) => {
     api({ sendToken: true })
       .get("/profile/" + id)
       .then((response) => {
-        //console.log(response.data);
+        dispatch(actions.getProfileInfoSuccessAction(response.data));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
+
+export const getProfileInfoWithoutLoading = (id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .get("/profile/" + id)
+      .then((response) => {
         dispatch(actions.getProfileInfoSuccessAction(response.data));
       })
       .catch((e) => {
