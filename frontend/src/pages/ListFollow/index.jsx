@@ -24,11 +24,12 @@ const Home = () => {
 
   const followers = selector((state) => state.follow.followers);
   const followings = selector((state) => state.follow.following);
-  const allPeople = followers || followings;
 
   const dispatch = useDispatch();
 
   const { type } = useParams();
+
+  const allPeople = type === "followers" ? followers : followings;
 
   const history = useHistory();
 
