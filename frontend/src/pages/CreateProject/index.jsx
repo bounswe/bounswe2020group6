@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-
 import { Space, Row, Col, Upload, message } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
@@ -20,7 +19,7 @@ const { Option } = Select;
 
 
 
-const Project = () => {
+const CreateProject = () => {
 
   const [newPostForm] = Form.useForm();
 
@@ -151,4 +150,4 @@ const Project = () => {
   );
 };
 
-export default Project;
+export default CreateProject;

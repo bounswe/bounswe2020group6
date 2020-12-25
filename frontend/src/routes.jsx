@@ -6,7 +6,8 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
-import Project from "./pages/Project";
+import CreateProject from "./pages/CreateProject";
+import EditProject from "./pages/EditProject";
 import ProjectDetails from "./pages/ProjectDetails";
 import FileEditor from "./pages/FileEditor";
 import Profile from "./pages/Profile";
@@ -62,14 +63,17 @@ export default function App() {
         <Route path="/search">
           <Search />
         </Route>
-        <Route path="/project">
-          <Project />
-        </Route>
-        <Route path="/project-details">
+        <Route path="/project/details">
           <ProjectDetails />
         </Route>
-        <Route path="/project-editfiles/:projectId">
+        <Route path="/project/edit">
+          <EditProject />
+        </Route>
+        <Route path="/project/editfiles/:projectId">
           <FileEditor />
+        </Route>
+        <Route path="/project">
+          <CreateProject />
         </Route>
         <Route path="/profile/:id">
           <Profile />
