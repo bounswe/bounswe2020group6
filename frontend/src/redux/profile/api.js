@@ -27,3 +27,16 @@ export const getProfileInfoWithoutLoading = (id) => {
       });
   };
 };
+
+export const changeBio = (id, bioData) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/profile/biography", bioData)
+      .then((response) => {
+        dispatch(getProfileInfoWithoutLoading(id));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};

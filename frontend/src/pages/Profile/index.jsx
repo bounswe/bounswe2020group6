@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Divider, Tag, List, Avatar } from "antd";
+import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form } from "antd";
 import {
   PaperClipOutlined,
   TeamOutlined,
@@ -10,9 +10,10 @@ import {
   CloseOutlined,
   MinusCircleTwoTone,
   PlusCircleTwoTone,
+  EditOutlined,
 } from "@ant-design/icons";
 
-import { getProfileInfo } from "../../redux/profile/api";
+import { getProfileInfo, changeBio } from "../../redux/profile/api";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -26,6 +27,8 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const [isEditingBio, setIsEditingBio] = useState(false);
 
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
@@ -77,6 +80,15 @@ const Profile = () => {
 
   const handleRemoveUp = () => {
     dispatch(removeUp(id));
+  };
+
+  const handleEditBio = () => {
+    setIsEditingBio((prev) => !prev);
+  };
+
+  const handleChangeBio = (bio) => {
+    dispatch(changeBio(id, bio));
+    setIsEditingBio((prev) => !prev);
   };
 
   if (profileLoading || !profile) {
@@ -192,13 +204,13 @@ const Profile = () => {
         </Row>
 
         <Divider orientation="left" />
-        <Row style={{ padding: "16px", fontWeight: 500 }}>
-          <Col md={4}>
+        <Row style={{ padding: "4px 16px", fontWeight: 500 }}>
+          <Col span={24} md={12}>
             <Row>
               <SectionTitle>Interest Areas</SectionTitle>
             </Row>
             <Row>
-              <Col style={{ marginTop: "10px" }}>
+              <Col span={24} style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (
                     <Tag key={i} closable={false}>
@@ -208,6 +220,59 @@ const Profile = () => {
               </Col>
             </Row>
           </Col>
+          <Col style={{ height: "20px", width: "1px" }} xs={24} sm={24} md={0} />
+          <Col span={24} md={12}>
+            <Row>
+              <SectionTitle>About Me</SectionTitle>
+            </Row>
+            <Row>
+              <Col span={24} style={{ marginTop: "10px" }}>
+                <Card
+                  actions={isOwnProfile() ? [<EditOutlined onClick={handleEditBio} />] : null}
+                  style={{ minHeight: "100px", width: "100%" }}
+                >
+                  {!isEditingBio ? (
+                    profile.bio ? (
+                      profile.bio
+                    ) : (
+                      <span style={{ color: "rgba(0,0,0,0.4)" }}>No biography added yet</span>
+                    )
+                  ) : (
+                    <Form onFinish={handleChangeBio}>
+                      <Form.Item name="bio">
+                        <Input.TextArea
+                          style={{ padding: 0 }}
+                          //onPressEnter={handleChangeBio}
+                          bordered={false}
+                          defaultValue={
+                            profile.bio ? (
+                              profile.bio
+                            ) : (
+                              <span style={{ color: "rgba(0,0,0,0.4)" }}>
+                                No biography added yet
+                              </span>
+                            )
+                          }
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Row justify="end">
+                          <Col sm={8} md={8} lg={6} xl={4}>
+                            <PrimaryButton htmlType="submit" style={{ marginRight: "40px" }}>
+                              Save
+                            </PrimaryButton>
+                          </Col>
+                        </Row>
+                      </Form.Item>
+                    </Form>
+                  )}
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Divider orientation="left" />
+        <Row>
           <SectionCol xs={24} sm={24} md={{ span: 9, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
             <Scrollable>
