@@ -36,7 +36,7 @@ public class ProjectFragment extends Fragment {
     private String myToken;
     private  Integer myId;
     RecyclerView recyclerView;
-    List<Project> projects;
+    List<GetProjects> projects;
 
     @Nullable
     @Override
@@ -81,10 +81,10 @@ public class ProjectFragment extends Fragment {
 
      private  void getProjects(Integer id){
 
-        Call<List<Project>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
-        call.enqueue(new Callback<List<Project>>() {
+        Call<List<GetProjects>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
+        call.enqueue(new Callback<List<GetProjects>>() {
             @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+            public void onResponse(Call<List<GetProjects>> call, Response<List<GetProjects>> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Project", "onResponse: not successful");
@@ -99,7 +99,7 @@ public class ProjectFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
+            public void onFailure(Call<List<GetProjects>> call, Throwable t) {
 
                 Log.d("Project", "onFailure: failed");
 
