@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import api from "../../axios";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 
 import { Space, Row, Col, Upload, message } from "antd";
 import MainHeader from "../../components/MainHeader";
@@ -11,48 +13,23 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
+import { getTags } from "../../redux/choices/api";
+
 const { Option } = Select;
 
-//dummy data //TODO: remove
-const interestChoicesList = [
-  "Humanities",
-  "Performing arts",
-  "Visual arts",
-  "History",
-  "Languages and literature",
-  "Law",
-  "Philosophy",
-  "Theology",
-  "Social Sciences",
-  "Anthropology",
-  "Economics",
-  "Geography",
-  "Political science",
-  "Psychology",
-  "Sociology",
-  "Social Work",
-  "Natural Sciences",
-  "Biology",
-  "Chemistry",
-  "Earth science",
-  "Space sciences",
-  "Physics",
-  "Formal Sciences",
-  "Computer Science",
-  "Mathematics",
-  "Applied Sciences",
-  "Business",
-  "Engineering and technology",
-  "Medicine and health",
-];
 
-const interestChoices = [];
-for (let i = 0; i < interestChoicesList.length; i++) {
-  interestChoices.push(<Option key={interestChoicesList[i]}>{interestChoicesList[i]}</Option>);
-}
 
 const Project = () => {
+  const dispatch = useDispatch();
+  const selector = useSelector;
+
+  const tags = selector((state) => state.choices.tags);
   const history = useHistory();
+
+  useEffect(() => {
+    dispatch(getTags());
+    // eslint-disable-next-line
+  },[]);
 
   const handleSubmit = function (values) {
     var form_data = new FormData();
@@ -172,7 +149,7 @@ const Project = () => {
                     rules={[{ required: false, message: "" }]}
                   >
                     <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
-                      {interestChoices}
+                     {tags.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
                   <FormButton type="primary" htmlType="submit">
