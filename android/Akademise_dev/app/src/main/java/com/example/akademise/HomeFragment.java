@@ -90,10 +90,29 @@ public class HomeFragment extends Fragment {
                 Projects Projects = response.body();
 
                 List<Project> projects = Projects.getProjects();
-                recyclerView = getView().findViewById(R.id.rv_home);
-                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects);
-                recyclerView.setAdapter(recyclerViewAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
+                inside_call.enqueue(new Callback<SearchedUsers>() {
+                    @Override
+                    public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("Get", "onResponse: " + response.code());
+                            return;
+                        }
+                        Log.d("GET", "On response: " + response.message());
+                        SearchedUsers searchedUsers = response.body();
+                        recyclerView = getView().findViewById(R.id.rv_home);
+                        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,searchedUsers);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchedUsers> call, Throwable t) {
+                        Log.d("Get", "onFailure: " + t.getMessage());
+
+                    }
+                });
 
             }
 

@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -93,7 +94,7 @@ public class ProjectFragment extends Fragment {
 
                 projects = response.body();
                 recyclerView = getView().findViewById(R.id.rv_projects);
-                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,null);
                 recyclerView.setAdapter(recyclerViewAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }

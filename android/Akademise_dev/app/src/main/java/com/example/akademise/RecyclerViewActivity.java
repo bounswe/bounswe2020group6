@@ -42,7 +42,7 @@ public class RecyclerViewActivity extends AppCompatActivity {
                 "23/12/2025", "c++, matlab",null));
 
         recyclerView = findViewById(R.id.rv_recyclerView);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, projects);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, projects, null);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

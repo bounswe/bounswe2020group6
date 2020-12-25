@@ -95,7 +95,7 @@
     <EditText
         android:id="@+id/etRequirements"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="150dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:hint="Requirements"

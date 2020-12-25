@@ -24,11 +24,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static final String accessID = "XXXXXID";
 
     List<Project> projects;
+    SearchedUsers searchedUsers;
     Context context;
+    int userId;
 
-    public RecyclerViewAdapter(Context ct, List<Project> prj) {
+    public RecyclerViewAdapter(Context ct, List<Project> prj, SearchedUsers srchdUsr) {
         context = ct;
         projects = prj;
+        searchedUsers = srchdUsr;
 
     }
 
@@ -42,26 +45,38 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(projects.get(position).getTitle());
-        holder._abstract.setText(projects.get(position).getAbstract1());
-        holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
         loadIDData();
-        int userId = projects.get(position).getUserId();
+        if(position<projects.size()) {
+            holder.title.setText(projects.get(position).getTitle());
+            holder._abstract.setText(projects.get(position).getAbstract1());
+            holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
+            userId = projects.get(position).getUserId();
+        }
+        else{
+            String person= searchedUsers.getUsers().get(position-projects.size()).getName()+" "+
+                    searchedUsers.getUsers().get(position-projects.size()).getSurname();
+            holder.title.setText(person);
+            holder._abstract.setText(searchedUsers.getUsers().get(position-projects.size()).getTitle());
+            holder.imageView.setImageResource(R.drawable.ic_profile_foreground);
+            userId = searchedUsers.getUsers().get(position-projects.size()).getId();
+        }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                if (userId == myId) {
-                    intent = new Intent(context, ProjectDetailsActivity.class);
+                if(position<projects.size()) {
+                    if (userId == myId) {
+                        intent = new Intent(context, ProjectDetailsActivity.class);
 
 
-                } else {
-                    intent = new Intent(context, ProjectDetailsUserActivity.class);
+                    } else {
+                        intent = new Intent(context, ProjectDetailsUserActivity.class);
+                    }
+
+                    Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
+                    intent.putExtra("project", projects.get(position));
+                    context.startActivity(intent);
                 }
-
-                Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
-                intent.putExtra("project", projects.get(position));
-                context.startActivity(intent);
             }
         });
 
@@ -70,7 +85,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return projects.size();
+        if(searchedUsers!=null)
+            return projects.size() +searchedUsers.getUsers().size();
+        else
+            return projects.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
