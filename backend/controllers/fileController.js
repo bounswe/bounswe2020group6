@@ -8,8 +8,7 @@ var multer  = require('multer')
 upload = multer({storage : storage});
 
 addFile = async function(req, res){
-    const formObj = JSON.parse(JSON.stringify(req.body));
-    projectId = formObj.projectId
+    projectId = req.body.projectId
     file = req.files
     try{
         for(var i = 0; i < file.length; i++){
