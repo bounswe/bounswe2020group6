@@ -136,9 +136,9 @@ const Profile = () => {
               )}
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>
-                {profile.number_of_ups === null || profile.number_of_ups === undefined
+                {profile.upCounts === null || profile.upCounts === undefined
                   ? " " + 0
-                  : " " + profile.number_of_ups}
+                  : " " + profile.upCounts}
               </span>
             </Row>
             <Row>
