@@ -2,6 +2,7 @@ const {CollabRequest, ProjectCollaborator, User, Project}  = require('../model/d
 const {requestExists} = require('../util/collabUtil')
 const userUtils = require('../util/userUtil')
 const {postExists} = require('../util/postUtil')
+const { Op } = require("sequelize");
 
 
 
@@ -97,10 +98,12 @@ addCollaborator = async function(req,res){
 	var postExistsDb = await postExists(projectId)
 	if(postExistsDb){
 	    collaboratorId = req.body.userId
-	    collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
 	    request = await CollabRequest.findAll({
 		where : {
-		    requestedId : collaboratorId,
+		    [Op.or] : [
+		        {requestedId : collaboratorId},
+			{requesterId : collaboratorId}
+		    ],
 		    projectId : projectId
 		},
 		attributes: ['id'],
@@ -109,6 +112,7 @@ addCollaborator = async function(req,res){
 	    if(request.length == 0){
 		res.status(500).send({message : "Request is no longer available"})
 	    }else{
+		collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
 		req.requestId = request[0].id
 		deleteRequest(req,res);	
 	    }
