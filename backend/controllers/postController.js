@@ -175,55 +175,55 @@ deletePost = async function (req,res){
 //function can extend according to frontend wishes
 getPosts = async function(req,res){
     user_id = req.userId
-    type = req.query.type
+    type = req.params.type
     if(type == 0){
-		userParameter = req.query.id
-		try {
-			if(userParameter != user_id){
-			posts = await Project.findAll({
-				where : {
-				[Op.or] : [
-					{'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
-					'$project.privacy$' : {[Op.eq] : 1}
-					},
-					{userId : userParameter,
-					[Op.or] : [
-						{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-						{'$project.privacy$' : {[Op.eq]: 1}}
-					]}
-				]
-				},
-				include : projectInfo
-			});
-			}else{
-			posts = await Project.findAll({
-				where: {
-				[Op.or] : [
-					{userId : user_id},
-					{'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
-				]
-				},
-				include : projectInfo
-			});	
-			}
-			res.status(200).send(posts)
-		}catch(error) {
-			res.status(500).send({error: error})
-			console.log(error)
-		}
+	userParameter = req.params.id
+	try {
+	    if(userParameter != user_id){
+		posts = await Project.findAll({
+		    where : {
+			[Op.or] : [
+			    {'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
+			    '$project.privacy$' : {[Op.eq] : 1}
+			    },
+			    {userId : userParameter,
+			    [Op.or] : [
+				{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
+				{'$project.privacy$' : {[Op.eq]: 1}}
+			    ]}
+			]
+		    },
+		    include : projectInfo
+		});
+	    }else{
+		posts = await Project.findAll({
+		    where: {
+			[Op.or] : [
+			    {userId : user_id},
+			    {'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
+			]
+		    },
+		    include : projectInfo
+		});	
+	    }
+	    res.status(200).send(posts)
+	}catch(error) {
+	    res.status(500).send({error: error})
+	    console.log(error)
+	}
     }else{
-		project_id = req.query.id
-		try{
-			posts = await Project.findAll({
-				where: {
-					id : project_id
-				},
-				include : projectInfo
-			});	
-			res.status(200).send(posts)
-		}catch(error){
-			res.status(500).send({error: error})
-		}
+	project_id = req.params.id
+	try{
+	    posts = await Project.findAll({
+	        where: {
+		    id : project_id
+	        },
+	        include : projectInfo
+	    });	
+	    res.status(200).send(posts)
+	}catch(error){
+	    res.status(500).send({error: error})
+	}
     }
 }
 
