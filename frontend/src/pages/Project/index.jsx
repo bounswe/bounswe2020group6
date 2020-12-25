@@ -80,116 +80,105 @@ const Project = () => {
     <Content>
       <Col>
         <MainHeader />
-        <Divider style={{ marginTop: "90px" }} orientation="center">
+        <Divider style={{ marginTop: "90px"}}>
           <FormTitle>New Publication</FormTitle>
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
 
-          <Content
-            style={{
-              marginLeft: "220px",
-              marginRight: "220px",
-            }}
-          >
+          <Content>
             <Form layout="vertical" onFinish={handleSubmit}>
               <Row align="middle" justify="center">
-                <Content>
-                  <Col
-                    style={{
-                      marginLeft: "200px",
-                      marginRight: "50px",
-                    }}
+                <Col
+                  xs={{ span: 20, offset: 1 }}
+                  sm={{ span: 14, offset: 1 }}
+                  lg={{ span: 6, offset: 4 }}
+                >
+                  <br />
+                  <Form.Item
+                    label={<FormLabel>Title</FormLabel>}
+                    name="title"
+                    rules={[{ required: true, message: "Required" }]}
                   >
-                    <br />
-                    <Form.Item
-                      label={<FormLabel>Title</FormLabel>}
-                      name="title"
-                      rules={[{ required: true, message: "Required" }]}
-                    >
-                      <Input />
-                    </Form.Item>
+                    <Input />
+                  </Form.Item>
 
-                    <Form.Item
-                      label={<FormLabel>Abstract</FormLabel>}
-                      name="abstract"
-                      rules={[{ required: true, message: "Required" }]}
-                    >
-                      <Input.TextArea rows={8} />
-                    </Form.Item>
-                    <Form.Item
-                      label={<FormLabel>Privacy</FormLabel>}
-                      name="privacy"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Required",
-                        },
-                      ]}
-                    >
-                      <Radio.Group>
-                        <Space size={20}>
-                          <Radio value={1}>Public</Radio>
-                          <Radio value={0}>Private</Radio>
-                        </Space>
-                      </Radio.Group>
-                    </Form.Item>
-                  </Col>
-                </Content>
-
-                <Content>
-                  <Col
-                    style={{
-                      marginLeft: "50px",
-                      marginRight: "50px",
-                    }}
+                  <Form.Item
+                    label={<FormLabel>Abstract</FormLabel>}
+                    name="abstract"
+                    rules={[{ required: true, message: "Required" }]}
                   >
-                    <br />
-                    <Form.Item
-                      label={<FormLabel>Deadline</FormLabel>}
-                      name="deadline"
-                      rules={[{ required: true, message: "Required" }]}
-                    >
-                      <DatePicker />
-                    </Form.Item>
-                    <Form.Item
-                      label={<FormLabel>Upload File About Publication</FormLabel>}
-                      rules={[{ required: false, message: "Optional" }]}
-                    >
-                      <Upload>
-                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                      </Upload>
-                    </Form.Item>
-                    <Form.Item
-                      label={<FormLabel>Requirements</FormLabel>}
-                      name="requirements"
-                      rules={[{ required: false, message: "" }]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
-                      label={<FormLabel>Add Collaborators</FormLabel>}
-                      name="collaborators"
-                      rules={[{ required: false, message: "" }]}
-                    >
-                      <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
-                        {}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      label={<FormLabel>Add Tags</FormLabel>}
-                      name="tags"
-                      rules={[{ required: false, message: "" }]}
-                    >
-                      <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
-                        {interestChoices}
-                      </Select>
-                    </Form.Item>
-                    <FormButton type="primary" htmlType="submit">
-                      Confirm
-                    </FormButton>
-                  </Col>
-                </Content>
+                    <Input.TextArea rows={8} />
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Privacy</FormLabel>}
+                    name="privacy"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Required",
+                      },
+                    ]}
+                  >
+                    <Radio.Group>
+                      <Space size={20}>
+                        <Radio value={1}>Public</Radio>
+                        <Radio value={0}>Private</Radio>
+                      </Space>
+                    </Radio.Group>
+                  </Form.Item>
+                </Col>
+
+                <Col
+                xs={{ span: 20, offset: 1 }}
+                sm={{ span: 14, offset: 1 }}
+                lg={{ span: 7, offset: 1 }}
+                >
+                  <br />
+                  <Form.Item
+                    label={<FormLabel>Deadline</FormLabel>}
+                    name="deadline"
+                    rules={[{ required: true, message: "Required" }]}
+                  >
+                    <DatePicker />
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Upload File About Publication</FormLabel>}
+                    rules={[{ required: false, message: "Optional" }]}
+                  >
+                    <Upload>
+                      <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    </Upload>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Requirements</FormLabel>}
+                    name="requirements"
+                    rules={[{ required: false, message: "" }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Add Collaborators</FormLabel>}
+                    name="collaborators"
+                    rules={[{ required: false, message: "" }]}
+                  >
+                    <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
+                      {}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Add Tags</FormLabel>}
+                    name="tags"
+                    rules={[{ required: false, message: "" }]}
+                  >
+                    <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
+                      {interestChoices}
+                    </Select>
+                  </Form.Item>
+                  <FormButton type="primary" htmlType="submit">
+                    Confirm
+                  </FormButton>
+                </Col>
               </Row>
             </Form>
           </Content>
