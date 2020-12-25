@@ -44,23 +44,20 @@ const Home = () => {
   }, []);
 
   // https://github.com/bounswe/bounswe2020group6/blob/backend/backend/controllers/followController.js
-  const createUserCard = (Id, Name, Surname, /*University, Department, Title, */ ImgUrl) => {
+  const createUserCard = (Id, Name, Surname, University, Department, Title, ImgUrl) => {
     return (
       <UserCard
         id={Id}
         name={Name}
         surname={Surname}
-        /*
         university={University}
         department={Department}
         title={Title}
-        */
         img={ImgUrl}
+        history={history}
       />
     );
   };
-
-  console.log(allPeople);
 
   return (
     <Frame>
@@ -77,12 +74,26 @@ const Home = () => {
           </H2>
         ) : (
           allPeople.map((u) =>
+            (type === "followers") ?
             createUserCard(
-              u.id,
-              u.name,
-              u.surname,
-              /*u.university, u.department, u.title,*/ u.profile_picture_url
+              u.followed.id,
+              u.followed.name,
+              u.followed.surname,
+              u.followed.university, 
+              u.followed.department, 
+              u.followed.title,
+              u.followed.profile_picture_url,
+            ) :
+            createUserCard(
+              u.following.id,
+              u.following.name,
+              u.following.surname,
+              u.following.university, 
+              u.following.department, 
+              u.following.title,
+              u.following.profile_picture_url,
             )
+            
           )
         )}
       </Main>
