@@ -27,13 +27,12 @@ const EditProject = () => {
     tags: ["Mechanics", "Computer Science", "Statistics", "Artificial Intelligence", "Machine Learning"],
     abstract: "The purpose of this article is to provide researchers, editors, and readers with a set of guidelines for what to expect in an article using logistic regression techniques. Tables, figures, and charts that should be included to comprehensively assess the results and assumptions to be verified are discussed.",
     privacy: 0,
-    deadlines: [
-      {"date": "04 March, 2021", "desc": "Baseline results"}, 
-      {"date": "24 December, 2021", "desc": "Application Deadline for IOCON 2021"},
-      {"date": "06 January, 2022", "desc": "Milestone Reports"},
-      {"date": "21 October, 2022", "desc": "Final press conference"},
+    milestones: [
+      {"date": "04 March, 2021", "title": "Baseline results", "desc": "We will present a baseline model that can do stuff."}, 
+      {"date": "24 December, 2021", "title": "Application Deadline for IOCON 2021", "desc": "We will have two people to apply on our behalf."},
+      {"date": "06 January, 2022", "title": "Milestone Reports", "desc": "Rerports shall be ready by the given date."},
+      {"date": "21 October, 2022", "title": "Final press conference", "desc": "Final deadline for the press conference we will be applying to."},
     ],
-    duedate: "Due 06 July, 2021",
     requirements: [
       {
         role: "Fullstack Developer",
@@ -51,13 +50,13 @@ const EditProject = () => {
       },
     ],
     collaborators: [
-      {name: "Jens Søgaard", institution: "L’institut des Ponts et des", degree: "Chassures CS MSc", photo: null},
-      {name: "Fahrad Fahraini", institution: "Technische Insitut München", degree: "Botanic Sciences MSc", photo: null}
+      {id: 6, name: "Jens Søgaard", university: "L’institut des Ponts et des", department:"EE", title: "MSc", photo: null},
+      {id: 5, name: "Fahrad Fahraini", university: "Technische Insitut München", department:"CmpE", title: "MSc", photo: null}
     ],
     files: [
-      {name: "milestone1.pdf", url: "#"},
-      {name: "milestone2.pdf", url: "#"},
-      {name: "milestone3.pdf", url: "#"}
+      {id:12, name: "milestone1.pdf", url: "#"},
+      {id:34, name: "milestone2.pdf", url: "#"},
+      {id:7,  name: "milestone3.pdf", url: "#"}
     ]
   }
 
@@ -80,43 +79,43 @@ const EditProject = () => {
   },[]);
 
   const [activeDeadline, setActiveDeadline] = React.useState(-1);
-  const [deadlinesData, setDeadlinesData] = React.useState(data.deadlines);
+  const [milestonesData, setMilestonesData] = React.useState(data.milestones);
 
   const [activeRequirement, setActiveRequirement] = React.useState(-1);
   const [requirementsData, setRequirementsData] = React.useState(data.requirements);
 
-  // Handle changes on deadlines
+  // Handle changes on milestones
   const selectDeadline = function(value) {
     setActiveDeadline(value);
   } 
 
   const handleDeleteDeadline = function(index) {
-    console.log(deadlinesData)
-    let newArr = [...deadlinesData];
+    console.log(milestonesData)
+    let newArr = [...milestonesData];
     newArr.splice(index, 1)
     console.log(newArr)
-    setDeadlinesData(newArr)
+    setMilestonesData(newArr)
     setActiveDeadline(-1)
   } 
 
   const handleAddDeadline= function(index) {
-    console.log(deadlinesData)
-    let newArr = [...deadlinesData, {date: moment(), desc: "Enter Description"}, ];
+    console.log(milestonesData)
+    let newArr = [...milestonesData, {date: moment(), desc: "Enter Description"}, ];
     console.log(newArr)
-    setDeadlinesData(newArr)
+    setMilestonesData(newArr)
     setActiveDeadline(newArr.length-1)
   } 
 
   function deadlineDateChange(e, index){
-    let newArr = [...deadlinesData];
+    let newArr = [...milestonesData];
     newArr[index].date = e['_i'];
-    setDeadlinesData(newArr); 
+    setMilestonesData(newArr); 
   }
 
   function deadlineNameChange(e, index){
-    let newArr = [...deadlinesData];
+    let newArr = [...milestonesData];
     newArr[index].desc = e.target.value; 
-    setDeadlinesData(newArr); 
+    setMilestonesData(newArr); 
   }
 
   // Handle changes on requirements
@@ -137,7 +136,7 @@ const EditProject = () => {
     console.log(requirementsData)
     let newArr = [...requirementsData, {role:"", university:"", department:"", interestAreas:[]}, ];
     console.log(newArr)
-    setDeadlinesData(newArr)
+    setMilestonesData(newArr)
     setActiveDeadline(newArr.length-1)
   } 
 
@@ -175,7 +174,7 @@ const EditProject = () => {
   const newPostSubmit = function (values) {
     let updatedValues = {
       ...values,
-      deadline: deadlinesData,
+      deadline: milestonesData,
       requirements: requirementsData
     }
     dispatch(postPost(updatedValues, history, message));
@@ -262,7 +261,7 @@ const EditProject = () => {
                 >
                   <br />
                   <Form.Item
-                    label={<FormLabel>Edit Deadlines</FormLabel>}
+                    label={<FormLabel>Edit Milestones</FormLabel>}
                     name="chooseDeadline"
                   >
                     <Row>
@@ -275,7 +274,7 @@ const EditProject = () => {
                       </Tag>
                     </Row>
                     <Select value={activeDeadline} onChange={selectDeadline}>
-                      {[{desc:"Choose a deadline to edit"},...deadlinesData].map((deadline, index)=>
+                      {[{desc:"Choose a deadline to edit"},...milestonesData].map((deadline, index)=>
                         <Option value={index-1}>{deadline.desc}</Option>
                       )}
                     </Select>
@@ -284,20 +283,20 @@ const EditProject = () => {
                     <Form.Item
                       name="deadline"
                     >
-                      { deadlinesData.map(
+                      { milestonesData.map(
                         (deadline, index)=>
                         <div 
                           style={{marginBottom: "16px", display: activeDeadline === index ? "block" : "none"}}
                         >
                           <Row style={{marginBottom: "16px"}}>
                             <h4>Deadline Name</h4>
-                            <Input value={deadlinesData[index].desc} onChange={(e) => deadlineNameChange(e, index)}/>
+                            <Input value={milestonesData[index].desc} onChange={(e) => deadlineNameChange(e, index)}/>
                           </Row>
                           <Row>
                           <h4>Deadline Date</h4>
                           </Row>
                           <Row>
-                            <DatePicker value={moment(deadlinesData[index].date)} onChange={(e) => deadlineDateChange(e, index)}/>
+                            <DatePicker value={moment(milestonesData[index].date)} onChange={(e) => deadlineDateChange(e, index)}/>
                           </Row>
                           <Row style={{marginBottom:"16px", marginTop:"16px"}}>
                             <Tag 
