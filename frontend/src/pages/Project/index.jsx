@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import api from "../../axios";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +12,8 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
+import { postPost } from "../../redux/project/api";
+
 import { getTags } from "../../redux/choices/api";
 
 const { Option } = Select;
@@ -20,6 +21,9 @@ const { Option } = Select;
 
 
 const Project = () => {
+
+  const [newPostForm] = Form.useForm();
+
   const dispatch = useDispatch();
   const selector = useSelector;
 
@@ -31,26 +35,8 @@ const Project = () => {
     // eslint-disable-next-line
   },[]);
 
-  const handleSubmit = function (values) {
-    var form_data = new FormData();
-    console.log(values["title"]);
-    for (var key in values) {
-      form_data.append(key, values[key]);
-    }
-    console.log(form_data);
-
-    api({ sendToken: true })
-      .post("/post/add", form_data)
-      .then((response) => {
-        console.log(response.data);
-        message.success("Publication successfully posted.", 4);
-        history.push("/home");
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-        message.success("Publication successfully posted.", 4);
-        history.push("/home");
-      });
+  const newPostSubmit = function (values) {
+    dispatch(postPost(values, history, message));
   };
 
   return (
@@ -64,7 +50,7 @@ const Project = () => {
           <ProfileSider />
 
           <Content>
-            <Form layout="vertical" onFinish={handleSubmit}>
+            <Form layout="vertical" onFinish={(values) => newPostSubmit(values)} form={newPostForm}>
               <Row align="middle" justify="center">
                 <Col
                   xs={{ span: 20, offset: 1 }}
