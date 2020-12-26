@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar } from "antd";
@@ -17,6 +17,7 @@ import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/fol
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
+import EditModal from "./components/EditModal";
 import theme from "../../theme";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
@@ -26,6 +27,8 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 const Profile = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
@@ -79,6 +82,10 @@ const Profile = () => {
     dispatch(removeUp(id));
   };
 
+  const toggleEditModal = () => {
+    setEditModalVisible((prev) => !prev);
+  };
+
   if (profileLoading || !profile) {
     return (
       <>
@@ -96,6 +103,7 @@ const Profile = () => {
 
   return (
     <div>
+      <EditModal profile={profile} visible={editModalVisible} toggleEditModal={toggleEditModal} />
       <MainHeader />
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
@@ -168,7 +176,9 @@ const Profile = () => {
                 <Row justify="center">
                   {isOwnProfile() ? (
                     <Col xs={10} sm={8} md={6}>
-                      <PrimaryButton icon={<FormOutlined />}>Edit</PrimaryButton>
+                      <PrimaryButton onClick={toggleEditModal} icon={<FormOutlined />}>
+                        Edit
+                      </PrimaryButton>
                     </Col>
                   ) : (
                     <>

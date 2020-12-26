@@ -27,3 +27,16 @@ export const getProfileInfoWithoutLoading = (id) => {
       });
   };
 };
+
+export const infoUpdate = (body, id) => {
+  return (dispatch) => {
+    api({ sendToken: true })
+      .patch("/profile/update", body)
+      .then((response) => {
+        dispatch(getProfileInfo(id))
+      })
+      .catch((e) => {
+        console.log(e.response.data)
+      });
+  };
+};
