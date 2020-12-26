@@ -21,7 +21,8 @@ search = async function(req, res) {
                 where: {
                     title: {
                         [Sequelize.Op.like]: "%" + query + "%"
-                    }
+                    },
+                    privacy: 1
                 }
             })
     
