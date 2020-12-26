@@ -163,7 +163,11 @@ const ProjectDetails = () => {
       <H1> {projectData.title} </H1>
       <DateSection>
         <UnlockFilled /> 
-        Project Due {moment(projectData.project_milestones[projectData.project_milestones.length-1].date).format("DD/MM/YYYY") || "Unknown"} 
+        Project Due {
+          projectData.project_milestones.length > 0
+          ? moment(projectData.project_milestones[projectData.project_milestones.length-1].date).format("DD/MM/YYYY")
+          : "Unknown"
+        } 
         <Tag 
         color={statusColorMap[projectData.status]} 
         style={{marginLeft: "5px"}}>
@@ -177,18 +181,23 @@ const ProjectDetails = () => {
         <H3>Summary</H3>
         {projectData.summary}
       </Summary>
-      <Deadlines>
-        <H3>Milestones</H3>
-        {projectData.project_milestones.map((dl, i) => {
-          return <p key={i}>
-            <ClockCircleTwoTone twoToneColor={deadlineColor(dl.date)} style={{ fontSize: "12px", marginRight: "8px" }}/> 
-            {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
-            {dl.title}
-            <br/>
-            {dl.description}
-          </p>
-        })}
-      </Deadlines>
+      { 
+        projectData.project_milestones.length > 0 ? 
+        <Deadlines>
+          <H3>Milestones</H3>
+          {projectData.project_milestones.map((dl, i) => {
+            return <p key={i}>
+              <ClockCircleTwoTone twoToneColor={deadlineColor(dl.date)} style={{ fontSize: "12px", marginRight: "8px" }}/> 
+              {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
+              {dl.title}
+              <br/>
+              {dl.description}
+            </p>
+          })}
+        </Deadlines>
+        : ""
+      }
+      
       <Files>
         <H3>Browse Files</H3>
         <FileContainer style={{}}>
