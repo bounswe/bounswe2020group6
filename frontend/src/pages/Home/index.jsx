@@ -13,6 +13,8 @@ import {
   H3
 } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs"
+
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
@@ -39,7 +41,7 @@ const Home = () => {
         topnote={TopNote}
         summary={Summary}
         footer={Footer}
-        img={ImgUrl}
+        img={ImgUrl ? ImgUrl : defaultProfilePictureHref }
       />
     )
   }

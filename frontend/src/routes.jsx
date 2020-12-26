@@ -6,9 +6,12 @@ import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
-import Project from "./pages/Project";
+import CreateProject from "./pages/CreateProject";
+import EditProject from "./pages/EditProject";
 import ProjectDetails from "./pages/ProjectDetails";
+import FileEditor from "./pages/FileEditor";
 import Profile from "./pages/Profile";
+import ListFollowers from "./pages/ListFollow";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
@@ -60,14 +63,23 @@ export default function App() {
         <Route path="/search">
           <Search />
         </Route>
-        <Route path="/project">
-          <Project />
-        </Route>
-        <Route path="/project-details">
+        <Route path="/project/details/:projectId">
           <ProjectDetails />
+        </Route>
+        <Route path="/project/edit/:projectId">
+          <EditProject />
+        </Route>
+        <Route path="/project/editfiles/:projectId">
+          <FileEditor />
+        </Route>
+        <Route path="/project">
+          <CreateProject />
         </Route>
         <Route path="/profile/:id">
           <Profile />
+        </Route>
+        <Route path="/list/:type">
+          <ListFollowers />
         </Route>
         <Redirect to="/home" />
       </Switch>

@@ -14,6 +14,8 @@ import {
   H2
 } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs"
+
 const Search = () => {
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [allPeople, setAllPeople] = useState(null);
@@ -22,10 +24,11 @@ const Search = () => {
   const [loadingProjectResults, setLoadingProjectResults] = useState(true);
   const [projectResults, setProjectResults] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const [searchText, setSearchText] = useState("");
 
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const [searchText, setSearchText] = useState(location.search.substring(1));
 
   useEffect(() => {
     setLoadingUserResults(true);
@@ -52,7 +55,7 @@ const Search = () => {
       topnote={TopNote}
       summary={Summary}
       footer={Footer}
-      img={ImgUrl}
+      img={ImgUrl ? ImgUrl : defaultProfilePictureHref }
       />)
   }
 

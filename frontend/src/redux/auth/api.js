@@ -31,7 +31,7 @@ export const validateCode = (body) => {
         dispatch(
           actions.authCodeValidationSuccessAction(
             "Email validation successful!",
-            response.data.accessToken
+            response.data.token
           )
         );
       })

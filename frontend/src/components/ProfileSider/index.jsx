@@ -7,6 +7,8 @@ import { Spin, Menu } from "antd";
 import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
 
+import defaultProfilePictureHref from "../../assets/asset_hrefs";
+
 const ProfileSider = () => {
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
@@ -28,8 +30,8 @@ const ProfileSider = () => {
           <Img
             style={{ height: "90px", width: "90px" }}
             src={
-              profile.profile_picture_url === null
-                ? "https://britz.mcmaster.ca/images/nouserimage.gif/image"
+              profile.profile_picture_url === null || profile.profile_picture_url === undefined
+                ? defaultProfilePictureHref
                 : profile.profile_picture_url
             }
             alt="profile photo"
@@ -44,8 +46,10 @@ const ProfileSider = () => {
                 cursor: "pointer",
               }}
             >
-              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
-              {profile.number_of_ups === null ? " " + 0 : " " + profile.number_of_ups}
+              <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
+              {profile.upCounts === null || profile.upCounts === undefined
+                ? " " + 0
+                : " " + profile.upCounts}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
               <Menu.Item key="1" icon={<PieChartOutlined />}>

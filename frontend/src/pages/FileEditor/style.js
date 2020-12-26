@@ -34,7 +34,7 @@ export const Side = styled(Col)`
   }
 `;
 
-export const DateSection = styled.p` 
+export const Date = styled.p` 
   color: grey;
 `; 
 
@@ -72,21 +72,14 @@ export const UserDiv = styled(Col)`
   flex-direction: row;
   justify-content: start;
   align-items: start;
-  cursor: pointer;
 `; 
 
-export const FileDiv = styled.a`
+export const FileDiv = styled(Col)`
   display: flex;
   flex-direction: row; 
   align-items: center;
   fontsize: 16px;
   padding: 5px 10px;
-  cursor: pointer;
-  color: black;
-
-  &:hover{
-    background-color: #efefef;
-  }
 `; 
 
 export const H1 = styled.h1` 
