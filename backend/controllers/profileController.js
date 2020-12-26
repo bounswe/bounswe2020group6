@@ -90,7 +90,8 @@ getProfile = async function (req, res) {
                     "hIndex",
                     "last5Year_citations",
                     "last5Year_iIndex",
-                    "last5Year_hIndex"
+                    "last5Year_hIndex",
+                    "projects"
                 ],
             include: [
                 {
@@ -189,6 +190,7 @@ addScholar = async function (req, res) {
             let total = last5Year_citations.reduce((a,b) => a+_citations.citations_per_year[b] , 0);
             
             update.last5Year_citations = total
+            update.projects = _citations.publications
             await User.update(update, {
                 where: {
                     id: req.userId
