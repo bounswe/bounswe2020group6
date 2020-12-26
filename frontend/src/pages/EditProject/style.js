@@ -53,3 +53,10 @@ export const FormButton = styled.button`
     color: ${theme.main.colors.sixth};
   }
 `;
+
+export const RadioStyle = {
+  display: 'block',
+  height: '30px',
+  lineHeight: '30px',
+  clear:'both',
+};

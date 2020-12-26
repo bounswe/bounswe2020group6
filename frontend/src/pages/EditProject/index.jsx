@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Space, Row, Col, message, Tag } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
-import { Content } from "./style";
+import { Content, RadioStyle } from "./style";
 
 import { Select, Form, Input, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle, IndentedBlock } from "./style";
@@ -82,7 +82,6 @@ const EditProject = () => {
     }
     
     setTempTags(e)
-    //setProjectData({...projectData, project_tags:value.project_tags});
   }
 
   // Handle changes on milestones
@@ -91,10 +90,6 @@ const EditProject = () => {
   } 
 
   const handleDeleteMilestone = function(index) {
-    // let newArr = [...milestonesData];
-    // newArr.splice(index, 1)
-    // console.log(newArr)
-    // setMilestonesData(newArr)
     setActiveMilestone(-1)
 
     dispatch(deleteMilestone(projectId, milestonesData[index], setProjectData, message));
@@ -137,14 +132,6 @@ const EditProject = () => {
     newArr[index].description = e.target.value; 
     setMilestonesData(newArr); 
   }
-
-
-  /**
-   * delete all tags
-   * add all tags
-   * delete all milestones
-   * add all milestones
-   */
 
   const editPostSubmit = function (values) {
     let updatedValues = {
@@ -196,8 +183,16 @@ const EditProject = () => {
                     name="description"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input.TextArea rows={8}/>
+                    <Input.TextArea rows={4}/>
                   </Form.Item>
+
+                  <Form.Item
+                    label={<FormLabel>Requirements</FormLabel>}
+                    name="requirements"
+                  >
+                    <Input.TextArea rows={4}/>
+                  </Form.Item>
+
                   <Form.Item
                     label={<FormLabel>Add Tags</FormLabel>}
                     name="project_tags"
@@ -206,23 +201,6 @@ const EditProject = () => {
                     <Select mode="tags" style={{ width: "100%" }} placeholder="Tags" onChange={e=>handleOnChangeTags(e)}>
                      {tags.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Privacy</FormLabel>}
-                    name="privacy"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Required",
-                      },
-                    ]}
-                  >
-                    <Radio.Group>
-                      <Space size={20}>
-                        <Radio value={1}>Public</Radio>
-                        <Radio value={0}>Private</Radio>
-                      </Space>
-                    </Radio.Group>
                   </Form.Item>
                 </Col>
 
@@ -236,7 +214,6 @@ const EditProject = () => {
                     label={<FormLabel>Edit Milestones</FormLabel>}
                     name="chooseMilestone"
                   >
-                    <Row>
                       <Tag 
                         color="green"
                         onClick={handleAddMilestone}
@@ -244,7 +221,6 @@ const EditProject = () => {
                       >
                         Add Milestone
                       </Tag>
-                    </Row>
                     <Select value={activeMilestone} onChange={selectMilestone}>
                       {[{title:"Choose a milestone to edit"},...milestonesData].map((milestone, index)=>
                         <Option value={index-1}>{milestone.title}</Option>
@@ -295,11 +271,45 @@ const EditProject = () => {
                       }
                     </Form.Item>
                   </IndentedBlock>
+
                   <Form.Item
-                    label={<FormLabel>Requirements</FormLabel>}
-                    name="requirements"
+                    label={<FormLabel>Privacy</FormLabel>}
+                    name="privacy"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Required",
+                      },
+                    ]}
                   >
-                    <Input.TextArea rows={8}/>
+                    <Radio.Group>
+                      <Space size={20}>
+                        <Radio value={1}>Public</Radio>
+                        <Radio value={0}>Private</Radio>
+                      </Space>
+                    </Radio.Group>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Project Status</FormLabel>}
+                    name="status"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Required",
+                      },
+                    ]}
+                  >
+                    <Radio.Group optionType="button" buttonStyle="solid">
+                      <Space size={20}>
+                        <Col>
+                        {Object.keys(statusDict).map((key, index) =>
+                          <Row>
+                            <Radio style={RadioStyle} value={key}>{statusDict[key]}</Radio>
+                          </Row>
+                        )}
+                        </Col>
+                      </Space>
+                    </Radio.Group>
                   </Form.Item>
                   <FormButton type="primary" htmlType="submit">
                     Confirm
