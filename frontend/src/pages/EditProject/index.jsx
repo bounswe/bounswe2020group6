@@ -1,184 +1,161 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Space, Row, Col, Upload, message, Tag } from "antd";
+import { Space, Row, Col, message, Tag } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
 import { Content } from "./style";
-import { UploadOutlined } from "@ant-design/icons";
 
-import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
+import { Select, Form, Input, Radio, DatePicker, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle, IndentedBlock } from "./style";
 
-import { postPost } from "../../redux/project/api";
+import { editPost, getPost, addTag, deleteTag, addMilestone, updateMilestone, deleteMilestone } from "../../redux/project/api";
 
-import { getTags, getDepartments, getUniversities } from "../../redux/choices/api";
-import { Summary } from "../../components/ContentCard/style";
+import { getTags } from "../../redux/choices/api";
+import { render } from "react-dom";
 
 const { Option } = Select;
 
-
 const EditProject = () => {
 
+  const { projectId } = useParams();
+
   const data = {
-    title: "Logistic Regression for Bicycle Manufacturers",
-    tags: ["Mechanics", "Computer Science", "Statistics", "Artificial Intelligence", "Machine Learning"],
-    abstract: "The purpose of this article is to provide researchers, editors, and readers with a set of guidelines for what to expect in an article using logistic regression techniques. Tables, figures, and charts that should be included to comprehensively assess the results and assumptions to be verified are discussed.",
-    privacy: 0,
-    milestones: [
-      {"date": "04 March, 2021", "title": "Baseline results", "desc": "We will present a baseline model that can do stuff."}, 
-      {"date": "24 December, 2021", "title": "Application Deadline for IOCON 2021", "desc": "We will have two people to apply on our behalf."},
-      {"date": "06 January, 2022", "title": "Milestone Reports", "desc": "Rerports shall be ready by the given date."},
-      {"date": "21 October, 2022", "title": "Final press conference", "desc": "Final deadline for the press conference we will be applying to."},
-    ],
-    requirements: [
-      {
-        role: "Fullstack Developer",
-        university: "Bogazici University", 
-        department: "Software Engineering", 
-        interestAreas:["Machine Learning", "Mathematics"],
-        title: "MSc",
-      },
-      {
-        role: "Mathematician",
-        university: null, 
-        department: "Mathematics", 
-        interestAreas:["Calculus", "Linear Algebra"],
-        title: "MSc",
-      },
-    ],
-    collaborators: [
-      {id: 6, name: "Jens Søgaard", university: "L’institut des Ponts et des", department:"EE", title: "MSc", photo: null},
-      {id: 5, name: "Fahrad Fahraini", university: "Technische Insitut München", department:"CmpE", title: "MSc", photo: null}
-    ],
-    files: [
-      {id:12, name: "milestone1.pdf", url: "#"},
-      {id:34, name: "milestone2.pdf", url: "#"},
-      {id:7,  name: "milestone3.pdf", url: "#"}
-    ]
+    title: "",
+    project_tags: [],
+    description: "",
+    privacy: 1,
+    project_milestones: [],
+    requirements: "",
+    status: 0
   }
 
-  const [newPostForm] = Form.useForm();
+  const statusDict = {
+    0: "Cancelled",
+    1: "Completed",
+    2: "In Progress",
+    3: "Hibernating",
+    4: "Team Building",
+  } 
+    
+  const [editPostForm] = Form.useForm();
 
   const dispatch = useDispatch();
   const selector = useSelector;
 
+  const [projectData, setProjectData] = React.useState(data);
+  const [activeMilestone, setActiveMilestone] = React.useState(-1);
+  const [milestonesData, setMilestonesData] = React.useState(projectData.project_milestones);
+
+  //TOOD: remove
+  const [tempTags, setTempTags] = React.useState([]);
+
   const tags = selector((state) => state.choices.tags);
-  const departments = selector((state) => state.choices.departments);
-  const universities = selector((state) => state.choices.universities);
 
   const history = useHistory();
 
   useEffect(() => {
     dispatch(getTags());
-    dispatch(getDepartments());
-    dispatch(getUniversities());
+    dispatch(getPost(projectId, setProjectData));
     // eslint-disable-next-line
   },[]);
 
-  const [activeDeadline, setActiveDeadline] = React.useState(-1);
-  const [milestonesData, setMilestonesData] = React.useState(data.milestones);
+  useEffect(() => {
+    setMilestonesData(projectData.project_milestones)
+    editPostForm.resetFields();
+    // eslint-disable-next-line
+  },[projectData]);
 
-  const [activeRequirement, setActiveRequirement] = React.useState(-1);
-  const [requirementsData, setRequirementsData] = React.useState(data.requirements);
+  // handle tag change
+  function handleOnChangeTags(e) {
+    let removedTags = tempTags.filter(x => !e.includes(x)); // calculates diff
+    let addedTags   = e.filter(x => !tempTags.includes(x));
+   
+    if (removedTags.length > 0){
+      dispatch(deleteTag(projectId, removedTags, message));
+    }
+    if (addedTags.length > 0){
+      dispatch(addTag(projectId, addedTags, message));
+    }
+    
+    setTempTags(e)
+    //setProjectData({...projectData, project_tags:value.project_tags});
+  }
 
   // Handle changes on milestones
-  const selectDeadline = function(value) {
-    setActiveDeadline(value);
+  const selectMilestone = function(value) {
+    setActiveMilestone(value);
   } 
 
-  const handleDeleteDeadline = function(index) {
-    console.log(milestonesData)
-    let newArr = [...milestonesData];
-    newArr.splice(index, 1)
-    console.log(newArr)
+  const handleDeleteMilestone = function(index) {
+    // let newArr = [...milestonesData];
+    // newArr.splice(index, 1)
+    // console.log(newArr)
+    // setMilestonesData(newArr)
+    setActiveMilestone(-1)
+
+    dispatch(deleteMilestone(projectId, milestonesData[index], setProjectData, message));
+  } 
+
+  const handleAddMilestone= function(index) {
+    let tempMilestoneData = {
+      date: moment().format('YYYY-MM-DD'), 
+      title: "Enter Title", 
+      description: "Enter Description", 
+      id: milestonesData.length
+    };
+    let newArr = [...milestonesData, tempMilestoneData, ];
     setMilestonesData(newArr)
-    setActiveDeadline(-1)
+    setActiveMilestone(milestonesData.length)
+
+    dispatch(addMilestone(projectId, tempMilestoneData, setProjectData, message));
   } 
 
-  const handleAddDeadline= function(index) {
-    console.log(milestonesData)
-    let newArr = [...milestonesData, {date: moment(), desc: "Enter Description"}, ];
-    console.log(newArr)
-    setMilestonesData(newArr)
-    setActiveDeadline(newArr.length-1)
-  } 
+  const handleMilestoneSaveChanges = function(index) {
+    dispatch(updateMilestone(projectId, milestonesData[index], setProjectData, message));
+  }
 
-  function deadlineDateChange(e, index){
+  function milestoneDateChange(e, index){
+    if (e) {
+      let newArr = [...milestonesData];
+      newArr[index].date = e['_i'];
+      setMilestonesData(newArr); 
+    }
+  }
+
+  function milestoneTitleChange(e, index){
     let newArr = [...milestonesData];
-    newArr[index].date = e['_i'];
+    newArr[index].title = e.target.value; 
     setMilestonesData(newArr); 
   }
 
-  function deadlineNameChange(e, index){
+  function milestoneDescChange(e, index){
     let newArr = [...milestonesData];
-    newArr[index].desc = e.target.value; 
+    newArr[index].description = e.target.value; 
     setMilestonesData(newArr); 
   }
 
-  // Handle changes on requirements
-  const selectRequirement = function(value) {
-    setActiveRequirement(value);
-  } 
 
-  const handleDeleteRequirement = function(index) {
-    console.log(requirementsData)
-    let newArr = [...requirementsData];
-    newArr.splice(index, 1)
-    console.log(newArr)
-    setRequirementsData(newArr)
-    setActiveRequirement(-1)
-  } 
+  /**
+   * delete all tags
+   * add all tags
+   * delete all milestones
+   * add all milestones
+   */
 
-  const handleAddRequirement= function(index) {
-    console.log(requirementsData)
-    let newArr = [...requirementsData, {role:"", university:"", department:"", interestAreas:[]}, ];
-    console.log(newArr)
-    setMilestonesData(newArr)
-    setActiveDeadline(newArr.length-1)
-  } 
-
-
-  function requirementRoleChange(e, index){
-    let newArr = [...requirementsData];
-    newArr[index].role = e.target.value;
-    setRequirementsData(newArr); 
-  }
-
-  function requirementUniversityChange(value, index){
-    let newArr = [...requirementsData];
-    newArr[index].university = value;
-    setRequirementsData(newArr); 
-  }
-
-  function requirementDepartmentChange(value, index){
-    let newArr = [...requirementsData];
-    newArr[index].department = value;
-    setRequirementsData(newArr); 
-  }
-
-  function requirementTitleChange(e, index){
-    let newArr = [...requirementsData];
-    newArr[index].title = e.target.value;
-    setRequirementsData(newArr); 
-  }
-
-  function requirementInterestsChange(value, index){
-    let newArr = [...requirementsData];
-    newArr[index].interests = value;
-    setRequirementsData(newArr); 
-  }
-
-  const newPostSubmit = function (values) {
+  const editPostSubmit = function (values) {
     let updatedValues = {
       ...values,
-      deadline: milestonesData,
-      requirements: requirementsData
+      milestone: milestonesData,
     }
-    dispatch(postPost(updatedValues, history, message));
+    console.log(updatedValues)
+    dispatch(editPost(updatedValues, projectId, history, message));
   };
+
+  const getData = () => projectData || data
 
   return (
     <Content>
@@ -193,16 +170,11 @@ const EditProject = () => {
           <Content>
             <Form 
               layout="vertical" 
-              onFinish={(values) => newPostSubmit(values)} form={newPostForm}
-              initialValues={{
-                title: data.title,
-                abstract: data.abstract,
-                privacy: data.privacy,
-                tags: data.tags,
-                requirements: data.requirements,
-                chooseRequirements: -1,
-                chooseDeadline: -1,
-              }}
+              onFinish={(values) => editPostSubmit(values)} form={editPostForm}
+              enableReinitialize={true}
+              initialValues={
+                {...getData(), chooseMilestone: -1}
+              }
             >
               <Row  justify="center">
                 <Col
@@ -216,22 +188,22 @@ const EditProject = () => {
                     name="title"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input/>
+                    <Input value={projectData.title}/>
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Abstract</FormLabel>}
-                    name="abstract"
+                    label={<FormLabel>Description</FormLabel>}
+                    name="description"
                     rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={8}/>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Add Tags</FormLabel>}
-                    name="tags"
+                    name="project_tags"
                     rules={[{ required: false, message: "" }]}
                   >
-                    <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
+                    <Select mode="tags" style={{ width: "100%" }} placeholder="Tags" onChange={e=>handleOnChangeTags(e)}>
                      {tags.map((x)=>(<Option key={x}>{x}</Option>))}
                     </Select>
                   </Form.Item>
@@ -262,146 +234,60 @@ const EditProject = () => {
                   <br />
                   <Form.Item
                     label={<FormLabel>Edit Milestones</FormLabel>}
-                    name="chooseDeadline"
+                    name="chooseMilestone"
                   >
                     <Row>
                       <Tag 
                         color="green"
-                        onClick={handleAddDeadline}
+                        onClick={handleAddMilestone}
                         style={{marginBottom:"16px", marginTop:"0px", cursor: "pointer"}}
                       >
-                        Add Deadline
+                        Add Milestone
                       </Tag>
                     </Row>
-                    <Select value={activeDeadline} onChange={selectDeadline}>
-                      {[{desc:"Choose a deadline to edit"},...milestonesData].map((deadline, index)=>
-                        <Option value={index-1}>{deadline.desc}</Option>
+                    <Select value={activeMilestone} onChange={selectMilestone}>
+                      {[{title:"Choose a milestone to edit"},...milestonesData].map((milestone, index)=>
+                        <Option value={index-1}>{milestone.title}</Option>
                       )}
                     </Select>
                   </Form.Item>
                   <IndentedBlock>
                     <Form.Item
-                      name="deadline"
+                      name="milestone"
                     >
                       { milestonesData.map(
-                        (deadline, index)=>
+                        (milestone, index)=>
                         <div 
-                          style={{marginBottom: "16px", display: activeDeadline === index ? "block" : "none"}}
+                          style={{marginBottom: "10px", display: activeMilestone === index ? "block" : "none"}}
                         >
                           <Row style={{marginBottom: "16px"}}>
-                            <h4>Deadline Name</h4>
-                            <Input value={milestonesData[index].desc} onChange={(e) => deadlineNameChange(e, index)}/>
+                            <h4>Milestone Name</h4>
+                            <Input value={milestonesData[index].title} onChange={(e) => milestoneTitleChange(e, index)}/>
+                          </Row>
+                          <Row style={{marginBottom: "16px"}}>
+                            <h4>Milestone Description</h4>
+                            <Input value={milestonesData[index].description} onChange={(e) => milestoneDescChange(e, index)}/>
                           </Row>
                           <Row>
-                          <h4>Deadline Date</h4>
+                          <h4>Milestone Date</h4>
                           </Row>
                           <Row>
-                            <DatePicker value={moment(milestonesData[index].date)} onChange={(e) => deadlineDateChange(e, index)}/>
+                            <DatePicker value={moment(milestonesData[index].date)} onChange={(e) => milestoneDateChange(e, index)}/>
                           </Row>
                           <Row style={{marginBottom:"16px", marginTop:"16px"}}>
+                          <Tag 
+                              color="blue"
+                              style={{cursor: "pointer"}}
+                              onClick={e => handleMilestoneSaveChanges(index)}
+                            >
+                              Save Changes
+                            </Tag>
                             <Tag 
                               color="red"
                               style={{cursor: "pointer"}}
-                              onClick={e => handleDeleteDeadline(index)}
+                              onClick={e => handleDeleteMilestone(index)}
                             >
-                              Remove Deadline
-                            </Tag>
-                          </Row>
-                        </div>
-                        )
-                      }
-                    </Form.Item>
-                  </IndentedBlock>
-                  {/*}
-                  <Form.Item
-                    label={<FormLabel>Upload File About Publication</FormLabel>}
-                    rules={[{ required: false, message: "Optional" }]}
-                  >
-                    <Upload>
-                      <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                    </Upload>
-                  </Form.Item>
-                  {*/}
-                  <Form.Item
-                    label={<FormLabel>Edit Requirements</FormLabel>}
-                    name="chooseRequirements"
-                    rules={[{ required: false, message: "" }]}
-                  >
-                    <Row>
-                      <Tag 
-                        color="green"
-                        onClick={handleAddRequirement}
-                        style={{marginBottom:"16px", marginTop:"0px", cursor: "pointer"}}
-                      >
-                        Add Requirement
-                      </Tag>
-                    </Row>
-                    <Select value={activeRequirement} onChange={selectRequirement}>
-                      {[{role:"Choose a role to edit"},...requirementsData].map((requirement, index)=>
-                        <Option value={index-1}>{requirement.role}</Option>
-                     )}
-                    </Select>
-                  </Form.Item>
-                  <IndentedBlock>
-                    <Form.Item
-                      name="requirements"
-                    >
-                      { requirementsData.map(
-                        (requirement, index)=>
-                        <div 
-                          style={{marginBottom: "16px", display: activeRequirement === index ? "block" : "none"}}
-                        >
-                          <Row style={{marginBottom: "16px"}}>
-                            <h4>Role</h4>
-                            <Input value={requirementsData[index].role} onChange={(e) => requirementRoleChange(e, index)}/>
-                          </Row>
-                          <Row>
-                            <h4>University</h4>
-                            <Select
-                              mode="single"
-                              allowClear
-                              style={{ width: "100%" }}
-                              placeholder="Please choose your university."
-                              value={requirementsData[index].university} onChange={(e) => requirementUniversityChange(e, index)}
-                            >
-                              {universities.map((x)=>(<Option key={x}>{x}</Option>))}
-                            </Select>
-                          </Row>
-                          <Row>
-                            <h4>Department</h4>
-                            <Select
-                              mode="single"
-                              allowClear
-                              style={{ width: "100%" }}
-                              placeholder="Please choose your department."
-                              value={requirementsData[index].department} onChange={(e) => requirementDepartmentChange(e, index)}
-                            >
-                              {departments.map((x)=>(<Option key={x}>{x}</Option>))}
-                            </Select>
-                          </Row>
-                          <Row>
-                            <h4>Title</h4>
-                            <Input value={requirementsData[index].title} onChange={(e) => requirementTitleChange(e, index)}/>
-                          </Row>
-                          <Row>
-                            <h4>Interests</h4>
-                            <Select
-                              mode="multiple"
-                              allowClear
-                              style={{ width: "100%" }}
-                              placeholder="Please select at least one research interest"
-                              value={requirementsData[index].interestAreas} onChange={(e) => requirementInterestsChange(e, index)}
-                            >
-                              {tags.map((x)=>(<Option key={x}>{x}</Option>))}
-                            </Select>
-                          </Row>
-                          <Row style={{marginBottom:"16px"}}>
-                            <Tag 
-                              color="red"
-                              style={{marginTop:"16px", cursor: "pointer"}}
-                              onClick={e => handleDeleteRequirement(index)}
-                            >
-                              Remove Role
+                              Remove Milestone
                             </Tag>
                           </Row>
                         </div>
@@ -410,13 +296,10 @@ const EditProject = () => {
                     </Form.Item>
                   </IndentedBlock>
                   <Form.Item
-                    label={<FormLabel>Add Collaborators</FormLabel>}
-                    name="collaborators"
-                    rules={[{ required: false, message: "" }]}
+                    label={<FormLabel>Requirements</FormLabel>}
+                    name="requirements"
                   >
-                    <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
-                      {}
-                    </Select>
+                    <Input.TextArea rows={8}/>
                   </Form.Item>
                   <FormButton type="primary" htmlType="submit">
                     Confirm

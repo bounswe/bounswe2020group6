@@ -66,8 +66,8 @@ const CreateProject = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Abstract</FormLabel>}
-                    name="abstract"
+                    label={<FormLabel>Description</FormLabel>}
+                    name="description"
                     rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={8} />
@@ -117,7 +117,7 @@ const CreateProject = () => {
                     name="requirements"
                     rules={[{ required: false, message: "" }]}
                   >
-                    <Input />
+                    <Input.TextArea rows={8}/>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Add Collaborators</FormLabel>}

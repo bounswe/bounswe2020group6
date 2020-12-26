@@ -63,10 +63,10 @@ export default function App() {
         <Route path="/search">
           <Search />
         </Route>
-        <Route path="/project/details">
+        <Route path="/project/details/:projectId">
           <ProjectDetails />
         </Route>
-        <Route path="/project/edit">
+        <Route path="/project/edit/:projectId">
           <EditProject />
         </Route>
         <Route path="/project/editfiles/:projectId">
