@@ -74,12 +74,18 @@ export const UserDiv = styled(Col)`
   align-items: start;
 `; 
 
-export const FileDiv = styled(Col)`
+export const FileDiv = styled.a`
   display: flex;
   flex-direction: row; 
   align-items: center;
   fontsize: 16px;
   padding: 5px 10px;
+  cursor: pointer;
+  color: black;
+
+  &:hover{
+    background-color: #efefef;
+  }
 `; 
 
 export const H1 = styled.h1` 

@@ -62,7 +62,7 @@ export default function App() {
         <Route path="/project">
           <Project />
         </Route>
-        <Route path="/project-details">
+        <Route path="/project-details/:projectId/">
           <ProjectDetails />
         </Route>
         <Redirect to="/home" />
