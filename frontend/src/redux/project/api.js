@@ -1,13 +1,15 @@
 //import * as actions from "./actions";
 import api from "../../axios";
 
-export const getPost = (projectId, setProjectData) => {
+export const getPost = (projectId, history, setProjectData) => {
   return (dispatch) => {
 
     api({ sendToken: true })
       .get("/post/get/" + projectId + "/1")
       .then((response) => {
-        console.log(response.data[0])
+        if (! response.data.length > 0){
+          history.goBack();
+        }
         setProjectData({
           ...response.data[0], 
           project_tags: response.data[0].project_tags.map(x => x.tag), 
@@ -26,7 +28,7 @@ export const postPost = (body, history, message) => {
       .post("/post/add", body)
       .then((response) => {
         message.success("Project successfully posted.", 4);
-        history.push("/home");
+        history.push("/project/edit/" + response.data.id);
       })
       .catch((e) => {
         message.success("Project posting failed.", 4);
@@ -46,6 +48,21 @@ export const editPost = (body, projectId, history, message) => {
       })
       .catch((e) => {
         message.error("Project changes failed.", 4);
+      });
+  };
+};
+
+export const deletePost = (projectId, history, message) => {
+  return (dispatch) => {
+
+    api({ sendToken: true })
+      .delete("/post/delete/" + projectId)
+      .then((response) => {
+        message.success("Project deleted.", 4);
+        history.push("/home");
+      })
+      .catch((e) => {
+        message.error("Project delete failed.", 4);
       });
   };
 };

@@ -54,6 +54,12 @@ export const FormButton = styled.button`
   }
 `;
 
+export const GhastlyHref = styled.a`
+  color: grey;
+  text-align: right;
+  margin-right: 16px;
+`;
+
 export const RadioStyle = {
   display: 'block',
   height: '30px',

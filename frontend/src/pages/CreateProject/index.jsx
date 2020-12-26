@@ -21,12 +21,27 @@ const { Option } = Select;
 
 const CreateProject = () => {
 
-  const [newPostForm] = Form.useForm();
+  const data = {
+    title: "",
+    project_tags: [],
+    description: "",
+    privacy: 1,
+    project_milestones: [],
+    requirements: "",
+    status: 0
+  }
+
+
+    
+  const [createPostForm] = Form.useForm();
 
   const dispatch = useDispatch();
   const selector = useSelector;
 
+  const [projectData, setProjectData] = React.useState(data);
+
   const tags = selector((state) => state.choices.tags);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -34,8 +49,13 @@ const CreateProject = () => {
     // eslint-disable-next-line
   },[]);
 
-  const newPostSubmit = function (values) {
-    dispatch(postPost(values, history, message));
+
+  const createPostSubmit = function (values) {
+    let updatedValues = {
+      ...values,
+      status: 2,
+    }
+    dispatch(postPost(updatedValues, history, message));
   };
 
   return (
@@ -43,14 +63,20 @@ const CreateProject = () => {
       <Col>
         <MainHeader />
         <Divider style={{ marginTop: "90px"}}>
-          <FormTitle>New Publication</FormTitle>
+          <FormTitle>Edit Project</FormTitle>
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
 
           <Content>
-            <Form layout="vertical" onFinish={(values) => newPostSubmit(values)} form={newPostForm}>
-              <Row align="middle" justify="center">
+            <Form 
+              layout="vertical" 
+              onFinish={(values) => createPostSubmit(values)} form={createPostForm}
+              initialValues={
+                {...data}
+              }
+            >
+              <Row  justify="center">
                 <Col
                   xs={{ span: 20, offset: 1 }}
                   sm={{ span: 14, offset: 1 }}
@@ -62,7 +88,7 @@ const CreateProject = () => {
                     name="title"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input />
+                    <Input value={projectData.title}/>
                   </Form.Item>
 
                   <Form.Item
@@ -70,7 +96,30 @@ const CreateProject = () => {
                     name="description"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input.TextArea rows={8} />
+                    <Input.TextArea rows={4}/>
+                  </Form.Item>
+                </Col>
+
+                <Col
+                xs={{ span: 20, offset: 1 }}
+                sm={{ span: 14, offset: 1 }}
+                lg={{ span: 7, offset: 1 }}
+                >
+                  <br />
+                  <Form.Item
+                    label={<FormLabel>Add Tags</FormLabel>}
+                    name="tags"
+                    rules={[{ required: false, message: "" }]}
+                  >
+                    <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
+                     {tags.map((x)=>(<Option key={x}>{x}</Option>))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label={<FormLabel>Requirements</FormLabel>}
+                    name="requirements"
+                  >
+                    <Input.TextArea rows={4}/>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Privacy</FormLabel>}
@@ -89,57 +138,13 @@ const CreateProject = () => {
                       </Space>
                     </Radio.Group>
                   </Form.Item>
-                </Col>
-
-                <Col
-                xs={{ span: 20, offset: 1 }}
-                sm={{ span: 14, offset: 1 }}
-                lg={{ span: 7, offset: 1 }}
-                >
-                  <br />
-                  <Form.Item
-                    label={<FormLabel>Deadline</FormLabel>}
-                    name="deadline"
-                    rules={[{ required: true, message: "Required" }]}
-                  >
-                    <DatePicker />
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Upload File About Publication</FormLabel>}
-                    rules={[{ required: false, message: "Optional" }]}
-                  >
-                    <Upload>
-                      <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                    </Upload>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Requirements</FormLabel>}
-                    name="requirements"
-                    rules={[{ required: false, message: "" }]}
-                  >
-                    <Input.TextArea rows={8}/>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Add Collaborators</FormLabel>}
-                    name="collaborators"
-                    rules={[{ required: false, message: "" }]}
-                  >
-                    <Select mode="tags" style={{ width: "100%" }} placeholder="Collabs">
-                      {}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Add Tags</FormLabel>}
-                    name="tags"
-                    rules={[{ required: false, message: "" }]}
-                  >
-                    <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
-                     {tags.map((x)=>(<Option key={x}>{x}</Option>))}
-                    </Select>
-                  </Form.Item>
-                  <FormButton type="primary" htmlType="submit">
-                    Confirm
-                  </FormButton>
+                  <Row style={{marginBottom: "16px"}}>
+                    <Col style={{width:"100%"}}>
+                    <FormButton type="primary" htmlType="submit">
+                      Confirm
+                    </FormButton>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Form>
