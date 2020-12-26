@@ -66,7 +66,7 @@ const EditProject = () => {
 
   useEffect(() => {
     dispatch(getTags());
-    dispatch(getPost(projectId, setProjectData));
+    dispatch(getPost(projectId, history, setProjectData));
     // eslint-disable-next-line
   },[]);
 
@@ -149,7 +149,6 @@ const EditProject = () => {
   };
 
   function handleDeleteProject(){
-
     dispatch(deletePost(projectId, history, message));
   }
 
@@ -160,7 +159,7 @@ const EditProject = () => {
       <Col>
         <MainHeader />
         <Divider style={{ marginTop: "90px"}}>
-          <FormTitle>Edit Publication</FormTitle>
+          <FormTitle>Edit Project</FormTitle>
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />

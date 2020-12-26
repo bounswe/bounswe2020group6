@@ -1,13 +1,15 @@
 //import * as actions from "./actions";
 import api from "../../axios";
 
-export const getPost = (projectId, setProjectData) => {
+export const getPost = (projectId, history, setProjectData) => {
   return (dispatch) => {
 
     api({ sendToken: true })
       .get("/post/get/" + projectId + "/1")
       .then((response) => {
-        console.log(response.data[0])
+        if (! response.data.length > 0){
+          history.goBack();
+        }
         setProjectData({
           ...response.data[0], 
           project_tags: response.data[0].project_tags.map(x => x.tag), 
