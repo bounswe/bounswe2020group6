@@ -1,6 +1,8 @@
 package com.example.akademise;
 
-public class UsersWholeInformation {
+import java.io.Serializable;
+
+public class UsersWholeInformation implements Serializable {
 
         private int id;
 

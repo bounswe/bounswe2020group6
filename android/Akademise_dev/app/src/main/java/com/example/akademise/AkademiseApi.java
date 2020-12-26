@@ -22,7 +22,7 @@ public interface AkademiseApi {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("search")
-    Call<Projects> getProjectsSearched(@Query("query") String query,
+    Call<RootGetProjects> getProjectsSearched(@Query("query") String query,
                                             @Query("type") String type,
                                             @Header("Authorization") String auth);
 
@@ -67,7 +67,7 @@ public interface AkademiseApi {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("post/get/{id}/{type}")
-    Call<List<Project>> getProjects(@Path("id") int id, @Path("type") int type, @Header("Authorization") String auth);
+    Call<List<GetProjects>> getProjects(@Path("id") int id, @Path("type") int type, @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")

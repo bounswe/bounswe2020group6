@@ -23,12 +23,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int myId;
     public static final String accessID = "XXXXXID";
 
-    List<Project> projects;
+    List<GetProjects> projects;
     SearchedUsers searchedUsers;
     Context context;
     int userId;
 
-    public RecyclerViewAdapter(Context ct, List<Project> prj, SearchedUsers srchdUsr) {
+    public RecyclerViewAdapter(Context ct, List<GetProjects> prj, SearchedUsers srchdUsr) {
         context = ct;
         projects = prj;
         searchedUsers = srchdUsr;
@@ -48,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         loadIDData();
         if(position<projects.size()) {
             holder.title.setText(projects.get(position).getTitle());
-            holder._abstract.setText(projects.get(position).getAbstract1());
+            holder._abstract.setText(projects.get(position).getSummary());
             holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
             userId = projects.get(position).getUserId();
         }
