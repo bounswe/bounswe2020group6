@@ -4,60 +4,80 @@ addTitle = async function (req, res) {
     title=req.body.title
     console.log("title: ", title)
 
-    try {
-        addedTitle = await Title.create({title: title})
-        res.status(200).send({message: "Title is created", title: addedTitle.title})
-    } catch (error) {
-        res.status(500).send(error)
+    if(title != null & title!=""){
+        try {
+            addedTitle = await Title.create({title: title})
+            res.status(200).send({message: "Title is created", title: addedTitle.title})
+        } catch (error) {
+            res.status(500).send(error)
+        }
     }
+    return res.status(404).send({message: "Erroronous Input"})
+
 }
 
 addDepartment = async function (req, res) {
     department=req.body.department
     console.log("department: ", department)
 
-    try {
-        addedDepartment = await Department.create({department: department})
-        res.status(200).send({message: "Department is created", department: addedDepartment.department})
-    } catch (error) {
-        res.status(500).send(error)
+    
+    if(department != null & department!=""){
+        try {
+            addedDepartment = await Department.create({department: department})
+            res.status(200).send({message: "Department is created", department: addedDepartment.department})
+        } catch (error) {
+            res.status(500).send(error)
+        }
     }
+    return res.status(404).send({message: "Erroronous Input"})
+
 }
 
 addTag = async function (req, res) {
     tag=req.body.tag
     console.log("tag: ", tag)
 
-    try {
-        addedTag = await Tag.create({tag: tag})
-        res.status(200).send({message: "Tag is created", tag: addedTag.tag})
-    } catch (error) {
-        res.status(500).send(error)
+    if(tag != null & tag!=""){
+        try {
+            addedTag = await Tag.create({tag: tag})
+            res.status(200).send({message: "Tag is created", tag: addedTag.tag})
+        } catch (error) {
+            res.status(500).send(error)
+        }
     }
+    return res.status(404).send({message: "Erroronous Input"})
+
 }
 
 addUniversity = async function (req, res) {
     university=req.body.university
     console.log("university: ", university)
 
-    try {
-        addedUniversity = await University.create({university: university})
-        res.status(200).send({message: "University is created", university: addedUniversity.university})
-    } catch (error) {
-        res.status(500).send(error)
+    if(university != null & university!=""){
+        try {
+            addedUniversity = await University.create({university: university})
+            res.status(200).send({message: "University is created", university: addedUniversity.university})
+        } catch (error) {
+            res.status(500).send(error)
+        }
     }
+    return res.status(404).send({message: "Erroronous Input"})
 }
 
 addInterest = async function (req, res) {
     interest=req.body.interest
     console.log("interest: ", interest)
 
-    try {
-        addedInterest = await Interest.create({interest: interest})
-        res.status(200).send({message: "Interest is created", interest: addedInterest.interest})
-    } catch (error) {
-        res.status(500).send(error)
+    if(interest != null & interest!=""){
+        try {
+            addedInterest = await Interest.create({interest: interest})
+            res.status(200).send({message: "Interest is created", interest: addedInterest.interest})
+        } catch (error) {
+            res.status(500).send(error)
+        }
     }
+    return res.status(404).send({message: "Erroronous Input"})
+
 }
 
 getTitles = async function (req, res) {
