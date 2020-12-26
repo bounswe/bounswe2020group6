@@ -51,4 +51,21 @@ export const getTagsStartAction = () => {
       type: actions.GET_UNIVERSITIES_FAIL,
     };
   };
+
+  export const getTitlesStartAction = () => {
+    return {
+      type: actions.GET_TITLES_START,
+    };
+  };
+  export const getTitlesSuccessAction = (payload) => {
+    return {
+      type: actions.GET_TITLES_SUCCESS,
+      payload,
+    };
+  };
+  export const getTitlesFailAction = () => {
+    return {
+      type: actions.GET_TITLES_FAIL,
+    };
+  };
   
