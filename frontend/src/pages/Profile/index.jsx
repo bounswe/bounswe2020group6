@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +34,9 @@ import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const Profile = () => {
+
+  const history = useHistory();
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -256,12 +261,26 @@ const Profile = () => {
                     <span style={{ fontWeight: 600 }}>{projects ? projects.length : 0}</span>{" "}
                     publications
                   </Col>
-                  <Col>
-                    <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
-                  </Col>
-                  <Col>
-                    <span style={{ fontWeight: 600 }}>{profile.followingCount}</span> following
-                  </Col>
+                  {isOwnProfile() ? (
+                    <Col onClick={() => history.push("/list/followers")} style={{cursor: "pointer"}}>
+                      <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
+                    </Col>
+                  ) : (
+                    <Col>
+                      <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
+                    </Col>
+                    ) 
+                  }
+                  {isOwnProfile() ? (
+                    <Col onClick={() => history.push("/list/following")} style={{cursor: "pointer"}}>
+                      <span style={{ fontWeight: 600 }}>{profile.followingCount}</span> following
+                    </Col>
+                  ) : (
+                    <Col>
+                      <span style={{ fontWeight: 600 }}>{profile.followingCount}</span> following
+                    </Col>
+                    ) 
+                  }
                 </Row>
                 <Row style={{ height: "40px" }} />
                 <Row justify="center">
