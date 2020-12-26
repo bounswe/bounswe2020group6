@@ -30,7 +30,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         milestones = findViewById(R.id.tvMilestoneProject);
         requirements = findViewById(R.id.tvRequirementsProject);
         tags = findViewById(R.id.tvTagsProject);
-        invite = findViewById(R.id.btnInvite);
+        invite = findViewById(R.id.btnReqInvProject);
 
         getData();
         title.setText(project.getTitle());
