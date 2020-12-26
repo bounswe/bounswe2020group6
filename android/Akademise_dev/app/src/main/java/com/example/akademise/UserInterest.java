@@ -1,6 +1,8 @@
 package com.example.akademise;
 
-public class UserInterest {
+import java.io.Serializable;
+
+public class UserInterest implements Serializable {
     private String interest;
 
     public void setInterest(String interest){

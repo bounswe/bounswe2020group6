@@ -73,8 +73,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         intent = new Intent(context, ProjectDetailsUserActivity.class);
                     }
 
-                    Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
                     intent.putExtra("project", projects.get(position));
+                    context.startActivity(intent);
+                }
+                else{
+                    if (userId == myId) {
+                        intent = new Intent(context, ProfileFragment.class);
+
+
+                    } else {
+                        intent = new Intent(context, ProfileOthersActivity.class);
+                    }
+
+                    //Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
+                    intent.putExtra("user", searchedUsers.getUsers().get(position-projects.size()));
                     context.startActivity(intent);
                 }
             }
