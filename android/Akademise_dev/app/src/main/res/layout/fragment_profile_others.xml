@@ -97,7 +97,7 @@
         </TextView>
 
         <Button
-            android:id="@+id/logout_button"
+            android:id="@+id/follow_button"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -109,13 +109,13 @@
             app:layout_constraintWidth_percent="0.25" />
 
         <Button
-            android:id="@+id/edit_button"
+            android:id="@+id/upvote_button"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_shape"
             android:text="Edit"
-            app:layout_constraintEnd_toStartOf="@+id/logout_button"
+            app:layout_constraintEnd_toStartOf="@+id/follow_button"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
             app:layout_constraintWidth_percent="0.25" />
