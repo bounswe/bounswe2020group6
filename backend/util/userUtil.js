@@ -82,30 +82,12 @@ var getFollowedCounts = async function(userId){
     return followedCount
 }
 
-var getCitations = async function(url) {
+var getCitations = async function(username) {
     
-    var headers = { 'Origin': 'http://example.com' }
-    
-    url = "https://cors-anywhere.herokuapp.com/" + url;
-    const response = await got(url, {headers});
-    const $ = cheerio.load(response.body);
+    let url = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user="+username
+    const response = await got(url);  
   
-    a = $('td.gsc_rsb_std')
-  
-    var array = []
-  
-    Object.keys(a).filter(key => !isNaN(parseInt(key))).map( key => array.push(a[key].firstChild.data));
-  
-    const citations = {
-        citations: array[0],
-        hIndex: array[2],
-        iIndex: array[4],
-        last5Year_citations: array[1],
-        last5Year_hIndex: array[3],
-        last5Year_iIndex: array[5],
-    }
-  
-    return citations;
+    return JSON.parse(response.body);
 }
 
 module.exports = {
