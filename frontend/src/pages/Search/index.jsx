@@ -101,7 +101,7 @@ const Search = () => {
       case "people":
         if (!loadingUserResults) {
           return userResults.users.length > 0 ?
-          <> <H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", "", u.profile_picture_url))}</>
+          <> <H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
           : <H2>"No users found."</H2>
         }
         else{
