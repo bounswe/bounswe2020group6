@@ -63,7 +63,7 @@ const CreateProject = () => {
       <Col>
         <MainHeader />
         <Divider style={{ marginTop: "90px"}}>
-          <FormTitle>Edit Project</FormTitle>
+          <FormTitle>New Project</FormTitle>
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
