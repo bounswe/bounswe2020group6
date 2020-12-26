@@ -1,50 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { profileInfo } from "../../redux/profile/api";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfileInfo } from "../../redux/profile/api";
 
-import { Spin } from "antd";
-import { RocketOutlined } from "@ant-design/icons";
-import { Layout, NameText, Title, Img } from "./style";
+import { Spin, Menu } from "antd";
+import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import { Layout, NameText, Img } from "./style";
+
+import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const ProfileSider = () => {
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState(null);
+  const profile = useSelector((state) => state.profile.profile);
+  const profileLoading = useSelector((state) => state.profile.profileLoading);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
     var myId = localStorage.getItem("userId");
-    dispatch(profileInfo(myId, setProfileData, setLoading));
+    dispatch(getProfileInfo(myId));
   }, [dispatch]);
 
   return (
     <Layout>
-      {loading ? (
+      {profileLoading || !profile ? (
         <Spin size="large" style={{ margin: "auto" }} />
       ) : (
         <>
           <Img
             style={{ height: "90px", width: "90px" }}
             src={
-              profileData.profile_picture_url === null
-                ? "https://britz.mcmaster.ca/images/nouserimage.gif/image"
-                : profileData.profile_picture_url
+              profile.profile_picture_url === null || profile.profile_picture_url === undefined
+                ? defaultProfilePictureHref
+                : profile.profile_picture_url
             }
             alt="profile photo"
           />
-          <NameText>{profileData.name + " " + profileData.surname}</NameText>
-          <div style={{ width: "70%", display: "flex", flexDirection: "column" }}>
-            <div href="#" style={{ textAlign: "center", color: "white", cursor: "pointer" }}>
-              <RocketOutlined style={{ fontSize: 20, color: "green" }} />
-              {profileData.number_of_ups === null
-                ? " " + 0 + " UPs"
-                : " " + profileData.number_of_ups + " ups"}
+          <NameText>{profile.name + " " + profile.surname}</NameText>
+          <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+            <div
+              href="#"
+              style={{
+                textAlign: "center",
+                color: "white",
+                cursor: "pointer",
+              }}
+            >
+              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
+              {profile.upCounts === null || profile.upCounts === undefined
+                ? " " + 0
+                : " " + profile.upCounts}
             </div>
-            <Title href={profileData.scholar_profile_url}>Google Scholar</Title>
-            <Title>Projects</Title>
-            <Title onClick={() => history.push("/project")}>Create New Project</Title>
+            <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
+              <Menu.Item key="1" icon={<PieChartOutlined />}>
+                Google Scholar
+              </Menu.Item>
+              <Menu.Item key="2" icon={<DesktopOutlined />}>
+                Projects
+              </Menu.Item>
+              <Menu.Item
+                key="3"
+                onClick={() => history.push("/project")}
+                icon={<ContainerOutlined />}
+              >
+                Create New Project
+              </Menu.Item>
+            </Menu>
           </div>
         </>
       )}

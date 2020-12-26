@@ -14,6 +14,7 @@ export const Nav = styled(Col)`
 export const Anchor = styled.a`
   color: white;
   text-decoration: none;
+  margin: 0 3px;
 
   :hover {
     color: ${theme.main.colors.sixth};
@@ -83,7 +84,7 @@ export const LogoText = styled.h1`
 
   @media only screen and (min-width: 768px) {
     font-family: Philosopher;
-    font-size: 18px;
-    color: ${theme.main.colors.fourth};
+    font-size: 32px;
+    color: white;
   }
 `;
