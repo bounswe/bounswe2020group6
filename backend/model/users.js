@@ -61,6 +61,9 @@ module.exports = (sequelize, Seq) => {
         },
         last5Year_hIndex:{
             type: Seq.INTEGER
+        },
+        projects:{
+            type: Seq.TEXT
         }
     }, 
     {   
