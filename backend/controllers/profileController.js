@@ -190,7 +190,7 @@ addScholar = async function (req, res) {
             let total = last5Year_citations.reduce((a,b) => a+_citations.citations_per_year[b] , 0);
             
             update.last5Year_citations = total
-            update.projects = _citations.publications
+            update.projects = JSON.stringify(_citations.publications)
             await User.update(update, {
                 where: {
                     id: req.userId
