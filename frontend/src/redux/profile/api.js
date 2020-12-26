@@ -40,3 +40,18 @@ export const infoUpdate = (body, id) => {
       });
   };
 };
+
+export const changePicture = (body, id) => {
+  return (dispatch) => {
+    dispatch(actions.changePictureStartAction())
+    api({ sendToken: true })
+      .post("/profile/avatar", body)
+      .then((response) => {
+        dispatch(getProfileInfoWithoutLoading(id))
+      })
+      .catch((e) => {
+        dispatch(actions.changePictureDoneAction())
+        console.log(e.response.data)
+      });
+  };
+};

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Divider, Tag, List, Avatar } from "antd";
+import { Row, Col, Divider, Tag, List, Avatar, Upload, message } from "antd";
 import {
   PaperClipOutlined,
   TeamOutlined,
@@ -10,9 +10,10 @@ import {
   CloseOutlined,
   MinusCircleTwoTone,
   PlusCircleTwoTone,
+  EditFilled,
 } from "@ant-design/icons";
 
-import { getProfileInfo } from "../../redux/profile/api";
+import { getProfileInfo, changePicture } from "../../redux/profile/api";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -29,10 +30,13 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editPictureVisible, setEditPictureVisible] = useState(false);
 
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
   const followings = useSelector((state) => state.follow.following);
+
+  const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
   const isOwnProfile = () => {
     const userId = localStorage.getItem("userId");
@@ -86,6 +90,41 @@ const Profile = () => {
     setEditModalVisible((prev) => !prev);
   };
 
+  // picture upload functions
+
+  function beforeUpload(file) {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return false;
+  }
+
+  const handlePictureChange = ({ fileList }) => {
+    const file = fileList[fileList.length - 1];
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      return;
+    }
+    let formData = new FormData();
+    formData.append("avatar", file.originFileObj);
+
+    dispatch(changePicture(formData, id));
+  };
+
+  const ProfileLoadingSpinner = () => {
+    return (
+      <Row style={{ height: "150px", width: "150px" }} justify="center" align="middle">
+        <Col>
+          <Spinner size={80} />
+        </Col>
+      </Row>
+    );
+  };
+
   if (profileLoading || !profile) {
     return (
       <>
@@ -107,14 +146,47 @@ const Profile = () => {
       <MainHeader />
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
-          <Col xs={12} sm={10} md={8} lg={6} xl={4}>
-            <Image
-              src={
-                profile.profile_picture_url === null || profile.profile_picture_url === undefined
-                  ? defaultProfilePictureHref
-                  : profile.profile_picture_url
-              }
-            />
+          <Col
+            xs={12}
+            sm={10}
+            md={8}
+            lg={6}
+            xl={4}
+            style={{ cursor: "pointer" }}
+            onMouseEnter={() => setEditPictureVisible(true)}
+            onMouseLeave={() => setEditPictureVisible(false)}
+          >
+            <Upload
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              onChange={handlePictureChange}
+            >
+              <div style={{ width: "100%" }}>
+                {pictureLoading ? (
+                  <ProfileLoadingSpinner />
+                ) : (
+                  <>
+                    <EditFilled
+                      style={{
+                        display: editPictureVisible ? "block" : "none",
+                        position: "absolute",
+                        right: "20%",
+                        fontSize: "20px",
+                        color: theme.main.colors.sixth,
+                      }}
+                    />
+                    <Image
+                      src={
+                        profile.profile_picture_url === null ||
+                        profile.profile_picture_url === undefined
+                          ? defaultProfilePictureHref
+                          : profile.profile_picture_url
+                      }
+                    />
+                  </>
+                )}
+              </div>
+            </Upload>
           </Col>
           <Col sm={10} lg={6} xl={6}>
             <Row
