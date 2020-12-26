@@ -9,13 +9,21 @@ import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
 import { Content, RadioStyle } from "./style";
 
-import { Select, Form, Input, Radio, DatePicker, Divider } from "antd";
-import { FormButton, FormLabel, FormTitle, IndentedBlock } from "./style";
+import { Select, Form, Input, Radio, DatePicker, Divider, Popconfirm } from "antd";
+import { FormButton, FormLabel, FormTitle, IndentedBlock, GhastlyHref } from "./style";
 
-import { editPost, getPost, addTag, deleteTag, addMilestone, updateMilestone, deleteMilestone } from "../../redux/project/api";
+import { 
+  editPost, 
+  getPost, 
+  deletePost,
+  addTag, 
+  deleteTag, 
+  addMilestone, 
+  updateMilestone, 
+  deleteMilestone,
+} from "../../redux/project/api";
 
 import { getTags } from "../../redux/choices/api";
-import { render } from "react-dom";
 
 const { Option } = Select;
 
@@ -137,9 +145,13 @@ const EditProject = () => {
       ...values,
       milestone: milestonesData,
     }
-    console.log(updatedValues)
     dispatch(editPost(updatedValues, projectId, history, message));
   };
+
+  function handleDeleteProject(){
+
+    dispatch(deletePost(projectId, history, message));
+  }
 
   const getData = () => projectData || data
 
@@ -310,9 +322,27 @@ const EditProject = () => {
                       </Space>
                     </Radio.Group>
                   </Form.Item>
-                  <FormButton type="primary" htmlType="submit">
-                    Confirm
-                  </FormButton>
+                  <Row style={{marginBottom: "16px"}}>
+                    <Col style={{width:"100%"}}>
+                    <FormButton type="primary" htmlType="submit">
+                      Confirm
+                    </FormButton>
+                    </Col>
+                  </Row>
+                  <Row style={{marginBottom: "16px"}}>
+                    <Col style={{width:"100%", textAlign:"right"}}>
+                    <Popconfirm 
+                      title="Are you sure？" 
+                      okText="Yes, delete the project." 
+                      cancelText="No I want to keep my project."
+                      onConfirm={handleDeleteProject}
+                    >
+                      <GhastlyHref type="primary">
+                        I want to delete this project.
+                      </GhastlyHref>
+                    </Popconfirm>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Form>

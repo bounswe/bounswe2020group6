@@ -50,6 +50,21 @@ export const editPost = (body, projectId, history, message) => {
   };
 };
 
+export const deletePost = (projectId, history, message) => {
+  return (dispatch) => {
+
+    api({ sendToken: true })
+      .delete("/post/delete/" + projectId)
+      .then((response) => {
+        message.success("Project deleted.", 4);
+        history.push("/home");
+      })
+      .catch((e) => {
+        message.error("Project delete failed.", 4);
+      });
+  };
+};
+
 export const addTag = (projectId, newTags, message) => {
   return (dispatch) => {
 
