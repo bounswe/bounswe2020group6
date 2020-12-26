@@ -20,58 +20,29 @@ import {
 } from "./style";
 import logo from "../../assets/ad-logo-b9f5d8.png";
 import searchIcon from "../../assets/search-icon.png";
+import api from "../../axios";
 
 const SiteHeader = () => {
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [userId, setUserId] = useState();
 
-  const notifications = [
-    {
-      type: "follow",
-      userId: 1,
-      userName: "Kerim Yücedemir",
-      userLink: "#",
-    },
-    {
-      type: "collaboration",
-      userId: 1,
-      userName: "Kerim Yücedemir",
-      userLink: "#",
-      projectName: "Erke Dönergeci",
-      projectLink: "#"
-    },
-    {
-      type: "collaboration",
-      userId: 2,
-      userName: "Sümeyye Karbüzen",
-      userLink: "#",
-      projectName: "Contorium Gerçeği",
-      projectLink: "#"
-    },
-    {
-      type: "follow",
-      userId: 3,
-      userName: "Esma Samyeli",
-      userLink: "#",
-    },
-    {
-      type: "collaboration",
-      userId: 4,
-      userName: "Fikri Bilir",
-      userLink: "#",
-      projectName: "Bor ile Çalışan Araba",
-      projectLink: "#"
-    },
-  ]
+  const [notificationData, setNotificationData] = useState([]);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    api({ sendToken: true }).get("/collab/get_requests")
+    .then((response) => {
+      setNotificationData(response.data)
+    })
+  }, []);
 
   useEffect(() => {
     const id = localStorage.getItem("userId");
     setUserId(id);
   }, []);
-
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleLogout = () => {
     dispatch(authLogoutAction());
@@ -113,20 +84,56 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
+  const acceptRequest = (project_id, requester_id, requested_id, type) => {
+    var data = {
+      projectId: project_id
+    }
+
+    if(type === 0){ // they wanted me to join their project
+      data = {
+        ...data,
+        userId: requested_id
+      }
+    }
+    else if(type === 1){ // they wanted to join my project
+      data = {
+        ...data,
+        userId: requester_id
+      }
+    }
+
+    api({ sendToken: true }).post("/collab/add_collaborator", data)
+
+    setIsModalVisible(false);
+  }
+
+  const rejectRequest = (request_id) => {
+    api({ sendToken: true }).delete("/collab/delete_request/" + request_id)
+
+    setIsModalVisible(false);
+  }
+
+  const notificationComponent = (n, k) => {
+    return <Notification
+    key={k}
+    type={n.requestType}
+    userName={n.user.name + " " + n.user.surname}
+    userLink={() => {history.push({ pathname: "/profile/" + n.requester.id });}}
+    projectName={n.project.title}
+    projectLink={() => {history.push({ pathname: "/project/details/" + n.projectId });}}
+    accept={() => {acceptRequest(n.projectId, n.requesterId, n.requestedId, n.requestType)}}
+    reject={() => {rejectRequest(n.id)}}
+    />
+  }
+
   return (
     <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "2" }}>
       <NotificationModal
         visible={isModalVisible}
         onCancel={hideModal}
       >
-        {notifications.map((n,i) => {
-          return <Notification
-          type={n.type}
-          userName={n.userName}
-          userLink={n.userLink}
-          projectName={n.projectName}
-          projectLink={n.projectLink}
-          />
+        {notificationData.map((n,i) => {
+          return notificationComponent(n, i)
         })}
       </NotificationModal>
       {sideBar}

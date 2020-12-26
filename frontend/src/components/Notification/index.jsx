@@ -1,31 +1,32 @@
 import { Row } from "antd";
-import { UserAddOutlined, TeamOutlined } from "@ant-design/icons";
+import { TeamOutlined } from "@ant-design/icons";
 import { 
   Layout,
   NotifButton
 } from "./style";
 
-const NotificationCard = ({type, userName, userLink, projectName, projectLink, userId}) => {
+const NotificationCard = ({type, userName, userLink, projectName, projectLink, accept, reject }) => {
 
   const cardContent = () => {
     switch(type){
-      case "follow":
+      case 0:
         return <>
           <p>
-            <i><UserAddOutlined/></i><a href={userLink}>{userName}</a> is started to follow you.
+            <i><TeamOutlined /></i><span onClick={userLink}>{userName}</span> is invited you to collaborate on <span onClick={projectLink}>{projectName}</span>.
           </p>
           <Row justify={"end"} align={"middle"}>
-              <NotifButton size={"small"}>Follow Back</NotifButton>
+              <NotifButton onClick={accept} size={"small"}>Accept</NotifButton>
+              <NotifButton onClick={reject} size={"small"}>Reject</NotifButton>
           </Row>
         </>
-      case "collaboration":
+      case 1:
         return <>
           <p>
-            <i><TeamOutlined /></i><a href={userLink}>{userName}</a> is invited you to collaborate on <a href={projectLink}>{projectName}</a>.
+            <i><TeamOutlined /></i><span onClick={userLink}>{userName}</span> wants to join to the project called <span onClick={projectLink}>{projectName}</span> .
           </p>
           <Row justify={"end"} align={"middle"}>
-              <NotifButton size={"small"}>Accept</NotifButton>
-              <NotifButton size={"small"}>Reject</NotifButton>
+              <NotifButton onClick={accept} size={"small"}>Accept</NotifButton>
+              <NotifButton onClick={reject} size={"small"}>Reject</NotifButton>
           </Row>
         </>
       default:

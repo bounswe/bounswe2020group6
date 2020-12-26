@@ -29,12 +29,12 @@ export const Layout = styled(Row)`
     padding: auto 0;
   }
 
-  a {
+  span {
     color: ${theme.main.colors.first};
     text-decoration: none;
   }
 
-  a:hover 
+  span:hover 
   {
     color: inherit;
     text-decoration:none; 
@@ -44,6 +44,7 @@ export const Layout = styled(Row)`
   i {
     font-size: 18px;
     padding: 0 3px;
+    color: black;
   }
 `;
 
