@@ -111,7 +111,7 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
         <Form.Item
           label={<ModalLabel>University</ModalLabel>}
           name="university"
-          style={{ width: "50%" }}
+          style={{ width: "80%" }}
           rules={[{ required: true, message: "Please enter your university!" }]}
         >
           <Select
@@ -130,7 +130,7 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
         <Form.Item
           label={<ModalLabel>Department</ModalLabel>}
           name="department"
-          style={{ width: "50%" }}
+          style={{ width: "80%" }}
           rules={[{ required: true, message: "Please enter your department!" }]}
         >
           <Select
@@ -146,7 +146,7 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item label={<ModalLabel>Title</ModalLabel>} name="title" style={{ width: "50%" }}>
+        <Form.Item label={<ModalLabel>Title</ModalLabel>} name="title" style={{ width: "80%" }}>
           <Select
             dropdownRender={adderDropdown(addTitleHandler)}
             showSearch
