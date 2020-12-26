@@ -72,6 +72,7 @@ export const UserDiv = styled(Col)`
   flex-direction: row;
   justify-content: start;
   align-items: start;
+  cursor: pointer;
 `; 
 
 export const FileDiv = styled.a`

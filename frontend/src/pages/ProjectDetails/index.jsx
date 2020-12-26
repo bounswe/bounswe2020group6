@@ -35,17 +35,27 @@ const ProjectDetails = () => {
     .then((response) => {
       setProjectData(response.data[0])
       setLoadingProject(false)
-          console.log(response)
+      //console.log(response)
     }).catch((error) => {
       console.log(error)
     })
   }, [projectId]);
 
   const displayCollabs = () => {
-    var all_collabs = [projectData.user, ...projectData.project_collaborators]
+    var u = projectData.user
+    var user = (<UserDiv key={0} onClick={() => redirectToProfile(projectData.userId)}>
+    <Col>
+        <Avatar size={64} src={u.profile_picture_url}/>
+      </Col>
+      <Col style={{paddingLeft: "15px"}}>
+        <H3 style={{margin: "auto"}}> {u.name + " " + u.surname} <PlusOutlined /></H3> 
+        <FadedText> {u.university} </FadedText>
+        <FadedText> {u.department} </FadedText>
+      </Col>
+    </UserDiv>)
 
-    return all_collabs.map((c,i) => {
-      return (<UserDiv key={i}>
+    var collabs = projectData.project_collaborators.map((c,i) => {
+      return (<UserDiv key={i+1} onClick={() => redirectToProfile(c.id)}>
         <Col>
           <Avatar size={64} src={c.profile_picture_url}/>
         </Col>
@@ -56,6 +66,8 @@ const ProjectDetails = () => {
         </Col>
       </UserDiv>)
     })
+
+    return [user, ...collabs]
   }
 
   const statusMap = ["cancelled", "completed", "in progress", "team building", "hibernating"]
@@ -75,8 +87,8 @@ const ProjectDetails = () => {
     }
   }
 
-  const redirectToFileEdit = (project_id, file_name) => {
-    history.push({ pathname: "/search", fileName: file_name, projectId: project_id})
+  const redirectToProfile = (profile_id) => {
+    history.push({ pathname: "/profile/" + profile_id })
   }
 
   const downloadFile = (filename) => {
@@ -99,9 +111,6 @@ const ProjectDetails = () => {
   const isUserCollaboratesOnThisProject = () => {
     
     var myId = parseInt(localStorage.getItem("userId"));
-
-    console.log(myId)
-    console.log(projectData.userId)
 
     if(projectData.userId === myId){
       return true
