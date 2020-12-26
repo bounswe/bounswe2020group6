@@ -144,6 +144,7 @@ const EditProject = () => {
     let updatedValues = {
       ...values,
       milestone: milestonesData,
+      status: parseInt(values.status),
     }
     dispatch(editPost(updatedValues, projectId, history, message));
   };
@@ -168,9 +169,8 @@ const EditProject = () => {
             <Form 
               layout="vertical" 
               onFinish={(values) => editPostSubmit(values)} form={editPostForm}
-              enableReinitialize={true}
               initialValues={
-                {...getData(), chooseMilestone: -1}
+                {...getData(), choosemilestone: -1}
               }
             >
               <Row  justify="center">
@@ -224,18 +224,23 @@ const EditProject = () => {
                     label={<FormLabel>Edit Milestones</FormLabel>}
                     name="chooseMilestone"
                   >
-                      <Tag 
-                        color="green"
-                        onClick={handleAddMilestone}
-                        style={{marginBottom:"16px", marginTop:"0px", cursor: "pointer"}}
-                      >
-                        Add Milestone
-                      </Tag>
-                    <Select value={activeMilestone} onChange={selectMilestone}>
-                      {[{title:"Choose a milestone to edit"},...milestonesData].map((milestone, index)=>
-                        <Option value={index-1}>{milestone.title}</Option>
-                      )}
-                    </Select>
+                    <Tag 
+                      color="green"
+                      onClick={handleAddMilestone}
+                      style={{marginBottom:"16px", marginTop:"0px", cursor: "pointer"}}
+                    >
+                      Add Milestone
+                    </Tag>
+                    <Form.Item 
+                      name="choosemilestone" 
+                      noStyle
+                    >
+                      <Select value={activeMilestone} onChange={selectMilestone}>
+                        {[{title:"Choose a milestone to edit"},...milestonesData].map((milestone, index)=>
+                          <Option key={index-1} value={index-1}>{milestone.title}</Option>
+                        )}
+                      </Select>
+                    </Form.Item>
                   </Form.Item>
                   <IndentedBlock>
                     <Form.Item
@@ -309,12 +314,12 @@ const EditProject = () => {
                       },
                     ]}
                   >
-                    <Radio.Group optionType="button" buttonStyle="solid">
+                    <Radio.Group optionType="button" buttonStyle="solid" value={projectData.status}>
                       <Space size={20}>
                         <Col>
                         {Object.keys(statusDict).map((key, index) =>
                           <Row>
-                            <Radio style={RadioStyle} value={key}>{statusDict[key]}</Radio>
+                            <Radio style={RadioStyle} value={parseInt(key)}>{statusDict[key]}</Radio>
                           </Row>
                         )}
                         </Col>
