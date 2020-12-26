@@ -1,6 +1,8 @@
 package com.example.akademise;
 
-public class ProjectCollaborators {
+import java.io.Serializable;
+
+public class ProjectCollaborators implements Serializable {
     private int user_id;
 
     private User user;

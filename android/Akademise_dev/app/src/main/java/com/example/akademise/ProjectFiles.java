@@ -1,6 +1,8 @@
 package com.example.akademise;
 
-public class ProjectFiles {
+import java.io.Serializable;
+
+public class ProjectFiles implements Serializable {
     private String file_name;
 
     public void setFile_name(String file_name){

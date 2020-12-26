@@ -22,6 +22,14 @@
 
     </string-array>
 
+    <string-array name="status_array">
+        <item>"team building"</item>
+        <item> "in progress"</item>
+        <item>"completed"</item>
+        <item> "hibernating"</item>
+        <item> "cancelled"</item>
+    </string-array>
+
     <string-array name="department_array">
         <item>"Choose Your Department"</item>
         <item>"Computer Engineering"</item>

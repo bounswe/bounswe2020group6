@@ -1,8 +1,9 @@
 package com.example.akademise;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetProjects {
+public class GetProjects implements Serializable {
     private int id;
 
     private int userId;

@@ -22,9 +22,15 @@ public interface AkademiseApi {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("search")
-    Call<Projects> getProjectsSearched(@Query("query") String query,
+    Call<RootGetProjects> getProjectsSearched(@Query("query") String query,
                                             @Query("type") String type,
                                             @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("search")
+    Call<SearchedUsers> getUsersSearched(@Query("query") String query,
+                                       @Query("type") String type,
+                                       @Header("Authorization") String auth);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("autoComplete/getTitles")
