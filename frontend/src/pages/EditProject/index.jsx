@@ -50,7 +50,6 @@ const EditProject = () => {
   const [activeMilestone, setActiveMilestone] = React.useState(-1);
   const [milestonesData, setMilestonesData] = React.useState(projectData.project_milestones);
 
-  //TOOD: remove
   const [tempTags, setTempTags] = React.useState([]);
 
   const tags = selector((state) => state.choices.tags);
@@ -69,9 +68,9 @@ const EditProject = () => {
     // eslint-disable-next-line
   },[projectData]);
 
-  // handle tag change
+
   function handleOnChangeTags(e) {
-    let removedTags = tempTags.filter(x => !e.includes(x)); // calculates diff
+    let removedTags = tempTags.filter(x => !e.includes(x));
     let addedTags   = e.filter(x => !tempTags.includes(x));
    
     if (removedTags.length > 0){
