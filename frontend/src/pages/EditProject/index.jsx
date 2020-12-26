@@ -34,7 +34,7 @@ const EditProject = () => {
   const data = {
     title: "",
     project_tags: [],
-    description: "",
+    summary: "",
     privacy: 1,
     project_milestones: [],
     requirements: "",
@@ -106,7 +106,7 @@ const EditProject = () => {
     let tempMilestoneData = {
       date: moment().format('YYYY-MM-DD'), 
       title: "Enter Title", 
-      description: "Enter Description", 
+      summary: "Enter Summary", 
       id: milestonesData.length
     };
     let newArr = [...milestonesData, tempMilestoneData, ];
@@ -136,7 +136,7 @@ const EditProject = () => {
 
   function milestoneDescChange(e, index){
     let newArr = [...milestonesData];
-    newArr[index].description = e.target.value; 
+    newArr[index].summary = e.target.value; 
     setMilestonesData(newArr); 
   }
 
@@ -189,8 +189,8 @@ const EditProject = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Description</FormLabel>}
-                    name="description"
+                    label={<FormLabel>Summary</FormLabel>}
+                    name="summary"
                     rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={4}/>
@@ -257,7 +257,7 @@ const EditProject = () => {
                           </Row>
                           <Row style={{marginBottom: "16px"}}>
                             <h4>Milestone Description</h4>
-                            <Input value={milestonesData[index].description} onChange={(e) => milestoneDescChange(e, index)}/>
+                            <Input value={milestonesData[index].summary} onChange={(e) => milestoneDescChange(e, index)}/>
                           </Row>
                           <Row>
                           <h4>Milestone Date</h4>
