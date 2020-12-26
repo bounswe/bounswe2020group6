@@ -22,5 +22,11 @@ export const changePictureStartAction = () => {
 export const changePictureDoneAction = () => {
   return {
     type: actions.CHANGE_PICTURE_DONE,
+  }
+}
+export const getProjectsOfUserSuccess = (response) => {
+  return {
+    type: actions.GET_PROJECTS_OF_USER_SUCCESS,
+    payload: response,
   };
 };

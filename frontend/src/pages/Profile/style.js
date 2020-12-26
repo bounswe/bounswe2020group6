@@ -30,6 +30,13 @@ export const SectionTitle = styled.div`
 
 export const Content = styled.div`
   padding: 0 80px;
+  padding-bottom: 40px;
+
+  .anticon, anticon-edit {
+    :hover {
+      color: ${theme.main.colors.sixth} !important;
+    }
+  }
 
   @media only screen and (max-width: 600px) {
     padding: 0 20px;

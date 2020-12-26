@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Divider, Tag, List, Avatar, Upload, message } from "antd";
+import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
 import {
   PaperClipOutlined,
   TeamOutlined,
@@ -10,10 +10,16 @@ import {
   CloseOutlined,
   MinusCircleTwoTone,
   PlusCircleTwoTone,
+  EditOutlined,
   EditFilled,
 } from "@ant-design/icons";
 
-import { getProfileInfo, changePicture } from "../../redux/profile/api";
+import {
+  getProfileInfo,
+  changeBio,
+  getProjectsOfUser,
+  changePicture,
+} from "../../redux/profile/api";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -31,9 +37,11 @@ const Profile = () => {
 
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editPictureVisible, setEditPictureVisible] = useState(false);
+  const [isEditingBio, setIsEditingBio] = useState(false);
 
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
+  const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
@@ -48,6 +56,7 @@ const Profile = () => {
 
   useEffect(() => {
     dispatch(getProfileInfo(id));
+    dispatch(getProjectsOfUser(id));
     if (!isOwnProfile()) {
       dispatch(getFollowing());
     }
@@ -123,6 +132,14 @@ const Profile = () => {
         </Col>
       </Row>
     );
+  };
+  const handleEditBio = () => {
+    setIsEditingBio((prev) => !prev);
+  };
+
+  const handleChangeBio = (bio) => {
+    dispatch(changeBio(id, bio));
+    setIsEditingBio((prev) => !prev);
   };
 
   if (profileLoading || !profile) {
@@ -225,9 +242,10 @@ const Profile = () => {
               <div style={{ fontWeight: 500 }}>{profile.university}</div>
             </Row>
             <Row>
-              <div style={{ fontWeight: 500 }}>{`${profile.department} ${
-                profile.title !== null ? profile.title : ""
-              }`}</div>
+              <div style={{ fontWeight: 500 }}>
+                <div>{`${profile.department}`}</div>
+                <div>{`${profile.title !== null ? profile.title : ""}`}</div>
+              </div>
             </Row>
           </Col>
           <NumbersCol xs={24} sm={24} lg={12} xl={12}>
@@ -235,7 +253,8 @@ const Profile = () => {
               <Col span={24}>
                 <Row justify="space-around">
                   <Col>
-                    <span style={{ fontWeight: 600 }}>0</span> publications
+                    <span style={{ fontWeight: 600 }}>{projects ? projects.length : 0}</span>{" "}
+                    publications
                   </Col>
                   <Col>
                     <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
@@ -274,13 +293,13 @@ const Profile = () => {
         </Row>
 
         <Divider orientation="left" />
-        <Row style={{ padding: "16px", fontWeight: 500 }}>
-          <Col md={4}>
+        <Row style={{ padding: "4px 16px", fontWeight: 500 }}>
+          <Col span={24} md={12}>
             <Row>
               <SectionTitle>Interest Areas</SectionTitle>
             </Row>
             <Row>
-              <Col style={{ marginTop: "10px" }}>
+              <Col span={24} style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (
                     <Tag key={i} closable={false}>
@@ -290,26 +309,79 @@ const Profile = () => {
               </Col>
             </Row>
           </Col>
-          <SectionCol xs={24} sm={24} md={{ span: 9, offset: 1 }}>
+          <Col style={{ height: "20px", width: "1px" }} xs={24} sm={24} md={0} />
+          <Col span={24} md={12}>
+            <Row>
+              <SectionTitle>About Me</SectionTitle>
+            </Row>
+            <Row>
+              <Col span={24} style={{ marginTop: "10px" }}>
+                <Card
+                  actions={isOwnProfile() ? [<EditOutlined onClick={handleEditBio} />] : null}
+                  style={{ minHeight: "100px", width: "100%" }}
+                >
+                  {!isEditingBio ? (
+                    profile.bio ? (
+                      profile.bio
+                    ) : (
+                      <span style={{ color: "rgba(0,0,0,0.4)" }}>No biography added yet</span>
+                    )
+                  ) : (
+                    <Form onFinish={handleChangeBio}>
+                      <Form.Item name="bio">
+                        <Input.TextArea
+                          style={{ padding: 0 }}
+                          //onPressEnter={handleChangeBio}
+                          bordered={false}
+                          defaultValue={
+                            profile.bio ? (
+                              profile.bio
+                            ) : (
+                              <span style={{ color: "rgba(0,0,0,0.4)" }}>
+                                No biography added yet
+                              </span>
+                            )
+                          }
+                        />
+                      </Form.Item>
+                      <Form.Item>
+                        <Row justify="end">
+                          <Col sm={8} md={8} lg={6} xl={4}>
+                            <PrimaryButton htmlType="submit" style={{ marginRight: "40px" }}>
+                              Save
+                            </PrimaryButton>
+                          </Col>
+                        </Row>
+                      </Form.Item>
+                    </Form>
+                  )}
+                </Card>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Divider orientation="left" />
+        <Row>
+          <SectionCol xs={24} sm={24} md={{ span: 10, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={projects}
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      description={item.summary}
                     />
                   </List.Item>
                 )}
               />
             </Scrollable>
           </SectionCol>
-          <SectionCol xs={24} sm={24} md={{ span: 9, offset: 1 }}>
-            <SectionTitle>Collaborations</SectionTitle>
+          <SectionCol xs={24} sm={24} md={{ span: 10, offset: 2 }}>
+            <SectionTitle>Google Scholar Projects</SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
