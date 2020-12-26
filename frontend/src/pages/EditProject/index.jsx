@@ -106,7 +106,7 @@ const EditProject = () => {
     let tempMilestoneData = {
       date: moment().format('YYYY-MM-DD'), 
       title: "Enter Title", 
-      summary: "Enter Summary", 
+      description: "Enter Description", 
       id: milestonesData.length
     };
     let newArr = [...milestonesData, tempMilestoneData, ];
@@ -136,7 +136,7 @@ const EditProject = () => {
 
   function milestoneDescChange(e, index){
     let newArr = [...milestonesData];
-    newArr[index].summary = e.target.value; 
+    newArr[index].description = e.target.value; 
     setMilestonesData(newArr); 
   }
 
@@ -257,7 +257,7 @@ const EditProject = () => {
                           </Row>
                           <Row style={{marginBottom: "16px"}}>
                             <h4>Milestone Description</h4>
-                            <Input value={milestonesData[index].summary} onChange={(e) => milestoneDescChange(e, index)}/>
+                            <Input value={milestonesData[index].description} onChange={(e) => milestoneDescChange(e, index)}/>
                           </Row>
                           <Row>
                           <h4>Milestone Date</h4>
