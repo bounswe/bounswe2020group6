@@ -50,19 +50,19 @@ addPost = async function(req,res) {
 addTag = async function(req,res){
     tags = req.body.tags
     project_id = req.body.projectId
-    var tagDb = await tagExists(tags, project_id)
-    if(tagDb == undefined){
-	try{
-	    for(var key in tags){
-		currentTag = tags[key]
-		tag = await ProjectTag.create({ project_id : project_id, tag : currentTag})
-	    }
-	    res.status(201).send({message : "Tags are added"})
-	}catch(err){
-	    res.status(500).send({error: err})
-	}
-    }else{
-	res.status(500).send({message : "You've already added this tag", tag : tagDb })
+    tagsAddedBefore = []
+    try{
+        for(var tag of tags){
+    	    var tagDb = await tagExists(tag, project_id)
+    	    if(tagDb == undefined){
+    		tagCreated = await ProjectTag.create({ project_id : project_id, tag : tag})
+    	    }else{
+    		tagsAddedBefore.push(tagDb.tag)
+    	    }
+        }
+	res.status(201).send({message : "Available tags are added", tagsAddedBefore : tagsAddedBefore })
+    }catch(error){
+	res.status(500).send({error: error})
     }
 }
 
