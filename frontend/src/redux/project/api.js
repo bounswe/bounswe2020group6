@@ -28,7 +28,7 @@ export const postPost = (body, history, message) => {
       .post("/post/add", body)
       .then((response) => {
         message.success("Project successfully posted.", 4);
-        history.push("/home");
+        history.push("/project/edit/" + response.data.id);
       })
       .catch((e) => {
         message.success("Project posting failed.", 4);
