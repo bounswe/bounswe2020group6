@@ -50,17 +50,15 @@ var postExists = async function(projectId){
 
 
 
-var tagExists = async function(tags,projectId){
-    for(tag of tags){
-        tagDb = await ProjectTag.findOne({
-	    where : {
-	        project_id  : projectId,
-		tag : tag
-	    }
-	});
-	if(tagDb){
-	    return tagDb
+var tagExists = async function(tag,projectId){
+    tagDb = await ProjectTag.findOne({
+        where : {
+	    project_id  : projectId,
+            tag : tag
 	}
+    });
+    if(tagDb){
+        return tagDb
     }
     return undefined
 }
