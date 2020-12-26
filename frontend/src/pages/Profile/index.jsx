@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
 import {
@@ -34,7 +32,6 @@ import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const Profile = () => {
-
   const history = useHistory();
 
   const { id } = useParams();
@@ -262,25 +259,29 @@ const Profile = () => {
                     publications
                   </Col>
                   {isOwnProfile() ? (
-                    <Col onClick={() => history.push("/list/followers")} style={{cursor: "pointer"}}>
+                    <Col
+                      onClick={() => history.push("/list/followers")}
+                      style={{ cursor: "pointer" }}
+                    >
                       <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
                     </Col>
                   ) : (
                     <Col>
                       <span style={{ fontWeight: 600 }}>{profile.followerCount}</span> followers
                     </Col>
-                    ) 
-                  }
+                  )}
                   {isOwnProfile() ? (
-                    <Col onClick={() => history.push("/list/following")} style={{cursor: "pointer"}}>
+                    <Col
+                      onClick={() => history.push("/list/following")}
+                      style={{ cursor: "pointer" }}
+                    >
                       <span style={{ fontWeight: 600 }}>{profile.followingCount}</span> following
                     </Col>
                   ) : (
                     <Col>
                       <span style={{ fontWeight: 600 }}>{profile.followingCount}</span> following
                     </Col>
-                    ) 
-                  }
+                  )}
                 </Row>
                 <Row style={{ height: "40px" }} />
                 <Row justify="center">
@@ -350,7 +351,6 @@ const Profile = () => {
                       <Form.Item name="bio">
                         <Input.TextArea
                           style={{ padding: 0 }}
-                          //onPressEnter={handleChangeBio}
                           bordered={false}
                           defaultValue={
                             profile.bio ? (

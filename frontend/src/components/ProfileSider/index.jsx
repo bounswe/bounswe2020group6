@@ -46,7 +46,7 @@ const ProfileSider = () => {
                 cursor: "pointer",
               }}
             >
-              <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
+              <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               {profile.upCounts === null || profile.upCounts === undefined
                 ? " " + 0
                 : " " + profile.upCounts}
