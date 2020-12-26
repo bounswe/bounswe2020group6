@@ -72,6 +72,7 @@ const EditProject = () => {
 
   useEffect(() => {
     setMilestonesData(projectData.project_milestones)
+    setTempTags(projectData.project_tags)
     editPostForm.resetFields();
     // eslint-disable-next-line
   },[projectData]);
@@ -80,6 +81,11 @@ const EditProject = () => {
   function handleOnChangeTags(e) {
     let removedTags = tempTags.filter(x => !e.includes(x));
     let addedTags   = e.filter(x => !tempTags.includes(x));
+
+    console.log(addedTags);
+    console.log(removedTags);
+    console.log(tempTags)
+    console.log(e)
    
     if (removedTags.length > 0){
       dispatch(deleteTag(projectId, removedTags, message));
