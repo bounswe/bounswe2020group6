@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import api from "../../axios";
+import moment from "moment"
 
 import { Col, Tag, Avatar, Spin } from "antd";
 import { UnlockFilled, PlusOutlined, FileOutlined, ClockCircleTwoTone} from "@ant-design/icons";
@@ -35,7 +36,6 @@ const ProjectDetails = () => {
     .then((response) => {
       setProjectData(response.data[0])
       setLoadingProject(false)
-      //console.log(response)
     }).catch((error) => {
       console.log(error)
     })
@@ -136,7 +136,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}>
           <Spin size="large" /> Content is Loading
         </Main>:
-      (((projectData.privacy === 1) && !isUserCollaboratesOnThisProject()) ? // if it is private
+      (((projectData.privacy === 0) && !isUserCollaboratesOnThisProject()) ? // if it is private
       <>
       <Main
         xs={{span: 20, offset: 1}}
@@ -163,7 +163,7 @@ const ProjectDetails = () => {
       <H1> {projectData.title} </H1>
       <DateSection>
         <UnlockFilled /> 
-        Project Due {projectData.project_milestones[0] || "Unknown"} 
+        Project Due {moment(projectData.project_milestones[projectData.project_milestones.length-1].date).format("DD/MM/YYYY") || "Unknown"} 
         <Tag 
         color={statusColorMap[projectData.status]} 
         style={{marginLeft: "5px"}}>
@@ -178,29 +178,34 @@ const ProjectDetails = () => {
         {projectData.summary}
       </Summary>
       <Deadlines>
-        <H3>Deadlines</H3>
+        <H3>Milestones</H3>
         {projectData.project_milestones.map((dl, i) => {
           return <p key={i}>
-            <ClockCircleTwoTone twoToneColor={deadlineColor(dl.date)} style={{ fontSize: "12px" }}/> 
-            {dl.date}
+            <ClockCircleTwoTone twoToneColor={deadlineColor(dl.date)} style={{ fontSize: "12px", marginRight: "8px" }}/> 
+            {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
+            {dl.title}
             <br/>
-            {dl.desc}
+            {dl.description}
           </p>
         })}
       </Deadlines>
       <Files>
         <H3>Browse Files</H3>
-        <FileContainer>
-          {projectData.project_files.map((f,i) => {
-            return <FileDiv
-             key={i} 
-             onClick={() => downloadFile(f.file_name)}
-             
-             download={f.file_name}
-             >
-              <FileOutlined style={{fontSize: "28px"}}/> {f.file_name}
-            </FileDiv>
-          })}
+        <FileContainer style={{}}>
+          {
+            projectData.project_files.length > 0 
+            ? projectData.project_files.map((f,i) => {
+              return <FileDiv
+              key={i} 
+              onClick={() => downloadFile(f.file_name)}
+              
+              download={f.file_name}
+              >
+                <FileOutlined style={{fontSize: "28px"}}/> {f.file_name}
+              </FileDiv>
+            })
+            : <span style={{color:"grey"}}>No Files To Display</span>
+          }
         </FileContainer>
       </Files>
     </Main>

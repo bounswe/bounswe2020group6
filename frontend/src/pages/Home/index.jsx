@@ -13,8 +13,6 @@ import {
   H3
 } from "./style";
 
-import defaultProfilePictureHref from "../../assets/asset_hrefs"
-
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
@@ -33,15 +31,17 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
+  const createContentCard = (p) => {
     return (
       <ContentCard
-        key={Id}
-        title={Title}
-        topnote={TopNote}
-        summary={Summary}
-        footer={Footer}
-        img={ImgUrl ? ImgUrl : defaultProfilePictureHref }
+        id={p.id}
+        title={p.title}
+        topnote={p.date}
+        summary={p.summary}
+        date={p.date}
+        userId={p.userId}
+        footer={getUserNameById(p.userId)}
+        img={getUserPhotoById(p.userId)}
       />
     )
   }
@@ -65,7 +65,7 @@ const Home = () => {
           sm={{span: 22, offset: 1}}
           md={{span: 22, offset: 1}}
           lg={{span: 14, offset: 5}}>
-            {loading || loadingAllPeople ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId),getUserPhotoById(p.userId)))}
+            {loading || loadingAllPeople ? <H2>Loading... <Spin/></H2>  : feed.projects.reverse().map((p) => createContentCard(p))}
           </Main>
           <Col align="center"
           md={0}

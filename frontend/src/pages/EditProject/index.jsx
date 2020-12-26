@@ -34,7 +34,7 @@ const EditProject = () => {
   const data = {
     title: "",
     project_tags: [],
-    description: "",
+    summary: "",
     privacy: 1,
     project_milestones: [],
     requirements: "",
@@ -189,8 +189,8 @@ const EditProject = () => {
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Description</FormLabel>}
-                    name="description"
+                    label={<FormLabel>Summary</FormLabel>}
+                    name="summary"
                     rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={4}/>

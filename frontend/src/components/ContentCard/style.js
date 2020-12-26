@@ -6,6 +6,10 @@ export const Layout = styled(Row)`
   padding-top: 1.2em;
 `;
 
+export const StHref = styled.a`
+  color: #000000d9;
+`;
+
 export const Title = styled.p`
   margin: 0;
   padding-left: 1em;
