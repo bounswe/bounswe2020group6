@@ -7,7 +7,7 @@ import { Spin, Menu } from "antd";
 import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
 
-import defaultProfilePictureHref from "../../assets/asset_hrefs"
+import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const ProfileSider = () => {
   const profile = useSelector((state) => state.profile.profile);
@@ -47,7 +47,9 @@ const ProfileSider = () => {
               }}
             >
               <img style={{ height: "20px" }} src="cactus.png" alt="cactus" />
-              {profile.number_of_ups === null || profile.number_of_ups === undefined ? " " + 0 : " " + profile.number_of_ups}
+              {profile.upCounts === null || profile.upCounts === undefined
+                ? " " + 0
+                : " " + profile.upCounts}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
               <Menu.Item key="1" icon={<PieChartOutlined />}>

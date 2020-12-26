@@ -3,7 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { signUp, validateCode, infoUpdate } from "../../redux/auth/api";
-import { getTags, getDepartments, getUniversities } from "../../redux/choices/api";
+import {
+  getTags,
+  getDepartments,
+  getUniversities,
+  getTitles,
+  addTag,
+  addTitle,
+  addUniversity,
+  addDepartment,
+} from "../../redux/choices/api";
 
 import { authClearMessagesAction } from "../../redux/auth/actions";
 
@@ -12,13 +21,13 @@ import LandingHeader from "../../components/LandingHeader";
 import { footerStyle, Content } from "./style";
 
 import { Layout, Row, Col, Form, Input, Checkbox, Select, Steps, Divider, message } from "antd";
-
+import { PlusCircleTwoTone } from "@ant-design/icons";
 import { FormWrapper, FormTitle, FormButton, FormLabel } from "./style";
+import theme from "../../theme";
 
 const { Footer } = Layout;
 const { Option } = Select;
 const { Step } = Steps;
-
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -31,9 +40,12 @@ const SignUp = () => {
   const tags = selector((state) => state.choices.tags);
   const departments = selector((state) => state.choices.departments);
   const universities = selector((state) => state.choices.universities);
+  const titles = selector((state) => state.choices.titles);
 
   const [formStep, setFormStep] = React.useState(0);
   const [password, setPassword] = React.useState();
+
+  const [addedItemName, setAddedItemName] = React.useState("");
 
   const signupSuccessMessage = selector((state) => state.auth.signupSuccessMessage);
   const signupFailMessage = selector((state) => state.auth.signupFailMessage);
@@ -48,13 +60,14 @@ const SignUp = () => {
   const infoUpdateLoading = selector((state) => state.auth.infoUpdateLoading);
 
   useEffect(() => {
-    if(formStep===2){
+    if (formStep === 2) {
       dispatch(getTags());
       dispatch(getDepartments());
       dispatch(getUniversities());
+      dispatch(getTitles());
     }
     // eslint-disable-next-line
-  },[formStep]);
+  }, [formStep]);
 
   useEffect(() => {
     // signup
@@ -128,6 +141,46 @@ const SignUp = () => {
   const redirectToPath = (path) => {
     history.push(path);
   };
+
+  const addUniversityHandler = () => {
+    dispatch(addUniversity(addedItemName));
+    setAddedItemName("");
+  };
+
+  const addDepartmentHandler = () => {
+    dispatch(addDepartment(addedItemName));
+    setAddedItemName("");
+  };
+
+  const addTitleHandler = () => {
+    dispatch(addTitle(addedItemName));
+    setAddedItemName("");
+  };
+
+  const addTagHandler = () => {
+    dispatch(addTag(addedItemName));
+    setAddedItemName("");
+  };
+
+  const adderDropdown = (itemAddHandler) => (menu) => (
+    <div>
+      {menu}
+      <Divider style={{ margin: "4px 0" }} />
+      <div style={{ display: "flex", flexWrap: "nowrap", padding: 8 }}>
+        <Input
+          style={{ flex: "auto" }}
+          value={addedItemName}
+          onChange={(e) => setAddedItemName(e.target.value)}
+        />
+        <div
+          style={{ flex: "none", padding: "8px", display: "block", cursor: "pointer" }}
+          onClick={itemAddHandler}
+        >
+          <PlusCircleTwoTone twoToneColor={theme.main.colors.first} /> Add item
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <Layout>
@@ -271,40 +324,59 @@ const SignUp = () => {
                   <Form.Item
                     label={<FormLabel>University</FormLabel>}
                     name="university"
-                    style={{ width: "50%" }}
+                    style={{ width: "100%" }}
                     rules={[{ required: true, message: "Please enter your university!" }]}
                   >
                     <Select
+                      dropdownRender={adderDropdown(addUniversityHandler)}
+                      showSearch
                       mode="single"
                       allowClear
                       style={{ width: "100%" }}
                       placeholder="Please choose your university."
                     >
-                      {universities.map((x)=>(<Option key={x}>{x}</Option>))}
+                      {universities.map((x) => (
+                        <Option key={x}>{x}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Department</FormLabel>}
                     name="department"
-                    style={{ width: "50%" }}
+                    style={{ width: "100%" }}
                     rules={[{ required: true, message: "Please enter your department!" }]}
                   >
                     <Select
+                      dropdownRender={adderDropdown(addDepartmentHandler)}
+                      showSearch
                       mode="single"
                       allowClear
                       style={{ width: "100%" }}
                       placeholder="Please choose your department."
                     >
-                      {departments.map((x)=>(<Option key={x}>{x}</Option>))}
+                      {departments.map((x) => (
+                        <Option key={x}>{x}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Title</FormLabel>}
                     name="title"
-                    style={{ width: "50%" }}
+                    style={{ width: "100%" }}
                     rules={[{ required: true, message: "Please enter your title!" }]}
                   >
-                    <Input />
+                    <Select
+                      dropdownRender={adderDropdown(addTitleHandler)}
+                      showSearch
+                      mode="single"
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder="Please choose your title."
+                    >
+                      {titles.map((x) => (
+                        <Option key={x}>{x}</Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Research area interests</FormLabel>}
@@ -314,12 +386,16 @@ const SignUp = () => {
                     ]}
                   >
                     <Select
-                      mode="multiple"
+                      dropdownRender={adderDropdown(addTagHandler)}
+                      showSearch
+                      mode="tags"
                       allowClear
                       style={{ width: "100%" }}
                       placeholder="Please select at least one research interest"
                     >
-                      {tags.map((x)=>(<Option key={x}>{x}</Option>))}
+                      {tags.map((x) => (
+                        <Option key={x}>{x}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                   <Form.Item

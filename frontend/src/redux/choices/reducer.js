@@ -4,6 +4,7 @@ const initialState = {
   tags: [],
   universities: [],
   departments: [],
+  titles: [],
 };
 
 // LOGIN
@@ -29,6 +30,13 @@ const getDepartmentsSuccessReducer = (state, action) => {
     };
 };
 
+const getTitlesSuccessReducer = (state, action) => {
+    return {
+        ...state,
+        titles: action.payload,
+    };
+};
+
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -39,6 +47,8 @@ export default function reducer(state = initialState, action) {
       return getDepartmentsSuccessReducer(state, action);
     case actions.GET_UNIVERSITIES_SUCCESS:
       return getUniversitiesSuccessReducer(state, action);
+    case actions.GET_TITLES_SUCCESS:
+      return getTitlesSuccessReducer(state, action);
 
     default:
       return state;
