@@ -75,6 +75,7 @@ export const UserDiv = styled(Col)`
 `; 
 
 export const FileDiv = styled(Col)`
+  cursor: pointer;
   display: flex;
   flex-direction: row; 
   align-items: center;
