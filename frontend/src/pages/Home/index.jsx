@@ -70,7 +70,13 @@ const Home = () => {
           feed.projects.reverse().map((p) => createContentCard(p))
         )}
       </Main>
-      <Col align="center" md={0} lg={{ span: 5, offset: 0 }} xl={{ span: 4, offset: 1 }}>
+      <Col
+        style={{ position: "fixed", right: "20px" }}
+        align="center"
+        span={0}
+        lg={{ span: 5, offset: 0 }}
+        xl={{ span: 4, offset: 1 }}
+      >
         <H3>Recommended users</H3>
         <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={0} />
         <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
