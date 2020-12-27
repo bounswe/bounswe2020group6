@@ -26,7 +26,7 @@ const FileEditor = () => {
   const emptyFileData = {data:"", name:""};
 
   const isPlainText = (extension) => {
-    const plainTextExtensions = [".txt", "", ".json", ".md"];
+    const plainTextExtensions = [".txt", "", ".json", ".md", ".css", ".html", ".js", ".py", ".jsx", ".c"];
     var x;
     for(x of plainTextExtensions) {
       if (x.localeCompare(extension) === 0) {
@@ -163,12 +163,16 @@ const FileEditor = () => {
           getProjectData();
           setSelectedFile(null);
           setFileFormat(null);
+          setFilesToUpload([]);
+          setFileData(emptyFileData);
         })
         .catch((error) => {
           message.error("Files couldn't be uploaded.");
           getProjectData();
           setSelectedFile(null);
           setFileFormat(null);
+          setFilesToUpload([]);
+          setFileData(emptyFileData);
         });
 
     }
