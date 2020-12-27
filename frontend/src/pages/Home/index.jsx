@@ -9,11 +9,26 @@ import PersonRecommendationCard from "../../components/PersonRecommendationCard"
 import ProjectRecommendationCard from "../../components/ProjectRecommendationCard";
 import { Main, H2, H3 } from "./style";
 
+import api from "../../axios";
+
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [allPeople, setAllPeople] = useState(null);
+  const [projectRecommendations, setProjectRecommendations] = useState([]);
+
+  useEffect(() => {
+    api({ sendToken: true })
+      .get("/homepage/posts")
+      .then((response) => {
+        setProjectRecommendations(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -82,15 +97,16 @@ const Home = () => {
         <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
         <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
         <H3>Projects you might like</H3>
-        <ProjectRecommendationCard
-          name="Research on application of DL on network security."
-          tags={["Deep Learning", "Network"]}
-        />
-        <ProjectRecommendationCard name="Quantum face reconition." tags={["Quantum Computing"]} />
-        <ProjectRecommendationCard
-          name="Smart contracts at massive blockchain systems"
-          tags={["Blockchain"]}
-        />
+        {
+          projectRecommendations.map((p,i) => {
+            return <ProjectRecommendationCard
+              name={p.title}
+              tags={p.project_tags.map((t) => {
+                return t.tag
+              })}
+            />
+          })
+        }
       </Col>
     </Frame>
   );
