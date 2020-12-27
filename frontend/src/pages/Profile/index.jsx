@@ -179,6 +179,7 @@ const Profile = () => {
               showUploadList={false}
               beforeUpload={beforeUpload}
               onChange={handlePictureChange}
+              disabled={!isOwnProfile()}
             >
               <div style={{ width: "100%" }}>
                 {pictureLoading ? (
@@ -187,7 +188,7 @@ const Profile = () => {
                   <>
                     <EditFilled
                       style={{
-                        display: editPictureVisible ? "block" : "none",
+                        display: isOwnProfile() ? (editPictureVisible ? "block" : "none") : "none",
                         position: "absolute",
                         right: "20%",
                         fontSize: "20px",
