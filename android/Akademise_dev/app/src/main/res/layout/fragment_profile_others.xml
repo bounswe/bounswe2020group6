@@ -73,7 +73,7 @@
         </Space>
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/avatar_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:src="@drawable/pp"
@@ -85,14 +85,14 @@
 
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/name_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="Name-Surname"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/upvote_icon"
+            app:layout_constraintTop_toBottomOf="@+id/upvote_icon_others"
             app:layout_constraintWidth_percent="0.30">
         </TextView>
 
@@ -102,7 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_shape"
-            android:text="Log out"
+            android:text="Follow"
             app:layout_constraintEnd_toStartOf="@+id/right_space"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
@@ -114,7 +114,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_shape"
-            android:text="Edit"
+            android:text="Upvote"
             app:layout_constraintEnd_toStartOf="@+id/follow_button"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
@@ -126,12 +126,12 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/name_others"
             app:layout_constraintWidth_percent="1">
         </Space>
 
         <TextView
-            android:id="@+id/biography"
+            android:id="@+id/biography_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -147,12 +147,12 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/biography"
+            app:layout_constraintTop_toBottomOf="@+id/biography_others"
             app:layout_constraintWidth_percent="1">
         </Space>
 
         <TextView
-            android:id="@+id/research_tags"
+            android:id="@+id/research_tags_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
@@ -168,17 +168,17 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/research_tags"
+            app:layout_constraintTop_toBottomOf="@+id/research_tags_others"
             app:layout_constraintWidth_percent="1">
         </Space>
 
         <TextView
-            android:id="@+id/affiliation"
+            android:id="@+id/affiliation_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="Affiliation:"
-            app:layout_constraintBottom_toBottomOf="@+id/affiliation_content"
+            app:layout_constraintBottom_toBottomOf="@+id/affiliation_content_others"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/etTitleEntry"
@@ -190,17 +190,17 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/affiliation"
+            app:layout_constraintTop_toBottomOf="@+id/affiliation_others"
             app:layout_constraintWidth_percent="1">
         </Space>
 
         <TextView
-            android:id="@+id/contact"
+            android:id="@+id/contact_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="Contact:"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_content"
+            app:layout_constraintBottom_toBottomOf="@+id/contact_content_others"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/space6"
@@ -213,12 +213,12 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/contact"
+            app:layout_constraintTop_toBottomOf="@+id/contact_others"
             app:layout_constraintWidth_percent="1">
         </Space>
 
         <Button
-            android:id="@+id/stats_and_overview"
+            android:id="@+id/stats_and_overview_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
@@ -230,7 +230,7 @@
             app:layout_constraintTop_toBottomOf="@+id/space7" />
 
         <Button
-            android:id="@+id/projects"
+            android:id="@+id/projects_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -242,58 +242,58 @@
             app:layout_constraintWidth_percent="0.40" />
 
         <TextView
-            android:id="@+id/biograpy_content"
+            android:id="@+id/biography_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="biograpy_content"
-            app:layout_constraintStart_toEndOf="@+id/biography"
+            app:layout_constraintStart_toEndOf="@+id/biography_others"
             app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
         <TextView
-            android:id="@+id/research_tags_content"
+            android:id="@+id/research_tags_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="research_tags_content"
-            app:layout_constraintStart_toEndOf="@+id/research_tags"
+            app:layout_constraintStart_toEndOf="@+id/research_tags_others"
             app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
 
         <TextView
-            android:id="@+id/affiliation_content"
+            android:id="@+id/affiliation_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="affiliation_content"
-            app:layout_constraintStart_toEndOf="@+id/affiliation"
+            app:layout_constraintStart_toEndOf="@+id/affiliation_others"
             app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
 
         <TextView
-            android:id="@+id/contact_content"
+            android:id="@+id/contact_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
             android:layout_marginLeft="80dp"
             android:text="contact_content"
-            app:layout_constraintStart_toEndOf="@+id/contact"
+            app:layout_constraintStart_toEndOf="@+id/contact_others"
             app:layout_constraintTop_toBottomOf="@+id/space6" />
 
         <ImageView
-            android:id="@+id/upvote_icon"
+            android:id="@+id/upvote_icon_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintWidth_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/avatar_others"
             app:srcCompat="@android:drawable/btn_star_big_on" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/upvote_text_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintWidth_percent="0.1"
             android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/upvote_icon"
-            app:layout_constraintTop_toBottomOf="@+id/avatar" />
+            app:layout_constraintStart_toEndOf="@+id/upvote_icon_others"
+            app:layout_constraintTop_toBottomOf="@+id/avatar_others" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
