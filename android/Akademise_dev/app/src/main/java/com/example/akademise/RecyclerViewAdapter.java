@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -23,12 +24,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int myId;
     public static final String accessID = "XXXXXID";
 
-    List<Project> projects;
+    List<GetProjects> projects;
+    SearchedUsers searchedUsers;
     Context context;
+    List<Integer> userId=new ArrayList<>();
 
-    public RecyclerViewAdapter(Context ct, List<Project> prj) {
+    public RecyclerViewAdapter(Context ct, List<GetProjects> prj, SearchedUsers srchdUsr) {
         context = ct;
         projects = prj;
+        searchedUsers = srchdUsr;
 
     }
 
@@ -42,26 +46,53 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(projects.get(position).getTitle());
-        holder._abstract.setText(projects.get(position).getAbstract1());
-        holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
         loadIDData();
-        int userId = projects.get(position).getUserId();
+        if(position<projects.size()) {
+            holder.title.setText(projects.get(position).getTitle());
+            holder._abstract.setText(projects.get(position).getSummary());
+            holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
+            userId.add(projects.get(position).getUserId());
+        }
+        else{
+            String person= searchedUsers.getUsers().get(position-projects.size()).getName()+" "+
+                    searchedUsers.getUsers().get(position-projects.size()).getSurname();
+            holder.title.setText(person);
+            holder._abstract.setText(searchedUsers.getUsers().get(position-projects.size()).getTitle());
+            holder.imageView.setImageResource(R.drawable.ic_profile_foreground);
+            userId.add(searchedUsers.getUsers().get(position-projects.size()).getId());
+        }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                if (userId == myId) {
-                    intent = new Intent(context, ProjectDetailsActivity.class);
+                if(position<projects.size()) {
+                    if (userId.get(position) == myId) {
+                        intent = new Intent(context, ProjectDetailsActivity.class);
 
 
-                } else {
-                    intent = new Intent(context, ProjectDetailsUserActivity.class);
+                    } else {
+                        intent = new Intent(context, ProjectDetailsUserActivity.class);
+                    }
+
+                    Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position), Toast.LENGTH_LONG).show();
+                    intent.putExtra("project", projects.get(position));
+                    context.startActivity(intent);
                 }
+                else{
+                    intent = new Intent(context, ProfileActivity.class);
+                    if (userId.get(position) == myId) {
+                        intent.putExtra("me",1);
+                        Toast.makeText(context, String.valueOf(userId.get(position)), Toast.LENGTH_LONG).show();
 
-                Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
-                intent.putExtra("project", projects.get(position));
-                context.startActivity(intent);
+
+                    } else {
+                        Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position-projects.size()), Toast.LENGTH_LONG).show();
+                        intent.putExtra("otherUser",0);
+                    }
+                    intent.putExtra("user", searchedUsers.getUsers().get(position-projects.size()));
+                    context.startActivity(intent);
+
+                }
             }
         });
 
@@ -70,7 +101,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return projects.size();
+        if(searchedUsers!=null)
+            return projects.size() +searchedUsers.getUsers().size();
+        else
+            return projects.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

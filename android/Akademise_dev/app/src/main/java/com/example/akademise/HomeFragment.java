@@ -77,29 +77,48 @@ public class HomeFragment extends Fragment {
 
         //List<Post> searchedPosts;
         //String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImlhdCI6MTYwNjEyODgwNH0.5JLFXGx4E2_RT7sGt-as2lgmFk67h1KWODTgZFT9QR0";
-        Call<Projects> call= akademiseApi.getProjectsSearched(query,"1","Bearer " + myToken);
-        call.enqueue(new Callback<Projects>() {
+        Call<RootGetProjects> call= akademiseApi.getProjectsSearched(query,"1","Bearer " + myToken);
+        call.enqueue(new Callback<RootGetProjects>() {
             @Override
-            public void onResponse(Call<Projects> call, Response<Projects> response) {
+            public void onResponse(Call<RootGetProjects> call, Response<RootGetProjects> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Get", "onResponse: " + response.code());
                     return;
                 }
                 Log.d("GET", "On response: " + response.message());
-                Projects Projects = response.body();
+                RootGetProjects Projects = response.body();
 
-                List<Project> projects = Projects.getProjects();
-                recyclerView = getView().findViewById(R.id.rv_home);
-                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects);
-                recyclerView.setAdapter(recyclerViewAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                List<GetProjects> projects = Projects.getProjects();
+                Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
+                inside_call.enqueue(new Callback<SearchedUsers>() {
+                    @Override
+                    public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("Get", "onResponse: " + response.code());
+                            return;
+                        }
+                        Log.d("GET", "On response: " + response.message());
+                        SearchedUsers searchedUsers = response.body();
+                        recyclerView = getView().findViewById(R.id.rv_home);
+                        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,searchedUsers);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchedUsers> call, Throwable t) {
+                        Log.d("Get", "onFailure: " + t.getMessage());
+
+                    }
+                });
 
             }
 
             @Override
 
-            public void onFailure(Call<Projects> call, Throwable t) {
+            public void onFailure(Call<RootGetProjects> call, Throwable t) {
 
                 Log.d("Get", "onFailure: " + t.getMessage());
 

@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,7 +37,7 @@ public class ProjectFragment extends Fragment {
     private String myToken;
     private  Integer myId;
     RecyclerView recyclerView;
-    List<Project> projects;
+    List<GetProjects> projects;
 
     @Nullable
     @Override
@@ -81,10 +82,10 @@ public class ProjectFragment extends Fragment {
 
      private  void getProjects(Integer id){
 
-        Call<List<Project>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
-        call.enqueue(new Callback<List<Project>>() {
+        Call<List<GetProjects>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
+        call.enqueue(new Callback<List<GetProjects>>() {
             @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+            public void onResponse(Call<List<GetProjects>> call, Response<List<GetProjects>> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Project", "onResponse: not successful");
@@ -93,13 +94,13 @@ public class ProjectFragment extends Fragment {
 
                 projects = response.body();
                 recyclerView = getView().findViewById(R.id.rv_projects);
-                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,null);
                 recyclerView.setAdapter(recyclerViewAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
 
             @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
+            public void onFailure(Call<List<GetProjects>> call, Throwable t) {
 
                 Log.d("Project", "onFailure: failed");
 

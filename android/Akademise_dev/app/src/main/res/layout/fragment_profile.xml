@@ -83,16 +83,17 @@
             app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry">
         </ImageView>
 
+
         <TextView
             android:id="@+id/name"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="0.30"
-            style="@style/textView"
             android:text="Name-Surname"
+            app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/avatar">
+            app:layout_constraintTop_toBottomOf="@+id/upvote_icon"
+            app:layout_constraintWidth_percent="0.30">
         </TextView>
 
         <Button
@@ -108,7 +109,7 @@
             app:layout_constraintWidth_percent="0.25" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/edit_button"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -273,6 +274,26 @@
             android:text="contact_content"
             app:layout_constraintStart_toEndOf="@+id/contact"
             app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+        <ImageView
+            android:id="@+id/upvote_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/avatar"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/upvote_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintWidth_percent="0.1"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/upvote_icon"
+            app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

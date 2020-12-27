@@ -1,5 +1,6 @@
 package com.example.akademise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -38,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragment = new ProjectFragment();
                             break;
                         case R.id.miProfile:
-                            selectedFragment = new ProfileFragment();
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            intent.putExtra("me",1);
+                            startActivity(intent);
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
-                            selectedFragment).commit();
+                    if(selectedFragment!=null) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
+                                selectedFragment).commit();
+                    }
                             
                     return true;
                 }

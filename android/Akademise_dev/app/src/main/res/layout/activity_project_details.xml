@@ -63,7 +63,7 @@
         style="@style/textView"
         android:layout_width="129dp"
         android:layout_height="32dp"
-        android:text="Project Title"
+        android:hint="Project Title"
         app:layout_constraintHeight_percent="0.03"
         app:layout_constraintStart_toEndOf="@+id/space"
         app:layout_constraintTop_toBottomOf="@+id/spacex"
@@ -118,7 +118,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Abstract"
+        android:hint="Summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -140,7 +140,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Tags"
+        android:hint="Tags"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -162,7 +162,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Milestone List"
+        android:hint="Milestones"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -183,7 +183,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Requirements List"
+        android:hint="Requirements"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -200,16 +200,14 @@
 
     <TextView
         android:id="@+id/tvStatusProject"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Status"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="186dp"
+        android:layout_height="67dp"
+        android:background="@drawable/textview_shape"
+        android:hint="Status"
         app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space5"/>
+        app:layout_constraintTop_toBottomOf="@+id/space5" />
     <Space
         android:id="@+id/space6"
         android:layout_width="0dp"
@@ -225,7 +223,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:text="Collaborators"
+        android:hint="Collaborators"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
@@ -269,5 +267,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tvCollaborators"
         app:layout_constraintStart_toEndOf="@+id/btnReqInvProject"
         app:layout_constraintTop_toTopOf="@+id/btnReqInvProject" />
+
+    <TextView
+        android:id="@+id/tvPrivacyProjectDetails"
+        style="@style/textView"
+        android:layout_width="186dp"
+        android:layout_height="67dp"
+        android:background="@drawable/textview_shape"
+        android:hint="Privacy"
+        app:layout_constraintBottom_toTopOf="@+id/space6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvStatusProject"
+        app:layout_constraintTop_toBottomOf="@+id/space5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
