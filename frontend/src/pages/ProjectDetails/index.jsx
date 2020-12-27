@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import api from "../../axios";
 
-import { Col, Tag, Avatar, Spin } from "antd";
+import { Col, Tag, Avatar, Spin, Modal, Button, Input } from "antd";
 import { UnlockFilled, PlusOutlined, FileOutlined, ClockCircleTwoTone} from "@ant-design/icons";
 import Frame from "../../components/Frame";
 import {
@@ -18,13 +18,19 @@ import {
   Side,
   UserDiv,
   FadedText,
+  UserModal
 } from "./style";
 import theme from "../../theme";
+import UserResult from "./components/UserResult";
 
 const ProjectDetails = () => {
 
   const [loadingProject, setLoadingProject] = useState(true);
   const [projectData, setProjectData] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [userResults, setUserResults] = useState([]);
+  const { Search } = Input;
 
   const { projectId } = useParams()
   const history = useHistory()
@@ -134,7 +140,7 @@ const ProjectDetails = () => {
     
     if(isUserCollaboratesOnThisProject()){
       // invite collaborators
-      tagData.clicked = () => console.log("hi")
+      tagData.clicked = () => showModal()
       tagData.text = "invite collaborators"
     }
     else{
@@ -186,10 +192,126 @@ const ProjectDetails = () => {
     })
   }
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const inviteCollaborators = () => {
+    const myId = parseInt(localStorage.getItem("userId"));
+
+    const requestList = selectedUsers.map((u,i) => {
+      return [
+        myId,
+        u.id,
+        projectData.projectId,
+        0 // inviting to collaborate
+      ]
+    })
+
+    const body = {
+      requests: requestList
+    }
+
+    api({ sendToken: true })
+    .post("/collab/add_request", body)
+    .then((response) => {
+      //console.log(response)
+    })
+    .catch((error) => {
+      //console.log(error)
+    })
+
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const onSearch = (query) => {
+    api({ sendToken: true })
+    .get("/search", {
+      params: {
+        query: query,
+        type: 0
+      }
+    })
+    .then((response) => {
+      setUserResults(response.data.users)
+      console.log(response.data.users)
+    })
+    .catch((error) => {
+      //console.log(error)
+    })
+  }
 
   return (  
     
     <Frame>
+      <UserModal 
+      title="Invite Collaborators" 
+      visible={isModalVisible} 
+      onOk={inviteCollaborators} 
+      onCancel={handleCancel}
+      okText="Invite"
+      cancelText="Cancel"
+      okButtonProps={{ backgroundColor: "red" }}
+      cancelButtonProps={{ disabled: true }}
+      bodyStyle= {{
+        maxHeight: "60vh", 
+        overflowY: "auto"
+      }}
+      footer={[
+        <Button key="cancel" type="text" onClick={handleCancel}>
+          Cancel
+        </Button>,
+        <Button key="ok" type="text" style={{color: theme.main.colors.first}} onClick={inviteCollaborators}>
+          Invite
+        </Button>,
+      ]}>
+        <Search
+        placeholder="search user name"
+        allowClear
+        onSearch={onSearch}/>
+        <br/>
+        <br/>
+        {selectedUsers.length > 0 ? "Selected Users" : null}
+        {selectedUsers.map((u,i) => {
+          return <>
+          <UserResult
+          img={u.profile_picture_url}
+          name={u.name + " " + u.surname}
+          department={u.department}
+          university={u.university}
+          selected={true}
+          profileLink={() => history.push("/profile/" + u.id)}
+          buttonClicked={() => setSelectedUsers(prev => {
+            return prev.filter((item) => item.id !== u.id);
+          })}
+          />
+          </>
+        })}
+        <br/>
+        Search Results
+        {userResults.map((u,i) => {
+          return Object.values(selectedUsers).includes(u) ? null : <>
+          <UserResult
+          img={u.profile_picture_url}
+          name={u.name + " " + u.surname}
+          department={u.department}
+          university={u.university}
+          selected={false}
+          buttonClicked={() => setSelectedUsers(prev => {
+            return [
+              ...prev,
+              u
+            ]
+          })}
+          />
+          </>
+        })}
+      </UserModal>
+
       {
       (loadingProject) ?  <Main
         xs={{span: 20, offset: 1}}
@@ -230,8 +352,7 @@ const ProjectDetails = () => {
         onClick={() => console.log("hi")}
         color={statusColorMap[projectData.status]} 
         style={{
-          marginLeft: "5px",
-          cursor: "pointer"
+          marginLeft: "5px"
         }}>
           {statusMap[projectData.status]}
         </Tag>

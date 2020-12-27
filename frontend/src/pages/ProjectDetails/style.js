@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Col } from "antd";
+import { Col, Modal } from "antd";
 
 export const Main = styled(Col)` 
   padding: 20px;
@@ -149,4 +149,11 @@ export const FadedText = styled.p`
   @media only screen and (min-width: 768px) {
     font-size: 12px;
   }
+`;
+
+export const UserModal = styled(Modal)` 
+.ant-modal-content {
+  border-radius: 15px;
+  padding: 0 18px;
+}
 `;
