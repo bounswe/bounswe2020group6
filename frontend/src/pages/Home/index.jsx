@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { search } from "../../redux/search/api";
+import { useHistory } from "react-router-dom";
 
 import { Col, Spin } from "antd";
 import Frame from "../../components/Frame";
@@ -16,13 +17,24 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [allPeople, setAllPeople] = useState(null);
+  const [projectRecommendationsLoading, setProjectRecommendationsLoading] = useState(true);
   const [projectRecommendations, setProjectRecommendations] = useState([]);
+  const history = useHistory()
 
   useEffect(() => {
+    setProjectRecommendationsLoading(true)
     api({ sendToken: true })
       .get("/homepage/posts")
       .then((response) => {
         setProjectRecommendations(response.data);
+        setProjectRecommendationsLoading(false)
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
         console.log(response.data)
       })
       .catch((error) => {
@@ -97,16 +109,21 @@ const Home = () => {
         <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
         <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
         <H3>Projects you might like</H3>
-        {
-          projectRecommendations.map((p,i) => {
-            return <ProjectRecommendationCard
-              name={p.title}
-              tags={p.project_tags.map((t) => {
-                return t.tag
-              })}
-            />
-          })
+        { 
+          projectRecommendationsLoading ? <Spin/> : (
+            projectRecommendations.length === 0 ? "No recommendations yet..." :
+              projectRecommendations.map((p,i) => {
+                return <ProjectRecommendationCard
+                  projectLink={() => history.push("/project/details/" + p.id)}
+                  name={p.title}
+                  tags={p.project_tags.map((t) => {
+                    return t.tag
+                  })}
+                />
+              })
+          )
         }
+
       </Col>
     </Frame>
   );
