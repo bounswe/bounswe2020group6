@@ -96,6 +96,11 @@ public interface AkademiseApi {
     @GET("profile/{id}")
     Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
 
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("profile/googlescholar")
+    Call<GoogleScholar> getGoogleScholar(@Body Url url, @Header("Authorization") String auth);
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @DELETE("collab/delete_request/{id}")
     Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);

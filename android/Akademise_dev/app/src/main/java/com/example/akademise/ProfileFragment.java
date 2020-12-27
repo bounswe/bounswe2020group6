@@ -38,6 +38,7 @@ public class ProfileFragment extends Fragment {
     private Button statsAndOverviewButton;
     private Button publicationsButton;
     private Button logoutButton;
+    private Button googleScholar;
     private TextView tvAffiliation;
     private String myToken;
     private  Integer myId;
@@ -59,6 +60,7 @@ public class ProfileFragment extends Fragment {
         tvContact=view.findViewById(R.id.contact_content);
         tvTags = view.findViewById(R.id.research_tags_content);
         ivProfilePhoto=view.findViewById(R.id.avatar);
+        googleScholar = view.findViewById(R.id.btnMyGoogleScholar);
         loadData();
         loadIDData();
 
@@ -173,6 +175,13 @@ public class ProfileFragment extends Fragment {
                 tvTags.setText(temp);
                 //Toast.makeText(getActivity(), "Successful", Toast.LENGTH_LONG).show();
 
+                googleScholar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToGoogleScholar(profile);
+                    }
+                });
+
 
             }
 
@@ -191,6 +200,18 @@ public class ProfileFragment extends Fragment {
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(accessToken);
         editor.apply();
+    }
+
+    private void goToGoogleScholar(Profile profile){
+        Fragment fragment = new GoogleScholarFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("profile", profile);
+        fragment.setArguments(args);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flProfileFragments, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
 
