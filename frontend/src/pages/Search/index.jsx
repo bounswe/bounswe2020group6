@@ -6,6 +6,7 @@ import { search } from "../../redux/search/api";
 import { Col, Row, Spin } from "antd";
 import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
+import UserCard from "../../components/UserCard";
 import FilterButton from "../../components/FilterButton";
 import FilterButtonSmall from "../../components/FilterButtonSmall";
 import {
@@ -14,9 +15,11 @@ import {
   H2
 } from "./style";
 
-import defaultProfilePictureHref from "../../assets/asset_hrefs"
+import { useHistory } from "react-router-dom";
 
 const Search = () => {
+  const history = useHistory();
+
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [allPeople, setAllPeople] = useState(null);
   const [loadingUserResults, setLoadingUserResults] = useState(true);
@@ -42,20 +45,32 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    console.log(searchText)
     dispatch(search({query: searchText, type: 0}, setUserResults, setLoadingUserResults))
     dispatch(search({query: searchText, type: 1}, setProjectResults, setLoadingProjectResults))
     // eslint-disable-next-line
   }, [selectedFilter, searchText]);
 
-  const createContentCard = (Id, Title, TopNote, Summary, Footer, ImgUrl) => {
+  const createContentCard = (p) => {
     return (<ContentCard
-      key={Id}
-      title={Title}
-      topnote={TopNote}
-      summary={Summary}
-      footer={Footer}
-      img={ImgUrl ? ImgUrl : defaultProfilePictureHref }
+      id={p.id}
+      title={p.title}
+      topnote={p.date}
+      summary={p.summary}
+      userId={p.userId}
+      footer={getUserNameById(p.userId)}
+      img={getUserPhotoById(p.userId)}
+      />)
+  }
+
+  const createUserCard = (u) => {
+    return (<UserCard
+      id={u.id}
+      name={u.name}
+      surname={u.surname}
+      university={u.university}
+      department={u.department}
+      img={u.profile_picture_url}
+      history={history}
       />)
   }
 
@@ -86,7 +101,7 @@ const Search = () => {
       case "people":
         if (!loadingUserResults) {
           return userResults.users.length > 0 ?
-          <> <H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", "", u.profile_picture_url))}</>
+          <> <H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
           : <H2>"No users found."</H2>
         }
         else{
@@ -95,7 +110,7 @@ const Search = () => {
       case "project":
         if (!loadingProjectResults) {
           return projectResults.projects.length > 0 ?
-          <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId), getUserPhotoById(p.userId)))}</> 
+          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy === 1 ? createContentCard(p) : "")}</> 
           : <H2>"No projects found."</H2>
         }
         else{
@@ -106,10 +121,10 @@ const Search = () => {
           return projectResults.projects.length > 0 || projectResults.projects.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
-            <><H2>Project Results</H2> {projectResults.projects.map((p) => createContentCard(p.id, p.title, p.deadline, p.abstract, getUserNameById(p.userId), getUserPhotoById(p.userId)))}</>
+            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy === 1 ? createContentCard(p) : "")}</>
             :""}
             {userResults.users.length > 0 ? 
-            <><H2>User Results</H2> {userResults.users.map((u) => createContentCard(u.id, u.name + " " + u.surname, u.number_of_ups, "", "", u.profile_picture_url))}</>
+            <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
             :""}
           </>
           :<H2>"No results found."</H2>

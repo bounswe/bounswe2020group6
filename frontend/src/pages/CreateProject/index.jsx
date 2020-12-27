@@ -2,13 +2,12 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Space, Row, Col, Upload, message } from "antd";
+import { Space, Row, Col, message } from "antd";
 import MainHeader from "../../components/MainHeader";
 import ProfileSider from "../../components/ProfileSider";
 import { Content } from "./style";
-import { UploadOutlined } from "@ant-design/icons";
 
-import { Select, Form, Input, Button, Radio, DatePicker, Divider } from "antd";
+import { Select, Form, Input, Radio, Divider } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
 import { postPost } from "../../redux/project/api";
@@ -24,7 +23,7 @@ const CreateProject = () => {
   const data = {
     title: "",
     project_tags: [],
-    description: "",
+    summary: "",
     privacy: 1,
     project_milestones: [],
     requirements: "",
@@ -37,9 +36,6 @@ const CreateProject = () => {
 
   const dispatch = useDispatch();
   const selector = useSelector;
-
-  const [projectData, setProjectData] = React.useState(data);
-
   const tags = selector((state) => state.choices.tags);
 
   const history = useHistory();
@@ -88,12 +84,12 @@ const CreateProject = () => {
                     name="title"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input value={projectData.title}/>
+                    <Input/>
                   </Form.Item>
 
                   <Form.Item
-                    label={<FormLabel>Description</FormLabel>}
-                    name="description"
+                    label={<FormLabel>Summary</FormLabel>}
+                    name="summary"
                     rules={[{ required: true, message: "Required" }]}
                   >
                     <Input.TextArea rows={4}/>

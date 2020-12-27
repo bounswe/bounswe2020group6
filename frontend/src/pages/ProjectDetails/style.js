@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Col, Modal } from "antd";
+import { Col } from "antd";
+import { EditOutlined } from '@ant-design/icons';
 
 export const Main = styled(Col)` 
   padding: 20px;
@@ -34,6 +35,21 @@ export const Side = styled(Col)`
   }
 `;
 
+export const EditButton = styled(EditOutlined)` 
+
+  cursor: pointer;
+  color: ${theme.main.colors.third};
+
+  :hover {
+    color: ${theme.main.colors.first};
+  }
+`; 
+
+export const IndentedBlock = styled.div` 
+  margin-left: 16px;
+`; 
+
+
 export const DateSection = styled.p` 
   color: grey;
 `; 
@@ -42,8 +58,12 @@ export const Tags = styled.div`
   margin-top: 30px;
 `; 
 
+export const EditWrapper = styled.div` 
+  margin-top: 16px;
+`; 
+
 export const Summary = styled.div` 
-  margin-top: 30px;
+  margin-top: 16px;
 `; 
 
 export const Deadlines = styled.div` 
@@ -57,6 +77,12 @@ export const Files = styled.div`
 export const FileContainer = styled.div` 
   border: solid 2px #E4E4E4;
   border-radius: 5px;
+  min-height: 10px;
+
+  padding-top: 40px;
+  padding-bottom: 40px;
+  text-align:center;
+
   @media only screen and (max-width: 768px) {
     width: 100%;
   }
@@ -156,4 +182,18 @@ export const UserModal = styled(Modal)`
   border-radius: 15px;
   padding: 0 18px;
 }
+
+export const FadedDark = styled.p` 
+  margin: auto;
+  padding: auto;
+  text-align: left;
+  color: ${theme.main.colors.third};
+
+  @media only screen and (max-width: 768px) {
+    font-size: 10px;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    font-size: 12px;
+  }
 `;

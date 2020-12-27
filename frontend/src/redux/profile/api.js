@@ -75,8 +75,21 @@ export const getProjectsOfUser = (id) => {
     api({ sendToken: true })
       .get(`/post/get/${id}/0`)
       .then((response) => {
-        console.log(response.data)
         dispatch(actions.getProjectsOfUserSuccess(response.data));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+};
+
+export const getProjectsOfMe = () => {
+  const myId = localStorage.getItem("userId")
+  return (dispatch) => {
+    api({ sendToken: true })
+      .get(`/post/get/${myId}/0`)
+      .then((response) => {
+        dispatch(actions.getProjectsOfMeSuccess(response.data));
       })
       .catch((e) => {
         console.log(e);

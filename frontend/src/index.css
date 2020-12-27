@@ -12,6 +12,8 @@ body {
     "Philosopher" sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll !important; /* Show vertical scrollbar */
+  width: calc(100% - 14px) !important;
 }
 
 code {
