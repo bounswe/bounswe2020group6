@@ -46,6 +46,10 @@ export const EditButton = styled(EditOutlined)`
   }
 `; 
 
+export const IndentedBlock = styled.div` 
+  margin-left: 16px;
+`; 
+
 
 export const DateSection = styled.p` 
   color: grey;
@@ -164,6 +168,21 @@ export const FadedText = styled.p`
   padding: auto;
   text-align: left;
   color: grey;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 10px;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+export const FadedDark = styled.p` 
+  margin: auto;
+  padding: auto;
+  text-align: left;
+  color: ${theme.main.colors.third};
 
   @media only screen and (max-width: 768px) {
     font-size: 10px;
