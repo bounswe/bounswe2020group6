@@ -63,15 +63,15 @@ const ProjectDetails = () => {
       
       return (
         <IndentedBlock>
-          <UserDiv key={i+1} onClick={() => redirectToProfile(c.id)}>
+          <UserDiv key={i+1} onClick={() => redirectToProfile(c.user_id)}>
             <Col>
-              <Avatar size={48} src={c.profile_picture_url}/>
+              <Avatar size={48} src={c.user.profile_picture_url}/>
             </Col>
             <Col style={{paddingLeft: "15px"}}>
-              <H3 style={{margin: "auto"}}> {c.name + " " + c.surname} <PlusOutlined /></H3> 
+              <H3 style={{margin: "auto"}}> {c.user.name + " " + c.user.surname} <PlusOutlined /></H3> 
               <FadedDark> {"Collaborator"} </FadedDark>
-              <FadedText> {c.university} </FadedText>
-              <FadedText> {c.department} </FadedText>
+              <FadedText> {c.user.university} </FadedText>
+              <FadedText> {c.user.department} </FadedText>
             </Col>
           </UserDiv>
         </IndentedBlock>
