@@ -5,6 +5,7 @@ const initialState = {
   profileLoading: false,
   pictureLoading: false,
   projects: [],
+  myProjects: [],
 };
 
 const getProfileInfoStartReducer = (state, action) => {
@@ -44,6 +45,13 @@ const getProjectsOfUserSuccessReducer = (state, action) => {
   };
 };
 
+const getProjectsOfMeSuccessReducer = (state, action) => {
+  return {
+    ...state,
+    myProjects: action.payload,
+  };
+};
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_PROFILE_INFO_START:
@@ -56,6 +64,8 @@ export default function reducer(state = initialState, action) {
       return changePictureDoneReducer(state, action);
     case actions.GET_PROJECTS_OF_USER_SUCCESS:
       return getProjectsOfUserSuccessReducer(state, action);
+    case actions.GET_PROJECTS_OF_ME_SUCCESS:
+      return getProjectsOfMeSuccessReducer(state, action);
     default:
       return state;
   }
