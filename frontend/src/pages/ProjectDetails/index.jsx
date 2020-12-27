@@ -180,6 +180,8 @@ const ProjectDetails = () => {
     })
 
     dispatch(sendBatchInviteRequest(myId, selected_id_list, projectData.id));
+
+    setIsModalVisible(false);
   };
 
   const showModal = () => {
