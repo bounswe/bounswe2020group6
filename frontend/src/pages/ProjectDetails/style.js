@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Col } from "antd";
+import { Col, Modal } from "antd";
 import { EditOutlined } from '@ant-design/icons';
 
 export const Main = styled(Col)` 
@@ -181,7 +181,7 @@ export const UserModal = styled(Modal)`
 .ant-modal-content {
   border-radius: 15px;
   padding: 0 18px;
-}
+}`
 
 export const FadedDark = styled.p` 
   margin: auto;
