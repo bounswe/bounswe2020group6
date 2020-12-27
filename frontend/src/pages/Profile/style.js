@@ -19,7 +19,7 @@ export const Scrollable = styled.div`
   padding: 10px;
 
   .ant-avatar {
-    background-color: ${theme.main.colors.second} !important;
+    background-color: ${theme.main.colors.sixth} !important;
   }
 `;
 

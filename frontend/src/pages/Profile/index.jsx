@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
 import {
   PaperClipOutlined,
-  TeamOutlined,
+  GoogleOutlined,
   FormOutlined,
   CheckOutlined,
   CloseOutlined,
@@ -67,22 +67,6 @@ const Profile = () => {
     }
     // eslint-disable-next-line
   }, [id]);
-
-  const data = [
-    {
-      title: "Ant Design Title 1",
-      description: "",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
 
   const handleFollow = () => {
     if (alreadyFollowing) {
@@ -418,22 +402,39 @@ const Profile = () => {
             </Scrollable>
           </SectionCol>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 2 }}>
-            <SectionTitle>Google Scholar Projects</SectionTitle>
+            <SectionTitle>
+              <span>Google Scholar Projects</span>
+              {profile.citations && (
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "normal",
+                    marginLeft: "40px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {profile.citations}
+                  </span>
+                  {` citations`}
+                </span>
+              )}
+            </SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={profile.projects ? JSON.parse(profile.projects) : []}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item style={{ cursor: "pointer" }}>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          style={{ color: "yelow" }}
-                          icon={<TeamOutlined twoToneColor="#eb2f96" />}
-                        />
-                      }
+                      onClick={() => window.open(profile.scholar_profile_url, "_blank")}
+                      avatar={<Avatar icon={<GoogleOutlined twoToneColor="#eb2f96" />} />}
                       title={item.title}
-                      description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      description={item.venue}
                     />
                   </List.Item>
                 )}
