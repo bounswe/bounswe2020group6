@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
 import {
   PaperClipOutlined,
-  TeamOutlined,
+  GoogleOutlined,
   FormOutlined,
   CheckOutlined,
   CloseOutlined,
@@ -21,6 +21,7 @@ import {
   getProjectsOfUser,
   changePicture,
 } from "../../redux/profile/api";
+import { scrolledToProjectsAction } from "../../redux/profile/actions";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -35,6 +36,7 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const Profile = () => {
   const history = useHistory();
+  const projectsRef = useRef(null);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -49,6 +51,8 @@ const Profile = () => {
   const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
+  const scrollToProjects = useSelector((state) => state.profile.scrollToProjects);
+
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
   const isOwnProfile = () => {
@@ -60,6 +64,14 @@ const Profile = () => {
     !isOwnProfile() && followings && followings.filter((f) => f.following.id == id).length > 0;
 
   useEffect(() => {
+    if (scrollToProjects) {
+      projectsRef.current.scrollIntoView();
+      dispatch(scrolledToProjectsAction());
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     dispatch(getProfileInfo(id));
     dispatch(getProjectsOfUser(id));
     if (!isOwnProfile()) {
@@ -67,22 +79,6 @@ const Profile = () => {
     }
     // eslint-disable-next-line
   }, [id]);
-
-  const data = [
-    {
-      title: "Ant Design Title 1",
-      description: "",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
 
   const handleFollow = () => {
     if (alreadyFollowing) {
@@ -394,7 +390,7 @@ const Profile = () => {
         <Row>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
-            <Scrollable>
+            <Scrollable ref={projectsRef}>
               <List
                 itemLayout="horizontal"
                 dataSource={projects}
@@ -420,22 +416,39 @@ const Profile = () => {
             </Scrollable>
           </SectionCol>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 2 }}>
-            <SectionTitle>Google Scholar Projects</SectionTitle>
+            <SectionTitle>
+              <span>Google Scholar Projects</span>
+              {profile.citations && (
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "normal",
+                    marginLeft: "40px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {profile.citations}
+                  </span>
+                  {` citations`}
+                </span>
+              )}
+            </SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={profile.projects ? JSON.parse(profile.projects) : []}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item style={{ cursor: "pointer" }}>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          style={{ color: "yelow" }}
-                          icon={<TeamOutlined twoToneColor="#eb2f96" />}
-                        />
-                      }
+                      onClick={() => window.open(profile.scholar_profile_url, "_blank")}
+                      avatar={<Avatar icon={<GoogleOutlined twoToneColor="#eb2f96" />} />}
                       title={item.title}
-                      description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      description={item.venue}
                     />
                   </List.Item>
                 )}
