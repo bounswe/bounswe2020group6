@@ -92,7 +92,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
 
                 List<GetProjects> projects = response.body();
                 GetProjects project = projects.get(0);
-                userNameSurname.setText(project.getUser().getName()+" "+project.getUser().getName());
+                userNameSurname.setText(project.getUser().getName()+" "+project.getUser().getSurname());
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);

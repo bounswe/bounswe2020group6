@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
                 Fragment fragment = new StatsAndOverviewFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flFragment, fragment);
+                fragmentTransaction.replace(R.id.flProfileFragments, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -90,7 +90,7 @@ public class ProfileFragment extends Fragment {
                 Fragment fragment = new ProjectFragment(); //
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.flFragment, fragment);
+                fragmentTransaction.replace(R.id.flProfileFragments, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

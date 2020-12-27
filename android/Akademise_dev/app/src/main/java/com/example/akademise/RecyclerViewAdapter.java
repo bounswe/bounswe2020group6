@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -26,7 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     List<GetProjects> projects;
     SearchedUsers searchedUsers;
     Context context;
-    int userId;
+    List<Integer> userId=new ArrayList<>();
 
     public RecyclerViewAdapter(Context ct, List<GetProjects> prj, SearchedUsers srchdUsr) {
         context = ct;
@@ -50,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.title.setText(projects.get(position).getTitle());
             holder._abstract.setText(projects.get(position).getSummary());
             holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
-            userId = projects.get(position).getUserId();
+            userId.add(projects.get(position).getUserId());
         }
         else{
             String person= searchedUsers.getUsers().get(position-projects.size()).getName()+" "+
@@ -58,14 +59,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.title.setText(person);
             holder._abstract.setText(searchedUsers.getUsers().get(position-projects.size()).getTitle());
             holder.imageView.setImageResource(R.drawable.ic_profile_foreground);
-            userId = searchedUsers.getUsers().get(position-projects.size()).getId();
+            userId.add(searchedUsers.getUsers().get(position-projects.size()).getId());
         }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent;
                 if(position<projects.size()) {
-                    if (userId == myId) {
+                    if (userId.get(position) == myId) {
                         intent = new Intent(context, ProjectDetailsActivity.class);
 
 
@@ -73,22 +74,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         intent = new Intent(context, ProjectDetailsUserActivity.class);
                     }
 
-                    //Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position), Toast.LENGTH_LONG).show();
                     intent.putExtra("project", projects.get(position));
                     context.startActivity(intent);
                 }
                 else{
-                    if (userId == myId) {
-                        intent = new Intent(context, ProfileFragment.class);
+                    intent = new Intent(context, ProfileActivity.class);
+                    if (userId.get(position) == myId) {
+                        intent.putExtra("me",1);
+                        Toast.makeText(context, String.valueOf(userId.get(position)), Toast.LENGTH_LONG).show();
 
 
                     } else {
-                        intent = new Intent(context, ProfileOthersActivity.class);
+                        Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position-projects.size()), Toast.LENGTH_LONG).show();
+                        intent.putExtra("otherUser",0);
                     }
-
-                    //Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
                     intent.putExtra("user", searchedUsers.getUsers().get(position-projects.size()));
                     context.startActivity(intent);
+
                 }
             }
         });
