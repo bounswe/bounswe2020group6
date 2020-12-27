@@ -88,7 +88,11 @@ var homepagePosts = async function(userId){
 		    }
 		},
 		attributes : ['tag']
-	    }
+	    },
+	    {
+                model : User,
+                attributes : ['name','surname','university','department']
+    	    }
 	]
     });
     return projects	
