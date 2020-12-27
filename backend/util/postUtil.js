@@ -1,5 +1,5 @@
-const {ProjectTag, Project, User , ProjectCollaborator, ProjectFile, ProjectMilestone} = require("../model/db")
-
+const {ProjectTag, Project, User , ProjectCollaborator, ProjectFile, ProjectMilestone, UserInterest} = require("../model/db")
+const { Op } = require("sequelize");
 
 
 const projectInfo = [
@@ -64,11 +64,47 @@ var tagExists = async function(tag,projectId){
 }
 
 
+var homepagePosts = async function(userId){
+    user_interests = await UserInterest.findAll({
+	where: {
+	    user_id : userId
+	},
+	attributes : ['interest']
+    });
+    interest_array = []
+    for(var i in user_interests)
+        interest_array.push(user_interests[i].interest);    	
+    projects = await Project.findAll({
+	where : {
+	    privacy : 1
+	},
+	attributes : ['title','description','summary'],
+	include : [
+	    {
+		model : ProjectTag,
+		where : {  
+		    tag : {
+			[Op.in] : interest_array
+		    }
+		},
+		attributes : ['tag']
+	    },
+	    {
+                model : User,
+                attributes : ['name','surname','university','department']
+    	    }
+	]
+    });
+    return projects	
+}
+
+
 
 
 
 module.exports = {
     postExists,
     tagExists,
-    projectInfo
+    projectInfo,
+    homepagePosts
 }
