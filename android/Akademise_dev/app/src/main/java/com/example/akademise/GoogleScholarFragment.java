@@ -1,5 +1,7 @@
 package com.example.akademise;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +24,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class GoogleScholarFragment extends Fragment {
+
+    AkademiseApi akademiseApi;
+    public static final String MyPEREFERENCES = "MyPrefs";
+    public static final String accessToken = "XXXXX";
+    private String myToken;
     private TextView tvGoogleScholar;
     private TextView url_edit;
     private Button btnSend;
@@ -44,6 +58,13 @@ public class GoogleScholarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        loadData();
+        akademiseApi = retrofit.create(AkademiseApi.class);
         tvGoogleScholar=view.findViewById(R.id.tvGoogleScholarUrl);
         url_edit=view.findViewById(R.id.etGS_Url);
         btnSend=view.findViewById(R.id.btnGS_Url);
@@ -54,6 +75,15 @@ public class GoogleScholarFragment extends Fragment {
         titles = new ArrayList<>();
         desc = new ArrayList<>();
         if(me()){
+            btnSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(url_edit.getText().length()>0) {
+                        sendUrl(url_edit.getText().toString());
+                    }
+
+                }
+            });
 
         }
         else{
@@ -90,6 +120,34 @@ public class GoogleScholarFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    private void loadData(){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        myToken = sharedPreferences.getString(accessToken, "");
+        Log.d("mytoken", myToken.toString());
+
+    }
+    private void sendUrl(String url){
+        Url my_url = new Url(url);
+        Call<GoogleScholar> inside_call= akademiseApi.getGoogleScholar(my_url,"Bearer " + myToken);
+        inside_call.enqueue(new Callback<GoogleScholar>() {
+            @Override
+            public void onResponse(Call<GoogleScholar> call, Response<GoogleScholar> response) {
+                if(!response.isSuccessful()){
+                    Log.d("Get", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GET", "On response: " + response.message());
+                GoogleScholar googleScholar = response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<GoogleScholar> call, Throwable t) {
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
     }
 
 }
