@@ -8,6 +8,16 @@ export const Content = styled(Layout)`
 
 export const Main = styled(Col)` 
   margin-top: 0px;
+
+  @media only screen and (min-width: 500px) {
+   padding: 0 50px
+  }
+  @media only screen and (min-width: 600px) {
+   padding: 0 100px
+  }
+  @media only screen and (min-width: 1200px) {
+   padding: 0 150px
+  }
 `;
 
 export const H1 = styled.h1` 
