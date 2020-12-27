@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { search } from "../../redux/search/api";
 import { useHistory } from "react-router-dom";
 
 import { Col, Spin } from "antd";
 import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
-import ProjectRecommendationCard from "../../components/ProjectRecommendationCard";
 import { Main, H2, H3 } from "./style";
 
 import api from "../../axios";
@@ -15,19 +12,18 @@ import api from "../../axios";
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
-  const [loadingAllPeople, setLoadingAllPeople] = useState(true);
-  const [allPeople, setAllPeople] = useState(null);
-  const [projectRecommendationsLoading, setProjectRecommendationsLoading] = useState(true);
-  const [projectRecommendations, setProjectRecommendations] = useState([]);
+  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
+  const [userRecommendations, setUserRecommendations] = useState([]);
+
   const history = useHistory()
 
   useEffect(() => {
-    setProjectRecommendationsLoading(true)
+    setLoading(true)
     api({ sendToken: true })
-      .get("/homepage/posts")
+      .get("/home/posts")
       .then((response) => {
-        setProjectRecommendations(response.data);
-        setProjectRecommendationsLoading(false)
+        setFeed(response.data);
+        setLoading(false)
         console.log(response.data)
       })
       .catch((error) => {
@@ -35,23 +31,18 @@ const Home = () => {
       });
   }, []);
 
-        console.log(response.data)
+  useEffect(() => {
+    setUserRecommendationsLoading(true)
+    api({ sendToken: true })
+      .get("/home/users")
+      .then((response) => {
+        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendationsLoading(false)
+        //console.log(response.data)
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(search({ query: "", type: 0 }, setAllPeople, setLoadingAllPeople));
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    dispatch(search({ query: "", type: 1 }, setFeed, setLoading));
-    // eslint-disable-next-line
   }, []);
 
   const createContentCard = (p) => {
@@ -59,26 +50,14 @@ const Home = () => {
       <ContentCard
         id={p.id}
         title={p.title}
-        topnote={p.date}
         summary={p.summary}
         date={p.createdAt}
-        userId={p.userId}
-        footer={getUserNameById(p.userId)}
-        img={getUserPhotoById(p.userId)}
+        userId={p.user.id}
+        footer={p.user.name + " " + p.user.surname}
+        img={p.user.profile_picture_url}
+        status={p.status}
       />
     );
-  };
-
-  const getUserNameById = (userId) => {
-    var userList = allPeople.users;
-    var user = userList.find((u) => u.id === userId);
-    return user ? user.name + " " + user.surname : null;
-  };
-
-  const getUserPhotoById = (userId) => {
-    var userList = allPeople.users;
-    var user = userList.find((u) => u.id === userId);
-    return user ? user.profile_picture_url : null;
   };
 
   return (
@@ -89,12 +68,12 @@ const Home = () => {
         md={{ span: 22, offset: 1 }}
         lg={{ span: 14, offset: 5 }}
       >
-        {loading || loadingAllPeople ? (
+        {loading ? (
           <H2>
             Loading... <Spin />
           </H2>
         ) : (
-          feed.projects.reverse().map((p) => createContentCard(p))
+          feed.byUserTags.map((p) => createContentCard(p))
         )}
       </Main>
       <Col
@@ -105,23 +84,18 @@ const Home = () => {
         xl={{ span: 4, offset: 1 }}
       >
         <H3>Recommended users</H3>
-        <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={0} />
-        <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
-        <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
-        <H3>Projects you might like</H3>
         { 
-          projectRecommendationsLoading ? <Spin/> : (
-            projectRecommendations.length === 0 ? "No recommendations yet..." :
-              projectRecommendations.map((p,i) => {
-                return <ProjectRecommendationCard
-                  projectLink={() => history.push("/project/details/" + p.id)}
-                  name={p.title}
-                  tags={p.project_tags.map((t) => {
-                    return t.tag
-                  })}
-                />
+          userRecommendationsLoading ? <Spin/> :(
+            userRecommendations.length === 0 ? "No recommendations yet..." :
+              userRecommendations.map((u,i) => {
+                return <PersonRecommendationCard 
+                id={u.id}
+                profileLink={() => history.push("/profile/" + u.id)}
+                name={u.name + " " + u.surname}
+                university={u.university}
+                department={u.department}/>
               })
-          )
+          ) 
         }
 
       </Col>
