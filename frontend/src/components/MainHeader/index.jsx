@@ -52,11 +52,21 @@ const SiteHeader = () => {
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
-        <SideBarItem>Home</SideBarItem>
-        <SideBarItem>Profile</SideBarItem>
-        <SideBarItem>Settings</SideBarItem>
-        <SideBarItem onClick={() => showModal()}>Notifications</SideBarItem>
-        <SideBarItem onClick={handleLogout}>Logout</SideBarItem>
+        <SideBarItem onClick={() => history.push("/home")}>
+          Home
+        </SideBarItem>
+        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>
+          Profile
+        </SideBarItem>
+        <SideBarItem href="#">
+          Settings
+        </SideBarItem>
+        <SideBarItem onClick={() => showModal()}>
+          Notifications
+        </SideBarItem>
+        <SideBarItem onClick={handleLogout}>
+          Logout
+        </SideBarItem>
       </SideBarMenu>
     </SideBar>
   );
