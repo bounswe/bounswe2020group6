@@ -406,9 +406,11 @@ const Profile = () => {
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description={
-                        item.summary.length > 120
-                          ? item.summary.substring(0, 120) + "..."
+                      description=          {
+                        item.summary === undefined || item.summary === null 
+                        ? ""
+                        : item.summary.length > 100 
+                          ? item.summary.substring(0,100) + "..."
                           : item.summary
                       }
                     />
