@@ -56,6 +56,7 @@ const EditProject = () => {
   const [projectData, setProjectData] = React.useState(data);
   const [activeMilestone, setActiveMilestone] = React.useState(-1);
   const [milestonesData, setMilestonesData] = React.useState(projectData.project_milestones);
+  const [milestoneType, setMilestoneType] = React.useState(null);
 
   const [tempTags, setTempTags] = React.useState([]);
 
@@ -103,7 +104,7 @@ const EditProject = () => {
   const handleAddMilestone = function (index) {
     let tempMilestoneData = {
       date: moment().format("YYYY-MM-DD"),
-      title: "Enter Title",
+      title: "New Milestone",
       description: "Enter Description",
       id: milestonesData.length,
     };
@@ -152,6 +153,16 @@ const EditProject = () => {
   }
 
   const getData = () => projectData || data;
+
+  const handleMilestoneTypeChange = (e, index) => {
+    const value = e.target.value;
+    setMilestoneType(value);
+    if (value === "Due Date") milestoneTitleChange(e, index);
+  };
+
+  const dueDateExists = () => {
+    return milestonesData.filter((m) => m.title === "Due Date").length > 0;
+  };
 
   return (
     <Content>
@@ -254,9 +265,35 @@ const EditProject = () => {
                           }}
                         >
                           <Row style={{ marginBottom: "16px" }}>
+                            <Radio.Group
+                              disabled={dueDateExists()}
+                              onChange={(e) => handleMilestoneTypeChange(e, index)}
+                              value={
+                                milestoneType
+                                  ? milestoneType
+                                  : milestonesData[index].title === "Due Date"
+                                  ? "Due Date"
+                                  : "Milestone"
+                              }
+                              defaultValue={
+                                milestonesData[index].title === "Due Date"
+                                  ? "Due Date"
+                                  : "Milestone"
+                              }
+                            >
+                              <Radio value={"Milestone"}>Milestone</Radio>
+                              <Radio value={"Due Date"}>Due Date</Radio>
+                            </Radio.Group>
+                          </Row>
+                          <Row style={{ marginBottom: "16px" }}>
                             <h4>Milestone Name</h4>
                             <Input
-                              value={milestonesData[index].title}
+                              disabled={milestoneType === "Due Date"}
+                              value={
+                                milestoneType === "Due Date"
+                                  ? "Due Date"
+                                  : milestonesData[index].title
+                              }
                               onChange={(e) => milestoneTitleChange(e, index)}
                             />
                           </Row>
@@ -339,7 +376,9 @@ const EditProject = () => {
                     </Radio.Group>
                   </Form.Item>
                   <Row style={{ marginBottom: "16px" }}>
-                    <Col style={{ width: "100%" }}>
+                    <Col
+                      style={{ width: "300px", position: "fixed", bottom: "40px", right: "10%" }}
+                    >
                       <FormButton type="primary" htmlType="submit">
                         Confirm
                       </FormButton>
