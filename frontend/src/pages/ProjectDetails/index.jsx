@@ -31,6 +31,8 @@ import {
   Side,
   UserDiv,
   FadedText,
+  FadedDark,
+  IndentedBlock,
 } from "./style";
 
 const ProjectDetails = () => {
@@ -67,6 +69,7 @@ const ProjectDetails = () => {
             {" "}
             {u.name + " " + u.surname} <PlusOutlined />
           </H3>
+          <FadedDark> {"Project Owner"} </FadedDark>
           <FadedText> {u.university} </FadedText>
           <FadedText> {u.department} </FadedText>
         </Col>
@@ -75,19 +78,22 @@ const ProjectDetails = () => {
 
     var collabs = projectData.project_collaborators.map((c, i) => {
       return (
-        <UserDiv key={i + 1} onClick={() => redirectToProfile(c.id)}>
-          <Col>
-            <Avatar size={64} src={c.profile_picture_url} />
-          </Col>
-          <Col style={{ paddingLeft: "15px" }}>
-            <H3 style={{ margin: "auto" }}>
-              {" "}
-              {c.name + " " + c.surname} <PlusOutlined />
-            </H3>
-            <FadedText> {c.university} </FadedText>
-            <FadedText> {c.department} </FadedText>
-          </Col>
-        </UserDiv>
+        <IndentedBlock>
+          <UserDiv key={i + 1} onClick={() => redirectToProfile(c.user_id)}>
+            <Col>
+              <Avatar size={48} src={c.user.profile_picture_url} />
+            </Col>
+            <Col style={{ paddingLeft: "15px" }}>
+              <H3 style={{ margin: "auto" }}>
+                {" "}
+                {c.user.name + " " + c.user.surname} <PlusOutlined />
+              </H3>
+              <FadedDark> {"Collaborator"} </FadedDark>
+              <FadedText> {c.user.university} </FadedText>
+              <FadedText> {c.user.department} </FadedText>
+            </Col>
+          </UserDiv>
+        </IndentedBlock>
       );
     });
 
@@ -142,7 +148,7 @@ const ProjectDetails = () => {
     }
 
     for (const c of projectData.project_collaborators) {
-      if (c.id === myId) {
+      if (c.user_id === myId) {
         return true;
       }
     }
