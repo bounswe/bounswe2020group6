@@ -399,11 +399,18 @@ const Profile = () => {
                 itemLayout="horizontal"
                 dataSource={projects}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push(`/project/details/${item.id}`)}
+                  >
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description={item.summary}
+                      description={
+                        item.summary.length > 120
+                          ? item.summary.substring(0, 120) + "..."
+                          : item.summary
+                      }
                     />
                   </List.Item>
                 )}
