@@ -58,7 +58,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         tags=findViewById(R.id.tvTagsUserProject);
         userNameSurname=findViewById(R.id.tvUserNameSurname);
         collaborators=findViewById(R.id.tvUserCollaborators);
-        req_button = findViewById(R.id.btnReqInvProject);
+        req_button = findViewById(R.id.btnReqUserProject);
 
         req_button.setOnClickListener(new View.OnClickListener() {
             @Override
