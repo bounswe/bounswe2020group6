@@ -16,7 +16,7 @@ const NotificationCard = ({
       case 0:
         return (
           <>
-            <p>
+            <p style={{ fontSize: "18px" }}>
               <i>
                 <TeamOutlined />
               </i>
@@ -24,10 +24,10 @@ const NotificationCard = ({
               <span onClick={projectLink}>{projectName}</span>.
             </p>
             <Row justify={"end"} align={"middle"}>
-              <NotifButton onClick={accept} size={"small"}>
+              <NotifButton action="accept" onClick={accept} size={"large"}>
                 Accept
               </NotifButton>
-              <NotifButton onClick={reject} size={"small"}>
+              <NotifButton action="reject" onClick={reject} size={"large"}>
                 Reject
               </NotifButton>
             </Row>

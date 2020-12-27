@@ -96,7 +96,7 @@ export const NotificationModal = styled(Modal).attrs({
     maxHeight: "60vh", 
     overflowY: "auto"
   },
-  width: 300
+  width: 400
 })`
 top: 74px;
 margin-right:10px;

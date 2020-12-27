@@ -51,16 +51,22 @@ export const Layout = styled(Row)`
 export const NotifButton = styled(Button).attrs({
   type: "text"
 })`
-  height: 18px;
-  font-size: 10px;
-  margin: 3px 4px;
+  height: 36px;
+  font-size: 14px;
+  margin: 3px 10px;
+
   border: solid 1px  ${theme.main.colors.first + "60"};  
 
   &:hover{
+    background-color: ${props => props.action === "accept" ? theme.main.colors.second : theme.main.colors.sixth};
     border: solid 1px ${theme.main.colors.first + "60"};
   }
 
   &:focus{
     border: solid 1px ${theme.main.colors.first + "60"};
   }
+
+  .ant-btn:not([disabled]):hover {
+    text-decoration: inherit;
+}
 `;
