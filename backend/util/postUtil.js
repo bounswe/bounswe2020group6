@@ -69,7 +69,7 @@ var postsByTag = async function(tags){
         where : {
             privacy : 1
         },
-        attributes : ['id', 'title','description','summary'],
+        attributes : ['id', 'title','description','summary', 'status', 'createdAt'],
         include : [
             {
                 model : ProjectTag,
@@ -82,7 +82,7 @@ var postsByTag = async function(tags){
             },
             {
                 model : User,
-                attributes : ['id', 'name','surname','university','department']
+                attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
             }
         ]
     });
@@ -100,10 +100,10 @@ var postsByFollowings = async function(userId){
             },
             privacy: 1
         },
-        attributes: ['id', "title", "description", "summary"],
+        attributes: ['id', "title", "description", "summary", 'status', 'createdAt'],
         include: {
             model : User,
-            attributes : ['id', 'name','surname','university','department']
+            attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
         }
     })
 
@@ -121,10 +121,10 @@ var postsByFollowings = async function(userId){
                     where: {
                         privacy: 1
                     },
-                    attributes: ['id', 'title', 'description', 'summary'],
+                    attributes: ['id', 'title', 'description', 'summary', 'status', 'createdAt'],
                     include: {
                         model : User,
-                        attributes : ['id', 'name','surname','university','department']
+                        attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
                     }
                 },
                 

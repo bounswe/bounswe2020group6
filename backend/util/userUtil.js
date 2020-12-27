@@ -148,7 +148,7 @@ var usersByUserTags = async function(userId) {
         interest_array.push(user_interests[i].interest);    	
         
     users = await User.findAll({
-        attributes : ['id', 'name','surname','university','department'],
+        attributes : ['id', 'name','surname','university','department', 'profile_picture_url'],
         include : [
             {
             model : UserInterest,
