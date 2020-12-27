@@ -6,9 +6,9 @@ import {
 } from "./style";
 import theme from "../../theme";
 
-const ProjectRecommendationCard = ({ name, commoncolabsnum, tags}) => {
+const ProjectRecommendationCard = ({ name, commoncolabsnum, tags, projectLink}) => {
   return (
-    <Layout wrap={false} xs={18} sm={18} md={18} lg={18}>
+    <Layout wrap={false} xs={18} sm={18} md={18} lg={18} onClick={projectLink} style={{cursor: "pointer"}}>
       <Col flex="40px">
       ►
       </Col>

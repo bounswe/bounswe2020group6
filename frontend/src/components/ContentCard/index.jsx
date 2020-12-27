@@ -1,10 +1,13 @@
-import { Row, Col, Avatar } from "antd";
+import { Row, Col, Avatar, Tag } from "antd";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 import { Layout, TopNote, Title, Summary, Footer, StHref } from "./style";
+
+const statusMap = ["cancelled", "completed", "in progress", "hibernating", "team building"];
+const statusColorMap = ["red", "green", "cyan", "purple", "volcano"];
 
 const ContentCard = (props) => {
   const history = useHistory();
@@ -23,7 +26,14 @@ const ContentCard = (props) => {
       <Col flex="auto" justify="start">
         <Row wrap={false}>
           <StHref onClick={(e) => history.push("/project/details/" + props.id)}>
-            <Title>{props.title}</Title>
+            <Title>
+              {props.title}
+              { props.status ?
+                <Tag color={statusColorMap[props.status]} style={{ margin: "auto 5px", height: "18px", lineHeight: "16px", fontSize: "10px" }}>
+                  {statusMap[props.status]}
+                </Tag> : null
+              }
+            </Title>
           </StHref>
           <TopNote style={{ flexGrow: "1", whiteSpace: "nowrap" }}>
             {moment(props.date).fromNow(true)}
@@ -36,7 +46,7 @@ const ContentCard = (props) => {
             ? props.summary.substring(0, 180) + "..."
             : props.summary}
         </Summary>
-        <Footer>{props.footer} </Footer>
+        <Footer> {props.footer} </Footer>
       </Col>
     </Layout>
   );
