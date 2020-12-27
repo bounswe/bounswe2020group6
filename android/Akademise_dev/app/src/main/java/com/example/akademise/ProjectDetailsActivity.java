@@ -97,7 +97,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-<
+
     private void getData(){
         String test= getIntent().getClass().toString();
         //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
