@@ -1,5 +1,6 @@
 const {ProjectTag, Project, User , ProjectCollaborator, ProjectFile, ProjectMilestone, UserInterest} = require("../model/db")
 const { Op } = require("sequelize");
+const userUtil = require("./userUtil");
 
 
 const projectInfo = [
@@ -63,8 +64,83 @@ var tagExists = async function(tag,projectId){
     return undefined
 }
 
+var postsByTag = async function(tags){
+    projects = await Project.findAll({
+        where : {
+            privacy : 1
+        },
+        attributes : ['id', 'title','description','summary'],
+        include : [
+            {
+                model : ProjectTag,
+                where : {  
+                    tag : {
+                        [Op.in] : tags
+                    }
+                },
+                attributes : []
+            },
+            {
+                model : User,
+                attributes : ['id', 'name','surname','university','department']
+            }
+        ]
+    });
+    return projects
+}
 
-var homepagePosts = async function(userId){
+
+var postsByFollowings = async function(userId){
+    followings = await userUtil.getFollowings(userId)
+    userIds = followings.map(x => x.following.id)
+    projects = await Project.findAll({
+        where: {
+            userId : {
+                [Op.in] : userIds
+            },
+            privacy: 1
+        },
+        attributes: ['id', "title", "description", "summary"],
+        include: {
+            model : User,
+            attributes : ['id', 'name','surname','university','department']
+        }
+    })
+
+    projectsByCollaborators = await ProjectCollaborator.findAll({
+        where: {
+            user_id : {
+                [Op.in] : userIds
+            }
+        },
+        attributes: [],
+        include: 
+            [
+                {
+                    model: Project,
+                    where: {
+                        privacy: 1
+                    },
+                    attributes: ['id', 'title', 'description', 'summary'],
+                    include: {
+                        model : User,
+                        attributes : ['id', 'name','surname','university','department']
+                    }
+                },
+                
+            ]
+        
+    })
+
+    
+    return projects.concat(projectsByCollaborators.map(x => x.project))
+
+}
+
+//followings' post, user's tags
+
+
+var postsByUserTags = async function(userId){
     user_interests = await UserInterest.findAll({
 	where: {
 	    user_id : userId
@@ -74,28 +150,9 @@ var homepagePosts = async function(userId){
     interest_array = []
     for(var i in user_interests)
         interest_array.push(user_interests[i].interest);    	
-    projects = await Project.findAll({
-	where : {
-	    privacy : 1
-	},
-	attributes : ['title','description','summary'],
-	include : [
-	    {
-		model : ProjectTag,
-		where : {  
-		    tag : {
-			[Op.in] : interest_array
-		    }
-		},
-		attributes : ['tag']
-	    },
-	    {
-                model : User,
-                attributes : ['name','surname','university','department']
-    	    }
-	]
-    });
-    return projects	
+    
+    byTags = await postsByTag(interest_array)
+    return byTags
 }
 
 
@@ -106,5 +163,6 @@ module.exports = {
     postExists,
     tagExists,
     projectInfo,
-    homepagePosts
+    postsByFollowings,
+    postsByUserTags,
 }

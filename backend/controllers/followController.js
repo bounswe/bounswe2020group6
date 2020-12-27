@@ -59,16 +59,7 @@ removeFollow = async function(req, res){
 getFollowings = async function(req, res) {
     follower_user_id = Number(req.userId)
     try{
-        followings = await Follow.findAll({
-            where: {
-                follower_user_id: follower_user_id
-            },
-            attributes: [],
-            include: {
-                model: User, as: 'following',
-                attributes: ['id', 'name', 'surname', 'profile_picture_url']
-            }
-        })
+        followings = await userUtils.getfollowings(follower_user_id)
         res.status(200).send({message: "Successful", data: followings})
     }
     catch(error){
@@ -79,16 +70,7 @@ getFollowings = async function(req, res) {
 getFollowers = async function(req, res) {
     followed_user_id = Number(req.userId)
     try{
-        followers = await Follow.findAll({
-            where: {
-                followed_user_id: followed_user_id
-            },
-            attributes: [],
-            include: {
-                model: User, as: 'followed',
-                attributes: ['id', 'name', 'surname', 'profile_picture_url']
-            }
-        })
+        followers = await userUtils.getFollowers(followed_user_id)
         res.status(200).send({message: "Successful", data: followers})
     }
     catch(error){

@@ -1,6 +1,5 @@
-const { User, Follow, UserUp } = require("../model/db")
+const { User, Follow, UserUp, UserInterest } = require("../model/db")
 const { Op } = require("sequelize");
-const cheerio = require('cheerio');
 const got = require('got');
 
 
@@ -90,6 +89,82 @@ var getCitations = async function(username) {
     return JSON.parse(response.body);
 }
 
+var getFollowings = async function(userId){
+    follower_user_id = userId
+    followers = await Follow.findAll({
+        where: {
+            follower_user_id: follower_user_id
+        },
+        attributes: [],
+        include: {
+            model: User, as: 'following',
+            attributes: ['id', 'name', 'surname', 'profile_picture_url']
+        }
+    })
+    return followers
+}
+
+var getFollowers = async function(userId){
+    followed_user_id = userId
+    followers = await Follow.findAll({
+        where: {
+            followed_user_id: followed_user_id
+        },
+        attributes: [],
+        include: {
+            model: User, as: 'followed',
+            attributes: ['id', 'name', 'surname', 'profile_picture_url']
+        }
+    })
+    return followers
+}
+
+var usersByTags = async function(tags) {
+    users = await User.findAll({
+        attributes : ['id', 'name','surname','university','department'],
+        include : [
+            {
+            model : UserInterest,
+            where : {  
+                interest : {
+                [Op.in] : tags
+                }
+            },
+            attributes : ['user_id']
+            },
+        ]
+    });
+}
+
+var usersByUserTags = async function(userId) {
+    user_interests = await UserInterest.findAll({
+        where: {
+            user_id : userId
+        },
+        attributes : ['interest']
+    });
+    interest_array = []
+    for(var i in user_interests)
+        interest_array.push(user_interests[i].interest);    	
+        
+    users = await User.findAll({
+        attributes : ['id', 'name','surname','university','department'],
+        include : [
+            {
+            model : UserInterest,
+            where : {  
+                interest : {
+                [Op.in] : interest_array
+                }
+            },
+            attributes : []
+            },
+        ]
+    });
+
+    return users
+}
+
 module.exports = {
     isUserExist,
     isFollowing,
@@ -97,5 +172,9 @@ module.exports = {
     isUpped,
     getUpCounts,
     getFollowedCounts,
-    getFollowingCounts
+    getFollowingCounts,
+    getFollowers,
+    getFollowings,
+    usersByTags,
+    usersByUserTags,
 }
