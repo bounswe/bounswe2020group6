@@ -81,11 +81,6 @@ const EditProject = () => {
   function handleOnChangeTags(e) {
     let removedTags = tempTags.filter(x => !e.includes(x));
     let addedTags   = e.filter(x => !tempTags.includes(x));
-
-    console.log(addedTags);
-    console.log(removedTags);
-    console.log(tempTags)
-    console.log(e)
    
     if (removedTags.length > 0){
       dispatch(deleteTag(projectId, removedTags, message));
@@ -104,8 +99,7 @@ const EditProject = () => {
 
   const handleDeleteMilestone = function(index) {
     setActiveMilestone(-1)
-
-    dispatch(deleteMilestone(projectId, milestonesData[index], setProjectData, message));
+    dispatch(deleteMilestone(projectId, milestonesData[index], setProjectData, message, history));
   } 
 
   const handleAddMilestone= function(index) {
@@ -117,19 +111,19 @@ const EditProject = () => {
     };
     let newArr = [...milestonesData, tempMilestoneData, ];
     setMilestonesData(newArr)
-    setActiveMilestone(milestonesData.length)
+    setActiveMilestone(-1)
 
-    dispatch(addMilestone(projectId, tempMilestoneData, setProjectData, message));
+    dispatch(addMilestone(projectId, tempMilestoneData, setProjectData, message, history));
   } 
 
   const handleMilestoneSaveChanges = function(index) {
-    dispatch(updateMilestone(projectId, milestonesData[index], setProjectData, message));
+    dispatch(updateMilestone(projectId, milestonesData[index], setProjectData, message, history));
   }
 
   function milestoneDateChange(e, index){
     if (e) {
       let newArr = [...milestonesData];
-      newArr[index].date = e['_i'];
+      newArr[index].date = e;
       setMilestonesData(newArr); 
     }
   }
@@ -176,7 +170,7 @@ const EditProject = () => {
               layout="vertical" 
               onFinish={(values) => editPostSubmit(values)} form={editPostForm}
               initialValues={
-                {...getData(), choosemilestone: -1}
+                {...getData(), choosemilestone: activeMilestone}
               }
             >
               <Row  justify="center">
@@ -241,7 +235,7 @@ const EditProject = () => {
                       name="choosemilestone" 
                       noStyle
                     >
-                      <Select value={activeMilestone} onChange={selectMilestone}>
+                      <Select value={activeMilestone} onChange={setActiveMilestone || selectMilestone}>
                         {[{title:"Choose a milestone to edit"},...milestonesData].map((milestone, index)=>
                           <Option key={index-1} value={index-1}>{milestone.title}</Option>
                         )}

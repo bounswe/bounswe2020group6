@@ -99,7 +99,7 @@ export const deleteTag = (projectId, deletedTags, message) => {
 };
 
 
-export const addMilestone = (projectId, milestoneData, setProjectData, message) => {
+export const addMilestone = (projectId, milestoneData, setProjectData, message, history) => {
   return (dispatch) => {
 
     api({ sendToken: true })
@@ -109,7 +109,7 @@ export const addMilestone = (projectId, milestoneData, setProjectData, message) 
       })
       .then((response) => {
         message.success("New milestone created.", 4);
-        dispatch(getPost(projectId, setProjectData));
+        dispatch(getPost(projectId, history, setProjectData));
       })
       .catch((e) => {
         message.error("Milestone can't be created.", 4);
@@ -117,14 +117,14 @@ export const addMilestone = (projectId, milestoneData, setProjectData, message) 
   };
 };
 
-export const updateMilestone = (projectId, milestoneData, setProjectData, message) => {
+export const updateMilestone = (projectId, milestoneData, setProjectData, message, history) => {
   return (dispatch) => {
 
     api({ sendToken: true })
       .patch("/post/update_milestone/" + milestoneData.id, milestoneData)
       .then((response) => {
         message.success("Milestone updated.", 4);
-        dispatch(getPost(projectId, setProjectData));
+        dispatch(getPost(projectId, history, setProjectData));
       })
       .catch((e) => {
         message.error("Milestone can't be updated.", 4);
@@ -133,14 +133,14 @@ export const updateMilestone = (projectId, milestoneData, setProjectData, messag
 };
 
 
-export const deleteMilestone = (projectId, milestoneData, setProjectData, message) => {
+export const deleteMilestone = (projectId, milestoneData, setProjectData, message, history) => {
   return (dispatch) => {
 
     api({ sendToken: true })
       .delete("/post/delete_milestone/" + milestoneData.id, milestoneData)
       .then((response) => {
         message.success("Milestone deleted.", 4);
-        dispatch(getPost(projectId, setProjectData));
+        dispatch(getPost(projectId, history, setProjectData));
       })
       .catch((e) => {
         message.error("Milestone can't be deleted.", 4);

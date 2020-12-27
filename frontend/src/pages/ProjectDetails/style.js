@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import theme from "../../theme";
 import { Col } from "antd";
+import { EditOutlined } from '@ant-design/icons';
+
 
 export const Main = styled(Col)` 
   padding: 20px;
@@ -34,6 +36,17 @@ export const Side = styled(Col)`
   }
 `;
 
+export const EditButton = styled(EditOutlined)` 
+
+  cursor: pointer;
+  color: ${theme.main.colors.third};
+
+  :hover {
+    color: ${theme.main.colors.first};
+  }
+`; 
+
+
 export const DateSection = styled.p` 
   color: grey;
 `; 
@@ -42,8 +55,12 @@ export const Tags = styled.div`
   margin-top: 30px;
 `; 
 
+export const EditWrapper = styled.div` 
+  margin-top: 16px;
+`; 
+
 export const Summary = styled.div` 
-  margin-top: 30px;
+  margin-top: 16px;
 `; 
 
 export const Deadlines = styled.div` 
