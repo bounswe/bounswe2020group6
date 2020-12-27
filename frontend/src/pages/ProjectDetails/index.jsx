@@ -78,7 +78,7 @@ const ProjectDetails = () => {
 
     var collabs = projectData.project_collaborators.map((c, i) => {
       return (
-        <IndentedBlock>
+        <IndentedBlock key={i + 1}>
           <UserDiv key={i + 1} onClick={() => redirectToProfile(c.user_id)}>
             <Col>
               <Avatar size={48} src={c.user.profile_picture_url} />
@@ -162,6 +162,10 @@ const ProjectDetails = () => {
     dispatch(sendJoinRequest(myId, projectData.userId, projectData.id));
   };
 
+  const dueDateExists = () => {
+    return projectData.project_milestones.filter((m) => m.title === "Due Date").length > 0;
+  };
+
   return (
     <Frame>
       {loadingProject ? (
@@ -220,7 +224,7 @@ const ProjectDetails = () => {
             <DateSection>
               <UnlockFilled />
               Project Due{" "}
-              {projectData.project_milestones.length > 0
+              {dueDateExists()
                 ? moment(
                     projectData.project_milestones[projectData.project_milestones.length - 1].date
                   ).format("DD/MM/YYYY")
