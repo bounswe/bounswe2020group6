@@ -19,6 +19,8 @@ import {
   Side,
   UserDiv,
   FadedText,
+  EditWrapper,
+  EditButton
 } from "./style";
 
 const ProjectDetails = () => {
@@ -143,7 +145,7 @@ const ProjectDetails = () => {
         sm={{span: 20, offset: 1}}
         md={{span: 20, offset: 1}}
         lg={{span: 12, offset: 5}}> 
-        <H1> {projectData.title} </H1>
+        <H1> {projectData.title} </H1> 
         This Project is Private
       </Main>
       <Side
@@ -177,6 +179,9 @@ const ProjectDetails = () => {
       <Tags>
         {projectData.project_tags.map((t, i) => {return <Tag key={i} style={{color: "grey"}}> {t.tag} </Tag>})}
       </Tags>
+      <EditWrapper>
+        <EditButton onClick={e => history.push("/project/edit/" + projectId)} />
+      </EditWrapper>
       <Summary>
         <H3>Summary</H3>
         {projectData.summary}
