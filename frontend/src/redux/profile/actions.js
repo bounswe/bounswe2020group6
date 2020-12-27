@@ -30,3 +30,10 @@ export const getProjectsOfUserSuccess = (response) => {
     payload: response,
   };
 };
+
+export const getProjectsOfMeSuccess = (response) => {
+  return {
+    type: actions.GET_PROJECTS_OF_ME_SUCCESS,
+    payload: response,
+  };
+};

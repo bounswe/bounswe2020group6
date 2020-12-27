@@ -12,6 +12,7 @@ import {
   PlusCircleTwoTone,
   EditOutlined,
   EditFilled,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -25,6 +26,7 @@ import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
 import EditModal from "./components/EditModal";
+import InviteModal from "./components/InviteModal";
 import theme from "../../theme";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
@@ -38,6 +40,7 @@ const Profile = () => {
   const dispatch = useDispatch();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [inviteModalVisible, setInviteModalVisible] = useState(false);
   const [editPictureVisible, setEditPictureVisible] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
 
@@ -101,6 +104,10 @@ const Profile = () => {
     setEditModalVisible((prev) => !prev);
   };
 
+  const toggleInviteModal = () => {
+    setInviteModalVisible((prev) => !prev);
+  };
+
   // picture upload functions
 
   function beforeUpload(file) {
@@ -162,6 +169,7 @@ const Profile = () => {
   return (
     <div>
       <EditModal profile={profile} visible={editModalVisible} toggleEditModal={toggleEditModal} />
+      <InviteModal visible={inviteModalVisible} toggleInviteModal={toggleInviteModal} />
       <MainHeader />
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
@@ -303,7 +311,9 @@ const Profile = () => {
                         </PrimaryButton>
                       </Col>
                       <Col xs={10} sm={8} md={7} offset={4}>
-                        <PrimaryButton icon={<FormOutlined />}>Invite</PrimaryButton>
+                        <PrimaryButton icon={<UsergroupAddOutlined />} onClick={toggleInviteModal}>
+                          Invite
+                        </PrimaryButton>
                       </Col>
                     </>
                   )}

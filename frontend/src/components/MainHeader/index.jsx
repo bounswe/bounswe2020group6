@@ -92,7 +92,7 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
-  const acceptRequest = (project_id, requester_id, requested_id, type) => {
+  const acceptRequest = (request_id, project_id, requester_id, requested_id, type) => {
     var data = {
       projectId: project_id,
     };
@@ -112,7 +112,7 @@ const SiteHeader = () => {
     }
 
     api({ sendToken: true }).post("/collab/add_collaborator", data);
-
+    api({ sendToken: true }).delete("/collab/delete_request/" + request_id);
     setIsModalVisible(false);
   };
 
@@ -136,7 +136,7 @@ const SiteHeader = () => {
           history.push({ pathname: "/project/details/" + n.projectId });
         }}
         accept={() => {
-          acceptRequest(n.projectId, n.requesterId, n.requestedId, n.requestType);
+          acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
         }}
         reject={() => {
           rejectRequest(n.id);
@@ -147,7 +147,7 @@ const SiteHeader = () => {
 
   return (
     <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "2" }}>
-      <NotificationModal visible={isModalVisible} onCancel={hideModal}>
+      <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
         {notificationData.length > 0
           ? notificationData.map((n, i) => {
               return notificationComponent(n, i);
