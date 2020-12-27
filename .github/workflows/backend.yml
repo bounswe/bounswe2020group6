@@ -33,4 +33,4 @@ jobs:
             git checkout origin/backend
             sudo docker build -t akademise/akademise .
             sudo docker rm -f akademise
-            sudo docker run -p 3000:3000 -d --name akademise akademise/akademise
+            sudo docker run  -v /home/ubuntu/files/uploads:/usr/src/app/uploads -p 3000:3000 -d --name akademise akademise/akademise
