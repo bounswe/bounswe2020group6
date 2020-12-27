@@ -130,28 +130,28 @@ public class RequestInvitationActivity extends AppCompatActivity {
             add(0);
         }};
         Invitation invitation = new Invitation(i);
+
         Call<Invitation> call = akademiseApi.addInvitation(invitation, "Bearer " + myToken);
-        call.enqueue(new Callback<Invitation>() {
+        call.enqueue(new Callback<Invitation> () {
             @Override
             public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(RequestInvitationActivity.this, "Couldnt send invitation ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "WCouldnt send request. ", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Invitation invResponse = response.body();
-                Toast.makeText(RequestInvitationActivity.this, "Successful. ", Toast.LENGTH_LONG).show();
+                Invitation  invResponse = response.body();
+                Toast.makeText(getApplicationContext(), "Successful. ", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<Invitation> call, Throwable t) {
-                Toast.makeText(RequestInvitationActivity.this, "Be sure to be connected. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Be sure to be connected. ", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());
             }
         });
-
     }
 
     private void loadIDData() {

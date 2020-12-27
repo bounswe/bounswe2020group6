@@ -59,19 +59,25 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         akademiseApi = retrofit.create(AkademiseApi.class);
         loadData();
         getData();
+        loadIDData();
         title.setText(project.getTitle());
         _abstract.setText(project.getAbstract1());
         //status.setText(project.getStatus());
         milestones.setText(project.getDeadline());
         requirements.setText(project.getRequirements());
-        //[1,7,b,1] -> user1 7nin  b projesine dahil olmak istiyor (getReq)
         req_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                invite();
+                request();
             }
         });
 
+
+    }
+
+    private void loadIDData() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
+        myId = sharedPreferences.getInt(accessID, 0);
 
     }
 
@@ -86,7 +92,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
     }
     //[1,7,b,1] -> user1 7nin  b projesine dahil olmak istiyor (getReq)
 
-    private void invite() {
+    private void request() {
         List<Integer> i = new ArrayList<Integer>() {{
             add(myId);
             add(project.getUserId());
@@ -94,8 +100,9 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
             add(1);
         }};
         Invitation invitation = new Invitation(i);
-        Call<Invitation> call = akademiseApi.addInvitation(invitation, "Bearer " + myToken);
-        call.enqueue(new Callback<Invitation>() {
+
+        Call<Invitation>call = akademiseApi.addInvitation(invitation, "Bearer " + myToken);
+        call.enqueue(new Callback<Invitation >() {
             @Override
             public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                 if (!response.isSuccessful()) {
@@ -103,13 +110,13 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "WCouldnt send request. ", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Invitation invResponse = response.body();
+                Invitation  invResponse = response.body();
                 Toast.makeText(getApplicationContext(), "Successful. ", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
-            public void onFailure(Call<Invitation> call, Throwable t) {
+            public void onFailure(Call<Invitation > call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Be sure to be connected. ", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());

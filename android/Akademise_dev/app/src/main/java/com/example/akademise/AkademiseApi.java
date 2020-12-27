@@ -5,6 +5,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -89,18 +90,25 @@ public interface AkademiseApi {
     @GET("profile/{id}")
     Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
 
-
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("collab/delete_request/{id}")
+    Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("collab/get_requests")
     Call<List<Request>> getRequests(@Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("collab/add_collaborator")
+    Call<Collab>  addCollab(@Body Collab c, @Header("Authorization") String auth);
+
+
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("collab/add_request")
     Call<Invitation> addInvitation(@Body Invitation invitation, @Header("Authorization") String auth);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @POST("collab/add_collaborator")
-    Call<Collab>  addCollab(@Body Collab c, @Header("Authorization") String auth);
+
+
 
 }

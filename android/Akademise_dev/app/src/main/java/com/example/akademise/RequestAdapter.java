@@ -103,11 +103,28 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
-                intent = new Intent(context, ProjectDetailsUserActivity.class);
-                Toast.makeText(context, context.toString(), Toast.LENGTH_LONG).show();
-                intent.putExtra("request", requests.get(position));
-                context.startActivity(intent);
+
+                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
+                Call<Collab> call = akademiseApi.deleteReq(requests.get(position).getRequestId(), "Bearer " + myToken);
+
+                call.enqueue(new Callback<Collab>() {
+                    @Override
+                    public void onResponse(Call<Collab> call, Response<Collab> response) {
+
+                        if (!response.isSuccessful()) {
+                            Log.d("Project", "onResponse: not successful");
+                            return;
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Collab> call, Throwable t) {
+
+                        Log.d("Project", "onFailure: failed");
+
+                    }
+                });
             }
         });
     }
