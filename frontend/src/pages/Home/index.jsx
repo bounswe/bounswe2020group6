@@ -90,7 +90,6 @@ const Home = () => {
               userRecommendations.map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
-                profileLink={() => history.push("/profile/" + u.id)}
                 name={u.name + " " + u.surname}
                 university={u.university}
                 department={u.department}/>
