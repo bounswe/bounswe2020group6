@@ -128,7 +128,7 @@ const ProjectDetails = () => {
     }
 
     for (const c of projectData.project_collaborators){
-      if(c.id === myId){
+      if(c.user_id === myId){
         return true
       }
     } 
