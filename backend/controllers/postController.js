@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
 const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile, ProjectMilestone} = require('../model/db')
-const {tagExists,projectInfo} = require('../util/postUtil')
+const {tagExists,projectInfo,homepagePosts} = require('../util/postUtil')
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -228,11 +228,24 @@ getPosts = async function(req,res){
 }
 
 
+
+getHomepagePosts = async function(req,res){
+    userId = req.userId
+    try{
+        var posts = await homepagePosts(userId)
+	res.status(200).send(posts)
+    }catch(error){
+        res.status(500).send({error: error})
+    }
+}
+
+
 module.exports = {
     addPost,
     updatePost,
     deletePost,
     getPosts,
+    getHomepagePosts,
     addTag,
     deleteTag,
     addMilestone,
