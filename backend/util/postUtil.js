@@ -78,7 +78,7 @@ var homepagePosts = async function(userId){
 	where : {
 	    privacy : 1
 	},
-	attributes : ['title','description','summary'],
+	attributes : ['id','title','description','summary'],
 	include : [
 	    {
 		model : ProjectTag,
