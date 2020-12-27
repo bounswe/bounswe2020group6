@@ -15,3 +15,17 @@ export const sendInviteRequest = (myId, otherId, projectId) => {
       });
   };
 };
+
+export const sendJoinRequest = (myId, otherId, projectId) => {
+    const body = {requests: [[myId, otherId, projectId, 1]]}
+  return (dispatch) => {
+    api({ sendToken: true })
+      .post("/collab/add_request", body)
+      .then((response) => {
+        message.success("Join request sent successfully!")
+      })
+      .catch((e) => {
+        message.error("Something went wrong")
+      });
+  };
+};

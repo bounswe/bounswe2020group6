@@ -45,6 +45,7 @@ export const editPost = (body, projectId, history, message) => {
       })
       .then((response) => {
         message.success("Project changes saved.", 4);
+        history.push("/project/details/" + projectId);
       })
       .catch((e) => {
         message.error("Project changes failed.", 4);
