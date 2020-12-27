@@ -19,6 +19,7 @@ import {
   UserDiv,
   FadedText,
 } from "./style";
+import theme from "../../theme";
 
 const ProjectDetails = () => {
 
@@ -125,6 +126,67 @@ const ProjectDetails = () => {
     return false
   }
 
+  const collaborationButton = () => {
+    var tagData = {
+      clicked: null,
+      text: null
+    }
+    
+    if(isUserCollaboratesOnThisProject()){
+      // invite collaborators
+      tagData.clicked = () => console.log("hi")
+      tagData.text = "invite collaborators"
+    }
+    else{
+      // request join
+      tagData.clicked = () => requestJoin()
+      tagData.text = "request join"
+    }
+
+    return <Tag 
+    color={theme.main.colors.first} 
+    style={{
+      marginLeft: "5px",
+      cursor: "pointer",
+      userSelect: "none"
+    }}
+    onClick={tagData.clicked}>
+      {tagData.text}
+    </Tag>
+  }
+
+  const requestJoin = () => {
+    const myId = parseInt(localStorage.getItem("userId"));
+
+    const data = {
+      project: projectData.projectId,
+      requester: myId,
+      requested: projectData.userId,
+      type: 1 // wants to join
+    }
+
+    const body = {
+      requests: [
+        [
+          data.requester,
+          data.requested,
+          data.project,
+          data.type
+        ]
+      ]
+    }    
+
+    api({ sendToken: true })
+    .post("/collab/add_request", body)
+    .then((response) => {
+      //console.log(response)
+    })
+    .catch((error) => {
+      //console.log(error)
+    })
+  }
+
+
   return (  
     
     <Frame>
@@ -165,10 +227,17 @@ const ProjectDetails = () => {
         <UnlockFilled /> 
         Project Due {projectData.project_milestones[0] || "Unknown"} 
         <Tag 
+        onClick={() => console.log("hi")}
         color={statusColorMap[projectData.status]} 
-        style={{marginLeft: "5px"}}>
+        style={{
+          marginLeft: "5px",
+          cursor: "pointer"
+        }}>
           {statusMap[projectData.status]}
         </Tag>
+
+        {collaborationButton()}
+
       </DateSection>
       <Tags>
         {projectData.project_tags.map((t, i) => {return <Tag key={i} style={{color: "grey"}}> {t.tag} </Tag>})}
