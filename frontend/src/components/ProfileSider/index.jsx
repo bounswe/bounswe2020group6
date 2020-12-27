@@ -11,8 +11,6 @@ import { projectsClickedAction } from "../../redux/profile/actions";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
-import defaultProfilePictureHref from "../../assets/asset_hrefs";
-
 const ProfileSider = () => {
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);

@@ -9,8 +9,6 @@ import PersonRecommendationCard from "../../components/PersonRecommendationCard"
 import ProjectRecommendationCard from "../../components/ProjectRecommendationCard";
 import { Main, H2, H3 } from "./style";
 
-import defaultProfilePictureHref from "../../assets/asset_hrefs"
-
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);

@@ -79,73 +79,12 @@ const Profile = () => {
     // eslint-disable-next-line
   }, [id]);
 
-  const handleFollow = () => {
-    if (alreadyFollowing) {
-      dispatch(unfollow(id));
-    } else {
-      dispatch(follow(id));
-    }
-  };
-
-  const handleAddUp = () => {
-    dispatch(addUp(id));
-  };
-
-  const handleRemoveUp = () => {
-    dispatch(removeUp(id));
-  };
-
-  const toggleEditModal = () => {
-    setEditModalVisible((prev) => !prev);
-  };
-
   const toggleInviteModal = () => {
     setInviteModalVisible((prev) => !prev);
   };
 
   // picture upload functions
 
-  function beforeUpload(file) {
-    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isJpgOrPng) {
-      message.error("You can only upload JPG/PNG file!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Image must smaller than 2MB!");
-    }
-    return false;
-  }
-
-  const handlePictureChange = ({ fileList }) => {
-    const file = fileList[fileList.length - 1];
-    if (file.type !== "image/jpeg" && file.type !== "image/png") {
-      return;
-    }
-    let formData = new FormData();
-    formData.append("avatar", file.originFileObj);
-
-    dispatch(changePicture(formData, id));
-  };
-
-  const ProfileLoadingSpinner = () => {
-    return (
-      <Row style={{ height: "150px", width: "150px" }} justify="center" align="middle">
-        <Col>
-          <Spinner size={80} />
-        </Col>
-      </Row>
-    );
-  };
-  const handleEditBio = () => {
-    setIsEditingBio((prev) => !prev);
-  };
-
-  const handleChangeBio = (bio) => {
-    dispatch(changeBio(id, bio));
-    setIsEditingBio((prev) => !prev);
-  };
-
   const handleFollow = () => {
     if (alreadyFollowing) {
       dispatch(unfollow(id));
@@ -165,8 +104,6 @@ const Profile = () => {
   const toggleEditModal = () => {
     setEditModalVisible((prev) => !prev);
   };
-
-  // picture upload functions
 
   function beforeUpload(file) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
