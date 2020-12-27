@@ -112,12 +112,29 @@ const SiteHeader = () => {
     }
 
     api({ sendToken: true }).post("/collab/add_collaborator", data);
-    api({ sendToken: true }).delete("/collab/delete_request/" + request_id);
+    api({ sendToken: true })
+      .delete("/collab/delete_request/" + request_id)
+      .then((_) => {
+        api({ sendToken: true })
+          .get("/collab/get_requests")
+          .then((response) => {
+            setNotificationData(response.data);
+          });
+      });
+
     setIsModalVisible(false);
   };
 
   const rejectRequest = (request_id) => {
-    api({ sendToken: true }).delete("/collab/delete_request/" + request_id);
+    api({ sendToken: true })
+      .delete("/collab/delete_request/" + request_id)
+      .then((_) => {
+        api({ sendToken: true })
+          .get("/collab/get_requests")
+          .then((response) => {
+            setNotificationData(response.data);
+          });
+      });
 
     setIsModalVisible(false);
   };
