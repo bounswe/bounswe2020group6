@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
@@ -21,6 +21,7 @@ import {
   getProjectsOfUser,
   changePicture,
 } from "../../redux/profile/api";
+import { scrolledToProjectsAction } from "../../redux/profile/actions";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -35,6 +36,7 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const Profile = () => {
   const history = useHistory();
+  const projectsRef = useRef(null);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -49,6 +51,8 @@ const Profile = () => {
   const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
+  const scrollToProjects = useSelector((state) => state.profile.scrollToProjects);
+
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
   const isOwnProfile = () => {
@@ -58,6 +62,14 @@ const Profile = () => {
 
   const alreadyFollowing = // eslint-disable-next-line
     !isOwnProfile() && followings && followings.filter((f) => f.following.id == id).length > 0;
+
+  useEffect(() => {
+    if (scrollToProjects) {
+      projectsRef.current.scrollIntoView();
+      dispatch(scrolledToProjectsAction());
+    }
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     dispatch(getProfileInfo(id));
@@ -378,7 +390,7 @@ const Profile = () => {
         <Row>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
-            <Scrollable>
+            <Scrollable ref={projectsRef}>
               <List
                 itemLayout="horizontal"
                 dataSource={projects}

@@ -7,6 +7,7 @@ import { Spin, Menu } from "antd";
 import { GoogleOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
 import GoogleScholarModal from "../GoogleScholarModal";
+import { projectsClickedAction } from "../../redux/profile/actions";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
@@ -65,7 +66,14 @@ const ProfileSider = () => {
               <Menu.Item key="1" onClick={toogleGoogleScholarModal} icon={<GoogleOutlined />}>
                 Google Scholar
               </Menu.Item>
-              <Menu.Item key="2" icon={<DesktopOutlined />}>
+              <Menu.Item
+                key="2"
+                onClick={() => {
+                  dispatch(projectsClickedAction());
+                  history.push("/profile/" + profile.id);
+                }}
+                icon={<DesktopOutlined />}
+              >
                 Projects
               </Menu.Item>
               <Menu.Item

@@ -37,3 +37,15 @@ export const getProjectsOfMeSuccess = (response) => {
     payload: response,
   };
 };
+
+export const projectsClickedAction = () => {
+  return {
+    type: actions.PROJECTS_CLICKED
+  }
+}
+
+export const scrolledToProjectsAction = () => {
+  return {
+    type: actions.SCROLLED_TO_PROJECTS
+  }
+}
