@@ -150,9 +150,9 @@ var postsByUserTags = async function(userId){
     interest_array = []
     for(var i in user_interests)
         interest_array.push(user_interests[i].interest);    	
-    
     byTags = await postsByTag(interest_array)
     return byTags
+
 }
 
 
