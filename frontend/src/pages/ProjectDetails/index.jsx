@@ -146,6 +146,15 @@ const ProjectDetails = () => {
         md={{span: 20, offset: 1}}
         lg={{span: 12, offset: 5}}> 
         <H1> {projectData.title} </H1> 
+        { 
+          isUserCollaboratesOnThisProject() 
+          ?       
+          <EditWrapper>
+            <EditButton onClick={e => history.push("/project/edit/" + projectId)} />
+          </EditWrapper>
+          :
+          "" /** TODO: join request button */
+        }
         This Project is Private
       </Main>
       <Side
@@ -179,9 +188,15 @@ const ProjectDetails = () => {
       <Tags>
         {projectData.project_tags.map((t, i) => {return <Tag key={i} style={{color: "grey"}}> {t.tag} </Tag>})}
       </Tags>
-      <EditWrapper>
-        <EditButton onClick={e => history.push("/project/edit/" + projectId)} />
-      </EditWrapper>
+      { 
+        isUserCollaboratesOnThisProject() 
+        ?       
+        <EditWrapper>
+          <EditButton onClick={e => history.push("/project/edit/" + projectId)} />
+        </EditWrapper>
+        :
+        "" /** TODO: join request button */
+       }
       <Summary>
         <H3>Summary</H3>
         {projectData.summary}
