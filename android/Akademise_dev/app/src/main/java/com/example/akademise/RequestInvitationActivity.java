@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import androidx.fragment.app.Fragment;
 
-public class RequestInvitationFragment extends Fragment {
+public class RequestInvitationActivity extends AppCompatActivity {
 
 
     public static final String MyPEREFERENCES = "MyPrefs";
@@ -43,18 +43,13 @@ public class RequestInvitationFragment extends Fragment {
     List<Request> requests;
 
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        projectId = this.getArguments().getInt("project_id");
-
-        return inflater.inflate(R.layout.fragment_requests_and_invitations, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_requests_and_invitations);
+        Intent in= getIntent();
+        Bundle b = in.getExtras();
+        projectId = b.getInt("project_id");
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -66,7 +61,7 @@ public class RequestInvitationFragment extends Fragment {
         loadIDData();
 
 
-        Button btnAdd = view.findViewById(R.id.btnInvite);
+        Button btnAdd = findViewById(R.id.btnInvite);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,13 +69,15 @@ public class RequestInvitationFragment extends Fragment {
             }
         });
 
-    getRequests(projectId);
+        getRequests(projectId);
 
     }
 
 
+
+
     private void loadData() {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
@@ -108,9 +105,9 @@ public class RequestInvitationFragment extends Fragment {
 
                 }
 
-                recyclerView = getView().findViewById(R.id.rv_recyclerView2);
-                RequestAdapter recyclerViewAdapter = new RequestAdapter(getContext(), mod_req);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView = findViewById(R.id.rv_recyclerView2);
+                RequestAdapter recyclerViewAdapter = new RequestAdapter(RequestInvitationActivity.this, mod_req);
+                recyclerView.setLayoutManager(new LinearLayoutManager(RequestInvitationActivity.this));
                 recyclerView.setAdapter(recyclerViewAdapter);
             }
 
@@ -139,17 +136,17 @@ public class RequestInvitationFragment extends Fragment {
             public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(getContext(), "Couldnt send invitation ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RequestInvitationActivity.this, "Couldnt send invitation ", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Invitation invResponse = response.body();
-                Toast.makeText(getActivity(), "Successful. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(RequestInvitationActivity.this, "Successful. ", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<Invitation> call, Throwable t) {
-                Toast.makeText(getContext(), "Be sure to be connected. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(RequestInvitationActivity.this, "Be sure to be connected. ", Toast.LENGTH_LONG).show();
                 System.out.println("FAILURE");
                 System.out.println(t.getMessage());
             }
@@ -158,7 +155,7 @@ public class RequestInvitationFragment extends Fragment {
     }
 
     private void loadIDData() {
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
 
     }

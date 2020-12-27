@@ -42,12 +42,15 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
                 Bundle bundle = new Bundle();
                 bundle.putInt("project_id", project.getId());
                 RequestInvitationFragment frg = new RequestInvitationFragment();
                 frg.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
                         frg).commit();
+                 **/
+                openInvitationActivity();
             }
         });
 
@@ -55,7 +58,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     }
 
     public void openInvitationActivity() {
-        Intent intent = new Intent(this, RequestInvitationFragment.class);
+        Intent intent = new Intent(this, RequestInvitationActivity.class);
         intent.putExtra("project_id", project.getId());
         startActivity(intent);
     }

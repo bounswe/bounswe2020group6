@@ -13,6 +13,8 @@
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
         <activity android:name=".ProjectDetailsActivity" />
+        <activity android:name=".RequestInvitationActivity" />
+
         <activity android:name=".ProjectDetailsUserActivity" />
 
         <activity android:name=".RecyclerViewActivity" />

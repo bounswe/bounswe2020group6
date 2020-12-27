@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Invitation implements Serializable {
-    @SerializedName("invitations")
     private List<List<Integer>>invitations ;
 
 

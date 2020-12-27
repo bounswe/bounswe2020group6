@@ -89,6 +89,8 @@ public interface AkademiseApi {
     @GET("profile/{id}")
     Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
 
+
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("collab/get_requests")
     Call<List<Request>> getRequests(@Header("Authorization") String auth);
@@ -99,6 +101,6 @@ public interface AkademiseApi {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("collab/add_collaborator")
-    Call<Invitation>  addCollab(@Body HashMap<String, String> body, @Header("Authorization") String auth);
+    Call<Collab>  addCollab(@Body Collab c, @Header("Authorization") String auth);
 
 }

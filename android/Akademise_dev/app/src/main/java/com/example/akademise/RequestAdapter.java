@@ -44,6 +44,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     public RequestAdapter(Context ct, List<Request> prj) {
         context = ct;
         requests = prj;
+        loadData();
+        loadIDData();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        akademiseApi = retrofit.create(AkademiseApi.class);
 
     }
 
@@ -58,22 +67,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Map<String, String> user = requests.get(position).getRequesterUser();
-        String user_ = user.get("name") + " " + user.get("name");
+        String user_ = user.get("name") + " " + user.get("surname");
         holder.username.setText(user_);
         holder.projectName.setText(requests.get(position).getProject().get("name"));
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> c = new HashMap<>();
-                c.put("project_id", requests.get(position).getProjectId().toString());
-                c.put("user_id", requests.get(position).getRequesterId().toString());
 
-                Call<Invitation> call = akademiseApi.addCollab(c, "Bearer " + myToken);
+                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
+                Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
 
-                call.enqueue(new Callback<Invitation>() {
+                call.enqueue(new Callback<Collab>() {
                     @Override
-                    public void onResponse(Call<Invitation> call, Response<Invitation> response) {
+                    public void onResponse(Call<Collab> call, Response<Collab> response) {
 
                         if (!response.isSuccessful()) {
                             Log.d("Project", "onResponse: not successful");
@@ -83,7 +90,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                     }
 
                     @Override
-                    public void onFailure(Call<Invitation> call, Throwable t) {
+                    public void onFailure(Call<Collab> call, Throwable t) {
 
                         Log.d("Project", "onFailure: failed");
 
