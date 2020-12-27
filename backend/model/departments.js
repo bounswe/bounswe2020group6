@@ -1,9 +1,9 @@
 module.exports = (sequelize, Seq) => {
     return sequelize.define('department', {
         department: {
-          type: Seq.STRING,
-          primaryKey: true,
-          unique: true,
+            type: Seq.STRING,
+            primaryKey: true,
+            unique: true,
         }
     }, 
     {   

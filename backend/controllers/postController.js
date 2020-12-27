@@ -1,8 +1,6 @@
-const { Op } = require("sequelize");
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
-const {Project, User, UserProject, ProjectTag, ProjectCollaborator, ProjectFile, ProjectMilestone} = require('../model/db')
-const {tagExists,projectInfo,homepagePosts} = require('../util/postUtil')
+const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -16,20 +14,15 @@ addPost = async function(req,res) {
 	status : req.body.status,
 	requirements : req.body.requirements
     }
-    //collaborators = obj.collaborators
     tags = req.body.tags
     file = req.files
     try {
 	postDb = await Project.create(postData)
-	userProject = await UserProject.create({ user_id : req.userId, project_id : postDb.id})
 	for(var key in tags){
 	    currentTag = tags[key]
 	    projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
 	}
-	/*for(var key in collaborators){
-	    currentCollaborator = collaborators[key]
-	    projectCollaborator = await ProjectCollaborator.create({project_id : postDb.id, user_id : currentCollaborator})
-	}*/
+
 	if(file != undefined){
 	    for(var i = 0; i < file.length; i++){
 		currentFile = file[i]
@@ -53,7 +46,7 @@ addTag = async function(req,res){
     tagsAddedBefore = []
     try{
         for(var tag of tags){
-    	    var tagDb = await tagExists(tag, project_id)
+    	    var tagDb = await postUtil.tagExists(tag, project_id)
     	    if(tagDb == undefined){
     		tagCreated = await ProjectTag.create({ project_id : project_id, tag : tag})
     	    }else{
@@ -193,7 +186,7 @@ getPosts = async function(req,res){
 			    ]}
 			]
 		    },
-		    include : projectInfo
+		    include : postUtil.projectInfo
 		});
 	    }else{
 		posts = await Project.findAll({
@@ -203,7 +196,7 @@ getPosts = async function(req,res){
 			    {'$project_collaborators.user_id$' : {[Op.eq] : user_id}}
 			]
 		    },
-		    include : projectInfo
+		    include : postUtil.projectInfo
 		});	
 	    }
 	    res.status(200).send(posts)
@@ -218,7 +211,7 @@ getPosts = async function(req,res){
 	        where: {
 		    id : project_id
 	        },
-	        include : projectInfo
+	        include : postUtil.projectInfo
 	    });	
 	    res.status(200).send(posts)
 	}catch(error){
@@ -229,23 +222,11 @@ getPosts = async function(req,res){
 
 
 
-getHomepagePosts = async function(req,res){
-    userId = req.userId
-    try{
-        var posts = await homepagePosts(userId)
-	res.status(200).send(posts)
-    }catch(error){
-        res.status(500).send({error: error})
-    }
-}
-
-
 module.exports = {
     addPost,
     updatePost,
     deletePost,
     getPosts,
-    getHomepagePosts,
     addTag,
     deleteTag,
     addMilestone,

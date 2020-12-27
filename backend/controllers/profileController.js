@@ -3,6 +3,8 @@ const { v1: uuidv1 } = require('uuid');
 const userUtil = require('../util/userUtil');
 const url = require('url');
 const userUtils = require('../util/userUtil')
+const fixUtf8 = require('fix-utf8')
+
 
 addProfile = async function (req, res) {
     user_interests = req.body.researchAreas
@@ -190,7 +192,7 @@ addScholar = async function (req, res) {
             let total = last5Year_citations.reduce((a,b) => a+_citations.citations_per_year[b] , 0);
             
             update.last5Year_citations = total
-            update.projects = JSON.stringify(_citations.publications)
+            update.projects = fixUtf8(JSON.stringify(_citations.publications))
             await User.update(update, {
                 where: {
                     id: req.userId
