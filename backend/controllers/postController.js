@@ -1,6 +1,7 @@
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
 const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
+const postUtil = require("../util/postUtil")
 
 
 //Adds new posts to database also adds uploaded files to filesystem
