@@ -24,7 +24,7 @@ addRequest = async function(req, res){
 	        notFoundUsers.push(requestedId)
 	        userError = "Some users are not found"
             }else{
-                var requestDb = await requestExists(requesterId, requestedId, projectId)
+                var requestDb = await requestExists(requesterId, requestedId, projectId, requestType)
 		if(requestDb == undefined){
 		    newReqDb = await CollabRequest.create({ requesterId : requesterId, requestedId : requestedId, projectId : projectId, requestType : requestType})
 		}else{
@@ -68,27 +68,42 @@ getRequest = async function(req,res){
     userId = req.userId
     try{
 	requests = await CollabRequest.findAll({
-	where : {
-	    requestedId : userId
-	},
-	include : [
+	    where : {
+		[Op.or] : [
+		    {requestedId : {[Op.eq]: userId},
+		    requestType : {[Op.not]: 2}
+		    },
+		    {requesterId : {[Op.eq]: userId},
+		    requestType : {[Op.eq]: 2}
+		    }
+		]
+	    },
+	    include : [
 	    {
 		model : User,
+		as : 'requester',
 		attributes : ['name','surname'],
 		required : false
 	    },
 	    {
-		model : Project,
+	        model : User,
+	        as : 'accepter',
+	        attributes : ['name','surname'],
+	        required : false
+	    },
+	    {
+	        model : Project,
 		attributes : ['title','summary','description','status'],
 		required : false
 	    }
-	]
+	    ]
 	});
 	res.status(201).send(requests)
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
     }
 }
+
 
 
 
@@ -112,15 +127,18 @@ addCollaborator = async function(req,res){
 	    if(request.length == 0){
 		res.status(500).send({message : "Request is no longer available"})
 	    }else{
-		collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
 		req.requestId = request[0].id
-		deleteRequest(req,res);	
+	        request[0].requestType = 2
+	        delete request[0].id   
+	        acceptedRequest = await CollabRequest.create(request[0])
+		collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
+		deleteRequest(req,res);		
 	    }
 	}else{
 	    res.status(500).send({message : "Project doesn't exist"})
 	}
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
     }
 }
 
@@ -139,7 +157,7 @@ deleteCollaborator = async function(req,res){
 	});
 	res.status(201).send({message: "Collaborator is Deleted"})
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
 	console.log(error)
     }
 }
