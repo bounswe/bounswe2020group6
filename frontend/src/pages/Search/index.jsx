@@ -47,6 +47,7 @@ const Search = () => {
   useEffect(() => {
     dispatch(search({query: searchText, type: 0}, setUserResults, setLoadingUserResults))
     dispatch(search({query: searchText, type: 1}, setProjectResults, setLoadingProjectResults))
+    console.log("selectedFiler, searchtext", searchText, selectedFilter)
     // eslint-disable-next-line
   }, [selectedFilter, searchText]);
 
@@ -118,7 +119,7 @@ const Search = () => {
         }
       case "all":
         if (!loadingProjectResults && !loadingUserResults) {
-          return projectResults.projects.length > 0 || projectResults.projects.length > 0 ?
+          return projectResults.projects.length > 0 || userResults.users.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
             <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy === 1 ? createContentCard(p) : "")}</>
