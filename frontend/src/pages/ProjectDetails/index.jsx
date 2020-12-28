@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import api from "../../axios";
 import moment from "moment";
 
-import { Col, Tag, Avatar, Spin, Button, Input } from "antd";
+import { Row, Col, Tag, Avatar, Spin, Button, Input } from "antd";
 import {
   UnlockFilled,
   PlusOutlined,
@@ -46,6 +46,7 @@ const ProjectDetails = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [userResults, setUserResults] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(-1);
   const { Search } = Input;
 
   const { projectId } = useParams()
@@ -149,12 +150,14 @@ const ProjectDetails = () => {
     
     var myId = parseInt(localStorage.getItem("userId"));
 
+    console.log("collabos", projectData.project_collaborators)
+
     if(projectData.userId === myId){
       return true
     }
 
     for (const c of projectData.project_collaborators){
-      if(c.id === myId){
+      if(c.user_id === myId){
         return true
       }
     } 
@@ -312,7 +315,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}>
           <Spin size="large" /> Content is Loading
         </Main>:
-      (((projectData.privacy === 1) && !isUserCollaboratesOnThisProject()) ? // if it is private
+      (((projectData.privacy === 1) && !isUserCollaboratesOnThisProject())? // if it is private
       <>
         <Main
           xs={{span: 20, offset: 1}}
@@ -359,61 +362,79 @@ const ProjectDetails = () => {
           </Tag>
         </DateSection>
         <Tags>
-      {projectData.project_tags.map((t, i) => {
-        return (
-          <Tag key={i} style={{ color: "grey" }}>
-          {" "}
-          {t.tag}{" "}
-          </Tag>
-        );
-        })}
-        </Tags>
-        <Summary>
-          <H3>Summary</H3>
-          {projectData.summary}
-        </Summary>
-        {projectData.project_milestones.length > 0 ? (
-                <Deadlines>
-                  <H3>Milestones</H3>
-                  {projectData.project_milestones.map((dl, i) => {
-                    return (
-                      <p key={i}>
-                        <ClockCircleTwoTone
-                          twoToneColor={deadlineColor(dl.date)}
-                          style={{ fontSize: "12px", marginRight: "8px" }}
-                        />
-                        {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
-                        {dl.title}
-                        <br />
-                        {dl.description}
-                      </p>
-                    );
-                  })}
-                </Deadlines>
-              ) : (
-                ""
-              )}
-        <Files>
-        <H3>Browse Files</H3>
-        <FileContainer style={{}}>
-        {projectData.project_files.length > 0 ? (
-          projectData.project_files.map((f, i) => {
+        {projectData.project_tags.map((t, i) => {
           return (
-            <FileDiv
-            key={i}
-            onClick={() => downloadFile(f.file_name)}
-            download={f.file_name}
-            >
-            <FileOutlined style={{ fontSize: "28px" }} /> {f.file_name}
-            </FileDiv>
+            <Tag key={i} style={{ color: "grey" }}>
+            {" "}
+            {t.tag}{" "}
+            </Tag>
           );
-          })
-        ) : (
-          <span style={{ color: "grey" }}>No Files To Display</span>
-        )}
-        </FileContainer>
-      </Files>
-      </Main>
+          })}
+          </Tags>
+          <Summary>
+            <H3>Summary</H3>
+            {projectData.summary}
+          </Summary>
+          {projectData.project_milestones.length > 0 ? (
+                  <Deadlines>
+                    <H3>Milestones</H3>
+                    {projectData.project_milestones.map((dl, i) => {
+                      return (
+                        <p key={i}>
+                          <ClockCircleTwoTone
+                            twoToneColor={deadlineColor(dl.date)}
+                            style={{ fontSize: "12px", marginRight: "8px" }}
+                          />
+                          {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
+                          {dl.title}
+                          <br />
+                          {dl.description}
+                        </p>
+                      );
+                    })}
+                  </Deadlines>
+                ) : (
+                  ""
+                )}
+          <Files>
+            <H3>Browse Files</H3>
+            <FileContainer style={{}}>
+            {
+              projectData.project_files.length > 0 
+              ?
+              projectData.project_files.map((f, i) => {
+              return (
+                <FileDiv
+                  key={i}
+                  onClick={() => setSelectedFile(i)}
+                  download={f.file_name}
+                  style={{backgroundColor: selectedFile === i ? "#AAD2BA" : "transparent"}}
+                >
+                <FileOutlined style={{ fontSize: "28px" }} /> {f.file_name}
+                </FileDiv>
+              )})
+              : 
+              <div style={{ color: "grey", marginTop: "28px" }}>No Files To Display</div>
+            }
+            </FileContainer>
+            {
+            selectedFile === -1 || selectedFile === null 
+            ? ""
+            :
+            <Col>
+              <Row style={{marginTop: "16px"}}>
+                <Tag
+                  color="green"
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => (downloadFile(projectData.project_files[selectedFile].file_name))}
+                >
+                  Download File
+                </Tag>
+              </Row>
+            </Col>
+          }
+          </Files>
+        </Main>
         <Side lg={{ span: 7, offset: 0 }} xl={{ span: 7, offset: 0 }}>
           {
             isUserCollaboratesOnThisProject() ? (

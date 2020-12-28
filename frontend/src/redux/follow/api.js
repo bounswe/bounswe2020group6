@@ -30,7 +30,7 @@ export const follow = (id) => {
       .post("/follow/add", {userId: id})
       .then((response) => {
         dispatch(getFollowing());
-        dispatch(getProfileInfoWithoutLoading(id))
+        dispatch(getProfileInfoWithoutLoading(localStorage.getItem("userId")));
       })
   };
 };

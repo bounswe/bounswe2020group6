@@ -77,10 +77,8 @@ export const Files = styled.div`
 export const FileContainer = styled.div` 
   border: solid 2px #E4E4E4;
   border-radius: 5px;
-  min-height: 10px;
+  min-height: 80px;
 
-  padding-top: 40px;
-  padding-bottom: 40px;
   text-align:center;
 
   @media only screen and (max-width: 768px) {

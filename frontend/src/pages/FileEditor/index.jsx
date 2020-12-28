@@ -16,6 +16,7 @@ import {
 } from "./style";
 
 import { Input } from "antd";
+import theme from "../../theme";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -230,7 +231,12 @@ const FileEditor = () => {
         md={{span: 20, offset: 1}}
         lg={{span: 12, offset: 5}}> 
         <H2> Edit Files for "{projectData.title}" </H2>
-        <H4> &lt; Return to Project </H4>
+        <H4
+          style={{color: theme.main.colors.first, cursor: "pointer"}} 
+          onClick={e => history.push("/project/details/" + projectId)}
+        > 
+          &lt; Return to Project 
+        </H4>
         <br />
         {
           // No file chosen
@@ -317,26 +323,27 @@ const FileEditor = () => {
           </Tag>
         </Row>
         <Files>
-          <H3>Browse Files</H3>
-          <FileContainer style={{}}>
-            {projectData.project_files.length > 0 ? (
+            <H3>Browse Files</H3>
+            <FileContainer style={{}}>
+            {
+              projectData.project_files.length > 0 
+              ?
               projectData.project_files.map((f, i) => {
-                return (
-                  <FileDiv
-                    key={i}
-                    onClick={() => displayFile(f.file_name, i)}
-                    download={f.file_name}
-                    style={{backgroundColor: selectedFile === i ? "#AAD2BA" : "transparent"}}
-                  >
-                    <FileOutlined style={{ fontSize: "28px" }} /> {f.file_name}
-                  </FileDiv>
-                );
-              })
-            ) : (
-              <span style={{ color: "grey" }}>No Files To Display</span>
-            )}
-          </FileContainer>
-          {
+              return (
+                <FileDiv
+                  key={i}
+                  onClick={() => displayFile(f.file_name, i)}
+                  download={f.file_name}
+                  style={{backgroundColor: selectedFile === i ? "#AAD2BA" : "transparent"}}
+                >
+                <FileOutlined style={{ fontSize: "28px" }} /> {f.file_name}
+                </FileDiv>
+              )})
+              : 
+              <div style={{ color: "grey", marginTop: "28px" }}>No Files To Display</div>
+            }
+            </FileContainer>
+            {
             selectedFile === -1
             ? ""
             :
@@ -359,7 +366,7 @@ const FileEditor = () => {
               </Row>
             </Col>
           }
-        </Files>
+          </Files>
       </Side>
     </Frame>
   );

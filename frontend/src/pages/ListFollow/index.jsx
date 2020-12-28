@@ -124,7 +124,10 @@ const Home = () => {
         { 
           userRecommendationsLoading ? <Spin/> :(
             userRecommendations.length === 0 ? "No recommendations yet..." :
-              userRecommendations.slice(0, 4).map((u,i) => {
+              userRecommendations
+              .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
+              .slice(0, 4)
+              .map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
                 name={u.name + " " + u.surname}
