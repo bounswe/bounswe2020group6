@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 
 import { Col, Spin } from "antd";
 import Frame from "../../components/Frame";
@@ -13,6 +14,15 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
+
+  console.log(feed);
+
+  function momentComparator(a,b){  
+    var dateA = moment(a.createdAt);
+    var dateB = moment(b.createdAt);
+    return dateA > dateB ? 1 : -1;  
+}; 
+
 
   useEffect(() => {
     setLoading(true)
@@ -70,8 +80,14 @@ const Home = () => {
             Loading... <Spin />
           </H2>
         ) : (
-          feed.byUserTags.reverse().map((p) => createContentCard(p))
+          [...feed.byUserTags, ...feed.byFollowings]
+          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
+          .sort(momentComparator)
+          .reverse().map((p) => createContentCard(p))
         )}
+        <p style={{color: "grey"}}>
+          To see more content, add new interest areas on your profile or follow fellow akademicians!
+        </p>
       </Main>
       <Col
         style={{ position: "fixed", right: "20px" }}
