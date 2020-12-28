@@ -12,6 +12,7 @@ import {
   ClockCircleTwoTone,
   EditFilled,
   UsergroupAddOutlined,
+  LockFilled,
 } from "@ant-design/icons";
 import { sendJoinRequest, sendBatchInviteRequest } from "../../redux/collaboration/api";
 import Frame from "../../components/Frame";
@@ -315,7 +316,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}>
           <Spin size="large" /> Content is Loading
         </Main>:
-      (((projectData.privacy === 1) && !isUserCollaboratesOnThisProject())? // if it is private
+      (((projectData.privacy === 0) && !isUserCollaboratesOnThisProject())? // if it is private
       <>
         <Main
           xs={{span: 20, offset: 1}}
@@ -346,7 +347,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}> 
         <H1> {projectData.title} </H1>
         <DateSection>
-          <UnlockFilled /> 
+          {projectData.privacy === 0 ? <LockFilled/> : <UnlockFilled/>}
           Project Due{" "}
         {dueDateExists()
         ? moment(

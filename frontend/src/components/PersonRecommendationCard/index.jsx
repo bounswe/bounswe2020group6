@@ -19,7 +19,7 @@ const PersonRecommendationCard = ({ id, name, university, department, imgUrl, on
   const history = useHistory()
 
   const handleFollow = () => {
-    dispatch(follow(id))
+    dispatch(follow(id, 1))
     onFollowed()
   }
 
