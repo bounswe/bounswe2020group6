@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 
 import { Col, Spin } from "antd";
 import Frame from "../../components/Frame";
@@ -14,6 +15,13 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
+
+  function momentComparator(a,b){  
+    var dateA = moment(a.createdAt);
+    var dateB = moment(b.createdAt);
+    return dateA > dateB ? 1 : -1;  
+}; 
+
 
   useEffect(() => {
     setLoading(true)
@@ -60,10 +68,6 @@ const Home = () => {
     );
   };
 
-  const getUniqueProjects = (arr) => {
-    return [...new Map(arr.map(item => [item.id, item])).values()]
-  }
-
   return (
     <Frame>
       <Main
@@ -78,12 +82,16 @@ const Home = () => {
             Loading... <Spin />
           </H2>
         ) : (
-          getUniqueProjects([...feed.byUserTags, ...feed.byFollowings])
-            .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId")))
-            .sort((p1,p2) => moment(p1.createdAt) < moment(p2.createdAt))
-            .map((p) => createContentCard(p))
+          
+          [...feed.byUserTags, ...feed.byFollowings]
+          .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId"))) // not this user's project
+          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                  // unique
+          .sort(momentComparator)                                                // sorted by date
+          .reverse()                                                             // descending
+          .map((p) => createContentCard(p))
         )}
-        {loading ? "" : <H3 style={{margin: "30px"}}>To see more results, please add more interest tags or follow more users.</H3> }
+        {loading ? "" : <H3 style={{margin: "30px" color: "grey"}}>To see more results, please add more interest tags or follow more users.</H3> }
+
       </Main>
       <Col
         style={{ position: "fixed", right: "20px" }}

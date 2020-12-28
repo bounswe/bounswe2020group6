@@ -52,7 +52,6 @@ const Profile = () => {
   const followings = useSelector((state) => state.follow.following);
 
   const scrollToProjects = useSelector((state) => state.profile.scrollToProjects);
-
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
   const isOwnProfile = () => {
@@ -69,7 +68,7 @@ const Profile = () => {
       dispatch(scrolledToProjectsAction());
     }
     // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     dispatch(getProfileInfo(id));
@@ -79,6 +78,12 @@ const Profile = () => {
     }
     // eslint-disable-next-line
   }, [id]);
+
+  const toggleInviteModal = () => {
+    setInviteModalVisible((prev) => !prev);
+  };
+
+  // picture upload functions
 
   const handleFollow = () => {
     if (alreadyFollowing) {
@@ -99,12 +104,6 @@ const Profile = () => {
   const toggleEditModal = () => {
     setEditModalVisible((prev) => !prev);
   };
-
-  const toggleInviteModal = () => {
-    setInviteModalVisible((prev) => !prev);
-  };
-
-  // picture upload functions
 
   function beforeUpload(file) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
