@@ -23,19 +23,41 @@ const { TextArea } = Input;
 
 const FileEditor = () => {
 
+  const emptyFileData = {data:"", name:""};
+
+  const isPlainText = (extension) => {
+    const plainTextExtensions = [".txt", "", ".json", ".md", ".css", ".html", ".js", ".py", ".jsx", ".c"];
+    var x;
+    for(x of plainTextExtensions) {
+      if (x.localeCompare(extension) === 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const isImg = (extension) => {
+    const plainTextExtensions = [".png", ".gif", ".jpg", ".bmp"];
+    var x;
+    for(x of plainTextExtensions) {
+      if (x.localeCompare(extension) === 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const displayFile = (filename, i) => {
     setSelectedFile(i);
-    if (filename.endsWith(".txt")){
-      setFileFormat("txt");
+    let extension = filename.indexOf(".") === -1 ? "" : filename.substring(filename.lastIndexOf("."));
+    setFileFormat(extension);
+
+    if (isPlainText(extension)){
       getFileData(filename);
-    // TODO: make generic
-    } else if (filename.endsWith(".pdf")) {
+    } else if (isImg(extension)) {
       setFileData(prev => ({name: filename}));
-      setFileFormat("pdf");
-      
-    } else {
+    }else {
       setFileData(prev => ({name: filename}));
-      setFileFormat("rtf");
     }
   }
 
@@ -49,15 +71,16 @@ const FileEditor = () => {
       })
       .then(
         response => {
-          setFileData(prev => ({name: filename, data: response.data}));
+          setFileData(prev => ({
+            name: filename, 
+            data: typeof response.data === 'object' ? JSON.stringify(response.data, null, 2) : response.data 
+          }));
           setLoadingFile(false);
-
         }
       )
       .catch((e) => {
         console.log(e)
         setLoadingFile(false);
-
       });
   }
 
@@ -86,31 +109,70 @@ const FileEditor = () => {
     api({ sendToken: true })
       .delete("/file/delete/" + projectId + "/" + filename)
       .then((response) => {
-        message.success("File deleted successfully.")
+        message.success("File deleted successfully.");
+        getProjectData();
+        setSelectedFile(null);
+        setFileFormat(null);
+        setFileData(emptyFileData);
       })
       .catch((error) => {
-        message.error("File couldn't be deleted.")
+        message.error("File couldn't be deleted.");
       });
   };
+
+  const toFile = (newFile) => {
+    var blob = new Blob([newFile.data], { type: 'text/plain' });
+    var file = new File([blob], newFile.name, {type: "text/plain"});
+    return file;
+  }
+
+  const replaceFile = (newFile) => {
+    console.log("newFile", newFile.name, newFile);
+    var file = toFile(newFile);
+    api({ sendToken: true })
+    .delete("/file/delete/" + projectId + "/" + newFile.name)
+    .then((response) => {
+      setSelectedFile(null);
+      setFileFormat(null);
+      uploadFiles([file]);
+      setFileData(emptyFileData);
+    })
+    .catch((error) => {
+      message.error("File couldn't be updated.");
+    });
+  }
   
-  const uploadFiles = ({files}) => {
-    files = filesToUpload;
+  const uploadFiles = (files) => {
+    console.log(files);
     if (files) {
       let formData = new FormData();
       var i;
       for(i=0;i<files.length;i++){
-        formData.append(files[i].name, files[i].originFileObj);
+        formData.append(files[i].name, files[i].originFileObj || files[i]);
       }
       formData.append("projectId", projectId);
+      for(var p of formData){
+        console.log(p)
+      }
 
 
       api({ sendToken: true })
         .post("/file/add/", formData)
         .then((response) => {
-          message.success("Files uploaded successfully.")
+          message.success("Files uploaded successfully.");
+          getProjectData();
+          setSelectedFile(null);
+          setFileFormat(null);
+          setFilesToUpload([]);
+          setFileData(emptyFileData);
         })
         .catch((error) => {
-          message.error("Files couldn't be uploaded.")
+          message.error("Files couldn't be uploaded.");
+          getProjectData();
+          setSelectedFile(null);
+          setFileFormat(null);
+          setFilesToUpload([]);
+          setFileData(emptyFileData);
         });
 
     }
@@ -130,7 +192,7 @@ const FileEditor = () => {
 
   const [selectedFile, setSelectedFile] = useState(-1);
 
-  const [fileData, setFileData] = useState({data:"", name:""});
+  const [fileData, setFileData] = useState(emptyFileData);
   const [loadingProject, setLoadingProject] = useState(true);
   const [loadingFile, setLoadingFile] = useState(false);
   const [projectData, setProjectData] = useState({});
@@ -153,13 +215,14 @@ const FileEditor = () => {
       });
   }
 
+
   useEffect(() => {
     getProjectData();
     // eslint-disable-next-line
   }, [projectId]);
 
   return (
-    loadingProject ? "" :
+    loadingProject ? <Frame/> :
     <Frame>
       <Main
         xs={{span: 20, offset: 1}}
@@ -196,26 +259,37 @@ const FileEditor = () => {
           <div>
             <H4> Editing "{fileData.name}" &nbsp; { loadingFile ? <Spin indicator={antIcon} /> : ""} </H4>
             { 
-              fileFormat === "txt"
+              isPlainText(fileFormat) || fileFormat === null
               ?
-              <TextArea 
-                rows={16} 
-                value={fileData.data}
-                onChange={e => (setFileData(prev => ({...prev, data: e.target.value})))}
-                disabled = { loadingFile ? "disabled" : ""}
-                style={
-                  {
-                    fontFamily: "Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace",
-                    overflowWrap: "normal",
-                    overflowX: "scroll",
-                    whiteSpace: "pre",
+              <div>
+                <TextArea 
+                  rows={16} 
+                  value={fileData.data}
+                  onChange={e => (setFileData(prev => ({...prev, data: e.target.value})))}
+                  disabled = { loadingFile ? "disabled" : ""}
+                  style={
+                    {
+                      fontFamily: "Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace",
+                      overflowWrap: "normal",
+                      overflowX: "scroll",
+                      whiteSpace: "pre",
+                    }
                   }
-                }
-              />
+                />
+                <Row style={{marginTop:"16px"}}>
+                  <Tag
+                    color="cyan"
+                    style={{ cursor: "pointer" }}
+                    onClick={(e) => (replaceFile(fileData))}
+                  >
+                    Save Changes
+                  </Tag>
+                </Row>
+              </div>
               : 
               <Alert
                 message="Error"
-                description={`You can't edit files of format '${fileFormat}'.`}
+                description={`You can't edit files with '${fileFormat}' extension.`}
                 type="error"
                 showIcon
               />
