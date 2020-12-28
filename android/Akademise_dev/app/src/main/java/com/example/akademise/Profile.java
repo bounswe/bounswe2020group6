@@ -18,6 +18,8 @@ public class Profile implements Serializable {
 
     private String university;
 
+    private String projects;
+
     private boolean isValidated;
 
     private String department;
@@ -192,5 +194,9 @@ public class Profile implements Serializable {
     }
     public boolean getCanFollow(){
         return this.canFollow;
+    }
+
+    public String getProjects() {
+        return projects;
     }
 }

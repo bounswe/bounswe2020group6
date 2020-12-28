@@ -1,6 +1,7 @@
 package com.example.akademise;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -17,8 +18,13 @@ public class ProfileActivity extends AppCompatActivity {
                     new ProfileFragment()).commit();
         }
         else{
+            getData();
+            Fragment fragment = new ProfileOthersFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("user", profile);
+            fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction().replace(R.id.flProfileFragments,
-                    new ProfileOthersFragment()).commit();
+                    fragment).commit();
         }
 
     }

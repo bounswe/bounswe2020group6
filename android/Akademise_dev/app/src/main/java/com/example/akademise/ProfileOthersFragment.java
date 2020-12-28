@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,6 +41,7 @@ public class ProfileOthersFragment extends Fragment {
     private Button upvoteButton;
     private Button followButton;
     private String myToken;
+
     private  Integer myId;
     private TextView tvName;
     private  TextView tvContact;
@@ -50,10 +53,12 @@ public class ProfileOthersFragment extends Fragment {
     private TextView tvUpvote;
     private ImageView ivProfilePhoto;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_others, container, false);
+
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
         publicationsButton = view.findViewById(R.id.projects);
         logoutButton =view.findViewById(R.id.logout_button);
@@ -68,6 +73,7 @@ public class ProfileOthersFragment extends Fragment {
         tvTitle = view.findViewById(R.id.title_content);
         ivProfilePhoto=view.findViewById(R.id.avatar);
         tvUpvote = view.findViewById(R.id.upvote_content);
+
         loadData();
         loadIDData();
         getData();
@@ -103,12 +109,14 @@ public class ProfileOthersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        otherGoogleScholar = view.findViewById(R.id.btnOtherGoogleScholar);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         akademiseApi = retrofit.create(AkademiseApi.class);
+
 
 
     }
@@ -131,6 +139,17 @@ public class ProfileOthersFragment extends Fragment {
             temp+=profile.getUser_interests().get(i).getInterest()+",";
         }
         tvTags.setText(temp);
+
+        otherGoogleScholar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(profile!=null) {
+                    goToGoogleScholar(profile);
+                }
+            }
+        });
+
+
     }
 
     private void loadData(){
@@ -154,6 +173,7 @@ public class ProfileOthersFragment extends Fragment {
             Toast.makeText(this.getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
         }
     }
+
     private void handleUpvoteCall(Boolean isUpvote){
         Call<Upvote> call;
         Upvote upvote = new Upvote(profile.getId());
@@ -217,6 +237,19 @@ public class ProfileOthersFragment extends Fragment {
             }
         });
 
+
+
+    private void goToGoogleScholar(Profile profile){
+        Fragment fragment = new GoogleScholarFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("profile", profile);
+        args.putInt("other",1);
+        fragment.setArguments(args);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flProfileFragments, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 }

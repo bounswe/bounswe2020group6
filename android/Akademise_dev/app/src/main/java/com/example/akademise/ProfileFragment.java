@@ -42,8 +42,13 @@ public class ProfileFragment extends Fragment {
     private Button statsAndOverviewButton;
     private Button publicationsButton;
     private Button logoutButton;
+
     private Button editButton;
     private Button updateButton;
+
+    private Button googleScholar;
+    private TextView tvAffiliation;
+
     private String myToken;
     private  Integer myId;
     private TextView tvName;
@@ -75,7 +80,11 @@ public class ProfileFragment extends Fragment {
         tvDepartment = view.findViewById(R.id.department_content);
         tvTitle = view.findViewById(R.id.title_content);
         ivProfilePhoto=view.findViewById(R.id.avatar);
+
         tvUpvote = view.findViewById(R.id.upvote_content);
+
+        googleScholar = view.findViewById(R.id.btnMyGoogleScholar);
+
         loadData();
         loadIDData();
 
@@ -220,6 +229,13 @@ public class ProfileFragment extends Fragment {
                 tvTags.setText(temp);
                 //Toast.makeText(getActivity(), "Successful", Toast.LENGTH_LONG).show();
 
+                googleScholar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToGoogleScholar(profile);
+                    }
+                });
+
 
             }
 
@@ -323,6 +339,18 @@ public class ProfileFragment extends Fragment {
                 System.out.println(t.getMessage());
             }
         });
+
+
+    private void goToGoogleScholar(Profile profile){
+        Fragment fragment = new GoogleScholarFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("profile", profile);
+        fragment.setArguments(args);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flProfileFragments, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 }
