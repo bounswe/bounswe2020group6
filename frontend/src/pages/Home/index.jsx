@@ -85,6 +85,9 @@ const Home = () => {
           .sort(momentComparator)
           .reverse().map((p) => createContentCard(p))
         )}
+        <p style={{color: "grey"}}>
+          To see more content, add new interest areas on your profile or follow fellow akademicians!
+        </p>
       </Main>
       <Col
         style={{ position: "fixed", right: "20px" }}
