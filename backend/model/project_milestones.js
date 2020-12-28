@@ -1,15 +1,24 @@
 module.exports = (sequelize, Seq) => {
     return sequelize.define('project_milestone', {
+        id: {
+            type: Seq.INTEGER,
+            primaryKey: true,
+            autoIncrement : true
+        },
         project_id: {
-          type: Seq.INTEGER,
-          primaryKey: true,
+            type: Seq.INTEGER,
         },
-        milestone_no: {
-          type: Seq.INTEGER,
-          primaryKey: true,
+        date: {
+            type: Seq.DATE,
         },
-        milestone_date: {
-          type: Seq.DATE,
+        title: {
+            type: Seq.STRING,
+        },
+        description: {
+            type: Seq.TEXT,
+        },
+        type: {
+            type: Seq.STRING,
         }
     }, 
     {   

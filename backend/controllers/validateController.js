@@ -1,4 +1,6 @@
 const { User } = require("../model/db")
+const { createJwt } = require("../util/authCheck")
+
 
 validate = async function(req, res) {
     code = req.body.code
@@ -11,7 +13,7 @@ validate = async function(req, res) {
         try {
             user.isValidated = true
             user.save()
-            return res.status(200).send({message: "Validation is successful"})
+            return res.status(200).send({message: "Validation is successful", token: createJwt(req.userId, true)})
 
         }
         catch(e) {

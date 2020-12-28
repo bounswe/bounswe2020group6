@@ -1,6 +1,6 @@
 module.exports = (sequelize, Seq) => {
-    return sequelize.define('interest', {
-        interest: {
+    return sequelize.define('university', {
+        university: {
           type: Seq.STRING,
           primaryKey: true,
           unique: true,

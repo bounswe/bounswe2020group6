@@ -1,56 +1,63 @@
 const Sequelize = require('sequelize')
-//Prototype models
 const UserModel = require('./users')
 const ProjectModel = require('./projects')
-const UserProjectModel = require('./user_projects')
 const ProjectTagModel = require('./project_tags')
 const ProjectCollaboratorModel = require('./project_collaborators')
 const ProjectFileModel = require('./project_files')
-
-//New models
-//User models:
-const InterestModel = require('./interests')
-const UserInterestModel = require('./user_interests')
-const UserAffiliationModel = require('./user_affiliations')
-const UserUpModel = require('./user_ups')
-
-//Project models:
+const CollabRequestModel = require('./collab_requests')
 const ProjectMilestoneModel = require('./project_milestones')
+const UserInterestModel = require('./user_interests')
+const UserUpModel = require('./user_ups')
+const FollowModel = require('./follow')
+const TitleModel = require('./titles')
 const TagModel = require('./tags')
-
+const UniversityModel = require('./universities')
+const DepartmentModel = require('./departments')
 
 
 //Connection to server database
-const sequelize = new Sequelize('akademise', 'root', 'password', {
-  host: 'ec2-54-173-244-46.compute-1.amazonaws.com',
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+  host: process.env.DB_HOST,
   dialect: 'mysql',
 })
 
 
 const User = UserModel(sequelize, Sequelize)
 const Project = ProjectModel(sequelize, Sequelize)
-const UserProject = UserProjectModel(sequelize,Sequelize)
 const ProjectTag = ProjectTagModel(sequelize, Sequelize)
 const ProjectCollaborator = ProjectCollaboratorModel(sequelize, Sequelize)
 const ProjectFile = ProjectFileModel(sequelize, Sequelize)
-//Yeni db modelleri:
-const Interest = InterestModel(sequelize, Sequelize)
+const Follow = FollowModel(sequelize, Sequelize)
+const CollabRequest = CollabRequestModel(sequelize, Sequelize)
 const UserInterest = UserInterestModel(sequelize, Sequelize)
-const UserAffiliation = UserAffiliationModel(sequelize, Sequelize)
 const UserUp = UserUpModel(sequelize, Sequelize)
-
 const ProjectMilestone = ProjectMilestoneModel(sequelize, Sequelize)
 const Tag = TagModel(sequelize, Sequelize)
+const University = UniversityModel(sequelize, Sequelize)
+const Department = DepartmentModel(sequelize, Sequelize)
+const Title = TitleModel(sequelize, Sequelize)
 
+
+User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
+ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
+ProjectCollaborator.belongsTo(Project, {foreignKey: 'project_id',constraints: false})
+
+User.hasMany(ProjectCollaborator, {foreignKey: "user_id", onDelete: 'CASCADE', constraints: false})
+User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
+Project.hasMany(ProjectFile,{foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 Project.hasMany(ProjectTag, {foreignKey : 'project_id' , onDelete: 'CASCADE',constraints: false })
 Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
-UserProject.belongsTo(Project, {foreignKey : 'project_id', onDelete: 'CASCADE',constraints: false})
-ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
-User.hasMany(UserInterest, {foreignKey: 'user_id', constraints: false})
-User.hasOne(UserAffiliation, {foreignKey: 'id'})
-/*ProjectFile.belongsTo(Project, {foreignKey : 'project_id' , onDelete: 'CASCADE' })
-Project.hasMany(ProjectFile)*/
+Project.hasMany(ProjectMilestone, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
+Project.belongsTo(User, {foreignKey : 'userId', onDelete : 'CASCADE',constraints : false})
 
+CollabRequest.belongsTo(User,{foreignKey : 'requesterId', onDelete : 'CASCADE', constraints : false})
+CollabRequest.belongsTo(Project,{foreignKey : 'projectId', onDelete : 'CASCADE', constraints : false})
+
+User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
+Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
+User.hasMany(Follow, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
+Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
@@ -67,24 +74,19 @@ sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 });
 
 
-
-
 module.exports = {
   User,
-  Project,
-  UserProject,
-  ProjectTag,
-  ProjectCollaborator,
-  ProjectFile,
-  Interest,
   UserInterest,
-  UserAffiliation,
-  UserProject,
   UserUp,
   Project,
   ProjectTag,
   ProjectCollaborator,
   ProjectMilestone,
   ProjectFile,
-  Tag
+  Tag,
+  University,
+  Department,
+  Title,
+  Follow,
+  CollabRequest
 }

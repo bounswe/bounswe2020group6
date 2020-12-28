@@ -19,9 +19,10 @@ search = async function(req, res) {
         else {
             projects = await Project.findAll({
                 where: {
-                    topic: {
+                    title: {
                         [Sequelize.Op.like]: "%" + query + "%"
-                    }
+                    },
+                    privacy: 1
                 }
             })
     

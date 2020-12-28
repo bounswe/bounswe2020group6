@@ -1,5 +1,6 @@
 const mailController = require("../util/mailController")
 const { hashPassword, compare } = require("../util/passwordUtil")
+const { createJwt } = require("../util/authCheck")
 const jwt = require('jsonwebtoken')
 const { User } = require("../model/db")
 
@@ -12,17 +13,15 @@ login = async function(req, res){
     if(loggingUser != null){
         let isSame = await compare(req.body.password, loggingUser.password)
         if(isSame){
-            const token = createJwt(loggingUser.id)
-            return res.status(200).send({message: "Success", accessToken: token})
+            const isValidated = (loggingUser.isValidated == false) ? false : true
+            const token = createJwt(loggingUser.id, isValidated)
+            return res.status(200).send({message: "Success", accessToken: token, id: loggingUser.id})
         }
         return res.status(401).send({message: "Wrong password"})
     }
     return res.status(404).send({message: "User not found"})
 }
 
-createJwt = function(id) {
-    return jwt.sign({id: id},"top_secret_key")
-}
 
 signup = async function(req,res) {
 
@@ -40,7 +39,7 @@ signup = async function(req,res) {
         userDb = await User.create(userData)
         mailController.sendValidationCode(userData.email, validationCode)
         console.log(userData)
-        const token = createJwt(userDb.id)
+        const token = createJwt(userDb.id, false)
         res.status(201).send({message: "User created", accessToken: token, id: userDb.id})
     } catch (error) {
         console.log(error.message)
