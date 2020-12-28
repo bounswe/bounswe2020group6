@@ -179,8 +179,10 @@ getPosts = async function(req,res){
 		    where : {
 			[Op.or] : [
 			    {'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
-			    '$project.privacy$' : {[Op.eq] : 1}
-			    },
+			    [Op.or] : [
+			        {'$project.userId$' : {[Op.eq] : user_id}},
+				{'$project.privacy$' : {[Op.eq] : 1}}
+			    ]},
 			    {userId : userParameter,
 			    [Op.or] : [
 				{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
