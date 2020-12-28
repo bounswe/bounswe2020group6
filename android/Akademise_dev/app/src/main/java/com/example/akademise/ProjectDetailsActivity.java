@@ -78,14 +78,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 Bundle bundle = new Bundle();
-                 bundle.putInt("project_id", project.getId());
-                 RequestInvitationFragment frg = new RequestInvitationFragment();
-                 frg.setArguments(bundle);
-                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
-                 frg).commit();
-                 **/
                 openShowProjectFilesActivity();
             }
         });

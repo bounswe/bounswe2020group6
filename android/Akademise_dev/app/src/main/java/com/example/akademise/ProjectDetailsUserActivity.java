@@ -1,6 +1,7 @@
 package com.example.akademise;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
     TextView requirements;
     TextView tags;
 
+    Button files;
     Button req_button;
 
     TextView userNameSurname;
@@ -50,6 +52,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_details_u);
 
+        files = findViewById(R.id.btnUserProjectFiles);
         title = findViewById(R.id.user_project_title);
         summary = findViewById(R.id.tvAbstractUserProject);
         status=findViewById(R.id.tvStatusUserProject);
@@ -59,6 +62,13 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         userNameSurname=findViewById(R.id.tvUserNameSurname);
         collaborators=findViewById(R.id.tvUserCollaborators);
         req_button = findViewById(R.id.btnReqUserProject);
+
+        files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openShowProjectFilesActivity();
+            }
+        });
 
         req_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +99,23 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         myId = sharedPreferences.getInt(accessID, 0);
     }
 
+    private void openShowProjectFilesActivity() {
+        Intent intent = new Intent(this, ShowProjectFilesActivity.class);
+        intent.putExtra("project_id", project.getId());
+        List<ProjectFiles> files = project.getProject_files();
+        String allfiles="";
+        for(int i = 0; i<files.size()-1; i++){
+            allfiles += files.get(i).getFile_name() + "<,>";
+        }
+        if(files.size()!=0){
+            allfiles += files.get(files.size()-1).getFile_name();
+        }
+        if(files.size()==0){
+            allfiles="";
+        }
+        intent.putExtra("project_files", allfiles);
+        startActivity(intent);
+    }
 
     private void request() {
         List<Integer> i = new ArrayList<Integer>() {{
