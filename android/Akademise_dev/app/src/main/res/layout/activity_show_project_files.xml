@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProjectInfoEntryFragment">
+    tools:context=".ShowProjectFilesActivity">
 
     <View
         android:id="@+id/myRectangleView"
@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <Space
-        android:id="@+id/spacex"
+        android:id="@+id/spacefiles1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,49 +48,37 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView">
     </Space>
     <TextView
-        android:id="@+id/page_header"
+        android:id="@+id/file_header"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="Create a new Project"
+        android:text="Project Files"
         android:textStyle="bold"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spacex"/>
+        app:layout_constraintTop_toBottomOf="@+id/spacefiles1"/>
     <Space
-        android:id="@+id/space"
+        android:id="@+id/spacefiles2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.04"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/page_header">
-    </Space>
-    <EditText
-        android:id="@+id/etAbstract"
-        android:layout_width="0dp"
-        android:gravity="start"
-        android:layout_height="450dp"
-        android:background="@drawable/textview_shape"
-        style="@style/textView"
-        android:hint="Abstract"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space"/>
-    <Space
-        android:id="@+id/space2"
-        android:layout_width="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/file_header"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recyclerView3"
+
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAbstract"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spacefiles2"
+        tools:layout_editor_absoluteX="0dp" />
+
 
 
 

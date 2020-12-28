@@ -16,7 +16,7 @@
         <activity android:name=".ProfileOthersFragment" />
         <activity android:name=".ProjectDetailsActivity" />
         <activity android:name=".RequestInvitationActivity" />
-
+        <activity android:name=".ShowProjectFilesActivity" />
         <activity android:name=".ProjectDetailsUserActivity" />
         <activity
             android:name=".ProjectCreationActivity"
