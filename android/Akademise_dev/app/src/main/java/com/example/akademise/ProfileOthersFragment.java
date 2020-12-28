@@ -72,7 +72,7 @@ public class ProfileOthersFragment extends Fragment {
         tvDepartment = view.findViewById(R.id.department_content_others);
         tvTitle = view.findViewById(R.id.title_content_others);
         ivProfilePhoto=view.findViewById(R.id.avatar_others);
-        tvUpvote = view.findViewById(R.id.upvote_text_others);
+        tvUpvote = view.findViewById(R.id.upvote_content_others);
 
         loadData();
         loadIDData();
@@ -126,7 +126,6 @@ public class ProfileOthersFragment extends Fragment {
         String department = profile.getDepartment();
         String title = profile.getTitle();
 
-        //tvAffiliation.setText(str);
 
         tvUniversity.setText(university);
         tvDepartment.setText(department);
@@ -134,11 +133,24 @@ public class ProfileOthersFragment extends Fragment {
         tvName.setText(profile.getName()+" "+profile.getSurname());
         tvContact.setText(profile.getEmail());
         tvUpvote.setText(String.valueOf(profile.getUpCounts()));
+        tvBiogprahy.setText(profile.getBio());
         String temp="";
         for(int i=0; i<profile.getUser_interests().size(); i++){
             temp+=profile.getUser_interests().get(i).getInterest()+",";
         }
         tvTags.setText(temp);
+
+        if(profile.getCanFollow()){
+            followButton.setText("FOLLOW");
+        }else{
+            followButton.setText("UNFOLLOW");
+        }
+
+        if(profile.getIsUpped()){
+            upvoteButton.setText("DOWNVOTE");
+        }else{
+            upvoteButton.setText("UPVOTE");
+        }
 
         otherGoogleScholar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,8 +160,6 @@ public class ProfileOthersFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
     private void loadData(){
@@ -163,12 +173,9 @@ public class ProfileOthersFragment extends Fragment {
     }
 
     private void getData(){
-        String test= this.getActivity().getIntent().getClass().toString();
-        //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
         if(this.getActivity().getIntent().hasExtra("user")){
             profile = (Profile) this.getActivity().getIntent().getSerializableExtra("user");
             Call<Profile> call = akademiseApi.getMyProfile(profile.getId(), "Bearer "+myToken);
-
 
             call.enqueue(new Callback<Profile>() {
                 @Override

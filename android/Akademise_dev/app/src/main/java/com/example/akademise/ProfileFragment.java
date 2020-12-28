@@ -42,13 +42,9 @@ public class ProfileFragment extends Fragment {
     private Button statsAndOverviewButton;
     private Button publicationsButton;
     private Button logoutButton;
-
     private Button editButton;
     private Button updateButton;
-
     private Button googleScholar;
-    private TextView tvAffiliation;
-
     private String myToken;
     private  Integer myId;
     private TextView tvName;
@@ -203,18 +199,10 @@ public class ProfileFragment extends Fragment {
                 }
                 Profile profile = response.body();
                 System.out.println("SUCCESSFUL");
-                //String str="";
-
-
-                //str = "University: "+ profile.getUniversity()+"\n";
-                //str += "Department: "+ profile.getDepartment()+"\n";
-                //str += "Title: " + profile.getTitle();
 
                 String university = profile.getUniversity();
                 String department = profile.getDepartment();
                 String title = profile.getTitle();
-
-                //tvAffiliation.setText(str);
 
                 tvUniversity.setText(university);
                 tvDepartment.setText(department);
@@ -222,12 +210,12 @@ public class ProfileFragment extends Fragment {
                 tvName.setText(profile.getName()+" "+profile.getSurname());
                 tvContact.setText(profile.getEmail());
                 tvUpvote.setText(String.valueOf(profile.getUpCounts()));
+                tvBiogprahy.setText(profile.getBio());
                 String temp="";
                 for(int i=0; i<profile.getUser_interests().size(); i++){
                     temp+=profile.getUser_interests().get(i).getInterest()+",";
                 }
                 tvTags.setText(temp);
-                //Toast.makeText(getActivity(), "Successful", Toast.LENGTH_LONG).show();
 
                 googleScholar.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -235,8 +223,6 @@ public class ProfileFragment extends Fragment {
                         goToGoogleScholar(profile);
                     }
                 });
-
-
             }
 
             @Override
@@ -295,7 +281,7 @@ public class ProfileFragment extends Fragment {
 
 
         Call<ProfileUpdate> call = akademiseApi.updateProfile(updatedProfile, "Bearer " + myToken);
-        Call<Biography> callBio = akademiseApi.updateBio(updateBio, "Bearer" + myToken);
+        Call<Biography> callBio = akademiseApi.updateBio(updateBio, "Bearer " + myToken);
 
 
         call.enqueue(new Callback<ProfileUpdate>() {
@@ -340,7 +326,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
 
     private void goToGoogleScholar(Profile profile){
         Fragment fragment = new GoogleScholarFragment();

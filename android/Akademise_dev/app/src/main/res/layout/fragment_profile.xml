@@ -350,8 +350,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.1"
-            android:text=""
+            app:layout_constraintWidth_percent="0.07"
+            android:text="55"
+            android:gravity="center"
+            style="@style/textView"
             app:layout_constraintStart_toEndOf="@+id/upvote_icon"
             app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
