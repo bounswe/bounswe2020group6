@@ -1,4 +1,4 @@
-const { User, Project } = require("../model/db")
+const { User, Project, ProjectTag } = require("../model/db")
 const Sequelize = require('sequelize')
 
 search = async function(req, res) {
@@ -36,6 +36,26 @@ search = async function(req, res) {
       
 }
 
+searchProjectsIdsByTags = async function(req, res) {
+    const tags = req.body.tags
+    try{
+        projects= Project.findAll({
+            include: [{
+                model: ProjectTag,
+                where: {tag: tags[0]}
+            }]
+            })
+            return res.status(200).send({projects: projects})
+        }
+    
+    catch(error){
+        console.log(error)
+        return res.status(500).send({error: error})
+    }
+      
+}
+
 module.exports = {
-    search
+    search,
+    searchProjectsIdsByTags
 }
