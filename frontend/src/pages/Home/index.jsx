@@ -6,6 +6,7 @@ import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3 } from "./style";
+import moment from "moment";
 
 import api from "../../axios";
 
@@ -73,8 +74,9 @@ const Home = () => {
             Loading... <Spin />
           </H2>
         ) : (
-          feed.byUserTags.map((p) => createContentCard(p))
+          [...feed.byUserTags, ...feed.byFollowings].sort((p1,p2) => moment(p1.createdAt) < moment(p2.createdAt)).map((p) => createContentCard(p))
         )}
+        {loading ? "" : <H3 style={{margin: "30px"}}>To see more results, please add more interest tags or follow more users.</H3> }
       </Main>
       <Col
         style={{ position: "fixed", right: "20px" }}
