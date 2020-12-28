@@ -13,7 +13,7 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 
-const PersonRecommendationCard = ({ id, name, university, department}) => {
+const PersonRecommendationCard = ({ id, name, university, department, imgUrl}) => {
 
   const dispatch = useDispatch()
   const history = useHistory()
@@ -25,7 +25,11 @@ const PersonRecommendationCard = ({ id, name, university, department}) => {
   return (
     <Layout key={id} wrap={false} xs={18} sm={18} md={18} lg={18}>
       <Col flex="40px" onClick={() => history.push("/profile/" + id)} style={{cursor: "pointer"}}>
-      <Avatar size={44}  src={defaultProfilePictureHref} style={{boxShadow: "0px 4px 4px rgba(0,0,0,0.25)", margin: "10px"}} />
+      <Avatar 
+        size={44}  
+        src={!(imgUrl===null || imgUrl===undefined) ? imgUrl : defaultProfilePictureHref} 
+        style={{boxShadow: "0px 4px 4px rgba(0,0,0,0.25)", margin: "10px"}} 
+      />
       </Col>
       <Col flex="auto" justify="start">
         <Row wrap={false}>

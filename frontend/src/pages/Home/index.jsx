@@ -35,7 +35,6 @@ const Home = () => {
       .then((response) => {
         setUserRecommendations(response.data.slice(0, 4));
         setUserRecommendationsLoading(false)
-        //console.log(response.data)
       })
       .catch((error) => {
         console.log(error);
@@ -90,7 +89,9 @@ const Home = () => {
                 id={u.id}
                 name={u.name + " " + u.surname}
                 university={u.university}
-                department={u.department}/>
+                department={u.department}
+                imgUrl={u.profile_picture_url}
+                />
               })
           ) 
         }
