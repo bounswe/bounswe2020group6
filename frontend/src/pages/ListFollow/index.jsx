@@ -45,7 +45,6 @@ const Home = () => {
         setUserRecommendations(          
           response.data
           .sort(() => 0.5 - Math.random())
-          .slice(0, 4)
         );
         setUserRecommendationsLoading(false)
         //console.log(response.data)
@@ -125,13 +124,14 @@ const Home = () => {
         { 
           userRecommendationsLoading ? <Spin/> :(
             userRecommendations.length === 0 ? "No recommendations yet..." :
-              userRecommendations.map((u,i) => {
+              userRecommendations.slice(0, 4).map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
                 name={u.name + " " + u.surname}
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
+                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
                 />
               })
           ) 

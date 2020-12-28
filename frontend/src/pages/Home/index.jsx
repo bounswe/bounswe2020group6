@@ -34,7 +34,10 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
-        setUserRecommendations(response.data.sort(() => 0.5 - Math.random()).slice(0, 4));
+        setUserRecommendations(
+          response.data
+          .sort(() => 0.5 - Math.random())
+        );
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
@@ -95,6 +98,7 @@ const Home = () => {
             userRecommendations.length === 0 ? "No recommendations yet..." :
               userRecommendations
               .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
+              .slice(0, 4)
               .map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
@@ -102,6 +106,7 @@ const Home = () => {
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
+                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
                 />
               })
           ) 
