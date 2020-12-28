@@ -68,7 +68,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Map<String, String> user = requests.get(position).getRequesterUser();
         String user_ = user.get("name") + " " + user.get("surname");
+
         holder.username.setText(user_);
+        holder.username.setClickable(true);
         holder.projectName.setText(requests.get(position).getProject().get("name"));
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +129,33 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 });
             }
         });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(user_,"0","Bearer " + myToken);
+                inside_call.enqueue(new Callback<SearchedUsers>() {
+                    @Override
+                    public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("Get", "onResponse: " + response.code());
+                            return;
+                        }
+                        Log.d("GET", "On response: " + response.message());
+                        SearchedUsers searchedUsers = response.body();
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra("user", searchedUsers.getUsers().get(0));
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchedUsers> call, Throwable t) {
+                        Log.d("Get", "onFailure: " + t.getMessage());
+
+                    }
+                });
+            }
+        });
+
     }
 
 
