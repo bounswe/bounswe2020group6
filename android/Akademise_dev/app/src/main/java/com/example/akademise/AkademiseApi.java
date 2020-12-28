@@ -120,7 +120,9 @@ public interface AkademiseApi {
     Call<Invitation> addInvitation(@Body Invitation invitation, @Header("Authorization") String auth);
 
 
-
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("home/posts")
+    Call<Home> getHome(@Header("Authorization") String auth);
 
 }
 
