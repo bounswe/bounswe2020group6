@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -10,6 +10,8 @@ import UserCard from "../../components/UserCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3 } from "./style";
 import { useHistory } from "react-router-dom";
+
+import api from "../../axios";
 
 const capitalize = function (type) {
   return type.charAt(0).toUpperCase() + type.slice(1);
@@ -32,6 +34,22 @@ const Home = () => {
   const allPeople = type === "followers" ? followers : followings;
 
   const history = useHistory();
+
+  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
+  const [userRecommendations, setUserRecommendations] = useState([]);
+  useEffect(() => {
+    setUserRecommendationsLoading(true)
+    api({ sendToken: true })
+      .get("/home/users")
+      .then((response) => {
+        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendationsLoading(false)
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     if (type === "followers") {
@@ -99,10 +117,19 @@ const Home = () => {
         )}
       </Main>
       <Col align="center" md={0} lg={{ span: 5, offset: 0 }} xl={{ span: 4, offset: 1 }}>
-        <H3>Recommended users</H3>
-        <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={0} />
-        <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
-        <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
+      <H3>Recommended users</H3>
+        { 
+          userRecommendationsLoading ? <Spin/> :(
+            userRecommendations.length === 0 ? "No recommendations yet..." :
+              userRecommendations.map((u,i) => {
+                return <PersonRecommendationCard 
+                id={u.id}
+                name={u.name + " " + u.surname}
+                university={u.university}
+                department={u.department}/>
+              })
+          ) 
+        }
       </Col>
     </Frame>
   );
