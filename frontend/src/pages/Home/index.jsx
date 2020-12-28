@@ -15,8 +15,6 @@ const Home = () => {
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
 
-  console.log(feed);
-
   function momentComparator(a,b){  
     var dateA = moment(a.createdAt);
     var dateB = moment(b.createdAt);
