@@ -13,13 +13,14 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 
-const PersonRecommendationCard = ({ id, name, university, department, imgUrl}) => {
+const PersonRecommendationCard = ({ id, name, university, department, imgUrl, onFollowed}) => {
 
   const dispatch = useDispatch()
   const history = useHistory()
 
   const handleFollow = () => {
     dispatch(follow(id))
+    onFollowed()
   }
 
   return (

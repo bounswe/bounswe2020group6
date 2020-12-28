@@ -6,6 +6,7 @@ import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3 } from "./style";
+import moment from "moment";
 
 import api from "../../axios";
 
@@ -41,7 +42,10 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
-        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendations(
+          response.data
+          .sort(() => 0.5 - Math.random())
+        );
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
@@ -78,14 +82,16 @@ const Home = () => {
             Loading... <Spin />
           </H2>
         ) : (
+          
           [...feed.byUserTags, ...feed.byFollowings]
-          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
-          .sort(momentComparator)
-          .reverse().map((p) => createContentCard(p))
+          .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId"))) // not this user's project
+          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                  // unique
+          .sort(momentComparator)                                                // sorted by date
+          .reverse()                                                             // descending
+          .map((p) => createContentCard(p))
         )}
-        <p style={{color: "grey"}}>
-          To see more content, add new interest areas on your profile or follow fellow akademicians!
-        </p>
+        {loading ? "" : <H3 style={{margin: "30px" color: "grey"}}>To see more results, please add more interest tags or follow more users.</H3> }
+
       </Main>
       <Col
         style={{ position: "fixed", right: "20px" }}
@@ -98,13 +104,17 @@ const Home = () => {
         { 
           userRecommendationsLoading ? <Spin/> :(
             userRecommendations.length === 0 ? "No recommendations yet..." :
-              userRecommendations.map((u,i) => {
+              userRecommendations
+              .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
+              .slice(0, 4)
+              .map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
                 name={u.name + " " + u.surname}
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
+                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
                 />
               })
           ) 

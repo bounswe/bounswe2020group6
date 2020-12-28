@@ -13,29 +13,12 @@ import { useHistory } from "react-router-dom";
 
 import api from "../../axios";
 
-
 const capitalize = function (type) {
   return type.charAt(0).toUpperCase() + type.slice(1);
 };
 
 const Home = () => {
   const selector = useSelector;
-
-  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
-  const [userRecommendations, setUserRecommendations] = useState([]);
-
-  useEffect(() => {
-    setUserRecommendationsLoading(true)
-    api({ sendToken: true })
-      .get("/home/users")
-      .then((response) => {
-        setUserRecommendations(response.data.slice(0, 4));
-        setUserRecommendationsLoading(false)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const loadingFollowers = selector((state) => state.follow.followersLoading);
   const loadingFollowings = selector((state) => state.follow.followingLoading);
@@ -51,6 +34,25 @@ const Home = () => {
   const allPeople = type === "followers" ? followers : followings;
 
   const history = useHistory();
+
+  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
+  const [userRecommendations, setUserRecommendations] = useState([]);
+  useEffect(() => {
+    setUserRecommendationsLoading(true)
+    api({ sendToken: true })
+      .get("/home/users")
+      .then((response) => {
+        setUserRecommendations(          
+          response.data
+          .sort(() => 0.5 - Math.random())
+        );
+        setUserRecommendationsLoading(false)
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     if (type === "followers") {
@@ -122,13 +124,14 @@ const Home = () => {
         { 
           userRecommendationsLoading ? <Spin/> :(
             userRecommendations.length === 0 ? "No recommendations yet..." :
-              userRecommendations.map((u,i) => {
+              userRecommendations.slice(0, 4).map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
                 name={u.name + " " + u.surname}
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
+                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
                 />
               })
           ) 
