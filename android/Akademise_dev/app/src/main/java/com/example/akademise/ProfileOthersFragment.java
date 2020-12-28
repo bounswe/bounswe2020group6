@@ -33,11 +33,12 @@ public class ProfileOthersFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    Profile profile;
+
     AkademiseApi akademiseApi;
+    private Profile profile;
+    private Button otherGoogleScholar;
     private Button statsAndOverviewButton;
     private Button publicationsButton;
-    private Button logoutButton;
     private Button upvoteButton;
     private Button followButton;
     private String myToken;
@@ -59,23 +60,30 @@ public class ProfileOthersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_others, container, false);
 
-        statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
-        publicationsButton = view.findViewById(R.id.projects);
-        logoutButton =view.findViewById(R.id.logout_button);
+        statsAndOverviewButton = view.findViewById(R.id.stats_and_overview_others);
+        publicationsButton = view.findViewById(R.id.projects_others);
         upvoteButton = view.findViewById(R.id.upvote_button);
         followButton = view.findViewById(R.id.follow_button);
-        tvName = view.findViewById(R.id.name);
-        tvContact=view.findViewById(R.id.contact_content);
-        tvTags = view.findViewById(R.id.research_tags_content);
-        tvBiogprahy = view.findViewById(R.id.biograpy_content);
-        tvUniversity = view.findViewById(R.id.university_content);
-        tvDepartment = view.findViewById(R.id.department_content);
-        tvTitle = view.findViewById(R.id.title_content);
-        ivProfilePhoto=view.findViewById(R.id.avatar);
-        tvUpvote = view.findViewById(R.id.upvote_content);
+        tvName = view.findViewById(R.id.name_others);
+        tvContact=view.findViewById(R.id.contact_content_others);
+        tvTags = view.findViewById(R.id.research_tags_content_others);
+        tvBiogprahy = view.findViewById(R.id.biography_content_others);
+        tvUniversity = view.findViewById(R.id.university_content_others);
+        tvDepartment = view.findViewById(R.id.department_content_others);
+        tvTitle = view.findViewById(R.id.title_content_others);
+        ivProfilePhoto=view.findViewById(R.id.avatar_others);
+        tvUpvote = view.findViewById(R.id.upvote_text_others);
 
         loadData();
         loadIDData();
+        otherGoogleScholar = view.findViewById(R.id.btnOtherGoogleScholar);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        akademiseApi = retrofit.create(AkademiseApi.class);
+
         getData();
 
         upvoteButton.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +117,6 @@ public class ProfileOthersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        otherGoogleScholar = view.findViewById(R.id.btnOtherGoogleScholar);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        akademiseApi = retrofit.create(AkademiseApi.class);
-
 
 
     }
@@ -167,7 +167,31 @@ public class ProfileOthersFragment extends Fragment {
         //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
         if(this.getActivity().getIntent().hasExtra("user")){
             profile = (Profile) this.getActivity().getIntent().getSerializableExtra("user");
-            getProfileInfo();
+            Call<Profile> call = akademiseApi.getMyProfile(profile.getId(), "Bearer "+myToken);
+
+
+            call.enqueue(new Callback<Profile>() {
+                @Override
+                public void onResponse(Call<Profile> call, Response<Profile> response) {
+                    if(!response.isSuccessful()){
+                        System.out.println("NOT SUCCESSFUL");
+                        Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    profile = response.body();
+                    System.out.println("SUCCESSFUL");
+
+                    getProfileInfo();
+
+                }
+
+                @Override
+                public void onFailure(Call<Profile> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Be sure to be connected", Toast.LENGTH_LONG).show();
+                    System.out.println("FAILURE");
+                    System.out.println(t.getMessage());
+                }
+            });
         }
         else{
             Toast.makeText(this.getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
@@ -206,14 +230,14 @@ public class ProfileOthersFragment extends Fragment {
         });
     }
 
-    private void handleFollowCall(Boolean isFollow){
+    private void handleFollowCall(Boolean isFollow) {
         Upvote follow = new Upvote(profile.getId());
         Call<Upvote> call;
         int currentNumofFollowers = profile.getFollowerCount();
-        if(isFollow){
+        if (isFollow) {
             call = akademiseApi.follow(follow, "Bearer " + myToken);
             currentNumofFollowers += 1;
-        }else{
+        } else {
             call = akademiseApi.unfollow(follow, "Bearer " + myToken);
             currentNumofFollowers -= 1;
         }
@@ -221,7 +245,7 @@ public class ProfileOthersFragment extends Fragment {
         call.enqueue(new Callback<Upvote>() {
             @Override
             public void onResponse(Call<Upvote> call, Response<Upvote> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
                     return;
@@ -236,7 +260,7 @@ public class ProfileOthersFragment extends Fragment {
                 System.out.println(t.getMessage());
             }
         });
-
+    }
 
 
     private void goToGoogleScholar(Profile profile){

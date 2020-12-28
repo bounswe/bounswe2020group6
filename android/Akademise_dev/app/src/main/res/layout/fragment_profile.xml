@@ -394,6 +394,7 @@
             app:layout_constraintStart_toEndOf="@+id/title_profile"
             app:layout_constraintTop_toBottomOf="@+id/space8" />
 
+        <Button
             android:id="@+id/btnMyGoogleScholar"
             style="@style/textView"
             android:layout_width="0dp"
@@ -403,10 +404,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/projects"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.80"
+            app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="@+id/stats_and_overview"
-            app:layout_constraintTop_toBottomOf="@+id/projects" />
-
+            app:layout_constraintTop_toBottomOf="@+id/projects"
+            app:layout_constraintVertical_bias="0.257"
+            app:layout_constraintWidth_percent="0.80" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

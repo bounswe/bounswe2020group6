@@ -18,8 +18,7 @@
             app:layout_constraintHeight_percent="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
-            app:layout_constraintWidth_percent="0.05">
-        </Space>
+            app:layout_constraintWidth_percent="0.05"></Space>
 
         <Space
             android:id="@+id/right_space"
@@ -28,49 +27,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="1"
             app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
-            app:layout_constraintWidth_percent="0.05">
-        </Space>
+            app:layout_constraintWidth_percent="0.05"></Space>
 
         <View
             android:id="@+id/myRectangleView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.09"
-            app:layout_constraintWidth_percent="1"
             android:background="@drawable/rectangle"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.09"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1" />
+
         <View
             android:id="@+id/small_rectangle"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.09"
-            app:layout_constraintWidth_percent="0.35"
             android:background="@drawable/small_rectangle"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.09"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35" />
+
         <ImageView
             android:id="@+id/logo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/logo2"
-            app:layout_constraintHeight_percent="0.09"
-            app:layout_constraintWidth_percent="0.35"
             android:background="@drawable/small_rectangle"
+            android:src="@drawable/logo2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.09"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <Space
-            android:id="@+id/etResearchTagEntry"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo">
-        </Space>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35" />
 
         <ImageView
             android:id="@+id/avatar_others"
@@ -78,10 +69,9 @@
             android:layout_height="0dp"
             android:src="@drawable/pp"
             app:layout_constraintHeight_percent="0.15"
-            app:layout_constraintWidth_percent="0.25"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry">
-        </ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
+            app:layout_constraintWidth_percent="0.25"></ImageView>
 
 
         <TextView
@@ -93,19 +83,21 @@
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/upvote_icon_others"
-            app:layout_constraintWidth_percent="0.30">
-        </TextView>
+            app:layout_constraintWidth_percent="0.30"></TextView>
 
         <Button
             android:id="@+id/follow_button"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="128dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/button_shape"
             android:text="Follow"
             app:layout_constraintEnd_toStartOf="@+id/right_space"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
             app:layout_constraintWidth_percent="0.25" />
 
         <Button
@@ -113,76 +105,38 @@
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="128dp"
             android:background="@drawable/button_shape"
             android:text="Upvote"
             app:layout_constraintEnd_toStartOf="@+id/follow_button"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toBottomOf="@+id/etResearchTagEntry"
+            app:layout_constraintTop_toBottomOf="@+id/myRectangleView"
             app:layout_constraintWidth_percent="0.25" />
-
-        <Space
-            android:id="@+id/etUniversityEntry"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/name_others"
-            app:layout_constraintWidth_percent="1">
-        </Space>
 
         <TextView
             android:id="@+id/biography_others"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="0.30"
-            android:text="Biography:"
             style="@style/textView"
-            app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
-
-        <Space
-            android:id="@+id/etDepartmentEntry"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:text="Biography:"
+            app:layout_constraintBottom_toBottomOf="@+id/biography_content_others"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/biography_others"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toTopOf="@+id/biography_content_others"
+            app:layout_constraintWidth_percent="0.30" />
 
         <TextView
             android:id="@+id/research_tags_others"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintWidth_percent="0.30"
             android:text="Research Tags:"
-            style="@style/textView"
-            app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
-
-        <Space
-            android:id="@+id/etTitleEntry"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/research_tags_content_others"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/research_tags_others"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toTopOf="@+id/research_tags_content_others"
+            app:layout_constraintWidth_percent="0.30" />
 
-        <TextView
-            android:id="@+id/affiliation_others"
-            style="@style/textView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="Affiliation:"
-            app:layout_constraintBottom_toBottomOf="@+id/affiliation_content_others"
-            app:layout_constraintHeight_percent="0.03"
-            app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/etTitleEntry"
-            app:layout_constraintWidth_percent="0.40" />
 
         <Space
             android:id="@+id/space6"
@@ -191,54 +145,51 @@
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/affiliation_others"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintWidth_percent="1"></Space>
 
         <TextView
             android:id="@+id/contact_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:text="Contact:"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_content_others"
+            app:layout_constraintEnd_toEndOf="@+id/department"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space6"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toTopOf="@+id/contact_content_others"
             app:layout_constraintWidth_percent="0.30" />
-
-        <Space
-            android:id="@+id/space7"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/contact_others"
-            app:layout_constraintWidth_percent="1">
-        </Space>
 
         <Button
             android:id="@+id/stats_and_overview_others"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.40"
-            android:text="Stats"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:background="@drawable/button_shape"
-            style="@style/textView"
+            android:text="Stats"
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space7" />
+            app:layout_constraintTop_toTopOf="@+id/projects_others"
+            app:layout_constraintWidth_percent="0.40" />
 
         <Button
             android:id="@+id/projects_others"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/button_shape"
             android:text="Projects"
+            app:layout_constraintBottom_toTopOf="@+id/btnOtherGoogleScholar"
             app:layout_constraintEnd_toStartOf="@+id/right_space"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toBottomOf="@+id/space7"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/stats_and_overview_others"
+            app:layout_constraintTop_toBottomOf="@+id/contact_content_others"
             app:layout_constraintWidth_percent="0.40" />
 
         <TextView
@@ -246,54 +197,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="biograpy_content"
+            app:layout_constraintBottom_toTopOf="@+id/research_tags_content_others"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.528"
             app:layout_constraintStart_toEndOf="@+id/biography_others"
-            app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
+            app:layout_constraintTop_toBottomOf="@+id/follow_button" />
 
         <TextView
             android:id="@+id/research_tags_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="research_tags_content"
+            app:layout_constraintBottom_toTopOf="@+id/title_content_others"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/research_tags_others"
-            app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
+            app:layout_constraintTop_toBottomOf="@+id/biography_content_others" />
 
-        <TextView
-            android:id="@+id/affiliation_content_others"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="affiliation_content"
-            app:layout_constraintStart_toEndOf="@+id/affiliation_others"
-            app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
 
         <TextView
             android:id="@+id/contact_content_others"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginLeft="80dp"
             android:text="contact_content"
-            app:layout_constraintStart_toEndOf="@+id/contact_others"
-            app:layout_constraintTop_toBottomOf="@+id/space6" />
+            app:layout_constraintBottom_toTopOf="@+id/projects_others"
+            app:layout_constraintEnd_toEndOf="@+id/department_content_others"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/department_content_others"
+            app:layout_constraintTop_toBottomOf="@+id/department_content_others" />
 
         <ImageView
             android:id="@+id/upvote_icon_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.1"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/avatar_others"
+            app:layout_constraintWidth_percent="0.1"
             app:srcCompat="@android:drawable/btn_star_big_on" />
 
         <TextView
             android:id="@+id/upvote_text_others"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.1"
             android:text=""
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/upvote_icon_others"
-            app:layout_constraintTop_toBottomOf="@+id/avatar_others" />
+            app:layout_constraintTop_toBottomOf="@+id/avatar_others"
+            app:layout_constraintWidth_percent="0.1" />
 
         <Button
             android:id="@+id/btnOtherGoogleScholar"
@@ -305,9 +256,94 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/projects_others"
             app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/stats_and_overview_others"
             app:layout_constraintTop_toBottomOf="@+id/projects_others"
+            app:layout_constraintVertical_bias="0.456"
             app:layout_constraintWidth_percent="0.80" />
+
+        <EditText
+            android:id="@+id/department_content_others"
+            style="@style/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="department_content"
+            app:layout_constraintBottom_toTopOf="@+id/contact_content_others"
+            app:layout_constraintEnd_toEndOf="@+id/university_content_others"
+            app:layout_constraintTop_toBottomOf="@+id/university_content_others" />
+
+        <TextView
+            android:id="@+id/department"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Department:"
+            app:layout_constraintEnd_toEndOf="@+id/university"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toStartOf="@+id/title_profile"
+            app:layout_constraintTop_toTopOf="@+id/department_content_others"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <EditText
+            android:id="@+id/title_content_others"
+            style="@style/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="title_content"
+            app:layout_constraintBottom_toTopOf="@+id/university_content_others"
+            app:layout_constraintEnd_toEndOf="@+id/research_tags_content_others"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/title_profile"
+            app:layout_constraintTop_toBottomOf="@+id/research_tags_content_others" />
+
+        <TextView
+            android:id="@+id/title_profile"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Title:"
+            app:layout_constraintBottom_toBottomOf="@+id/title_content_others"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toStartOf="@+id/research_tags_others"
+            app:layout_constraintTop_toTopOf="@+id/title_content_others"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <TextView
+            android:id="@+id/university"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="University:"
+            app:layout_constraintEnd_toEndOf="@+id/title_profile"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toStartOf="@+id/research_tags_others"
+            app:layout_constraintTop_toTopOf="@+id/university_content_others"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <EditText
+            android:id="@+id/university_content_others"
+            style="@style/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:text="university_content"
+            app:layout_constraintBottom_toTopOf="@+id/department_content_others"
+            app:layout_constraintEnd_toEndOf="@+id/research_tags_content_others"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/university"
+            app:layout_constraintTop_toBottomOf="@+id/title_content_others" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
