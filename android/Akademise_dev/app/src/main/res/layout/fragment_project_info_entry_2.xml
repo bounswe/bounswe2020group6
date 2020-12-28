@@ -74,7 +74,7 @@
         android:id="@+id/etAbstract"
         android:layout_width="0dp"
         android:gravity="start"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:hint="Abstract"
