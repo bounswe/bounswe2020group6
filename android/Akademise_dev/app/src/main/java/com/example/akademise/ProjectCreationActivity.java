@@ -66,16 +66,6 @@ public class ProjectCreationActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            Spinner research_tag_spinner = findViewById(R.id.sAddResearchTag);
-
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),
-                    R.array.research_tags,
-                    android.R.layout.simple_spinner_item);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-            research_tag_spinner.setAdapter(adapter);
-
             Spinner privacy_spinner = findViewById(R.id.sPrivacy);
 
             ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getBaseContext(),
@@ -88,28 +78,56 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
             TextView tvChosenTags =findViewById(R.id.tvProjectTags);
             TextView text_privacy =findViewById(R.id.textPrivacy);
-            research_tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position != 0) {
-                        currentText = tvChosenTags.getText().toString();
-                        String tag = parent.getItemAtPosition(position).toString();
-                        if (!currentText.contains(tag)) {
-                            if(currentText.endsWith(":")) {
-                                currentText += " " + tag;
-                            }
-                            else{
-                                currentText += ", "+ tag;
-                            }
-                            tags.add(tag);
-                            tvChosenTags.setText(currentText);
-                        }
 
+            Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
+            call.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if(!response.isSuccessful()){
+                        Log.d("GetTags", "onResponse: " + response.code());
+                        return;
                     }
-                }
+                    Log.d("GetTags-success", "On response: " + response.message());
+                    Result result = response.body();
+                    Log.d("GetTags-success","GOR BUNU-------------------------");
+                    Log.d("GetTags-success",result.getResult().toString());
+                    Spinner tag_spinner = (Spinner) findViewById(R.id.sAddResearchTag);
+                    List<String> tagList = result.getResult();
+                    tagList.add(0, "Choose Tag");
+                    ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getBaseContext(),
+                            android.R.layout.simple_spinner_dropdown_item,tagList);
 
+                    tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tag_spinner.setAdapter(tag_adapter);
+                    tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if (position != 0) {
+                                currentText = tvChosenTags.getText().toString();
+                                String tag = parent.getItemAtPosition(position).toString();
+                                if (!currentText.contains(tag)) {
+                                    if(currentText.endsWith(":")) {
+                                        currentText += " " + tag;
+                                    }
+                                    else{
+                                        currentText += ", "+ tag;
+                                    }
+                                    tags.add(tag);
+                                    tvChosenTags.setText(currentText);
+                                }
+
+                            }
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+                public void onFailure(Call<Result> call, Throwable t) {
+
+                    Log.d("Get", "onFailure: " + t.getMessage());
 
                 }
             });
