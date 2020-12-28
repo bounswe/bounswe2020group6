@@ -37,7 +37,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
-
+    Profile profile;
     List<Request> requests;
     Context context;
 
@@ -68,7 +68,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Map<String, String> user = requests.get(position).getRequesterUser();
         String user_ = user.get("name") + " " + user.get("surname");
+
         holder.username.setText(user_);
+        holder.username.setClickable(true);
         holder.projectName.setText(requests.get(position).getProject().get("name"));
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +129,31 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 });
             }
         });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Call<Profile> call = akademiseApi.getMyProfile(requests.get(position).getRequesterId(), "Bearer " + myToken);
+                call.enqueue(new Callback<Profile>() {
+                    @Override
+                    public void onResponse(Call<Profile> call, Response<Profile> response) {
+                        if(!response.isSuccessful()){
+                            return;
+                        }
+                        profile = response.body();
+                        Intent intent = new Intent(context, ProfileActivity.class);
+                        intent.putExtra("user", profile);
+                        context.startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Profile> call, Throwable t) {
+                    }
+                });
+            }
+        });
+
     }
 
 
