@@ -19,15 +19,16 @@
         <item>"Middle East Technical University"</item>
         <item>"Istanbul Technical University"</item>
         <item>"Bogazici University"</item>
-
     </string-array>
 
+
     <string-array name="status_array">
-        <item>"team building"</item>
-        <item> "in progress"</item>
-        <item>"completed"</item>
-        <item> "hibernating"</item>
         <item> "cancelled"</item>
+        <item>"completed"</item>
+        <item> "in progress"</item>
+        <item> "hibernating"</item>
+        <item>"team building"</item>
+
     </string-array>
 
     <string-array name="department_array">

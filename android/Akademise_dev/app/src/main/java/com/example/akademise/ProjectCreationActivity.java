@@ -148,7 +148,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
         thetags=thetags.replace("Tags:","");
         List<String> tagging = Arrays.asList(thetags.split(","));
 
-        Project project = new Project(privacy, 0,title,  _abstract, null, null, null, deadline, requirements, tagging);
+        Project project = new Project(privacy, 4,title,  _abstract, null, null, null, deadline, requirements, tagging);
         Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
         call.enqueue(new Callback<Project>() {
             @Override
