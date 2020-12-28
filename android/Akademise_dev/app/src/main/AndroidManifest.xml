@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".OtherUserProjectsActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".ProfileOthersFragment" />
         <activity android:name=".ProjectDetailsActivity" />
         <activity android:name=".RequestInvitationActivity" />

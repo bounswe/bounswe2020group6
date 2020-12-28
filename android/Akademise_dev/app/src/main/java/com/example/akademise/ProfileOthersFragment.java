@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +39,7 @@ public class ProfileOthersFragment extends Fragment {
 
     AkademiseApi akademiseApi;
     private Profile profile;
+    private List<GetProjects> projects;
     private Button otherGoogleScholar;
     private Button statsAndOverviewButton;
     private Button publicationsButton;
@@ -190,6 +194,16 @@ public class ProfileOthersFragment extends Fragment {
 
                     getProfileInfo();
 
+                    publicationsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getContext(), OtherUserProjectsActivity.class);
+                            intent.putExtra("userId", profile.getId());
+                            getContext().startActivity(intent);
+                        }
+                    });
+
+
                 }
 
                 @Override
@@ -283,4 +297,6 @@ public class ProfileOthersFragment extends Fragment {
         fragmentTransaction.commit();
 
     }
+
+
 }
