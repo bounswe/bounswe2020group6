@@ -15,6 +15,8 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
+  
+  const [myId, setMyId] = useState(null);
 
   const history = useHistory()
 
@@ -61,6 +63,10 @@ const Home = () => {
     );
   };
 
+  const getUniqueProjects = (arr) => {
+    return [...new Map(arr.map(item => [item.id, item])).values()]
+  }
+
   return (
     <Frame>
       <Main
@@ -74,7 +80,10 @@ const Home = () => {
             Loading... <Spin />
           </H2>
         ) : (
-          [...feed.byUserTags, ...feed.byFollowings].sort((p1,p2) => moment(p1.createdAt) < moment(p2.createdAt)).map((p) => createContentCard(p))
+          getUniqueProjects([...feed.byUserTags, ...feed.byFollowings])
+            .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId")))
+            .sort((p1,p2) => moment(p1.createdAt) < moment(p2.createdAt))
+            .map((p) => createContentCard(p))
         )}
         {loading ? "" : <H3 style={{margin: "30px"}}>To see more results, please add more interest tags or follow more users.</H3> }
       </Main>
