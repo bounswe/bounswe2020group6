@@ -103,6 +103,8 @@ getProfile = async function (req, res) {
             ]
         })
 
+        if(user_profile == null) return res.status(404).send({error: "Not Found"})
+
         let [upCounts, isUpped, followerCount, followingCount, canFollow] = 
             await Promise.all([
                 userUtil.getUpCounts(req.params.userId),
