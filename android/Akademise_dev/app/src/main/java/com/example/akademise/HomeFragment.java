@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
     private String myToken;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,8 +52,7 @@ public class HomeFragment extends Fragment {
 
         loadData();
         akademiseApi = retrofit.create(AkademiseApi.class);
-
-
+        getHome();
 
         searchView = (SearchView) getView().findViewById(R.id.svSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -132,5 +133,33 @@ public class HomeFragment extends Fragment {
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
+    }
+
+    private void getHome(){
+        Call<Home> call= akademiseApi.getHome("Bearer " + myToken);
+        call.enqueue(new Callback<Home>() {
+            @Override
+            public void onResponse(Call<Home> call, Response<Home> response) {
+                if(!response.isSuccessful()){
+                    Log.d("Get", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GET", "On response: " + response.message());
+                Home home = response.body();
+                List<GetProjects> suggestedProjects= new ArrayList<>();
+                suggestedProjects.addAll(home.getByFollowings());
+                suggestedProjects.addAll(home.getByUserTags());
+                recyclerView = getView().findViewById(R.id.rv_home);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), suggestedProjects,null);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            }
+
+            @Override
+            public void onFailure(Call<Home> call, Throwable t) {
+                Log.d("Get", "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

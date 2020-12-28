@@ -110,6 +110,7 @@ public class GoogleScholarFragment extends Fragment {
     public void readJSON(){
         final JSONObject obj;
         try {
+            if(profile.getProjects()!=null){
             JSONArray array=new JSONArray(profile.getProjects());
         final int n = array.length();
         for (int i = 0; i < n; ++i) {
@@ -117,8 +118,9 @@ public class GoogleScholarFragment extends Fragment {
             titles.add((person.getString("title")));
             desc.add((person.getString("venue")));
         }
+        }
         } catch (JSONException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
     private void loadData(){
