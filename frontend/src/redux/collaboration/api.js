@@ -29,3 +29,21 @@ export const sendJoinRequest = (myId, otherId, projectId) => {
       });
   };
 };
+
+export const sendBatchInviteRequest = (myId, otherIdList, projectId) => {
+  const body = {
+    requests: otherIdList.map((u_id) => {
+      return [myId, u_id, projectId, 0]
+    })
+  }
+return (dispatch) => {
+  api({ sendToken: true })
+    .post("/collab/add_request", body)
+    .then((response) => {
+      message.success("Invitation sent successfully!")
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+};

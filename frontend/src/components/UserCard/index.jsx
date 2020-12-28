@@ -1,5 +1,4 @@
 import { Row, Col, Avatar } from "antd";
-
 import { 
   Layout,
   Title,

@@ -11,7 +11,6 @@ import { Content, RadioStyle } from "./style";
 
 import { Select, Form, Input, Radio, DatePicker, Divider, Popconfirm } from "antd";
 import { FormButton, FormLabel, FormTitle, IndentedBlock, GhastlyHref } from "./style";
-
 import {
   editPost,
   getPost,

@@ -296,7 +296,7 @@ const FileEditor = () => {
             }
           </div>
         }
-        
+      
       </Main>
       <Side
         lg={{span: 7, offset: 0}}
