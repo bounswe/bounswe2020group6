@@ -1,0 +1,23 @@
+package com.example.akademise;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProfileUpdate implements Serializable {
+    public List<String> researchAreas;
+    public Affiliation affiliation;
+
+    public ProfileUpdate(ArrayList<String> user_interests, Affiliation affiliation) {
+        this.researchAreas = user_interests;
+        this.affiliation = affiliation;
+    }
+
+    public List<String> getResearchAreas() {
+        return researchAreas;
+    }
+
+    public Affiliation getAffiliation() {
+        return affiliation;
+    }
+}

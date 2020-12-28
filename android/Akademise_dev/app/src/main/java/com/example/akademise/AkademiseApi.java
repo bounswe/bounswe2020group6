@@ -92,6 +92,30 @@ public interface AkademiseApi {
     @POST("profile/update")
     Call<PersonalInfo> createAffiliation(@Body PersonalInfo personalInfo, @Header("Authorization") String auth);
 
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @PATCH("profile/update")
+    Call<ProfileUpdate> updateProfile(@Body ProfileUpdate profile, @Header("Authorization") String auth);
+
+    @POST("profile/biography")
+    Call<Biography> updateBio(@Body Biography biography, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("profile/{id}")
+    Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
+
+    @POST("profile/up")
+    Call <Upvote> addUp(@Body Upvote upvote, @Header("Authorization") String auth);
+
+    @POST("profile/disup")
+    Call <Upvote> removeUp(@Body Upvote upvote, @Header("Authorization") String auth);
+
+    @POST("/follow/add")
+    Call <Upvote> follow(@Body Upvote upvote, @Header("Authorization") String auth);
+
+    @POST("/follow/remove")
+    Call <Upvote> unfollow(@Body Upvote upvote, @Header("Authorization") String auth);
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("profile/{id}")
     Call<Profile> getMyProfile(@Path("id") int id, @Header("Authorization") String auth);
@@ -123,6 +147,7 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("home/posts")
     Call<Home> getHome(@Header("Authorization") String auth);
+
 
 }
 

@@ -84,17 +84,20 @@
         </ImageView>
 
 
-        <TextView
+        <EditText
             android:id="@+id/name"
             style="@style/textView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name-Surname"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/upvote_icon"
             app:layout_constraintWidth_percent="0.30">
-        </TextView>
+        </EditText>
 
         <Button
             android:id="@+id/logout_button"
@@ -173,12 +176,12 @@
         </Space>
 
         <TextView
-            android:id="@+id/affiliation"
+            android:id="@+id/university"
             style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="Affiliation:"
-            app:layout_constraintBottom_toBottomOf="@+id/affiliation_content"
+            android:text="University:"
+            app:layout_constraintBottom_toBottomOf="@+id/university_content"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/etTitleEntry"
@@ -188,11 +191,54 @@
             android:id="@+id/space6"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/affiliation"
+            app:layout_constraintTop_toBottomOf="@+id/university"
             app:layout_constraintWidth_percent="1">
         </Space>
+
+        <TextView
+            android:id="@+id/department"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Department:"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space6"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <Space
+            android:id="@+id/space8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/department"
+            app:layout_constraintWidth_percent="1">
+        </Space>
+
+        <TextView
+            android:id="@+id/title_profile"
+            style="@style/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Title:"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/space8"
+            app:layout_constraintWidth_percent="0.40" />
+
+        <Space
+            android:id="@+id/space9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.03"
+            app:layout_constraintStart_toEndOf="@+id/space"
+            app:layout_constraintTop_toBottomOf="@+id/title_profile"
+            app:layout_constraintWidth_percent="1">
+        </Space>
+
 
         <TextView
             android:id="@+id/contact"
@@ -203,7 +249,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/contact_content"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/space6"
+            app:layout_constraintTop_toBottomOf="@+id/space9"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.30" />
 
@@ -241,39 +287,53 @@
             app:layout_constraintTop_toBottomOf="@+id/space7"
             app:layout_constraintWidth_percent="0.40" />
 
-        <TextView
+        <EditText
             android:id="@+id/biograpy_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
+            android:background="@android:color/transparent"
+            style="@style/textView"
             android:text="biograpy_content"
             app:layout_constraintStart_toEndOf="@+id/biography"
             app:layout_constraintTop_toBottomOf="@+id/etUniversityEntry" />
 
-        <TextView
+        <EditText
             android:id="@+id/research_tags_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
+            android:background="@android:color/transparent"
+            style="@style/textView"
             android:text="research_tags_content"
             app:layout_constraintStart_toEndOf="@+id/research_tags"
             app:layout_constraintTop_toBottomOf="@+id/etDepartmentEntry" />
 
-        <TextView
-            android:id="@+id/affiliation_content"
+        <EditText
+            android:id="@+id/university_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="affiliation_content"
-            app:layout_constraintStart_toEndOf="@+id/affiliation"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:clickable="false"
+            style="@style/textView"
+            android:text="university_content"
+            app:layout_constraintStart_toEndOf="@+id/university"
             app:layout_constraintTop_toBottomOf="@+id/etTitleEntry" />
 
-        <TextView
+        <EditText
             android:id="@+id/contact_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginLeft="80dp"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:clickable="false"
+            style="@style/textView"
             android:text="contact_content"
             app:layout_constraintStart_toEndOf="@+id/contact"
-            app:layout_constraintTop_toBottomOf="@+id/space6" />
+            app:layout_constraintTop_toBottomOf="@+id/space9" />
 
         <ImageView
             android:id="@+id/upvote_icon"
@@ -286,7 +346,7 @@
             app:srcCompat="@android:drawable/btn_star_big_on" />
 
         <TextView
-            android:id="@+id/upvote_text"
+            android:id="@+id/upvote_content"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
@@ -296,6 +356,44 @@
             app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
         <Button
+
+            android:id="@+id/update_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintWidth_percent="0.40"
+            android:background="@drawable/button_shape"
+            style="@style/textView"
+            android:text="Update"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/department_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:clickable="false"
+            style="@style/textView"
+            android:text="department_content"
+            app:layout_constraintStart_toEndOf="@+id/department"
+            app:layout_constraintTop_toBottomOf="@+id/space6" />
+
+        <EditText
+            android:id="@+id/title_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:clickable="false"
+            style="@style/textView"
+            android:text="title_content"
+            app:layout_constraintStart_toEndOf="@+id/title_profile"
+            app:layout_constraintTop_toBottomOf="@+id/space8" />
+
             android:id="@+id/btnMyGoogleScholar"
             style="@style/textView"
             android:layout_width="0dp"
@@ -308,6 +406,7 @@
             app:layout_constraintWidth_percent="0.80"
             app:layout_constraintStart_toStartOf="@+id/stats_and_overview"
             app:layout_constraintTop_toBottomOf="@+id/projects" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

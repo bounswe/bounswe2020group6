@@ -52,6 +52,11 @@ public class Profile implements Serializable {
 
     private boolean canFollow;
 
+
+    public Profile(String bio) {
+        this.bio = bio;
+    }
+
     public void setId(int id){
         this.id = id;
     }
