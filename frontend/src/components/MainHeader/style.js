@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Layout, Col, Input } from "antd";
+import { Layout, Col, Input, Modal } from "antd";
 
 export const Nav = styled(Col)`
   text-align: right;
@@ -14,6 +14,7 @@ export const Nav = styled(Col)`
 export const Anchor = styled.a`
   color: white;
   text-decoration: none;
+  margin: 0 3px;
 
   :hover {
     color: ${theme.main.colors.sixth};
@@ -83,7 +84,20 @@ export const LogoText = styled.h1`
 
   @media only screen and (min-width: 768px) {
     font-family: Philosopher;
-    font-size: 18px;
-    color: ${theme.main.colors.fourth};
+    font-size: 32px;
+    color: white;
   }
+`;
+
+export const NotificationModal = styled(Modal).attrs({
+  closable: false,
+  footer: null,
+  bodyStyle: {
+    maxHeight: "60vh", 
+    overflowY: "auto"
+  },
+  width: 400
+})`
+top: 74px;
+margin-right:10px;
 `;

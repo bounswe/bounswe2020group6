@@ -52,6 +52,7 @@ const authLoginFailReducer = (state, action) => {
 const authLogoutReducer = (state, action) => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+  localStorage.removeItem("userId");
   return {
     ...state,
     token: null,
@@ -69,7 +70,8 @@ const authSignupStartReducer = (state, action) => {
 
 const authSignupSuccessReducer = (state, action) => {
   localStorage.setItem("token", action.token);
-  localStorage.setItem("userId", action.userId);
+  localStorage.setItem("userId", action.id);
+  localStorage.setItem("user", action.id);
   return {
     ...state,
     signupSuccessMessage: action.message,
@@ -95,10 +97,12 @@ const authValidationStartReducer = (state, action) => {
 };
 
 const authValidationSuccessReducer = (state, action) => {
+  localStorage.setItem("token", action.token);
   return {
     ...state,
     validationSuccessMessage: action.message,
     validationLoading: false,
+    token: action.token,
   };
 };
 
@@ -155,6 +159,7 @@ export default function reducer(state = initialState, action) {
 
     case actions.AUTH_LOGOUT:
       return authLogoutReducer(state, action);
+      
     case actions.AUTH_LOGIN_START:
       return authLoginStartReducer(state, action);
     case actions.AUTH_LOGIN_SUCCESS:
