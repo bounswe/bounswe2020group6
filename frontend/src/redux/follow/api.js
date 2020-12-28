@@ -24,13 +24,18 @@ export const getFollowing = () => {
   };
 };
 
-export const follow = (id) => {
+export const follow = (id, onOwnProfile=0) => {
   return (dispatch) => {
     api({ sendToken: true })
       .post("/follow/add", {userId: id})
       .then((response) => {
         dispatch(getFollowing());
-        dispatch(getProfileInfoWithoutLoading(localStorage.getItem("userId")));
+        if (onOwnProfile) {
+          dispatch(getProfileInfoWithoutLoading(localStorage.getItem("userId")));
+        } else {
+          dispatch(getProfileInfoWithoutLoading(id));
+        }
+        
       })
   };
 };
