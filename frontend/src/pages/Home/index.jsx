@@ -14,8 +14,6 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-  
-  const [myId, setMyId] = useState(null);
 
   useEffect(() => {
     setLoading(true)
@@ -36,7 +34,7 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
-        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendations(response.data.sort(() => 0.5 - Math.random()).slice(0, 4));
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
@@ -95,7 +93,9 @@ const Home = () => {
         { 
           userRecommendationsLoading ? <Spin/> :(
             userRecommendations.length === 0 ? "No recommendations yet..." :
-              userRecommendations.map((u,i) => {
+              userRecommendations
+              .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
+              .map((u,i) => {
                 return <PersonRecommendationCard 
                 id={u.id}
                 name={u.name + " " + u.surname}

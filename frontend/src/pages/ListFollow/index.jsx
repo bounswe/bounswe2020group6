@@ -20,22 +20,6 @@ const capitalize = function (type) {
 const Home = () => {
   const selector = useSelector;
 
-  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
-  const [userRecommendations, setUserRecommendations] = useState([]);
-
-  useEffect(() => {
-    setUserRecommendationsLoading(true)
-    api({ sendToken: true })
-      .get("/home/users")
-      .then((response) => {
-        setUserRecommendations(response.data.slice(0, 4));
-        setUserRecommendationsLoading(false)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   const loadingFollowers = selector((state) => state.follow.followersLoading);
   const loadingFollowings = selector((state) => state.follow.followingLoading);
   const loadingAllPeople = loadingFollowers || loadingFollowings;
@@ -58,7 +42,11 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
-        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendations(          
+          response.data
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 4)
+        );
         setUserRecommendationsLoading(false)
         //console.log(response.data)
       })
