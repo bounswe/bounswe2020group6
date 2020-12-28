@@ -59,7 +59,7 @@ removeFollow = async function(req, res){
 getFollowings = async function(req, res) {
     follower_user_id = Number(req.userId)
     try{
-        followings = await userUtils.getfollowings(follower_user_id)
+        followings = await userUtils.getFollowings(follower_user_id)
         res.status(200).send({message: "Successful", data: followings})
     }
     catch(error){
