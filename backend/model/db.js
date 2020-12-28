@@ -50,7 +50,8 @@ Project.hasMany(ProjectCollaborator, {foreignKey : 'project_id' , onDelete: 'CAS
 Project.hasMany(ProjectMilestone, {foreignKey : 'project_id' , onDelete: 'CASCADE', constraints: false })
 Project.belongsTo(User, {foreignKey : 'userId', onDelete : 'CASCADE',constraints : false})
 
-CollabRequest.belongsTo(User,{foreignKey : 'requesterId', onDelete : 'CASCADE', constraints : false})
+CollabRequest.belongsTo(User,{as : 'requester', foreignKey : 'requesterId', onDelete : 'CASCADE', constraints : false})
+CollabRequest.belongsTo(User,{as : 'accepter', foreignKey : 'requestedId', onDelete : 'CASCADE', constraints : false})
 CollabRequest.belongsTo(Project,{foreignKey : 'projectId', onDelete : 'CASCADE', constraints : false})
 
 User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
