@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Col } from "antd";
 
-export const Layout = styled(Col)`
+export const Layout = styled.button`
   height: 70px;
+  width: 100%;
+  border: 0px;
   padding: 5px 15px;
-  margin: 0 15px;
-  border-radius: 10px;
+  margin-left: 5px;
+  border-radius: 10px 0 0 10px;
   background-color: ${theme.main.colors.fourth};
   opacity: 0.7;
 

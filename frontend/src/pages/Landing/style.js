@@ -9,7 +9,7 @@ export const footerStyle = {
 export const Content = styled.div`
   background-position: center top;
   background-repeat: no-repeat;
-  background-image: url(cactus.jpeg);
+  background-image: url(cactus_notable.jpeg);
   background-size: cover;
   height: 80vh;
 
