@@ -19,9 +19,10 @@ export const Layout = styled(Col)`
   }
 `;
 
-export const Title = styled.h3` 
+export const Title = styled.a` 
   font-size: 18px;
   color: white;
+  text-align: center;
   margin: 1em 0;
 `;
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-//import { Modal } from "antd";
+import { Button } from "antd";
 
 export const footerStyle = {
   backgroundColor: theme.main.colors.third,
@@ -12,14 +12,13 @@ export const Content = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
-
   @media only screen and (max-width: 600px) {
     background-position: initial;
   }
 
   @media only screen and (max-width: 600px) {
     max-width: 80%;
-    margin:auto;
+    margin: auto;
   }
 
   @media only screen and (min-width: 600px) {
@@ -28,7 +27,6 @@ export const Content = styled.div`
 `;
 
 export const FormWrapper = styled.div`
-
   @media only screen and (max-width: 700px) {
     left: 0;
   }
@@ -59,7 +57,6 @@ export const FormWrapper = styled.div`
   .ant-input-affix-wrapper .ant-input {
     border-radius: 0;
   }
-
 `;
 
 export const FormTitle = styled.h1`
@@ -71,7 +68,7 @@ export const FormLabel = styled.div`
   font-weight: 500;
 `;
 
-export const FormButton = styled.button`
+export const FormButton = styled(Button)`
   background-color: ${theme.main.colors.first};
   height: 50px;
   width: 50%;
@@ -81,16 +78,27 @@ export const FormButton = styled.button`
   font-weight: 500;
   color: white;
   border-radius: 10px;
+  border-color: ${theme.main.colors.first} !important;
   cursor: pointer;
   border: none;
   float: right;
 
   :focus {
     outline: none;
+    background: ${theme.main.colors.first} !important;
+    border-color: ${theme.main.colors.first} !important;
+  }
+
+  :active {
+    outline: none;
+    background: ${theme.main.colors.first} !important;
+    border-color: ${theme.main.colors.first} !important;
   }
 
   :hover {
     color: ${theme.main.colors.sixth};
+    background-color: ${theme.main.colors.first};
+    border-color: ${theme.main.colors.first} !important;
   }
 `;
 

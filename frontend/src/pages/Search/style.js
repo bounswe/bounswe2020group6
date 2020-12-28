@@ -50,11 +50,3 @@ export const H3 = styled.h3`
     margin-left: 10px;
   }
 `;
-
-export const FilterButton = styled.div`
-  height: 70px;
-  width: 70%;
-  padding: 5px 0;
-  border-radius: 10px;
-  background-color: beige;
-`;
