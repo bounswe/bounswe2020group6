@@ -1,5 +1,5 @@
 const { User, Follow, UserUp, UserInterest } = require("../model/db")
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const got = require('got');
 
 
@@ -104,6 +104,21 @@ var getFollowings = async function(userId){
     return followers
 }
 
+var getFollowingsIDs = async function(userId){
+    follower_user_id = userId
+    followers = await Follow.findAll({
+        where: {
+            follower_user_id: follower_user_id
+        },
+        attributes: [],
+        include: {
+            model: User, as: 'following',
+            attributes: ['id']
+        }
+    })
+    return followers.map( u => u.following.id )
+}
+
 var getFollowers = async function(userId){
     followed_user_id = userId
     followers = await Follow.findAll({
@@ -119,9 +134,24 @@ var getFollowers = async function(userId){
     return followers
 }
 
+var getFollowersIDs = async function(userId){
+    followed_user_id = userId
+    followers = await Follow.findAll({
+        where: {
+            followed_user_id: followed_user_id
+        },
+        attributes: [],
+        include: {
+            model: User, as: 'followed',
+            attributes: ['id']
+        }
+    })
+    return followers.map( u => u.followed.id )
+}
+
 var usersByTags = async function(tags) {
     users = await User.findAll({
-        attributes : ['id', 'name','surname','university','department'],
+        attributes : ['id', 'name','surname','university','department', 'profile_picture_url'],
         include : [
             {
             model : UserInterest,
@@ -165,6 +195,23 @@ var usersByUserTags = async function(userId) {
     return users
 }
 
+var usersSharingSimilarity = async function(field, userId) {
+    users = await User.findAll({
+        where: {
+            [field]: {
+                [Op.eq]: Sequelize.literal(`(
+                    SELECT ${field}
+                    FROM users
+                    WHERE id = ${userId}
+                )`)
+            }
+        },
+        attributes : ['id', 'name','surname','university','department', 'profile_picture_url'],
+    });
+
+    return users
+}
+
 module.exports = {
     isUserExist,
     isFollowing,
@@ -174,7 +221,10 @@ module.exports = {
     getFollowedCounts,
     getFollowingCounts,
     getFollowers,
+    getFollowersIDs,
     getFollowings,
+    getFollowingsIDs,
     usersByTags,
     usersByUserTags,
+    usersSharingSimilarity,
 }

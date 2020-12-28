@@ -86,7 +86,20 @@ var postsByTag = async function(tags){
             }
         ]
     });
-    return projects
+
+    const array = projects
+    const resultObjects = [];
+    const resultIDs = [];
+    const map = new Map();
+    for (const item of array) {
+        if(!map.has(item.id)){
+            map.set(item.id, true);
+            resultObjects.push(item);
+            resultIDs.push(item.id);
+        }
+    }
+
+    return {posts: resultObjects, ids: resultIDs}
 }
 
 
@@ -127,18 +140,24 @@ var postsByFollowings = async function(userId){
                         attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
                     }
                 },
-                
             ]
-        
     })
 
-    
-    return projects.concat(projectsByCollaborators.map(x => x.project))
+    const array = projects.concat(projectsByCollaborators.map(x => x.project))
+    const resultObjects = [];
+    const resultIDs = [];
+    const map = new Map();
+    for (const item of array) {
+        if(!map.has(item.id)){
+            map.set(item.id, true);
+            resultObjects.push(item);
+            resultIDs.push(item.id);
+        }
+    }
+
+    return {posts: resultObjects, ids: resultIDs}
 
 }
-
-//followings' post, user's tags
-
 
 var postsByUserTags = async function(userId){
     user_interests = await UserInterest.findAll({
@@ -154,10 +173,6 @@ var postsByUserTags = async function(userId){
     return byTags
 
 }
-
-
-
-
 
 module.exports = {
     postExists,
