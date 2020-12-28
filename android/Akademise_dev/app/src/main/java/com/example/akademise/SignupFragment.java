@@ -57,7 +57,7 @@ public class SignupFragment extends Fragment {
 
         TextView emailView = view.findViewById(R.id.email);
         TextView passwordView = view.findViewById(R.id.password);
-        TextView nameView = view.findViewById(R.id.name);
+        TextView nameView = view.findViewById(R.id.name_signup);
         TextView surnameView = view.findViewById(R.id.surname);
 
         btn.setOnClickListener(new View.OnClickListener() {
