@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -19,6 +19,22 @@ const capitalize = function (type) {
 
 const Home = () => {
   const selector = useSelector;
+
+  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
+  const [userRecommendations, setUserRecommendations] = useState([]);
+
+  useEffect(() => {
+    setUserRecommendationsLoading(true)
+    api({ sendToken: true })
+      .get("/home/users")
+      .then((response) => {
+        setUserRecommendations(response.data.slice(0, 4));
+        setUserRecommendationsLoading(false)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const loadingFollowers = selector((state) => state.follow.followersLoading);
   const loadingFollowings = selector((state) => state.follow.followingLoading);
@@ -126,7 +142,9 @@ const Home = () => {
                 id={u.id}
                 name={u.name + " " + u.surname}
                 university={u.university}
-                department={u.department}/>
+                department={u.department}
+                imgUrl={u.profile_picture_url}
+                />
               })
           ) 
         }

@@ -377,7 +377,7 @@ const EditProject = () => {
                   </Form.Item>
                   <Row style={{ marginBottom: "16px" }}>
                     <Col
-                      style={{ width: "300px", position: "fixed", bottom: "40px", right: "10%" }}
+                      style={{ width: "100%"}}
                     >
                       <FormButton type="primary" htmlType="submit">
                         Confirm

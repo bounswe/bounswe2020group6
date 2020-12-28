@@ -28,15 +28,14 @@ const ContentCard = (props) => {
           <StHref onClick={(e) => history.push("/project/details/" + props.id)}>
             <Title>
               {props.title}
-              { props.status ?
-                <Tag color={statusColorMap[props.status]} style={{ margin: "auto 5px", height: "18px", lineHeight: "16px", fontSize: "10px" }}>
-                  {statusMap[props.status]}
-                </Tag> : null
-              }
             </Title>
           </StHref>
           <TopNote style={{ flexGrow: "1", whiteSpace: "nowrap" }}>
-            {moment(props.date).fromNow(true)}
+            { props.status ?
+              <Tag color={statusColorMap[props.status]} style={{ margin: "auto 5px", height: "18px", lineHeight: "16px", fontSize: "10px" }}>
+                {statusMap[props.status]}
+              </Tag> : null
+            }
           </TopNote>
         </Row>
         <Summary>
@@ -46,7 +45,7 @@ const ContentCard = (props) => {
             ? props.summary.substring(0, 180) + "..."
             : props.summary}
         </Summary>
-        <Footer> {props.footer} </Footer>
+        <Footer> {props.footer}, {moment(props.date).fromNow(true)} ago </Footer>
       </Col>
     </Layout>
   );
