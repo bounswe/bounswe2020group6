@@ -277,7 +277,7 @@ public class ProfileFragment extends Fragment {
         tvTitle.setClickable(type);
     }
 
-    private void updateProfile(){
+    private void updateProfile() {
         ArrayList<String> user_interests = new ArrayList<String>();
         String[] interests_split = tvTags.getText().toString().split(",");
 
@@ -292,7 +292,7 @@ public class ProfileFragment extends Fragment {
 
         ProfileUpdate updatedProfile = new ProfileUpdate(user_interests, affiliation);
         Biography updateBio = new Biography(tvBiogprahy.getText().toString());
-        
+
 
         Call<ProfileUpdate> call = akademiseApi.updateProfile(updatedProfile, "Bearer " + myToken);
         Call<Biography> callBio = akademiseApi.updateBio(updateBio, "Bearer" + myToken);
@@ -301,7 +301,7 @@ public class ProfileFragment extends Fragment {
         call.enqueue(new Callback<ProfileUpdate>() {
             @Override
             public void onResponse(Call<ProfileUpdate> call, Response<ProfileUpdate> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     System.out.println("Response Message: " + response.message());
                     System.out.println("Error body: " + response.errorBody());
@@ -322,7 +322,7 @@ public class ProfileFragment extends Fragment {
         callBio.enqueue(new Callback<Biography>() {
             @Override
             public void onResponse(Call<Biography> call, Response<Biography> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     System.out.println("Response Message: " + response.message());
                     System.out.println("Error body: " + response.errorBody());
@@ -339,6 +339,7 @@ public class ProfileFragment extends Fragment {
                 System.out.println(t.getMessage());
             }
         });
+    }
 
 
     private void goToGoogleScholar(Profile profile){
