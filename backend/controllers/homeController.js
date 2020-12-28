@@ -5,9 +5,12 @@ const userUtil = require('../util/userUtil')
 getHomePosts = async function(req,res){
     userId = req.userId
     try{
-		let byFollowings = await postUtil.postsByFollowings(userId)
-		let byUserTags = await postUtil.postsByUserTags(userId)
-		res.status(200).send({byFollowings, byUserTags})
+		let { posts: byFollowings, ids: byFollowingsIDs} = await postUtil.postsByFollowings(userId)
+        let { posts: byUserTags, ids: byUserTagsIDs}  = await postUtil.postsByUserTags(userId)
+        
+        byUserTags = byUserTags.filter( p => byUserTagsIDs.filter(x => !byFollowingsIDs.includes(x)).includes(p.id))
+        
+        res.status(200).send({byFollowings, byUserTags})
     }catch(error){
         res.status(500).send({error: error})
     }
@@ -16,12 +19,24 @@ getHomePosts = async function(req,res){
 getUserRecommendations = async function(req, res) {
     userId = req.userId
     try{
-        let users = await userUtil.usersByUserTags(userId)
-        let alreadyFolloweds = (await userUtil.getFollowings(userId)).map( u => u.following.id)
+        let [similarInterests, sameUniversity, sameDepartment, alreadyFolloweds] = 
+            await Promise.all([
+                userUtil.usersByUserTags(userId),
+                userUtil.usersSharingSimilarity("university", userId),
+                userUtil.usersSharingSimilarity("department", userId),
+                userUtil.getFollowersIDs(userId)
+            ])
 
-        users = users.filter( user => !(alreadyFolloweds.includes(user.id)))
+        similarInterests = similarInterests.filter( user => !(alreadyFolloweds.includes(user.id)))
+        
+        sameUniversity = sameUniversity.filter( user => !(alreadyFolloweds.includes(user.id)))
+        sameUniversity = sameUniversity.filter( user => !(similarInterests.map(u => u.id).includes(user.id)))
+        
+        sameDepartment = sameDepartment.filter( user => !(alreadyFolloweds.includes(user.id)))
+        sameDepartment = sameDepartment.filter( user => !(similarInterests.map(u => u.id).includes(user.id)))
+        sameDepartment = sameDepartment.filter( user => !(sameUniversity.map(u => u.id).includes(user.id)))
 
-		res.status(200).send(users)
+		res.status(200).send({similarInterests, sameUniversity, sameDepartment})
     }catch(error){
         res.status(500).send({error: error.message})
     }
