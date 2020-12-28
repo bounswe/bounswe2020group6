@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 
 import { Col, Spin } from "antd";
 import Frame from "../../components/Frame";
@@ -14,8 +13,6 @@ const Home = () => {
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
-
-  const history = useHistory()
 
   useEffect(() => {
     setLoading(true)
@@ -66,14 +63,15 @@ const Home = () => {
         xs={{ span: 22, offset: 1 }}
         sm={{ span: 22, offset: 1 }}
         md={{ span: 22, offset: 1 }}
-        lg={{ span: 14, offset: 5 }}
+        lg={{ span: 14, offset: 4 }}
+        style={{marginTop: "32px"}}
       >
         {loading ? (
           <H2>
             Loading... <Spin />
           </H2>
         ) : (
-          feed.byUserTags.map((p) => createContentCard(p))
+          feed.byUserTags.reverse().map((p) => createContentCard(p))
         )}
       </Main>
       <Col
