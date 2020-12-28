@@ -57,8 +57,8 @@
         <item>Infectious Diseases</item>
     </string-array>
     <string-array name="privacy">
-        <item>"0"</item>
-        <item>"1"</item>
+        <item>"Public"</item>
+        <item>Private</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

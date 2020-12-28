@@ -128,8 +128,8 @@ public class ProjectCreationActivity extends AppCompatActivity {
             //EditText etAbstract = findViewById(R.id.etAbstract);
             EditText etDeadline = findViewById(R.id.etMilestone);
             EditText etRequirements = findViewById(R.id.etRequirements);
-            if(text_privacy.getText().toString().equals("1")){
-                privacy=1;
+            if(text_privacy.getText().toString().equals("private")){
+                privacy=0;
             }
 
             createProject(privacy,etTitle.getText().toString(),
@@ -144,7 +144,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
     private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
         TextView tvChosenTags =findViewById(R.id.tvProjectTags);
         String thetags = tvChosenTags.getText().toString();
-        thetags= thetags.replace(" ", "");
+        thetags= thetags.replace(", ", ",");
         thetags=thetags.replace("Tags:","");
         List<String> tagging = Arrays.asList(thetags.split(","));
 

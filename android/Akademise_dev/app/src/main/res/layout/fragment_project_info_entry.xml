@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView">
@@ -65,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/page_header">
@@ -86,7 +86,7 @@
         android:id="@+id/space2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTitle">
@@ -108,7 +108,7 @@
         android:id="@+id/space3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etRequirements">
@@ -161,7 +161,7 @@
         android:id="@+id/space5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etMilestone">
@@ -170,8 +170,8 @@
         android:id="@+id/tvPrivacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="13dp"
         android:text="Privacy:"
         app:layout_constraintHorizontal_bias="0.5"
@@ -185,7 +185,7 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.35"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/space5" />

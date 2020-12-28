@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +39,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     TextView milestones;
     TextView requirements;
     TextView tags;
-
+    Button files;
     Button invite;
 
     TextView privacy;
@@ -52,7 +54,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
 
         invite = findViewById(R.id.btnReqInvProject);
-
+        files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
         status=findViewById(R.id.tvStatusProject);
         milestones=findViewById(R.id.tvMilestoneProject);
@@ -73,6 +75,20 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
         getWholeData(project.getId());
 
+        files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /**
+                 Bundle bundle = new Bundle();
+                 bundle.putInt("project_id", project.getId());
+                 RequestInvitationFragment frg = new RequestInvitationFragment();
+                 frg.setArguments(bundle);
+                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
+                 frg).commit();
+                 **/
+                openShowProjectFilesActivity();
+            }
+        });
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +104,24 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    private void openShowProjectFilesActivity() {
+        Intent intent = new Intent(this, ShowProjectFilesActivity.class);
+        intent.putExtra("project_id", project.getId());
+        List<ProjectFiles> files = project.getProject_files();
+        String allfiles="";
+        for(int i = 0; i<files.size()-1; i++){
+            allfiles += files.get(i).getFile_name() + "<,>";
+        }
+        if(files.size()!=0){
+            allfiles += files.get(files.size()-1).getFile_name();
+        }
+        if(files.size()==0){
+            allfiles="";
+        }
+        intent.putExtra("project_files", allfiles);
+        startActivity(intent);
     }
 
     public void openInvitationActivity() {
