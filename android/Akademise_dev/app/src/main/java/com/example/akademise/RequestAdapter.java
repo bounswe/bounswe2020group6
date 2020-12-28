@@ -37,7 +37,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
-
+    Profile profile;
     List<Request> requests;
     Context context;
 
@@ -132,25 +132,23 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(user_,"0","Bearer " + myToken);
-                inside_call.enqueue(new Callback<SearchedUsers>() {
+
+                Call<Profile> call = akademiseApi.getMyProfile(requests.get(position).getRequesterId(), "Bearer " + myToken);
+                call.enqueue(new Callback<Profile>() {
                     @Override
-                    public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                    public void onResponse(Call<Profile> call, Response<Profile> response) {
                         if(!response.isSuccessful()){
-                            Log.d("Get", "onResponse: " + response.code());
                             return;
                         }
-                        Log.d("GET", "On response: " + response.message());
-                        SearchedUsers searchedUsers = response.body();
+                        profile = response.body();
                         Intent intent = new Intent(context, ProfileActivity.class);
-                        intent.putExtra("user", searchedUsers.getUsers().get(0));
+                        intent.putExtra("user", profile);
                         context.startActivity(intent);
+
                     }
 
                     @Override
-                    public void onFailure(Call<SearchedUsers> call, Throwable t) {
-                        Log.d("Get", "onFailure: " + t.getMessage());
-
+                    public void onFailure(Call<Profile> call, Throwable t) {
                     }
                 });
             }
