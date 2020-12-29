@@ -64,7 +64,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         collaborators = findViewById(R.id.tvCollaborators);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com/")
+                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

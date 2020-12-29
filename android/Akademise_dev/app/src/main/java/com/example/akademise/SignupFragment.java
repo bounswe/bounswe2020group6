@@ -27,7 +27,7 @@ public class SignupFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     Button btn;
     private String myToken;

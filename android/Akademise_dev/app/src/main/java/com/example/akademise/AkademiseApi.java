@@ -110,12 +110,11 @@ public interface AkademiseApi {
     @POST("profile/disup")
     Call <Upvote> removeUp(@Body Upvote upvote, @Header("Authorization") String auth);
 
-    @POST("/follow/add")
+    @POST("follow/add")
     Call <Upvote> follow(@Body Upvote upvote, @Header("Authorization") String auth);
 
-    @POST("/follow/remove")
+    @POST("follow/remove")
     Call <Upvote> unfollow(@Body Upvote upvote, @Header("Authorization") String auth);
-
 
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -133,7 +132,6 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("collab/add_collaborator")
     Call<Collab>  addCollab(@Body Collab c, @Header("Authorization") String auth);
-
 
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})

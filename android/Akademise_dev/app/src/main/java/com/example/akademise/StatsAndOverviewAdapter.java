@@ -27,7 +27,7 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     private String myToken;
     private  Integer myId;
     Profile profile;
