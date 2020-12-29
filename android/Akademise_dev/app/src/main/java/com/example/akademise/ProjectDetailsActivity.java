@@ -103,14 +103,13 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         intent.putExtra("project_id", project.getId());
         List<ProjectFiles> files = project.getProject_files();
         String allfiles="";
-        for(int i = 0; i<files.size()-1; i++){
-            allfiles += files.get(i).getFile_name() + "<,>";
-        }
-        if(files.size()!=0){
-            allfiles += files.get(files.size()-1).getFile_name();
-        }
-        if(files.size()==0){
-            allfiles="";
+        if(files!=null && files.size()!=0) {
+            for (int i = 0; i < files.size() - 1; i++) {
+                allfiles += files.get(i).getFile_name() + "<,>";
+            }
+            if (files.size() != 0) {
+                allfiles += files.get(files.size() - 1).getFile_name();
+            }
         }
         intent.putExtra("project_files", allfiles);
         startActivity(intent);
