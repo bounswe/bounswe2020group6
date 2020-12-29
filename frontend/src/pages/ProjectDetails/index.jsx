@@ -7,7 +7,6 @@ import moment from "moment";
 import { Row, Col, Tag, Avatar, Spin, Button, Input } from "antd";
 import {
   UnlockFilled,
-  PlusOutlined,
   FileOutlined,
   ClockCircleTwoTone,
   EditFilled,
@@ -76,7 +75,7 @@ const ProjectDetails = () => {
         <Col style={{ paddingLeft: "15px" }}>
           <H3 style={{ margin: "auto" }}>
             {" "}
-            {u.name + " " + u.surname} <PlusOutlined />
+            {u.name + " " + u.surname}
           </H3>
           <FadedDark> {"Project Owner"} </FadedDark>
           <FadedText> {u.university} </FadedText>
@@ -97,7 +96,7 @@ const ProjectDetails = () => {
             <Col style={{ paddingLeft: "15px" }}>
               <H3 style={{ margin: "auto" }}>
                 {" "}
-                {c.user.name + " " + c.user.surname} <PlusOutlined />
+                {c.user.name + " " + c.user.surname}
               </H3>
               <FadedDark> {"Collaborator"} </FadedDark>
               <FadedText> {c.user.university} </FadedText>
