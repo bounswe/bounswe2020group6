@@ -146,7 +146,8 @@ public class ProjectCreationActivity extends AppCompatActivity {
             //EditText etAbstract = findViewById(R.id.etAbstract);
             EditText etDeadline = findViewById(R.id.etMilestone);
             EditText etRequirements = findViewById(R.id.etRequirements);
-            if(text_privacy.getText().toString().equals("private")){
+            privacy=1;
+            if(text_privacy.getText().toString().equals("Private")){
                 privacy=0;
             }
 
