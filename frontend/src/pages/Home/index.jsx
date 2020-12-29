@@ -102,7 +102,10 @@ const Home = () => {
         <H3>Recommended users</H3>
         { 
           userRecommendationsLoading ? <Spin/> :(
-            userRecommendations.length === 0 ? "No recommendations yet..." :
+            userRecommendations.length === 1 
+              ? 
+              "No recommendations yet." 
+              :
               userRecommendations
               .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
               .slice(0, 4)
