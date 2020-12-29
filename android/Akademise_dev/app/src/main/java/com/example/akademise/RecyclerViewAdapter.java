@@ -74,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         intent = new Intent(context, ProjectDetailsUserActivity.class);
                     }
 
-                    Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position), Toast.LENGTH_LONG).show();
                     intent.putExtra("project", projects.get(position));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -84,11 +84,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     intent = new Intent(context, ProfileActivity.class);
                     if (userId.get(position) == myId) {
                         intent.putExtra("me",1);
-                        Toast.makeText(context, String.valueOf(userId.get(position)), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, String.valueOf(userId.get(position)), Toast.LENGTH_LONG).show();
 
 
                     } else {
-                        Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position-projects.size()), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position-projects.size()), Toast.LENGTH_LONG).show();
                         intent.putExtra("otherUser",0);
                     }
                     intent.putExtra("user", searchedUsers.getUsers().get(position-projects.size()));
