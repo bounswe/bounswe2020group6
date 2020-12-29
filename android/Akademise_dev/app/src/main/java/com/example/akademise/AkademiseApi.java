@@ -146,5 +146,13 @@ public interface AkademiseApi {
     Call<Home> getHome(@Header("Authorization") String auth);
 
 
+    @GET("/follow/followers")
+    Call<Follower> getFollowers(@Header("Authorization") String auth);
+
+
+    @GET("/follow/followings")
+    Call<FollowingUsers> getFollowings(@Header("Authorization") String auth);
+
+
 }
 

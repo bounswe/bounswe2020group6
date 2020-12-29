@@ -103,8 +103,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public int getItemCount() {
         if(searchedUsers!=null)
             return projects.size() +searchedUsers.getUsers().size();
-        else
+        else {
+            if(projects!=null)
             return projects.size();
+            else return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
