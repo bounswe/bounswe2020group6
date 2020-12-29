@@ -64,10 +64,11 @@ var tagExists = async function(tag,projectId){
     return undefined
 }
 
-var postsByTag = async function(tags){
+var postsByTag = async function(tags,userId){
     projects = await Project.findAll({
         where : {
-            privacy : 1
+            privacy : 1,
+	    [Op.not] : [{userId : userId}]
         },
         attributes : ['id', 'title','description','summary', 'status', 'createdAt'],
         include : [
@@ -83,7 +84,14 @@ var postsByTag = async function(tags){
             {
                 model : User,
                 attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
-            }
+            },
+	    {
+    	        model: ProjectCollaborator,
+    	        where : {
+    		    [Op.not] : [{user_id : userId}]
+    	        },
+    	        required : false
+    	    }
         ]
     });
 
@@ -169,7 +177,7 @@ var postsByUserTags = async function(userId){
     interest_array = []
     for(var i in user_interests)
         interest_array.push(user_interests[i].interest);    	
-    byTags = await postsByTag(interest_array)
+    byTags = await postsByTag(interest_array,userId)
     return byTags
 
 }
