@@ -41,14 +41,20 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
+        console.log("resp", response);
         setUserRecommendations(
-          response.data
+          [
+            ...response.data.sameDepartment,
+            ...response.data.sameUniversity,
+            ...response.data.similarInterests,
+          ]
           .sort(() => 0.5 - Math.random())
         );
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
         console.log(error);
+        setUserRecommendationsLoading(false)
       });
   }, []);
 
