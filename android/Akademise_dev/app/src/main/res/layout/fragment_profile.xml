@@ -150,9 +150,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/biography"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/biograpy_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
         <TextView
             android:id="@+id/research_tags"
@@ -171,9 +170,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/research_tags"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/research_tags_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
         <TextView
             android:id="@+id/university"
@@ -193,9 +191,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/university"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/university_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
         <TextView
             android:id="@+id/department"
@@ -214,9 +211,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/department"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/department_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
         <TextView
             android:id="@+id/title_profile"
@@ -235,9 +231,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/title_profile"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/title_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
 
         <TextView
@@ -246,11 +241,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="Contact:"
-            app:layout_constraintBottom_toBottomOf="@+id/contact_content"
             app:layout_constraintHeight_percent="0.03"
             app:layout_constraintStart_toEndOf="@+id/space"
             app:layout_constraintTop_toBottomOf="@+id/space9"
-            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.30" />
 
         <Space
@@ -259,9 +252,8 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/space"
-            app:layout_constraintTop_toBottomOf="@+id/contact"
-            app:layout_constraintWidth_percent="1">
-        </Space>
+            app:layout_constraintTop_toBottomOf="@+id/contact_content"
+            app:layout_constraintWidth_percent="1"></Space>
 
         <Button
             android:id="@+id/stats_and_overview"
@@ -301,8 +293,9 @@
 
         <EditText
             android:id="@+id/research_tags_content"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.5"
             android:focusable="false"
             android:clickable="false"
             android:background="@android:color/transparent"
@@ -360,17 +353,18 @@
         <Button
 
             android:id="@+id/update_button"
+            style="@style/textView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.40"
             android:background="@drawable/button_shape"
-            style="@style/textView"
             android:text="Update"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnMyGoogleScholar"
+            app:layout_constraintWidth_percent="0.40" />
 
         <EditText
             android:id="@+id/department_content"
