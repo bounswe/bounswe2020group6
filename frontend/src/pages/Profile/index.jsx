@@ -216,27 +216,30 @@ const Profile = () => {
               style={{ fontSize: "28px", fontWeight: "500" }}
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
-              {profile.isUpped ? (
-                <MinusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleRemoveUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              ) : (
-                <PlusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleAddUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              )}
+              {
+                isOwnProfile() ? "" :
+                profile.isUpped ? (
+                  <MinusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleRemoveUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                ) : (
+                  <PlusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleAddUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                )
+              }
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>
                 {profile.upCounts === null || profile.upCounts === undefined
