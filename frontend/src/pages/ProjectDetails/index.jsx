@@ -351,7 +351,7 @@ const ProjectDetails = () => {
         <DateSection>
           {projectData.privacy === 0 ? <LockFilled/> : <UnlockFilled/>}
           Project Due{" "}
-        {dueDateExists()
+        {!(projectData.project_milestones === null || projectData.project_milestones === undefined) && projectData.project_milestones.length > 0 
         ? moment(
           projectData.project_milestones[projectData.project_milestones.length - 1].date
           ).format("DD/MM/YYYY")
@@ -403,10 +403,15 @@ const ProjectDetails = () => {
             <H3>
               Project Files
               &nbsp;
-              <EditFilled 
-                style={{cursor: "pointer"}}
-                onClick={e => (history.push("/project/editfiles/" + projectId))}
-              />
+              { 
+                isUserCollaboratesOnThisProject() ?
+                <EditFilled 
+                  style={{cursor: "pointer"}}
+                  onClick={e => (history.push("/project/editfiles/" + projectId))}
+                />
+                :
+                ""
+              }
             </H3>
             
             <FileContainer style={{}}>
