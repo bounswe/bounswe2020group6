@@ -85,7 +85,7 @@ var postsByTag = async function(tags,userId){
                 model : User,
                 attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
             },
-	    {
+	        {
     	        model: ProjectCollaborator,
     	        where : {
     		    [Op.not] : [{user_id : userId}]
