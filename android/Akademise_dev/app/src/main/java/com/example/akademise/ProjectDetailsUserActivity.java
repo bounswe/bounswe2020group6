@@ -31,7 +31,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     GetProjects project;
-
+    Profile profile;
 
     TextView title;
     TextView summary;
@@ -60,6 +60,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         requirements=findViewById(R.id.tvRequirementsUserProject);
         tags=findViewById(R.id.tvTagsUserProject);
         userNameSurname=findViewById(R.id.tvUserNameSurname);
+        userNameSurname.setClickable(true);
         collaborators=findViewById(R.id.tvUserCollaborators);
         req_button = findViewById(R.id.btnReqUserProject);
 
@@ -89,7 +90,32 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
 
 
         getWholeData(project.getId());
+        userNameSurname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Call<Profile> call = akademiseApi.getMyProfile(project.getUserId(), "Bearer " + myToken);
+                call.enqueue(new Callback<Profile>() {
+                    @Override
+                    public void onResponse(Call<Profile> call, Response<Profile> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("GetProfile", "onResponse: not successful" + response.message());
+                            return;
+                        }
+                        profile = response.body();
+                        Intent intent = new Intent(ProjectDetailsUserActivity.this, ProfileActivity.class);
+                        intent.putExtra("user", profile);
+                        startActivity(intent);
+                        Log.d("GetProfile", "onResponse: successful" + response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Profile> call, Throwable t) {
+                        Log.d("GetProfile", "onResponse: failed" + t.toString());
+                    }
+                });
+            }
+        });
     }
 
 
