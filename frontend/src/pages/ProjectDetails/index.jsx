@@ -86,6 +86,8 @@ const ProjectDetails = () => {
     );
 
     var collabs = projectData.project_collaborators.map((c, i) => {
+      if (c.user === null) return "";
+      
       return (
         <IndentedBlock key={i + 1}>
           <UserDiv key={i + 1} onClick={() => redirectToProfile(c.user_id)}>
