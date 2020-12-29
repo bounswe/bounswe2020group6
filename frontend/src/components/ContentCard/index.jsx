@@ -45,7 +45,10 @@ const ContentCard = (props) => {
             ? props.summary.substring(0, 180) + "..."
             : props.summary}
         </Summary>
-        <Footer> {props.footer}, {moment(props.date).fromNow(true)} ago </Footer>
+        <Footer> 
+          {props.footer}, &nbsp;
+          {props.date === undefined ? "from Mobile" : moment(props.date).fromNow(true) + " ago" } 
+        </Footer>
       </Col>
     </Layout>
   );
