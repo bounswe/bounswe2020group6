@@ -24,7 +24,6 @@
                 android:layout_height="wrap_content"
                 android:text="Title"
                 app:layout_constraintBottom_toTopOf="@+id/tv_abstract"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_project"
                 app:layout_constraintTop_toTopOf="parent"

@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProjectInfoEntryFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com/";
     Button next;
     AkademiseApi akademiseApi;
     private String myToken;

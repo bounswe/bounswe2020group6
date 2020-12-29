@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com/";
     AkademiseApi akademiseApi;
     private Button btnLogin;
     private Button btnSignup;

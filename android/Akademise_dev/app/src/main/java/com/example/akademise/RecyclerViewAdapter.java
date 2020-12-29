@@ -76,6 +76,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     Toast.makeText(context, String.valueOf(userId.get(position))+" "+String.valueOf(position), Toast.LENGTH_LONG).show();
                     intent.putExtra("project", projects.get(position));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     context.startActivity(intent);
                 }
                 else{

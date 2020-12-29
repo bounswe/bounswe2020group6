@@ -34,7 +34,7 @@ public class RequestInvitationActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com/";
     AkademiseApi akademiseApi;
     private String myToken;
     private Integer myId;
@@ -97,12 +97,12 @@ public class RequestInvitationActivity extends AppCompatActivity {
 
                 requests = response.body();
 
+
                 for (int i = 0; i < requests.size(); i++) {
                     Request req = requests.get(i);
-                    if (req.getProjectId() == projectId) {
+                    if (req.getProjectId().equals(projectId)) {
                         mod_req.add(req);
                     }
-
                 }
 
                 recyclerView = findViewById(R.id.rv_recyclerView2);
@@ -137,7 +137,7 @@ public class RequestInvitationActivity extends AppCompatActivity {
             public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(getApplicationContext(), "WCouldnt send request. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Couldnt send request. ", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Invitation  invResponse = response.body();
