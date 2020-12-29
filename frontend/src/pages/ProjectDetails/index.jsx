@@ -400,7 +400,15 @@ const ProjectDetails = () => {
                   ""
                 )}
           <Files>
-            <H3>Browse Files</H3>
+            <H3>
+              Project Files
+              &nbsp;
+              <EditFilled 
+                style={{cursor: "pointer"}}
+                onClick={e => (history.push("/project/editfiles/" + projectId))}
+              />
+            </H3>
+            
             <FileContainer style={{}}>
             {
               projectData.project_files.length > 0 
@@ -437,6 +445,9 @@ const ProjectDetails = () => {
             </Col>
           }
           </Files>
+          <div
+            style={{height: "50px"}}
+          />
         </Main>
         <Side lg={{ span: 7, offset: 0 }} xl={{ span: 7, offset: 0 }}>
           {
