@@ -2,18 +2,20 @@ package com.example.akademise;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 // Projects fields are prepared with respect to return of search
 
-public class Project {
+public class Project implements Serializable {
     @SerializedName("userId")
     private int userId;
     @SerializedName("id")
     private Integer id;
     @SerializedName("title")
     private String title;
-    @SerializedName("abstract")
+    @SerializedName("summary")
     private String abstract1;
     @SerializedName("content")
     private String content;
@@ -29,6 +31,8 @@ public class Project {
     private String createdat;
     @SerializedName("updatedat")
     private String updatedat;
+    @SerializedName("tags")
+    private List<String> tags;
 
 
 
@@ -86,7 +90,7 @@ public class Project {
     }
     public Project(int privacy, int status, String title, String abstract1,
                    String content, String createdat, String updatedat,
-                   String deadline, String requirements) {
+                   String deadline, String requirements, List<String> tags) {
 
         this.privacy = privacy;
         this.status = status;
@@ -97,6 +101,7 @@ public class Project {
         this.content=content;
         this.createdat=createdat;
         this.updatedat=updatedat;
+        this.tags = tags;
     }
 
 }

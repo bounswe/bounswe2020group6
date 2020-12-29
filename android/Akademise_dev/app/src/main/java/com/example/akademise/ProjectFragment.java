@@ -15,7 +15,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,11 +32,13 @@ public class ProjectFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
     private  Integer myId;
-    TextView myProjects;
+    RecyclerView recyclerView;
+    List<GetProjects> projects;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +48,6 @@ public class ProjectFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        myProjects= getView().findViewById(R.id.tvScrollViewMyProjects);
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -78,28 +82,25 @@ public class ProjectFragment extends Fragment {
 
      private  void getProjects(Integer id){
 
-        Call<List<Project>> call= akademiseApi.getProjects(id, "Bearer "+myToken);
-        call.enqueue(new Callback<List<Project>>() {
+        Call<List<GetProjects>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
+        call.enqueue(new Callback<List<GetProjects>>() {
             @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+            public void onResponse(Call<List<GetProjects>> call, Response<List<GetProjects>> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Project", "onResponse: not successful");
                     return;
                 }
 
-                List<Project> projects = response.body();
-                int count=0;
-                myProjects.setText("\n\n\n");
-                for (Project project : projects){
-                    myProjects.setText(myProjects.getText()+project.getTitle()+"\n\n");
-                    count++;
-                }
-                Log.d("Get_Project", String.valueOf(count));
+                projects = response.body();
+                recyclerView = getView().findViewById(R.id.rv_projects);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,null);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
 
             @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
+            public void onFailure(Call<List<GetProjects>> call, Throwable t) {
 
                 Log.d("Project", "onFailure: failed");
 

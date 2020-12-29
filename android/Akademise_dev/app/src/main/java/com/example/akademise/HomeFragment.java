@@ -14,7 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,10 +30,11 @@ public class HomeFragment extends Fragment {
 
     AkademiseApi akademiseApi;
     SearchView searchView;
-    TextView tvScroll;
+    RecyclerView recyclerView;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
     private String myToken;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,16 +46,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/")
+                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         loadData();
         akademiseApi = retrofit.create(AkademiseApi.class);
-
-        tvScroll = getView().findViewById(R.id.tvScrollView);
-        tvScroll.setTextColor(Color.BLUE);
-        tvScroll.setTextSize(20);
+        getHome();
 
         searchView = (SearchView) getView().findViewById(R.id.svSearch);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -77,29 +78,48 @@ public class HomeFragment extends Fragment {
 
         //List<Post> searchedPosts;
         //String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImlhdCI6MTYwNjEyODgwNH0.5JLFXGx4E2_RT7sGt-as2lgmFk67h1KWODTgZFT9QR0";
-        Call<Projects> call= akademiseApi.getProjectsSearched(query,"1","Bearer " + myToken);
-        call.enqueue(new Callback<Projects>() {
+        Call<RootGetProjects> call= akademiseApi.getProjectsSearched(query,"1","Bearer " + myToken);
+        call.enqueue(new Callback<RootGetProjects>() {
             @Override
-            public void onResponse(Call<Projects> call, Response<Projects> response) {
+            public void onResponse(Call<RootGetProjects> call, Response<RootGetProjects> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Get", "onResponse: " + response.code());
                     return;
                 }
                 Log.d("GET", "On response: " + response.message());
-                Projects projects = response.body();
-                tvScroll.setText("\n\n\n");
-                List<Project> projecler = projects.getProjects();
-                for (Project project : projecler){
-                    tvScroll.setText(tvScroll.getText()+project.getTitle()+"\n\n");
+                RootGetProjects Projects = response.body();
 
-                }
+                List<GetProjects> projects = Projects.getProjects();
+                Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
+                inside_call.enqueue(new Callback<SearchedUsers>() {
+                    @Override
+                    public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("Get", "onResponse: " + response.code());
+                            return;
+                        }
+                        Log.d("GET", "On response: " + response.message());
+                        SearchedUsers searchedUsers = response.body();
+                        recyclerView = getView().findViewById(R.id.rv_home);
+                        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,searchedUsers);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchedUsers> call, Throwable t) {
+                        Log.d("Get", "onFailure: " + t.getMessage());
+
+                    }
+                });
 
             }
 
             @Override
 
-            public void onFailure(Call<Projects> call, Throwable t) {
+            public void onFailure(Call<RootGetProjects> call, Throwable t) {
 
                 Log.d("Get", "onFailure: " + t.getMessage());
 
@@ -113,5 +133,33 @@ public class HomeFragment extends Fragment {
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
+    }
+
+    private void getHome(){
+        Call<Home> call= akademiseApi.getHome("Bearer " + myToken);
+        call.enqueue(new Callback<Home>() {
+            @Override
+            public void onResponse(Call<Home> call, Response<Home> response) {
+                if(!response.isSuccessful()){
+                    Log.d("Get", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GET", "On response: " + response.message());
+                Home home = response.body();
+                List<GetProjects> suggestedProjects= new ArrayList<>();
+                suggestedProjects.addAll(home.getByFollowings());
+                suggestedProjects.addAll(home.getByUserTags());
+                recyclerView = getView().findViewById(R.id.rv_home);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), suggestedProjects,null);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            }
+
+            @Override
+            public void onFailure(Call<Home> call, Throwable t) {
+                Log.d("Get", "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

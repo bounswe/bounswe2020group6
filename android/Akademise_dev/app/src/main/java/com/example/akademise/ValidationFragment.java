@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ValidationFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     TextView validation;
     Button btn;
@@ -39,7 +39,7 @@ public class ValidationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btn = this.getActivity().findViewById(R.id.btnNext);
+        btn = view.findViewById(R.id.validation_button);
 
         loadData();
         validation = getView().findViewById(R.id.validation_code);
@@ -55,9 +55,9 @@ public class ValidationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d("button_name", btn.getText().toString());
-                if (btn.getText().equals(getString(R.string.validate))) {
                     createValidationCode(validation.getText().toString());
-                }
+
+
             }
         });
 
@@ -69,6 +69,12 @@ public class ValidationFragment extends Fragment {
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
+    }
+    private void saveData(String token){
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(accessToken, token);
+        editor.apply();
     }
 
     private void createValidationCode(String validation_code){
@@ -85,6 +91,8 @@ public class ValidationFragment extends Fragment {
                         return;
                     }
                     Validation validationResponse = response.body();
+                    saveData(validationResponse.getAccessToken());
+                    loadData();
                     System.out.println("Validation - SUCCESSFUL");
                     System.out.println("Validation - Token: " + myToken);
                     btn.setText(getString(R.string.next));

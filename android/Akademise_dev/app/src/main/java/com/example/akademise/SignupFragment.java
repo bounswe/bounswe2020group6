@@ -27,7 +27,7 @@ public class SignupFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     Button btn;
     private String myToken;
@@ -37,7 +37,7 @@ public class SignupFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
-        btn = this.getActivity().findViewById(R.id.btnNext);
+        btn = view.findViewById(R.id.signup_button);
         loadData();
         return view;
     }
@@ -57,7 +57,7 @@ public class SignupFragment extends Fragment {
 
         TextView emailView = view.findViewById(R.id.email);
         TextView passwordView = view.findViewById(R.id.password);
-        TextView nameView = view.findViewById(R.id.name);
+        TextView nameView = view.findViewById(R.id.name_signup);
         TextView surnameView = view.findViewById(R.id.surname);
 
         btn.setOnClickListener(new View.OnClickListener() {

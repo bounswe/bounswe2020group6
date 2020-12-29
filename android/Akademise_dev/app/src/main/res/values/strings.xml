@@ -10,7 +10,7 @@
     <string name="deadline">Deadline</string>
     <string name="creation_date">Creation Date</string>
     <string name="isPublic"> Public</string>
-    <string name="tags"> Tags</string>
+    <string name="tags">Tags: </string>
     <string name="project">Project</string>
 
 
@@ -19,6 +19,15 @@
         <item>"Middle East Technical University"</item>
         <item>"Istanbul Technical University"</item>
         <item>"Bogazici University"</item>
+    </string-array>
+
+
+    <string-array name="status_array">
+        <item> "cancelled"</item>
+        <item>"completed"</item>
+        <item> "in progress"</item>
+        <item> "hibernating"</item>
+        <item>"team building"</item>
 
     </string-array>
 
@@ -47,6 +56,10 @@
         <item>Bioinformatics</item>
         <item>Public Health Systems</item>
         <item>Infectious Diseases</item>
+    </string-array>
+    <string-array name="privacy">
+        <item>"Public"</item>
+        <item>Private</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

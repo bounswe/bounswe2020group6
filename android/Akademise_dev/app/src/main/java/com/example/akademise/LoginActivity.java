@@ -22,7 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-54-173-244-46.compute-1.amazonaws.com:3000/";
+    public static final String MyIDPEREFERENCES = "MyIDPrefs";
+    public static final String accessID = "XXXXXID";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private Button btnLogin;
     private Button btnSignup;
@@ -38,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
 
         loadData();
 
-
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignup = (Button) findViewById(R.id.btnSignup);
         btnLogin.setOnClickListener(login);
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         akademiseApi = retrofit.create(AkademiseApi.class);
 
-        //jwt_validation();
+        jwt_validation();
     }
 
     View.OnClickListener login = new View.OnClickListener() {
@@ -96,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("SUCCESSFUL");
                 //System.out.println("userId: " + userResponse.getUserId());
                 saveData(userResponse.getAccessToken());
+                saveIDData(userResponse.getUserId());
 
                 //Toast.makeText(LoginActivity.this, "TOKEN: " + myToken, Toast.LENGTH_LONG).show();
                 Toast.makeText(LoginActivity.this, "Successful. ", Toast.LENGTH_LONG).show();
@@ -147,6 +149,13 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
+    }
+
+    private void saveIDData(Integer id){
+        SharedPreferences sharedPreferences = getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(accessID, id);
+        editor.apply();
     }
 
 
