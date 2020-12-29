@@ -1,4 +1,7 @@
 const nodemailer = require("nodemailer")
+const handlebars = require('handlebars')
+const fs = require('fs')
+const path = require('path')
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -13,11 +16,21 @@ var createValidationCode = function() {
 }
 
 var sendValidationCode = function(email, code) {
+
+    const filePath = path.join(__dirname, './email.html');
+    const source = fs.readFileSync(filePath, 'utf-8').toString();
+    const template = handlebars.compile(source);
+    const replacements = {
+        code,
+        email
+    };
+    const htmlToSend = template(replacements);
+
     var mailOptions = {
         from: "Akademise Registration",
         to: email,
         subject: "Akademise - Validation Code",
-        text: code
+        html: htmlToSend
     }
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
