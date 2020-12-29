@@ -90,7 +90,7 @@ const Home = () => {
           
           [...feed.byUserTags, ...feed.byFollowings]
           .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId"))) // not this user's project
-          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                  // unique
+          //.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                // unique (deprecated as of 29.12.2020)
           .sort(momentComparator)                                                // sorted by date
           .reverse()                                                             // descending
           .map((p) => createContentCard(p))
@@ -99,7 +99,7 @@ const Home = () => {
 
       </Main>
       <Col
-        style={{ position: "fixed", right: "20px" }}
+        style={{ position: "fixed", right: "20px", minWidth: "280px" }}
         align="center"
         span={0}
         lg={{ span: 5, offset: 0 }}
@@ -122,7 +122,9 @@ const Home = () => {
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
-                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
+                onFollowed={() => (
+                  setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))
+                )}
                 />
               })
           ) 
