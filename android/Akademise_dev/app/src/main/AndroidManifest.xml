@@ -13,7 +13,9 @@
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
         <activity android:name=".OtherUserProjectsActivity"></activity>
-        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:theme="@style/AppStyle.Signup" />
         <activity android:name=".ProfileOthersFragment" />
         <activity android:name=".ProjectDetailsActivity" />
         <activity android:name=".RequestInvitationActivity" />
@@ -25,10 +27,11 @@
         <activity
             android:name=".ProjectCreationActivity2"
             android:theme="@style/AppStyle.Signup" />
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppStyle.Signup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
