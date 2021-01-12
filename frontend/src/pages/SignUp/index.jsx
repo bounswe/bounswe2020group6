@@ -172,6 +172,35 @@ const SignUp = () => {
     setIsModalVisible(false);
   };
 
+  const validatePassword = (rule, value, callback) => {
+
+    var includesSymbol = false;
+    var includesAlpha  = false;
+    var includesNum    = false;
+
+    var alphas = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    var nums   = "1234567890"
+
+    var i;
+    for(i=0;i<value.length;i++){
+      if(alphas.includes(value[i])){
+        includesAlpha = true;
+      }
+      else if(nums.includes(value[i])){
+        includesNum = true;
+      }
+      else {
+        includesSymbol = true;
+      }
+    }
+
+    if (value && !(value.length >=8 && includesAlpha && includesNum && includesSymbol)) {
+      callback("Your password should be at least 8 characters long with at least one letter, one number and one symbol.");
+    } else {
+      callback();
+    }
+  };
+
   const agreement = () => {
     return <>
     <h2><strong>Terms and Conditions</strong></h2>
@@ -384,7 +413,10 @@ const SignUp = () => {
                   <Form.Item
                     label={<FormLabel>Password</FormLabel>}
                     name="password"
-                    rules={[{ required: true, message: "Please enter your password!" }]}
+                    rules={[
+                      { required: true, message: "Please enter your password!" },
+                      { validator: validatePassword }
+                    ]}
                   >
                     <Input.Password
                       onChange={(e) => setPassword(e.target.value)}
