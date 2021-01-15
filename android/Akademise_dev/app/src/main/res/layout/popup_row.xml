@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      >
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -17,20 +17,20 @@
 
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_accept"
                 style="@style/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_shape"
                 android:text="Accept"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintEnd_toStartOf="@+id/btn_reject"
                 app:layout_constraintHorizontal_bias="0.53"
-                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintStart_toEndOf="@+id/tv_popup_user"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_reject"
                 style="@style/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/tv_popup_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="28dp"
@@ -55,7 +55,7 @@
                 app:layout_constraintVertical_bias="0.444" />
 
             <TextView
-                android:id="@+id/tv_req_row_project_name"
+                android:id="@+id/tv_popup_row_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -63,12 +63,21 @@
                 android:text="Project Name"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView12"
+                app:layout_constraintTop_toBottomOf="@id/tv_popup_user"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tv_popup_req_inv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Request/Invitation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_popup_row_project_name" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
+public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     private int myId;
     private String myToken;
@@ -36,7 +36,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     List<Request> requests;
     Context context;
 
-    public RequestAdapter(Context ct, List<Request> prj) {
+    public PopUpAdapter(Context ct, List<Request> prj) {
         context = ct;
         requests = prj;
         loadData();
@@ -55,7 +55,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.request_row, parent, false);
+        View view = inflater.inflate(R.layout.popup_row, parent, false);
         return new ViewHolder(view);
     }
 
@@ -67,6 +67,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.username.setText(user_);
         holder.username.setClickable(true);
         holder.projectName.setText(requests.get(position).getProject().getTitle());
+        if(requests.get(position).getRequestType()==0){ //invitation
+            holder.type.setText("Invitation");
+        }
+        else{
+            holder.type.setText("Request");
+        }
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +178,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
         TextView username;
         TextView projectName;
+        TextView type;
         Button accept;
         Button reject;
         View mView;
@@ -179,10 +186,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            username = itemView.findViewById(R.id.textView12);
-            projectName = itemView.findViewById(R.id.tv_req_row_project_name);
-            accept = itemView.findViewById(R.id.button);
-            reject = itemView.findViewById(R.id.button2);
+            username = itemView.findViewById(R.id.tv_popup_user);
+            projectName = itemView.findViewById(R.id.tv_popup_row_project_name);
+            accept = itemView.findViewById(R.id.btn_accept);
+            reject = itemView.findViewById(R.id.btn_reject);
+            type = itemView.findViewById(R.id.tv_popup_req_inv);
             mView = itemView;
 
 
