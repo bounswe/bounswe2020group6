@@ -103,6 +103,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(ProjectDetailsActivity.this,EditProjectActivity.class);
                 intent.putExtra("project", project);
+                startActivity(intent);
             }
         }
         );

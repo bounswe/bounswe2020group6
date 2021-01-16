@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +24,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static java.util.Arrays.asList;
+
 public class EditProjectActivity extends AppCompatActivity {
     AkademiseApi akademiseApi;
     public static final String MyPEREFERENCES = "MyPrefs";
@@ -27,17 +33,17 @@ public class EditProjectActivity extends AppCompatActivity {
     private String myToken;
 
     GetProjects project;
-    TextView title;
-    TextView summary;
-    TextView status;
-    TextView milestones;
-    TextView requirements;
-    TextView tags;
-    Button files;
-    Button invite;
-
-    TextView privacy;
-    TextView collaborators;
+    GetProjects onBackend;
+    EditText title;
+    EditText summary;
+    EditText requirements;
+    Button milestone;
+    Button tags;
+    Button update;
+    String privacy;
+    int pr;
+    String status;
+    int stat;
 
 
     @Override
@@ -45,18 +51,13 @@ public class EditProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_edit_project);
-
-        title = findViewById(R.id.title);
-
-        invite = findViewById(R.id.btnReqInvProject);
-        files = findViewById(R.id.btnFilesProject);
-        summary = findViewById(R.id.tvAbstractProject);
-        status=findViewById(R.id.tvStatusProject);
-        milestones=findViewById(R.id.tvMilestoneProject);
+        milestone = findViewById(R.id.btnEditMilestone);
+        tags = findViewById(R.id.btnEditTags);
+        update = findViewById(R.id.btnUpdate);
+        title = findViewById(R.id.etTitle);
+        summary = findViewById(R.id.etAbstractProject);
         requirements=findViewById(R.id.tvRequirementsProject);
-        tags=findViewById(R.id.tvTagsProject);
-        privacy=findViewById(R.id.tvPrivacyProjectDetails);
-        collaborators = findViewById(R.id.tvCollaborators);
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
@@ -68,32 +69,110 @@ public class EditProjectActivity extends AppCompatActivity {
 
         getData();
 
-        getWholeData(project.getId());
+        //getWholeData(project.getId());
 
-        files.setOnClickListener(new View.OnClickListener() {
+        milestone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openShowProjectFilesActivity();
+                openMilestoneActivity();
             }
         });
-        invite.setOnClickListener(new View.OnClickListener() {
+        tags.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 Bundle bundle = new Bundle();
-                 bundle.putInt("project_id", project.getId());
-                 RequestInvitationFragment frg = new RequestInvitationFragment();
-                 frg.setArguments(bundle);
-                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
-                 frg).commit();
-                 **/
-                openInvitationActivity();
+                openTagsActivity();
+            }
+        });
+        Spinner status_spinner = findViewById(R.id.sStatus);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),
+                R.array.update_status,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        status_spinner.setAdapter(adapter);
+        status_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!parent.getItemAtPosition(position).toString().equals("Choose")) {
+                    status = parent.getItemAtPosition(position).toString();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
+        Spinner privacy_spinner = findViewById(R.id.sPrivacy);
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getBaseContext(),
+                R.array.update_privacy,
+                android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        privacy_spinner.setAdapter(adapter2);
+        privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!parent.getItemAtPosition(position).toString().equals("Choose")) {
+                    privacy = parent.getItemAtPosition(position).toString();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProject();
+            }
+        });
     }
 
-    private void openShowProjectFilesActivity() {
+    private void updateProject() {
+        String[] statusArray = getResources().getStringArray(R.array.status_array);
+        stat = java.util.Arrays.asList(statusArray).indexOf(status);
+        if(privacy.equals("Private")){
+            pr=0;
+        }
+        else{
+            pr=1;
+        }
+        UpdateProject updates = new UpdateProject(title.getText().toString(), summary.getText().toString(), requirements.getText().toString(), pr, stat);
+        Call<Project> call = akademiseApi.updateProject(project.getId(), updates, "Bearer " + myToken);
+        call.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
+
+                if (!response.isSuccessful()) {
+                    Log.d("Project", "onResponse: not successful");
+                    Log.d("Project", myToken);
+                    Log.d("NotCreated", response.toString());
+                    Toast.makeText(EditProjectActivity.this, "Not updated, try again", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Log.d("Project", "onResponse: successful");
+                Toast.makeText(EditProjectActivity.this, "Project is updated", Toast.LENGTH_LONG).show();
+                Intent intent =  new Intent(EditProjectActivity.this, ProjectDetailsActivity.class);;
+                intent.putExtra("project", project);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+                Toast.makeText(EditProjectActivity.this, "Be sure to be connected", Toast.LENGTH_LONG).show();
+                Log.d("Project", "onFailure: failed");
+            }
+        });
+        Log.d("Privacy:", "" + privacy + " " + pr);
+        Log.d("Status:",""+ status + " " + stat);
+    }
+
+    private void openMilestoneActivity() {
+        // TODO Get milestones properly and edit this method
         Intent intent = new Intent(this, ShowProjectFilesActivity.class);
         intent.putExtra("project_id", project.getId());
         List<ProjectFiles> files = project.getProject_files();
@@ -108,9 +187,11 @@ public class EditProjectActivity extends AppCompatActivity {
         }
         intent.putExtra("project_files", allfiles);
         startActivity(intent);
+
     }
 
-    public void openInvitationActivity() {
+    public void openTagsActivity() {
+        // TODO Get tags properly and edit this method
         Intent intent = new Intent(this, RequestInvitationActivity.class);
         intent.putExtra("project_id", project.getId());
         startActivity(intent);
@@ -122,6 +203,19 @@ public class EditProjectActivity extends AppCompatActivity {
         //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
         if(getIntent().hasExtra("project")){
             project = (GetProjects) getIntent().getSerializableExtra("project");
+            title.setText(project.getTitle());
+            summary.setText(project.getSummary());
+            requirements.setText(project.getRequirements());
+            pr = project.getPrivacy();
+            if( pr == 0){
+                privacy = "Private";
+            }
+            else{
+                privacy = "Public";
+            }
+            String[] statusArray = getResources().getStringArray(R.array.status_array);
+            stat = project.getStatus();
+            status = statusArray[stat];
         }
         else{
 
@@ -148,17 +242,12 @@ public class EditProjectActivity extends AppCompatActivity {
                 }
 
                 List<GetProjects> projects = response.body();
-                GetProjects project = projects.get(0);
+                onBackend = projects.get(0);
+                /*
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);
-                status.setText(statusArray[(project.getStatus()%5)]);
                 requirements.setText(project.getRequirements());
-                String tagList="";
-                for(int i=0; i<project.getProject_tags().size(); i++){
-                    tagList+= project.getProject_tags().get(i).getTag()+" ";
-                }
-                tags.setText(tagList);
                 if(project.getPrivacy()==0) privacy.setText("Private");
                 else privacy.setText("Public");
                 String collaboratorList="";
@@ -166,8 +255,7 @@ public class EditProjectActivity extends AppCompatActivity {
                     collaboratorList+= project.getProject_collaborators().get(i).getUser().getName()+" "+
                             project.getProject_collaborators().get(i).getUser().getSurname()+", ";
                 }
-                collaborators.setText(collaboratorList);
-
+                 */
             }
 
             @Override

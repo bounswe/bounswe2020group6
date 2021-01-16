@@ -28,6 +28,9 @@
             android:name=".ProjectCreationActivity2"
             android:theme="@style/AppStyle.Signup" />
         <activity
+            android:name=".EditProjectActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
             android:name=".LoginActivity"
             android:theme="@style/AppStyle.Signup">
             <intent-filter>
