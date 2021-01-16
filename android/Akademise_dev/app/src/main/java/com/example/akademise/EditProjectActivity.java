@@ -1,23 +1,17 @@
 package com.example.akademise;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.View;
-import android.widget.Button;
-
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,7 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProjectDetailsActivity extends AppCompatActivity {
+public class EditProjectActivity extends AppCompatActivity {
     AkademiseApi akademiseApi;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -41,7 +35,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     TextView tags;
     Button files;
     Button invite;
-    Button edit;
 
     TextView privacy;
     TextView collaborators;
@@ -50,11 +43,11 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_details);
+
+        setContentView(R.layout.activity_edit_project);
 
         title = findViewById(R.id.title);
 
-        edit = findViewById(R.id.btnEditProject);
         invite = findViewById(R.id.btnReqInvProject);
         files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
@@ -97,15 +90,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 openInvitationActivity();
             }
         });
-
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProjectDetailsActivity.this,EditProjectActivity.class);
-                intent.putExtra("project", project);
-            }
-        }
-        );
 
     }
 
