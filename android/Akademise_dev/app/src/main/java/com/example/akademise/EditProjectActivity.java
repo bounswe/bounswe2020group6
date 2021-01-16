@@ -158,7 +158,6 @@ public class EditProjectActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
-
             }
 
             @Override
@@ -192,8 +191,8 @@ public class EditProjectActivity extends AppCompatActivity {
 
     public void openTagsActivity() {
         // TODO Get tags properly and edit this method
-        Intent intent = new Intent(this, RequestInvitationActivity.class);
-        intent.putExtra("project_id", project.getId());
+        Intent intent = new Intent(this, EditTagsActivity.class);
+        intent.putExtra("project", project);
         startActivity(intent);
     }
 
