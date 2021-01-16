@@ -13,6 +13,8 @@ const TitleModel = require('./titles')
 const TagModel = require('./tags')
 const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
+const NotificationModel = require('./notification')
+const EventModel = require('./event')
 
 
 //Connection to server database
@@ -37,7 +39,8 @@ const Tag = TagModel(sequelize, Sequelize)
 const University = UniversityModel(sequelize, Sequelize)
 const Department = DepartmentModel(sequelize, Sequelize)
 const Title = TitleModel(sequelize, Sequelize)
-
+const Notification= NotificationModel(sequelize, Sequelize)
+const Event= EventModel(sequelize, Sequelize)
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
@@ -58,6 +61,15 @@ User.hasMany(Follow, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 
 Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete: 'CASCADE'})
 User.hasMany(Follow, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
+
+User.hasMany(Event, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+Event.belongsTo(User, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+Tag.hasMany(Event, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
+Event.belongsTo(User, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
+
+
+User.hasMany(Notification, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+Notification.belongsTo(User, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
 
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
@@ -88,5 +100,6 @@ module.exports = {
   Department,
   Title,
   Follow,
-  CollabRequest
+  CollabRequest,
+  Notification
 }
