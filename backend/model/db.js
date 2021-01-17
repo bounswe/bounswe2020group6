@@ -101,5 +101,6 @@ module.exports = {
   Title,
   Follow,
   CollabRequest,
-  Notification
+  Notification,
+  Event
 }
