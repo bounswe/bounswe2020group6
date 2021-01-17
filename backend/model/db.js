@@ -8,13 +8,13 @@ const CollabRequestModel = require('./collab_requests')
 const ProjectMilestoneModel = require('./project_milestones')
 const UserInterestModel = require('./user_interests')
 const UserUpModel = require('./user_ups')
-const FollowModel = require('./follow')
+const FollowModel = require('./follows')
 const TitleModel = require('./titles')
 const TagModel = require('./tags')
 const UniversityModel = require('./universities')
 const DepartmentModel = require('./departments')
-const NotificationModel = require('./notification')
-const EventModel = require('./event')
+const NotificationModel = require('./notifications')
+const EventModel = require('./events')
 
 
 //Connection to server database
@@ -39,8 +39,8 @@ const Tag = TagModel(sequelize, Sequelize)
 const University = UniversityModel(sequelize, Sequelize)
 const Department = DepartmentModel(sequelize, Sequelize)
 const Title = TitleModel(sequelize, Sequelize)
-const Notification= NotificationModel(sequelize, Sequelize)
-const Event= EventModel(sequelize, Sequelize)
+const Notification = NotificationModel(sequelize, Sequelize)
+const Event = EventModel(sequelize, Sequelize)
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
@@ -102,5 +102,5 @@ module.exports = {
   Follow,
   CollabRequest,
   Notification,
-  Event
+  Event,
 }
