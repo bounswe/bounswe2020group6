@@ -14,8 +14,6 @@ module.exports = (sequelize, Seq) => {
 		other : Seq.TEXT
 	}, 
 	{
-
-		
 		timestamps : true
 	})
 }
