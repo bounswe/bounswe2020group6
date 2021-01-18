@@ -106,4 +106,5 @@ module.exports = {
   CollabRequest,
   Notification,
   Event,
+  EventTag,
 }
