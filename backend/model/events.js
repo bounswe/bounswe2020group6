@@ -7,7 +7,6 @@ module.exports = (sequelize, Seq) => {
 		},
 		userId : Seq.INTEGER,
 		type : Seq.STRING,
-		tag : Seq.STRING,
 		isPublic : Seq.TINYINT,
 		title : Seq.TEXT,
 		body : Seq.TEXT,
