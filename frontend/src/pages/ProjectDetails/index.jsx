@@ -110,7 +110,7 @@ const ProjectDetails = () => {
     return [user, ...collabs];
   };
 
-  const statusMap = ["cancelled", "completed", "in progress", "team building", "hibernating"]
+  const statusMap = ["Cancelled", "Completed", "In Progress", "Hibernating", "Team Building"]
   const statusColorMap = ["red", "green", "cyan", "purple", "volcano"]
 
   const deadlineColor = (deadline_str) => {
