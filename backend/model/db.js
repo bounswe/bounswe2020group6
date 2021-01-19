@@ -70,6 +70,8 @@ Event.belongsTo(User, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE
 Tag.hasMany(EventTag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 
+Event.hasMany(EventTag, {foreignKey: 'id', onDelete: 'CASCADE'})
+EventTag.belongsTo(Event, {foreignKey: 'id', onDelete: 'CASCADE'})
 
 User.hasMany(Notification, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
 Notification.belongsTo(User, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
@@ -107,4 +109,5 @@ module.exports = {
   Notification,
   Event,
   EventTag,
+  sequelize,
 }
