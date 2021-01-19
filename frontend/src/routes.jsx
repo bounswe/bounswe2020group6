@@ -10,6 +10,7 @@ import Search from "./pages/Search";
 import CreateProject from "./pages/CreateProject";
 import EditProject from "./pages/EditProject";
 import ProjectDetails from "./pages/ProjectDetails";
+import EventDetails from "./pages/EventDetails";
 import FileEditor from "./pages/FileEditor";
 import Profile from "./pages/Profile";
 import ListFollowers from "./pages/ListFollow";
@@ -78,6 +79,9 @@ export default function App() {
         </Route>
         <Route path="/project">
           <CreateProject />
+        </Route>
+        <Route path="/event/details/:projectId">
+          <EventDetails />
         </Route>
         <Route path="/profile/:id">
           <Profile />
