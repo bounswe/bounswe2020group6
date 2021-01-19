@@ -6,7 +6,7 @@ module.exports = (sequelize, Seq) => {
 			autoIncrement: true,
 		},
 		userId : Seq.INTEGER,
-		type: Seq.STRING,
+		type : Seq.TEXT,
 		isRead : Seq.TINYINT,
 		title : Seq.TEXT,
 		body : Seq.TEXT,

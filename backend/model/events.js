@@ -6,13 +6,13 @@ module.exports = (sequelize, Seq) => {
 			autoIncrement: true,
 		},
 		userId : Seq.INTEGER,
-		type : Seq.STRING,
+		type : Seq.TEXT,
 		isPublic : Seq.TINYINT,
 		title : Seq.TEXT,
 		body : Seq.TEXT,
 		link : Seq.TEXT,
 		location : Seq.TEXT,
-		date : Seq.DATE,
+		date : Seq.TEXT,
 		other : Seq.TEXT
 	}, 
 	{

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Seq) => {
-	return sequelize.define('event', {
+	return sequelize.define('event_tag', {
 		id : {
 			type : Seq.INTEGER,
 			primaryKey: true,
