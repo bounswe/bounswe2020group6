@@ -7,7 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,13 +40,18 @@ public class EditTagsActivity extends AppCompatActivity {
     private String myToken;
     GetProjects project;
     RecyclerView recyclerView;
+    TextView tvChosenTags;
+    EditText manuelNewTag;
     List<Tag> tags;
     Button addTag;
+    List<Tag> newTags;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_project_tags);
+        tvChosenTags = findViewById(R.id.tvTags);
         addTag = findViewById(R.id.btnAddTag);
+        manuelNewTag = findViewById(R.id.etNewTag);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -63,12 +73,86 @@ public class EditTagsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(EditTagsActivity.this));
         recyclerView.setAdapter(recyclerViewAdapter);
 
+        Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
+        call.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if(!response.isSuccessful()){
+                    Log.d("GetTags", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GetTags-success", "On response: " + response.message());
+                Result result = response.body();
+                Log.d("GetTags-success","GOR BUNU-------------------------");
+                Log.d("GetTags-success",result.getResult().toString());
+                Spinner tag_spinner = (Spinner) findViewById(R.id.sTag);
+                List<String> tagList = result.getResult();
+                tagList.add(0, "Choose Tag");
+                ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getBaseContext(),
+                        android.R.layout.simple_spinner_dropdown_item,tagList);
 
+                tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                tag_spinner.setAdapter(tag_adapter);
+                tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position != 0) {
+                            String currentText = tvChosenTags.getText().toString();
+                            String tag = parent.getItemAtPosition(position).toString();
+                            if (!currentText.contains(tag)) {
+                                if(currentText.endsWith(":")) {
+                                    currentText += " " + tag;
+                                }
+                                else{
+                                    currentText += ", "+ tag;
+                                }
+                                tvChosenTags.setText(currentText);
+                            }
+
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
 
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String thetags = tvChosenTags.getText().toString();
+                thetags = thetags.replace(", ", ",");
+                thetags = thetags.replace("Tags from spinner:","");
+                thetags += "," + manuelNewTag.getText().toString();
+                List<String> newTags= Arrays.asList(thetags.split(","));
+                AddTag addedNewTags = new AddTag(newTags,project.getId());
+                Call<AddTag> call = akademiseApi.addTags(addedNewTags,"Bearer " + myToken);
+                call.enqueue(new Callback<AddTag>() {
+                    @Override
+                    public void onResponse(Call<AddTag> call, Response<AddTag> response) {
+                        if(!response.isSuccessful()){
+                            Log.d("GetTags", "onResponse: " + response.code());
+                            return;
+                        }
+                        Toast.makeText(EditTagsActivity.this, "Tags added successfully", Toast.LENGTH_LONG).show();
+                        finish();
 
+                    }
+                    @Override
+                    public void onFailure(Call<AddTag> call, Throwable t) {
+
+                        Log.d("Get", "onFailure: " + t.getMessage());
+
+                    }
+                });
             }
         });
     }
@@ -94,17 +178,6 @@ public class EditTagsActivity extends AppCompatActivity {
 
             }
         });
-    }
-    private void getData(){
-        String test= getIntent().getClass().toString();
-        //Toast.makeText(this, test, Toast.LENGTH_LONG).show();
-        if(getIntent().hasExtra("project")){
-            project = (GetProjects) getIntent().getSerializableExtra("project");
-        }
-        else{
-
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-        }
     }
 
     private void loadData(){

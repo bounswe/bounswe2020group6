@@ -130,6 +130,10 @@ public interface AkademiseApi {
     Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("post/add_tag")
+    Call<AddTag>  addTags(@Body AddTag newTags, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @DELETE("post/delete_tag/")
     Call<Tag>  deleteTag(@Query("tags[]") String tag, @Query("projectId") int id, @Header("Authorization") String auth);
 
