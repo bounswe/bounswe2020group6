@@ -102,7 +102,10 @@ const LandingHeader = () => {
           <SideBarIcon xs={3} sm={0} md={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
             <MenuOutlined style={{ fontSize: "32px" }} />
           </SideBarIcon>
-          <Nav xs={0} sm={4} md={4} lg={3}>
+          <Nav 
+            xs={0} sm={4} md={4} lg={3}
+            onClick={e => (history.push("/"))}
+          >
             Menu
           </Nav>
           <Nav xs={0} sm={5} md={4} lg={3}>
@@ -129,7 +132,10 @@ const LandingHeader = () => {
               </table>
             </LogoDock>
           </Col>
-          <Nav xs={0} sm={5} md={4} lg={3}>
+          <Nav 
+            xs={0} sm={5} md={4} lg={3}
+            onClick={e => (history.push("/about"))}
+          >
             About Us
           </Nav>
           <Nav

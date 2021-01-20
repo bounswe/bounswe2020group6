@@ -124,7 +124,12 @@ const Home = () => {
           )
         )}
       </Main>
-      <Col align="center" md={0} lg={{ span: 5, offset: 0 }} xl={{ span: 4, offset: 1 }}>
+      <Col 
+        align="center" md={0} 
+        lg={{ span: 5, offset: 0 }} 
+        xl={{ span: 4, offset: 1 }}
+        style={{ position: "fixed", right: "20px", minWidth: "280px" }}
+      >
       <H3>Recommended users</H3>
         { 
           userRecommendationsLoading ? <Spin/> :(
