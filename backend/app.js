@@ -18,8 +18,6 @@ const tokenController = require('./util/authCheck')
 const autoCompleteRouter = require('./routers/autoCompleteRouter')
 const homeRouter = require('./routers/homeRouter')
 const eventRouter = require('./routers/eventRouter')
-const notificationRouter = require('./routers/notificationRouter')
-
 
 const port = process.env.PORT || 3000;
 
@@ -44,8 +42,6 @@ app.use('/autoComplete', autoCompleteRouter)
 app.use('/file',fileRouter)
 app.use('/collab', collabRouter)
 app.use('/event', eventRouter)
-app.use('/notification', notificationRouter)
-
 
 app.get('*',(req,res) => {
     res.status(404).send({error: "Not Found"})
