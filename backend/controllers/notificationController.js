@@ -15,7 +15,7 @@ addNotification = async function (req, res) {
     try {
         addedNotification = await Notification.create(notification)
         
-        res.status(200).send({message: "Event is created", notification: addedNotification})
+        res.status(200).send({message: "Notification is created", notification: addedNotification})
         
     } catch (error) {
         res.status(500).send(error.message)
