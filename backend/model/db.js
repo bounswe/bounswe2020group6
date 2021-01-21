@@ -69,6 +69,9 @@ UserUp.belongsTo(User, {as: 'upped', foreignKey: 'upper_user_id', onDelete: 'CAS
 User.hasMany(UserUp, {as: "upping", foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
 UserUp.belongsTo(User, {as: 'upping', foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
 
+User.hasMany(Event, {foreignKey: 'userId', onDelete: 'CASCADE'})
+Event.belongsTo(User, {foreignKey: 'userId', onDelete: 'CASCADE'})
+
 Tag.hasMany(EventTag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 
