@@ -16,6 +16,7 @@ const DepartmentModel = require('./departments')
 const NotificationModel = require('./notifications')
 const EventModel = require('./events')
 const EventTagModel = require('./event_tags')
+const EventFavModel = require('./event_favs')
 
 
 //Connection to server database
@@ -43,6 +44,7 @@ const Title = TitleModel(sequelize, Sequelize)
 const Notification = NotificationModel(sequelize, Sequelize)
 const Event = EventModel(sequelize, Sequelize)
 const EventTag = EventTagModel(sequelize, Sequelize)
+const EventFav = EventFavModel(sequelize, Sequelize)
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false, onDelete: 'CASCADE'})
@@ -69,14 +71,19 @@ UserUp.belongsTo(User, {as: 'upped', foreignKey: 'upper_user_id', onDelete: 'CAS
 User.hasMany(UserUp, {as: "upping", foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
 UserUp.belongsTo(User, {as: 'upping', foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
 
-User.hasMany(Event, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
-Event.belongsTo(User, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+User.hasMany(Event, {foreignKey: 'userId', onDelete: 'CASCADE'})
+Event.belongsTo(User, {foreignKey: 'userId', onDelete: 'CASCADE'})
 
 Tag.hasMany(EventTag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 
 Event.hasMany(EventTag, {foreignKey: 'id', onDelete: 'CASCADE'})
 EventTag.belongsTo(Event, {foreignKey: 'id', onDelete: 'CASCADE'})
+
+User.hasMany(EventFav, {foreignKey:'userId', onDelete:'CASCADE'})
+EventFav.belongsTo(User, {foreignKey:'userId', onDelete:'CASCADE'})
+Event.hasMany(EventFav, {foreignKey:'eventId', onDelete:'CASCADE'})
+EventFav.belongsTo(Event, {foreignKey:'eventId', onDelete:'CASCADE'})
 
 Notification.belongsTo(User,{as : 'accepter', foreignKey : 'accepterId', constraints : false})
 Notification.belongsTo(User,{as : 'participant', foreignKey : 'participantId', constraints : false})
@@ -116,5 +123,6 @@ module.exports = {
   Notification,
   Event,
   EventTag,
+  EventFav,
   sequelize,
 }
