@@ -45,7 +45,7 @@ const Event = EventModel(sequelize, Sequelize)
 const EventTag = EventTagModel(sequelize, Sequelize)
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
-ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
+ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false, onDelete: 'CASCADE'})
 ProjectCollaborator.belongsTo(Project, {foreignKey: 'project_id',constraints: false})
 
 User.hasMany(ProjectCollaborator, {foreignKey: "user_id", onDelete: 'CASCADE', constraints: false})
@@ -64,8 +64,10 @@ Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete
 User.hasMany(Follow, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 
-User.hasMany(Event, { foreignKey: 'userId', onDelete: 'CASCADE'})
-Event.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE'})
+User.hasMany(UserUp, {as: 'upped', foreignKey: 'upper_user_id', onDelete: 'CASCADE'})
+UserUp.belongsTo(User, {as: 'upped', foreignKey: 'upper_user_id', onDelete: 'CASCADE'})
+User.hasMany(UserUp, {as: "upping", foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
+UserUp.belongsTo(User, {as: 'upping', foreignKey: 'upped_user_id', onDelete: 'CASCADE'})
 
 Tag.hasMany(EventTag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
