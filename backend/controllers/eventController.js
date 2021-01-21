@@ -121,7 +121,7 @@ favEvent = async function (req, res) {
     const eventId = req.body.id
     try {
         let [thisEvent, isFaved] = await Promise.all([
-            Event.findOne( {where: {id}} ),
+            Event.findOne( {where: {id: eventId}} ),
             EventFav.findOne( {where: {userId, eventId}} )
         ])
 
@@ -141,7 +141,7 @@ unfavEvent = async function (req, res) {
     const eventId = req.body.id
     try {
         let [thisEvent, isFaved] = await Promise.all([
-            Event.findOne( {where: {id}} ),
+            Event.findOne( {where: {id: eventId}} ),
             EventFav.findOne( {where: {userId, eventId}} )
         ])
 

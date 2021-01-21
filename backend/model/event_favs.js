@@ -5,7 +5,7 @@ module.exports = (sequelize, Seq) => {
 			primaryKey: true,
  		},
 		eventId : {
-			type : Seq.STRING,
+			type : Seq.INTEGER,
 			primaryKey: true,
  		}
 	}, 
