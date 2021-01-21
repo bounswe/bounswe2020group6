@@ -83,7 +83,7 @@ searchEvents = async function (req, res) {
 
 updateEvent = async function (req, res) {
     const toUpdate = req.body.update;
-    const tags, id = req.params.id;
+    let tags, id = req.params.id;
     if ( !id ) return res.status(400).send( {error: "you have to provide an id"} )
     if ( 'userId' in toUpdate ) return res.status(400).send( {error: "cannot change userid of event"} )
     if ( 'tags' in toUpdate ) { tags = toUpdate.tags; delete toUpdate.tags }
