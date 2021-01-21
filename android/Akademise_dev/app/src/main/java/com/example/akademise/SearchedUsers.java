@@ -12,4 +12,8 @@ public class SearchedUsers implements Serializable {
     public List<Profile> getUsers(){
         return this.users;
     }
+
+    public SearchedUsers(List<Profile> users) {
+        this.users = users;
+    }
 }
