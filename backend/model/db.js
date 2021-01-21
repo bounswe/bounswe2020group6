@@ -64,8 +64,8 @@ Follow.belongsTo(User, {as: 'followed', foreignKey: 'follower_user_id', onDelete
 User.hasMany(Follow, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 Follow.belongsTo(User, {as: 'following', foreignKey: 'followed_user_id', onDelete: 'CASCADE'})
 
-User.hasMany(Event, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
-Event.belongsTo(User, {as: 'eventUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+User.hasMany(Event, { foreignKey: 'userId', onDelete: 'CASCADE'})
+Event.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE'})
 
 Tag.hasMany(EventTag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})
 EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'})

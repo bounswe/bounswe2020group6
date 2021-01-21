@@ -1,4 +1,5 @@
 const { User, EventTag,  Event, sequelize } = require('../model/db');
+const { Op } = require("sequelize");
 
 const eventData = 
     [
@@ -31,8 +32,8 @@ addEvent = async function (req, res) {
     try {
         const addedEvent = await Event.create( event, { transaction } )
         
-        for await (var tag of req.body.tags)
-            EventTag.create( { id: addedEvent.id, tag }, { transaction } )    
+        for (var tag of req.body.tags)
+            await EventTag.create( { id: addedEvent.id, tag }, { transaction } )    
         
         await transaction.commit()
         
@@ -47,7 +48,12 @@ addEvent = async function (req, res) {
 
 getEvents = async function (req, res) {
     try {
-        events = await Event.findAll({ include: eventData })
+        events = await Event.findAll({ 
+            where: { 
+                [Op.or]: [{isPublic: 1}, {userId: req.userId}]
+            }, 
+            include: eventData
+        })
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)
@@ -64,7 +70,9 @@ getEvent = async function (req, res) {
 }
 
 searchEvents = async function (req, res) {
-    const query = req.body.filters; 
+    const query = req.body.filters;
+    if('isPublic' in query) delete query.isPublic
+    query[Op.or] = [{isPublic: 1}, {userId: req.userId}]
     try {
         events = await Event.findOne({ where: query, include: eventData })
         res.status(200).send({result: events})
@@ -83,21 +91,23 @@ updateEvent = async function (req, res) {
     const transaction = await sequelize.transaction()
 
     try {
-        thisEvent = await Event.findOne( { where: id } )
+        thisEvent = await Event.findOne( { where: {id} } )
         if(!thisEvent) throw new Error('event with given id does not exist.')
+        if(thisEvent.userId != req.userId) throw new Error('you cannot update this event')
+        console.log(thisEvent.userId);
         
-        await Event.update( toUpdate, { where: id }, { transaction } )
+        await Event.update( toUpdate, { where: {id} }, { transaction } )
 
         if (tags) {
-            await EventTag.destroy( { where: id }, { transaction } ) 
+            await EventTag.destroy( { where: {id} }, { transaction } ) 
 
-            for await (var tag of tags)
-                EventTag.create( { id, tag }, { transaction } ) 
+            for (var tag of tags)
+                await EventTag.create( { id, tag }, { transaction } ) 
         }
         
         await transaction.commit()
 
-        res.status(200).send({result: events})
+        res.status(200).send("success!")
     } catch (error) {
         
         await transaction.rollback()
