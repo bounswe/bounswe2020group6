@@ -1,4 +1,4 @@
-const { User, Tag, University, Department, Title, Interest } = require('../model/db');
+const { Tag, University, Department, Title } = require('../model/db');
 
 addTitle = async function (req, res) {
     title=req.body.title
@@ -60,18 +60,7 @@ addUniversity = async function (req, res) {
 }
 
 addInterest = async function (req, res) {
-    interest=req.body.interest
-
-    if(interest != null & interest!=""){
-        try {
-            addedInterest = await Interest.create({interest: interest})
-            res.status(200).send({message: "Interest is created", interest: addedInterest.interest})
-        } catch (error) {
-            res.status(500).send(error.message)
-        }
-    }
-    else return res.status(400).send({message: "Erroronous Input"})
-
+    res.status(410).send({error: "this endpoint is now out-of-use. please refer to documentation."})
 }
 
 getTitles = async function (req, res) {
@@ -132,17 +121,7 @@ getUniversities = async function (req, res) {
 }
 
 getInterests = async function (req, res) {
-    try {
-        interests = await Interest.findAll({attributes: ["interest"]})
-        var array=[]
-        
-        for(var i in interests)
-            array.push(interests[i]["interest"]);
-        res.status(200).send({result: array})
-
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
+    res.status(410).send({error: "this endpoint is now out-of-use. please refer to documentation."})
 }
 
 module.exports = {
