@@ -1,4 +1,4 @@
-const { User, EventTag,  Event, sequelize } = require('../model/db');
+const { User, EventFav, EventTag,  Event, sequelize } = require('../model/db');
 const { Op } = require("sequelize");
 
 const eventData = 
@@ -83,7 +83,7 @@ searchEvents = async function (req, res) {
 
 updateEvent = async function (req, res) {
     const toUpdate = req.body.update;
-    let tags, id = req.params.id;
+    const tags, id = req.params.id;
     if ( !id ) return res.status(400).send( {error: "you have to provide an id"} )
     if ( 'userId' in toUpdate ) return res.status(400).send( {error: "cannot change userid of event"} )
     if ( 'tags' in toUpdate ) { tags = toUpdate.tags; delete toUpdate.tags }
@@ -91,7 +91,7 @@ updateEvent = async function (req, res) {
     const transaction = await sequelize.transaction()
 
     try {
-        thisEvent = await Event.findOne( { where: {id} } )
+        const thisEvent = await Event.findOne( { where: {id} } )
         if(!thisEvent) throw new Error('event with given id does not exist.')
         if(thisEvent.userId != req.userId) throw new Error('you cannot update this event')
         console.log(thisEvent.userId);
@@ -116,6 +116,58 @@ updateEvent = async function (req, res) {
     }
 }
 
+favEvent = async function (req, res) {
+    const userId = req.userId
+    const eventId = req.body.id
+    try {
+        let [thisEvent, isFaved] = await Promise.all([
+            Event.findOne( {where: {id}} ),
+            EventFav.findOne( {where: {userId, eventId}} )
+        ])
+
+        if(!thisEvent) throw new Error('event with given id does not exist.')
+        if(isFaved) throw new Error('this event is already faved by this user')
+
+        await EventFav.create( {userId, eventId} )
+
+        res.status(200).send("success")
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+unfavEvent = async function (req, res) {
+    const userId = req.userId
+    const eventId = req.body.id
+    try {
+        let [thisEvent, isFaved] = await Promise.all([
+            Event.findOne( {where: {id}} ),
+            EventFav.findOne( {where: {userId, eventId}} )
+        ])
+
+        if(!thisEvent) throw new Error('event with given id does not exist.')
+        if(!isFaved) throw new Error('this event is not faved by this user')
+
+        await EventFav.destroy( {where: {userId, eventId}} )
+
+        res.status(200).send("success")
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+deleteEvent = async function (req, res) {
+    const userId = req.userId
+    const id = req.body.id
+    try {
+        const deleted = await Event.destroy( {where: {id, userId}} )
+        if(deleted == 0) throw new Error('Nothing is deleted, either you are not the owner or this event does not exist')
+        res.status(201).send("success")
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 
 module.exports = {
     addEvent,
@@ -123,4 +175,7 @@ module.exports = {
     getEvent,
     searchEvents,
     updateEvent,
+    favEvent,
+    unfavEvent,
+    deleteEvent,
 }
