@@ -31,8 +31,8 @@ addEvent = async function (req, res) {
     try {
         const addedEvent = await Event.create( event, { transaction } )
         
-        for await (var i of req.body.tags)
-            EventTag.create( { id: addedEvent.id, tag: req.body.tags[i], },{ transaction } )    
+        for await (var tag of req.body.tags)
+            EventTag.create( { id: addedEvent.id, tag }, { transaction } )    
         
         await transaction.commit()
         
@@ -54,10 +54,63 @@ getEvents = async function (req, res) {
     }
 }
 
+getEvent = async function (req, res) {
+    try {
+        events = await Event.findOne({ where: { id: req.params.id }, include: eventData })
+        res.status(200).send({result: events})
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+searchEvents = async function (req, res) {
+    const query = req.body.filters; 
+    try {
+        events = await Event.findOne({ where: query, include: eventData })
+        res.status(200).send({result: events})
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+updateEvent = async function (req, res) {
+    const toUpdate = req.body.update;
+    let tags, id = req.params.id;
+    if ( !id ) return res.status(400).send( {error: "you have to provide an id"} )
+    if ( 'userId' in toUpdate ) return res.status(400).send( {error: "cannot change userid of event"} )
+    if ( 'tags' in toUpdate ) { tags = toUpdate.tags; delete toUpdate.tags }
+
+    const transaction = await sequelize.transaction()
+
+    try {
+        thisEvent = await Event.findOne( { where: id } )
+        if(!thisEvent) throw new Error('event with given id does not exist.')
+        
+        await Event.update( toUpdate, { where: id }, { transaction } )
+
+        if (tags) {
+            await EventTag.destroy( { where: id }, { transaction } ) 
+
+            for await (var tag of tags)
+                EventTag.create( { id, tag }, { transaction } ) 
+        }
+        
+        await transaction.commit()
+
+        res.status(200).send({result: events})
+    } catch (error) {
+        
+        await transaction.rollback()
+        
+        res.status(500).send(error.message)
+    }
+}
+
 
 module.exports = {
     addEvent,
     getEvents,
     getEvent,
+    searchEvents,
     updateEvent,
 }
