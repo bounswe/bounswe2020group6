@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditTagsActivity">
+    tools:context=".EditMilestonesActivity">
 
     <View
         android:id="@+id/myRectangleView"
@@ -52,7 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="Project Tags"
+        android:text="Project Milestones"
         android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,107 +72,169 @@
         app:layout_constraintTop_toBottomOf="@+id/tag_header"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recyclerView4"
+        android:id="@+id/rv_recyclerViewMilestone"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHeight_percent="0.35"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spacefiles2"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
-        android:id="@+id/tvSpinnerTag"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvAddNewMilestone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="Add New Milestone"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_recyclerViewMilestone"/>
+    <TextView
+        android:id="@+id/tvTitleMilestone"
+        style="@style/textView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="13dp"
-        android:text="Add Tag:"
-        android:textColor="@color/black"
+        android:text="Milestone Title"
         android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_recyclerView4"
-        />
-    <Spinner
-        android:id="@+id/sTag"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.50"
-        app:layout_constraintHorizontal_bias="0.60"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddNewMilestone"
+        />
+    <EditText
+        android:id="@+id/etMilestoneTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/textview_shape"
+        style="@style/textView"
+        android:hint="Milestone Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_recyclerView4" />
-
+        app:layout_constraintTop_toBottomOf="@id/tvTitleMilestone"/>
     <Space
         android:id="@+id/space2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.02"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sTag"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/etMilestoneTitle"/>
     <TextView
-        android:id="@+id/tvTags"
+        android:id="@+id/tvDescriptionMilestone"
         style="@style/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Tags from spinner:"
+        android:text="Milestone Description"
         android:textSize="14sp"
-        app:layout_constraintWidth_percent="0.90"
+        app:layout_constraintWidth_percent="0.95"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2">
-    </TextView>
-
+        app:layout_constraintTop_toBottomOf="@+id/space2"
+        />
+    <EditText
+        android:id="@+id/etMilestoneDescription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/textview_shape"
+        style="@style/textView"
+        android:hint="Milestone Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDescriptionMilestone"/>
     <Space
         android:id="@+id/space3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.02"
+        app:layout_constraintHeight_percent="0.03"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTags"/>
-
-    <EditText
-        android:id="@+id/etNewTag"
+        app:layout_constraintTop_toBottomOf="@+id/etMilestoneDescription"/>
+    <TextView
+        android:id="@+id/tvDateMilestone"
+        style="@style/textView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:text="Date: "
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space3"
+        />
+    <EditText
+        android:id="@+id/etMilestoneDate"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:hint="New Tags (Add them comma separated (Eg:Tag1,Tag2)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space3"/>
+        android:hint="DD/MM/YYYY"
 
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/space3"/>
     <Button
-        android:id="@+id/btnAddTag"
+        android:id="@+id/btnAddMilestone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/textView"
+        android:background="@drawable/button_shape"
+        android:text="Add New Milestone"
+        android:textAllCaps="false"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/space3"/>
+    <!--
+    <Button
+        android:id="@+id/btnSetDate"
         android:layout_width="0dp"
         android:layout_height="0dp"
         style="@style/textView"
         android:background="@drawable/button_shape"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
-        android:text="+"
-        android:textSize="40sp"
+        android:text="Select"
+        android:textAllCaps="false"
         android:gravity="center"
-        app:layout_constraintWidth_percent="0.1"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintBottom_toBottomOf="@id/etNewTag"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintTop_toBottomOf="@id/space3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/etNewTag"
-        app:layout_constraintStart_toEndOf="@id/etNewTag">
+        app:layout_constraintStart_toStartOf="parent">
     </Button>
 
 
+
+    <CalendarView
+        android:id = "@+id/calendarMilestone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_recyclerViewMilestone"/>
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

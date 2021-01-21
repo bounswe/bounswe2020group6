@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 
@@ -64,7 +65,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         tags=findViewById(R.id.tvTagsProject);
         privacy=findViewById(R.id.tvPrivacyProjectDetails);
         collaborators = findViewById(R.id.tvCollaborators);
-
+        summary.setMovementMethod(new ScrollingMovementMethod());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -76,7 +77,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         getData();
 
         getWholeData(project.getId());
-
+        Log.d("milestones" , ""+project.getProject_milestones().size());
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

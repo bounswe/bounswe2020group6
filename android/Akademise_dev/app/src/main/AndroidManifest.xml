@@ -34,6 +34,9 @@
             android:name=".EditTagsActivity"
             android:theme="@style/AppStyle.Signup" />
         <activity
+            android:name=".EditMilestonesActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
             android:name=".LoginActivity"
             android:theme="@style/AppStyle.Signup">
             <intent-filter>

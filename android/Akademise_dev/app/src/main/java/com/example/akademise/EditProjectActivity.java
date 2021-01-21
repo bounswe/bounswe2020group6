@@ -171,26 +171,13 @@ public class EditProjectActivity extends AppCompatActivity {
     }
 
     private void openMilestoneActivity() {
-        // TODO Get milestones properly and edit this method
-        Intent intent = new Intent(this, ShowProjectFilesActivity.class);
-        intent.putExtra("project_id", project.getId());
-        List<ProjectFiles> files = project.getProject_files();
-        String allfiles="";
-        if(files!=null && files.size()!=0) {
-            for (int i = 0; i < files.size() - 1; i++) {
-                allfiles += files.get(i).getFile_name() + "<,>";
-            }
-            if (files.size() != 0) {
-                allfiles += files.get(files.size() - 1).getFile_name();
-            }
-        }
-        intent.putExtra("project_files", allfiles);
+        Intent intent = new Intent(this, EditMilestonesActivity.class);
+        intent.putExtra("project", project);
         startActivity(intent);
 
     }
 
     public void openTagsActivity() {
-        // TODO Get tags properly and edit this method
         Intent intent = new Intent(this, EditTagsActivity.class);
         intent.putExtra("project", project);
         startActivity(intent);

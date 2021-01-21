@@ -83,6 +83,10 @@ public interface AkademiseApi {
     @PATCH("post/update/{id}")
     Call<Project> updateProject(@Path("id") int id, @Body UpdateProject updates, @Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PATCH("post/add_milestone")
+    Call<Milestone> addMilestone(@Body Milestone milestones, @Header("Authorization") String auth);
+
     @POST("auth/signup")
     Call<User> createUser(@Body User user);
 
