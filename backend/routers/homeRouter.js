@@ -4,6 +4,7 @@ const homeController = require('../controllers/homeController')
 
 router.get('/posts', homeController.getHomePosts)
 router.get('/users', homeController.getUserRecommendations)
+router.post('/delete', homeController.deleteAccount)
 
 
 module.exports = router

@@ -1,5 +1,6 @@
 const postUtil = require('../util/postUtil')
 const userUtil = require('../util/userUtil')
+const { User } = require("../model/db")
 
 
 getHomePosts = async function(req,res){
@@ -42,7 +43,25 @@ getUserRecommendations = async function(req, res) {
     }
 }
 
+deleteAccount = async function(req, res) {
+    id_to_delete = Number(req.userId)
+    try {
+        userDb = await User.destroy({
+            where: {
+                id: id_to_delete
+            }
+        })
+        res.status(200).send({message: "Successful"})
+
+    }
+    catch(error){
+        res.status(500).send({error: "Something went wrong"})
+    }
+    
+}
+
 module.exports = {
     getHomePosts,
     getUserRecommendations,
+    deleteAccount
 }
