@@ -73,8 +73,10 @@ EventTag.belongsTo(Tag, {as: 'eventTag', foreignKey: 'tag', onDelete: 'CASCADE'}
 Event.hasMany(EventTag, {foreignKey: 'id', onDelete: 'CASCADE'})
 EventTag.belongsTo(Event, {foreignKey: 'id', onDelete: 'CASCADE'})
 
-User.hasMany(Notification, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
-Notification.belongsTo(User, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
+Notification.belongsTo(User,{as : 'accepter', foreignKey : 'accepterId', constraints : false})
+Notification.belongsTo(User,{as : 'participant', foreignKey : 'participantId', constraints : false})
+Notification.belongsTo(Project,{foreignKey : 'projectId', constraints : false})
+User.hasMany(Notification, {foreignKey: 'receiverId', onDelete: 'CASCADE'})
 
 
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
