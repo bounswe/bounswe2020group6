@@ -1,8 +1,20 @@
-const { User, EventTag, Tag, Event, sequelize } = require('../model/db');
+const { User, EventTag,  Event, sequelize } = require('../model/db');
+
+const eventData = 
+    [
+        {
+            model: EventTag,
+            attributes: ["tag"] 
+        },
+        {
+            model: User,
+            attributes: ['id', 'name','surname','university','department', 'profile_picture_url']
+        }
+    ]
 
 addEvent = async function (req, res) {
     
-    event={
+    const event = {
         userId : req.body.userId,
         type : req.body.type,
         isPublic : req.body.isPublic,
@@ -15,37 +27,27 @@ addEvent = async function (req, res) {
     }
 
     //Using transaction system to safely protect relations between EventTag-Tag tables
-    const t = await sequelize.transaction()
+    const transaction = await sequelize.transaction()
     try {
-        addedEvent = await Event.create(event,{transaction : t})
+        const addedEvent = await Event.create( event, { transaction } )
         
-        tags=req.body.tags
-        for(var i in tags)
-            await EventTag.create({
-                id: addedEvent.id,
-                tag: tags[i],
-            },{transaction : t})    
-        await t.commit()
+        for await (var i of req.body.tags)
+            EventTag.create( { id: addedEvent.id, tag: req.body.tags[i], },{ transaction } )    
+        
+        await transaction.commit()
+        
         res.status(200).send({message: "Event is created", event: addedEvent})
         
     } catch (error) {
-        await t.rollback()
+        await transaction.rollback()
         res.status(500).send(error.message)
     }
-
 }
 
 
 getEvents = async function (req, res) {
     try {
-        events = await Event.findAll({
-            include: [
-                {
-                    model: EventTag,
-                    attributes: ["tag"] 
-                }
-                ]
-            })
+        events = await Event.findAll({ include: eventData })
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)
@@ -53,8 +55,9 @@ getEvents = async function (req, res) {
 }
 
 
-
 module.exports = {
     addEvent,
     getEvents,
+    getEvent,
+    updateEvent,
 }
