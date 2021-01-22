@@ -84,8 +84,20 @@ public interface AkademiseApi {
     Call<Project> updateProject(@Path("id") int id, @Body UpdateProject updates, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PATCH("post/add_milestone")
-    Call<Milestone> addMilestone(@Body Milestone milestones, @Header("Authorization") String auth);
+    @DELETE("post/delete/{id}")
+    Call<Project> deleteProject(@Path("id") int id, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("post/add_milestone")
+    Call<AddMilestone> addMilestone(@Body AddMilestone milestones, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PATCH("post/update_milestone/{id}")
+    Call<Milestone> updateMilestone(@Path("id") int id, @Body Milestone update, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("post/delete_milestone/{id}")
+    Call<Milestone> deleteMilestone(@Path("id") int id, @Header("Authorization") String auth);
 
     @POST("auth/signup")
     Call<User> createUser(@Body User user);

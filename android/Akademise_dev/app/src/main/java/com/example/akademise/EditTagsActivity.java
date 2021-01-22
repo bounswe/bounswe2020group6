@@ -40,11 +40,13 @@ public class EditTagsActivity extends AppCompatActivity {
     private String myToken;
     GetProjects project;
     RecyclerView recyclerView;
+    RecyclerView recyclerTagView;
     TextView tvChosenTags;
     EditText manuelNewTag;
     List<Tag> tags;
+    List<String> str_tags = new ArrayList<String>();
     Button addTag;
-    List<Tag> newTags;
+    List<String> newTags = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +63,17 @@ public class EditTagsActivity extends AppCompatActivity {
         akademiseApi = retrofit.create(AkademiseApi.class);
         if(getIntent().hasExtra("project")){
             project = (GetProjects) getIntent().getSerializableExtra("project");
-            getWholeData(project.getId());
             tags = project.getProject_tags();
+            for( int i = 0; i<tags.size(); i++){
+                str_tags.add(tags.get(i).getTag());
+            }
+            getWholeData(project.getId());
         }
         else{
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
         }
 
-        recyclerView = findViewById(R.id.rv_recyclerView4);
-        RecyclerViewTagAdapter recyclerViewAdapter = new RecyclerViewTagAdapter(EditTagsActivity.this, tags, project);
-        recyclerView.setLayoutManager(new LinearLayoutManager(EditTagsActivity.this));
-        recyclerView.setAdapter(recyclerViewAdapter);
+
 
         Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
         call.enqueue(new Callback<Result>() {
@@ -99,13 +101,15 @@ public class EditTagsActivity extends AppCompatActivity {
                         if (position != 0) {
                             String currentText = tvChosenTags.getText().toString();
                             String tag = parent.getItemAtPosition(position).toString();
-                            if (!currentText.contains(tag)) {
+                            Log.d("Selected", "" + str_tags.toString());
+                            if (!currentText.contains(tag) && !str_tags.contains(tag)) {
                                 if(currentText.endsWith(":")) {
                                     currentText += " " + tag;
                                 }
                                 else{
                                     currentText += ", "+ tag;
                                 }
+                                newTags.add(tag);
                                 tvChosenTags.setText(currentText);
                             }
 
@@ -128,11 +132,25 @@ public class EditTagsActivity extends AppCompatActivity {
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String thetags = tvChosenTags.getText().toString();
-                thetags = thetags.replace(", ", ",");
-                thetags = thetags.replace("Tags from spinner:","");
-                thetags += "," + manuelNewTag.getText().toString();
-                List<String> newTags= Arrays.asList(thetags.split(","));
+                String thetags = manuelNewTag.getText().toString();
+                List<String> newWrittenTags= Arrays.asList(thetags.split(","));
+                for( int i = 0; i< newWrittenTags.size(); i++) {
+                    if(!newWrittenTags.get(i).equals("")) {
+                        Call<Tag> call = akademiseApi.addTag(new Tag(newWrittenTags.get(i)), "Bearer " + myToken);
+                        call.enqueue(new Callback<Tag>() {
+                            @Override
+                            public void onResponse(Call<Tag> call, Response<Tag> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Tag> call, Throwable t) {
+
+                            }
+                        });
+                        newTags.add(newWrittenTags.get(i));
+                    }
+                }
                 AddTag addedNewTags = new AddTag(newTags,project.getId());
                 Call<AddTag> call = akademiseApi.addTags(addedNewTags,"Bearer " + myToken);
                 call.enqueue(new Callback<AddTag>() {
@@ -144,6 +162,7 @@ public class EditTagsActivity extends AppCompatActivity {
                         }
                         Toast.makeText(EditTagsActivity.this, "Tags added successfully", Toast.LENGTH_LONG).show();
                         finish();
+                        startActivity(getIntent());
 
                     }
                     @Override
@@ -169,6 +188,11 @@ public class EditTagsActivity extends AppCompatActivity {
 
                 List<GetProjects> projects = response.body();
                 project = projects.get(0);
+                tags = project.getProject_tags();
+                recyclerView = findViewById(R.id.rv_recyclerView4);
+                RecyclerViewTagAdapter recyclerViewAdapter = new RecyclerViewTagAdapter(EditTagsActivity.this, tags, project);
+                recyclerView.setLayoutManager(new LinearLayoutManager(EditTagsActivity.this));
+                recyclerView.setAdapter(recyclerViewAdapter);
             }
 
             @Override

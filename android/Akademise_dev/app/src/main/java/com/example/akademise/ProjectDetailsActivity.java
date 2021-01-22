@@ -43,6 +43,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     Button files;
     Button invite;
     Button edit;
+    Button delete;
 
     TextView privacy;
     TextView collaborators;
@@ -56,6 +57,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
 
         edit = findViewById(R.id.btnEditProject);
+        delete = findViewById(R.id.btnDeleteProject);
         invite = findViewById(R.id.btnReqInvProject);
         files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
@@ -87,14 +89,6 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 Bundle bundle = new Bundle();
-                 bundle.putInt("project_id", project.getId());
-                 RequestInvitationFragment frg = new RequestInvitationFragment();
-                 frg.setArguments(bundle);
-                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
-                 frg).commit();
-                 **/
                 openInvitationActivity();
             }
         });
@@ -108,8 +102,40 @@ public class ProjectDetailsActivity extends AppCompatActivity {
             }
         }
         );
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteProject(project.getId());
+            }
+        }
+        );
 
     }
+
+    private void deleteProject(int id) {
+        Call<Project> call= akademiseApi.deleteProject(id,"Bearer "+myToken);
+        call.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
+
+                if(!response.isSuccessful()){
+                    Log.d("Project", "onResponse: not successful");
+                    return;
+                }
+                finish();
+                Log.d("Project", "onResponse: project deleted successfully");
+
+            }
+
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+
+                Log.d("Project", "onFailure: failed");
+
+            }
+        });
+    }
+
 
     private void openShowProjectFilesActivity() {
         Intent intent = new Intent(this, ShowProjectFilesActivity.class);
@@ -166,7 +192,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 }
 
                 List<GetProjects> projects = response.body();
-                GetProjects project = projects.get(0);
+                project = projects.get(0);
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);

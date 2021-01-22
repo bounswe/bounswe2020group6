@@ -46,9 +46,6 @@ public class EditMilestonesActivity extends AppCompatActivity {
     EditText milestoneDate;
     List<Milestone> milestones;
     Button addMilestone;
-    Button selectDate;
-    CalendarView calendar;
-    List<Milestone> changedMilestones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,19 +66,12 @@ public class EditMilestonesActivity extends AppCompatActivity {
         akademiseApi = retrofit.create(AkademiseApi.class);
         if(getIntent().hasExtra("project")){
             project = (GetProjects) getIntent().getSerializableExtra("project");
-            getWholeData(project.getId());
-            milestones = project.getProject_milestones();
-            changedMilestones = milestones;
-            Log.d("milestone", ""+milestones.size());
+            getMilestoneData(project.getId());
         }
         else{
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
         }
 
-        recyclerView = findViewById(R.id.rv_recyclerViewMilestone);
-        RecyclerViewMilestoneAdapter recyclerViewAdapter = new RecyclerViewMilestoneAdapter(EditMilestonesActivity.this, milestones, project);
-        recyclerView.setLayoutManager(new LinearLayoutManager(EditMilestonesActivity.this));
-        recyclerView.setAdapter(recyclerViewAdapter);
 
         /*selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,12 +87,12 @@ public class EditMilestonesActivity extends AppCompatActivity {
                 List<String> dateFields =  Arrays.asList(date.split("/"));
                 if(dateFields.size()==3){
                     String dateJson = dateFields.get(2) + "-" + dateFields.get(1) + "-" + dateFields.get(0) + "T00:00:00.000Z";
-                    Milestone newMilestone = new Milestone(project.getId(),dateJson,milestoneTitle.getText().toString(),milestoneDescription.getText().toString());
+                    AddMilestone newMilestone = new AddMilestone(project.getId(),dateJson,milestoneTitle.getText().toString(),milestoneDescription.getText().toString());
                     //changedMilestones.add(newMilestone);
-                    Call<Milestone> call = akademiseApi.addMilestone(newMilestone, "Bearer " + myToken);
-                    call.enqueue(new Callback<Milestone>() {
+                    Call<AddMilestone> call = akademiseApi.addMilestone(newMilestone, "Bearer " + myToken);
+                    call.enqueue(new Callback<AddMilestone>() {
                         @Override
-                        public void onResponse(Call<Milestone> call, Response<Milestone> response) {
+                        public void onResponse(Call<AddMilestone> call, Response<AddMilestone> response) {
 
                             if (!response.isSuccessful()) {
                                 Log.d("Project", "onResponse: not successful");
@@ -115,23 +105,22 @@ public class EditMilestonesActivity extends AppCompatActivity {
                             Log.d("Project", "onResponse: successful");
                             Toast.makeText(EditMilestonesActivity.this, "Milestones are updated", Toast.LENGTH_LONG).show();
                             finish();
+                            startActivity(getIntent());
 
                         }
 
                         @Override
-                        public void onFailure(Call<Milestone> call, Throwable t) {
+                        public void onFailure(Call<AddMilestone> call, Throwable t) {
                             Toast.makeText(EditMilestonesActivity.this, "Be sure to be connected", Toast.LENGTH_LONG).show();
                             Log.d("Project", "onFailure: failed");
                         }
                     });
                 }
-                else{
-
-                }
             }
         });
     }
-    private void getWholeData(int id){
+
+    private void getMilestoneData(int id){
         Call<List<GetProjects>> call= akademiseApi.getProjects(id, 1,"Bearer "+myToken);
         call.enqueue(new Callback<List<GetProjects>>() {
             @Override
@@ -141,9 +130,13 @@ public class EditMilestonesActivity extends AppCompatActivity {
                     Log.d("Project", "onResponse: not successful");
                     return;
                 }
-
                 List<GetProjects> projects = response.body();
-                project = projects.get(0);
+                Log.d("GetProjectResponse",""+ projects.get(0).getProject_milestones().size());
+                project =projects.get(0);
+                recyclerView = findViewById(R.id.rv_recyclerViewMilestone);
+                RecyclerViewMilestoneAdapter recyclerViewAdapter = new RecyclerViewMilestoneAdapter(EditMilestonesActivity.this, projects.get(0).getProject_milestones(), project);
+                recyclerView.setLayoutManager(new LinearLayoutManager(EditMilestonesActivity.this));
+                recyclerView.setAdapter(recyclerViewAdapter);
             }
 
             @Override

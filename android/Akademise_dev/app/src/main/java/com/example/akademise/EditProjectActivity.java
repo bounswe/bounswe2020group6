@@ -66,10 +66,10 @@ public class EditProjectActivity extends AppCompatActivity {
 
         loadData();
         akademiseApi = retrofit.create(AkademiseApi.class);
-
         getData();
+        getWholeData(project.getId());
 
-        //getWholeData(project.getId());
+
 
         milestone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,11 +153,13 @@ public class EditProjectActivity extends AppCompatActivity {
 
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(EditProjectActivity.this, "Project is updated", Toast.LENGTH_LONG).show();
+                finish();
+                /*
                 Intent intent =  new Intent(EditProjectActivity.this, ProjectDetailsActivity.class);;
                 intent.putExtra("project", project);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-
+                */
             }
 
             @Override
@@ -228,20 +230,21 @@ public class EditProjectActivity extends AppCompatActivity {
                 }
 
                 List<GetProjects> projects = response.body();
-                onBackend = projects.get(0);
-                /*
+                project = projects.get(0);
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
-                String[] statusArray = getResources().getStringArray(R.array.status_array);
                 requirements.setText(project.getRequirements());
-                if(project.getPrivacy()==0) privacy.setText("Private");
-                else privacy.setText("Public");
-                String collaboratorList="";
-                for(int i=0; i<project.getProject_collaborators().size(); i++){
-                    collaboratorList+= project.getProject_collaborators().get(i).getUser().getName()+" "+
-                            project.getProject_collaborators().get(i).getUser().getSurname()+", ";
+                pr = project.getPrivacy();
+                if( pr == 0){
+                    privacy = "Private";
                 }
-                 */
+                else{
+                    privacy = "Public";
+                }
+                String[] statusArray = getResources().getStringArray(R.array.status_array);
+                stat = project.getStatus();
+                status = statusArray[stat];
+
             }
 
             @Override

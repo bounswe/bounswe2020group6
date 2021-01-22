@@ -1,5 +1,6 @@
 package com.example.akademise;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -72,31 +75,29 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
         String day = time.substring(8,10);
         String date = day + "/" + month + "/" + year;
         holder.milestone_date.setText(date);
-        /*holder.delete.setOnClickListener(new View.OnClickListener() {
+        holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Call<Tag> call = akademiseApi.deleteTag(tags.get(position).getTag(),project.getId(), "Bearer " + myToken);
+                Call<Milestone> call = akademiseApi.deleteMilestone(milestones.get(position).getId(), "Bearer " + myToken);
 
-                call.enqueue(new Callback<Tag>() {
+                call.enqueue(new Callback<Milestone>() {
                     @Override
-                    public void onResponse(Call<Tag> call, Response<Tag> response) {
+                    public void onResponse(Call<Milestone> call, Response<Milestone> response) {
 
                         if (!response.isSuccessful()) {
                             Log.d("Tag", "onResponse: not successful");
                             return;
                         }
-                        Log.d("Tag", "onResponse: successful");
-                        Log.d("Tag", "Deleted Tag: " + tags.get(position).getTag() +" "+project.getId());
-                        Toast.makeText(context, tags.get(position).getTag() + " is deleted successfully!", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(context, ProjectDetailsActivity.class);
-                        intent.putExtra("project", project);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+
+                        Log.d("Milestone", "onResponse: successful");
+                        Log.d("Milestone", "Deleted Milestone: " + milestones.get(position).getTitle() +" "+milestones.get(position).getId());
+                        Toast.makeText(context, milestones.get(position).getTitle() + " is deleted successfully!", Toast.LENGTH_LONG).show();
+                        ((Activity)context).finish();
                     }
 
                     @Override
-                    public void onFailure(Call<Tag> call, Throwable t) {
+                    public void onFailure(Call<Milestone> call, Throwable t) {
 
                         Log.d("Tag", "onFailure: failed");
 
@@ -104,7 +105,44 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
                 });
             }
         });
-    */
+        holder.update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String date = holder.milestone_date.getText().toString();
+                List<String> dateFields =  Arrays.asList(date.split("/"));
+                if(dateFields.size()==3) {
+                    Milestone updatedMilestone = milestones.get(position);
+                    updatedMilestone.setTitle(holder.milestone_title.getText().toString());
+                    updatedMilestone.setDescription(holder.milestone_description.getText().toString());
+                    String dateJson = dateFields.get(2) + "-" + dateFields.get(1) + "-" + dateFields.get(0) + "T00:00:00.000Z";
+                    updatedMilestone.setDate(dateJson);
+                    Call<Milestone> call = akademiseApi.updateMilestone(milestones.get(position).getId(),updatedMilestone, "Bearer " + myToken);
+
+                    call.enqueue(new Callback<Milestone>() {
+                        @Override
+                        public void onResponse(Call<Milestone> call, Response<Milestone> response) {
+
+                            if (!response.isSuccessful()) {
+                                Log.d("Tag", "onResponse: not successful");
+                                return;
+                            }
+                            Log.d("Tag", "onResponse: successful");
+                            Log.d("Tag", "Deleted Tag: " + milestones.get(position).getTitle() + " " + milestones.get(position).getId());
+                            Toast.makeText(context, milestones.get(position).getTitle() + " is updated successfully!", Toast.LENGTH_LONG).show();
+                            ((Activity)context).finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Milestone> call, Throwable t) {
+
+                            Log.d("Tag", "onFailure: failed");
+
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     @Override
@@ -118,17 +156,19 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView milestone_title;
-        TextView milestone_description;
-        TextView milestone_date;
+        EditText milestone_title;
+        EditText milestone_description;
+        EditText milestone_date;
         Button delete;
+        Button update;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            milestone_title = itemView.findViewById(R.id.tv_milestoneTitle);
-            milestone_description = itemView.findViewById(R.id.tv_milestoneDescription);
-            milestone_date = itemView.findViewById(R.id.tv_milestoneDate);
+            milestone_title = itemView.findViewById(R.id.et_milestoneTitle);
+            milestone_description = itemView.findViewById(R.id.et_milestoneDescription);
+            milestone_date = itemView.findViewById(R.id.et_milestoneDate);
             delete = itemView.findViewById(R.id.btnMilestoneDelete);
+            update = itemView.findViewById(R.id.btnMilestoneUpdate);
         }
 
     }

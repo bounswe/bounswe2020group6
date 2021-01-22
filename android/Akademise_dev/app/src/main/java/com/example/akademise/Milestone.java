@@ -4,53 +4,68 @@ import java.io.Serializable;
 
 public class Milestone implements Serializable
 {
+private int id;
 
-    private int project_id;
+private int project_id;
 
-    private String date;
+private String date;
 
-    private String title;
+private String title;
 
-    private String description;
+private String description;
 
-    private String type;
+private String type;
 
+private String createdAt;
 
-    public Milestone(int project_id, String date, String title, String description){
+private String updatedAt;
+
+public void setId(int id){
+        this.id = id;
+        }
+public int getId(){
+        return this.id;
+        }
+public void setProject_id(int project_id){
         this.project_id = project_id;
-        this.date = date;
-        this.title = title;
-        this.description = description;
-    }
-    public void setProject_id(int project_id){
-        this.project_id = project_id;
-    }
-    public int getProject_id(){
+        }
+public int getProject_id(){
         return this.project_id;
-    }
-    public void setDate(String date){
+        }
+public void setDate(String date){
         this.date = date;
-    }
-    public String getDate(){
+        }
+public String getDate(){
         return this.date;
-    }
-    public void setTitle(String title){
+        }
+public void setTitle(String title){
         this.title = title;
-    }
-    public String getTitle(){
+        }
+public String getTitle(){
         return this.title;
-    }
-    public void setDescription(String description){
+        }
+public void setDescription(String description){
         this.description = description;
-    }
-    public String getDescription(){
+        }
+public String getDescription(){
         return this.description;
-    }
-    public void setType(String type){
+        }
+public void setType(String type){
         this.type = type;
-    }
-    public String getType(){
+        }
+public String getType(){
         return this.type;
-    }
-
-}
+        }
+public void setCreatedAt(String createdAt){
+        this.createdAt = createdAt;
+        }
+public String getCreatedAt(){
+        return this.createdAt;
+        }
+public void setUpdatedAt(String updatedAt){
+        this.updatedAt = updatedAt;
+        }
+public String getUpdatedAt(){
+        return this.updatedAt;
+        }
+        }

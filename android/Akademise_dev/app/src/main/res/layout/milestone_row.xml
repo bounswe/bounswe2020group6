@@ -18,8 +18,8 @@
             android:background="@color/light_green"
             >
 
-            <TextView
-                android:id="@+id/tv_milestoneTitle"
+            <EditText
+                android:id="@+id/et_milestoneTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -32,8 +32,8 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/tv_milestoneDate"
+            <EditText
+                android:id="@+id/et_milestoneDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -42,10 +42,10 @@
                 android:gravity="center"
                 android:text="Date"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@id/tv_milestoneTitle"
+                app:layout_constraintStart_toEndOf="@id/et_milestoneTitle"
                 app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/tv_milestoneDescription"
+            <EditText
+                android:id="@+id/et_milestoneDescription"
                 android:layout_width="250dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
@@ -56,7 +56,23 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_milestoneTitle" />
+                app:layout_constraintTop_toBottomOf="@id/et_milestoneTitle" />
+            <Button
+                android:id="@+id/btnMilestoneUpdate"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                style="@style/textView"
+                android:background="@drawable/button_shape"
+                android:text="Update"
+                android:textAllCaps="false"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.15"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </Button>
             <Button
                 android:id="@+id/btnMilestoneDelete"
                 android:layout_width="0dp"
@@ -64,7 +80,7 @@
                 style="@style/textView"
                 android:background="@drawable/button_shape"
                 android:text="X"
-                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintHorizontal_bias="0.95"
                 app:layout_constraintHeight_percent="0.5"
                 app:layout_constraintWidth_percent="0.1"
                 app:layout_constraintStart_toStartOf="parent"

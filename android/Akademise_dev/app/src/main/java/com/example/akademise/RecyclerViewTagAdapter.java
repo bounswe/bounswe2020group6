@@ -1,5 +1,6 @@
 package com.example.akademise;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,6 +63,7 @@ public class RecyclerViewTagAdapter extends RecyclerView.Adapter<RecyclerViewTag
         return new RecyclerViewTagAdapter.ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tag_name.setText(tags.get(position).getTag());
@@ -82,11 +84,9 @@ public class RecyclerViewTagAdapter extends RecyclerView.Adapter<RecyclerViewTag
                         Log.d("Tag", "onResponse: successful");
                         Log.d("Tag", "Deleted Tag: " + tags.get(position).getTag() +" "+project.getId());
                         Toast.makeText(context, tags.get(position).getTag() + " is deleted successfully!", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(context, ProjectDetailsActivity.class);
-                        intent.putExtra("project", project);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        ((Activity)context).finish();
                     }
+
 
                     @Override
                     public void onFailure(Call<Tag> call, Throwable t) {
