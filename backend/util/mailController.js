@@ -15,21 +15,23 @@ var createValidationCode = function() {
     return Math.floor(Math.random() * (1000000 - 0)).toString().padStart(6,"0")
 }
 
-var sendValidationCode = function(email, code) {
+var sendValidationCode = function(purpose, email, code) {
 
     const filePath = path.join(__dirname, './email.html');
     const source = fs.readFileSync(filePath, 'utf-8').toString();
     const template = handlebars.compile(source);
+    const isSignup = purpose
     const replacements = {
+        isSignup,
         code,
-        email
+        email,
     };
     const htmlToSend = template(replacements);
 
     var mailOptions = {
         from: "Akademise Registration",
         to: email,
-        subject: "Akademise - Validation Code",
+        subject: isSignup ? "Akademise - Validation Code" : "Akademise - Password Recovery Code",
         html: htmlToSend
     }
     transporter.sendMail(mailOptions, function(error, info){
@@ -41,6 +43,7 @@ var sendValidationCode = function(email, code) {
         }
     })
 }
+
 
 module.exports = {
     sendValidationCode,
