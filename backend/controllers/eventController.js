@@ -75,7 +75,7 @@ getEvents = async function (req, res) {
 getEvent = async function (req, res) {
     try {
         events = await Event.findOne({ where: { id: req.params.id }, include: eventData(req.userId) })
-        await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )
+        events.dataValues.isFavable = (events.event_favs.length === 1) ? false : true
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)
