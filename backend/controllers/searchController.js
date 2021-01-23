@@ -1,4 +1,4 @@
-const { Project } = require("../model/db")
+const { Project, Event } = require("../model/db")
 const {Op} = require('sequelize')
 const userUtils = require('../util/userUtil')
 const elasticUtil = require("../elastic/elasticUtil")
@@ -73,8 +73,47 @@ search = async function(req, res) {
             }
         }
         else {  // event search
-            elastic =  await elasticUtil.searchEvent(query)
-            res.status(200).send({events: elastic})
+            try {
+                elastic =  await elasticUtil.searchEvent(query)
+                return res.status(200).send({events: elastic})
+            }
+            catch(err){
+                events = await Event.findAll({
+                    where: {
+                        [Op.or]: [
+                            {
+                                title: {
+                                    [Op.like]: "%" + query + "%"
+                                },
+                                [Op.or]: [
+                                    {
+                                        isPublic: 1
+                                    },
+                                    {
+                                        userId: req.userId
+                                    }
+                                ]
+                            },
+                            {
+                                body: {
+                                    [Op.like]: "%" + query + "%"
+                                },
+                                [Op.or]: [
+                                    {
+                                        isPublic: 1
+                                    },
+                                    {
+                                        userId: req.userId
+                                    }
+                                ]
+                            },
+                        ]
+                        
+                    }
+                })    
+               return res.status(200).send({events: events})
+            }
+
         }
     }
     catch(error){

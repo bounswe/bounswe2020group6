@@ -1,4 +1,3 @@
-const { map } = require('async')
 const {elasticClient} = require('./elastic_client')
 
 
