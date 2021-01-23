@@ -26,10 +26,10 @@ search = async function(req, res) {
                 return res.status(200).send({nameMatchedResults: nameMatchResults, sharingSimilaritiesResults: similarityResults})
             }
         }
-        else {
+        else if(type == 1) {
             // project search
             try {
-                elastic =  await elasticUtil.search(query)
+                elastic =  await elasticUtil.searchPost(query)
                 elastic.titleResult = elastic.titleResult.filter(t => t.data.privacy == 1 || (t.data.privacy == 0 && t.data.userId == req.userId))
                 elastic.summaryResult = elastic.summaryResult.filter(s => s.data.privacy == 1 || (s.data.privacy == 0 && s.data.userId == req.userId))
                 .filter(project => !elastic.titleResult.map(t => t.data.id).includes(project.data.id))
@@ -71,6 +71,10 @@ search = async function(req, res) {
                 })    
                return res.status(200).send({projects: projects})
             }
+        }
+        else {  // event search
+            elastic =  await elasticUtil.searchEvent(query)
+            res.status(200).send({events: elastic})
         }
     }
     catch(error){
