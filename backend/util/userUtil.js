@@ -206,10 +206,79 @@ var usersSharingSimilarity = async function(field, userId) {
                 )`)
             }
         },
-        attributes : ['id', 'name','surname','university','department', 'profile_picture_url'],
+        attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
     });
 
     return users
+}
+
+var fullnameStartsWith = async function(query){
+    users = User.findAll({
+        where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
+            [Sequelize.Op.like]: query + "%"
+        }),
+        attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
+    })
+
+    return users;
+}
+
+var lastNameStartsWith = async function(query){
+    users = User.findAll({
+        where: {
+            surname: {
+                [Sequelize.Op.like]: query + "%"
+            }
+        },
+        attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
+    })
+
+    return users;
+}
+
+var fullnameContains = async function(query){
+    users = User.findAll({
+        where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
+            [Sequelize.Op.like]: "%" + query + "%"
+        }),
+        attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
+    })
+
+    return users;
+}
+
+var getSimilarUsersByFields = async function(userId){
+
+    let [universityMatch, departmentMatch, titleMatch] =
+        await Promise.all([
+            usersSharingSimilarity("university", userId),
+            usersSharingSimilarity("department", userId),
+            usersSharingSimilarity("title", userId),
+        ]) // retrieve users sharing the same value for the given field.
+    
+    // remove the user itself from the similar list.
+    universityMatch = universityMatch.filter(user => user.id != userId) 
+    departmentMatch = departmentMatch.filter(user => user.id != userId)
+    titleMatch = titleMatch.filter(user => user.id != userId)
+
+    // users that have three matches
+    threeMatches = universityMatch.filter( user => departmentMatch.map(u => u.id).includes(user.id) && titleMatch.map(us => us.id).includes(user.id))
+    
+    // users that have either the same university-department or university-title
+    twoMatches = universityMatch.filter( user => departmentMatch.map(u => u.id).includes(user.id) || titleMatch.map(us => us.id).includes(user.id))
+    // plus users that have the same department-title pair
+    twoMatches.push(...departmentMatch.filter( user => titleMatch.map(us => us.id).includes(user.id)))
+    // users that have two same fields but not three.
+    twoMatches = twoMatches.filter(user => !threeMatches.map(u => u.id).includes(user.id))
+    // remove duplicates from two matches set.
+    uniqueTwoMatchesSet = new Set(twoMatches.map(user => JSON.stringify(user)))
+    twoMatchesResult = Array.from(uniqueTwoMatchesSet).map(user => JSON.parse(user))
+    // users that have only one same field.
+    oneMatches = universityMatch.concat(departmentMatch).concat(titleMatch).filter(user => !threeMatches.map(u => u.id).includes(user.id) && !twoMatchesResult.map(us => us.id).includes(user.id))
+    // merge all matches into one list.
+    similarUserResults = threeMatches.concat(twoMatchesResult).concat(oneMatches)
+
+    return similarUserResults
 }
 
 module.exports = {
@@ -227,4 +296,8 @@ module.exports = {
     usersByTags,
     usersByUserTags,
     usersSharingSimilarity,
+    fullnameStartsWith,
+    lastNameStartsWith,
+    fullnameContains,
+    getSimilarUsersByFields,
 }
