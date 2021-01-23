@@ -1,7 +1,8 @@
 const { User, EventFav, EventTag,  Event, sequelize } = require('../model/db');
 const { Op } = require("sequelize");
 
-const eventData = 
+const eventData = function (id) {
+    data = 
     [
         {
             model: EventTag,
@@ -10,8 +11,18 @@ const eventData =
         {
             model: User,
             attributes: ['id', 'name','surname','university','department', 'profile_picture_url']
+        },
+        {
+            model: EventFav,
+            where: { 
+                userId: id
+            },
+            required: false
         }
     ]
+    return data
+} 
+    
 
 addEvent = async function (req, res) {
     
@@ -52,8 +63,9 @@ getEvents = async function (req, res) {
             where: { 
                 [Op.or]: [{isPublic: 1}, {userId: req.userId}]
             }, 
-            include: eventData
+            include: eventData(req.userId)
         })
+        await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)
@@ -62,7 +74,8 @@ getEvents = async function (req, res) {
 
 getEvent = async function (req, res) {
     try {
-        events = await Event.findOne({ where: { id: req.params.id }, include: eventData })
+        events = await Event.findOne({ where: { id: req.params.id }, include: eventData(req.userId) })
+        await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)
@@ -74,7 +87,8 @@ searchEvents = async function (req, res) {
     if('isPublic' in query) delete query.isPublic
     query[Op.or] = [{isPublic: 1}, {userId: req.userId}]
     try {
-        events = await Event.findOne({ where: query, include: eventData })
+        events = await Event.findOne({ where: query, include: eventData(req.userId) })
+        await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )
         res.status(200).send({result: events})
     } catch (error) {
         res.status(500).send(error.message)

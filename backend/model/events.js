@@ -12,7 +12,7 @@ module.exports = (sequelize, Seq) => {
 		body : Seq.TEXT,
 		link : Seq.TEXT,
 		location : Seq.TEXT,
-		date : Seq.TEXT,
+		date : Seq.DATE,
 		other : Seq.TEXT
 	}, 
 	{
