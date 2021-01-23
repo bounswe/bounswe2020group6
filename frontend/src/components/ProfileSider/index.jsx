@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProfileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
-import { GoogleOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import { GoogleOutlined, DesktopOutlined, ContainerOutlined, CalendarOutlined } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
 import GoogleScholarModal from "../GoogleScholarModal";
 import { projectsClickedAction } from "../../redux/profile/actions";
@@ -82,6 +82,13 @@ const ProfileSider = () => {
                 icon={<ContainerOutlined />}
               >
                 Create New Project
+              </Menu.Item>
+              <Menu.Item
+                key="4"
+                onClick={() => history.push("/event/create")}
+                icon={<CalendarOutlined />}
+              >
+                Create New Event
               </Menu.Item>
             </Menu>
           </div>
