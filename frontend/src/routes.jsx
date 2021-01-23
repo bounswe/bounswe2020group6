@@ -15,6 +15,7 @@ import ListFollowers from "./pages/ListFollow";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
+import CreateEvent from "./pages/CreateEvent";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -80,6 +81,9 @@ export default function App() {
         </Route>
         <Route path="/list/:type">
           <ListFollowers />
+        </Route>
+        <Route path="/event/create">
+          <CreateEvent />
         </Route>
         <Redirect to="/home" />
       </Switch>
