@@ -1,22 +1,26 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Form, Input, message, Spin, Popconfirm } from "antd";
 import { ExclamationOutlined } from "@ant-design/icons";
 import { StyledModal, ModalButton, ModalTitle, ModalLabel } from "./style";
+import { authLogoutAction } from "../../redux/auth/actions";
 import api from "../../axios";
 
 const DeleteAccountModal = ({ visible, toggleDeleteAccountModal }) => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const [form] = Form.useForm();
 
   const handleSubmit = (values) => {
     setLoading(true);
     api({ sendToken: true })
-      .post("/validate/npassword", values) // TODO: change the backend endpoint accordingly when it is ready
+      .post("/home/delete", values)
       .then(() => {
         setLoading(false);
         message.success("Account deleted successfully");
         toggleDeleteAccountModal();
+        dispatch(authLogoutAction());
       })
       .catch((e) => {
         setLoading(false);
