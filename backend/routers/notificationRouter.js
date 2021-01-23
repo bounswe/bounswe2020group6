@@ -4,5 +4,6 @@ const notificationController = require('../controllers/notificationController')
 
 router.delete('/delete/:id', notificationController.deleteNotification)
 router.get('/get', notificationController.getNotifications)
+router.post('/add_rejection', notificController.addRejectNotification)
 
 module.exports = router
