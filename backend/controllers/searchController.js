@@ -1,8 +1,7 @@
-const { User, Project } = require("../model/db")
-const Sequelize = require('sequelize')
+const { Project } = require("../model/db")
+const {Op} = require('sequelize')
 const userUtils = require('../util/userUtil')
 const elasticUtil = require("../util/elasticUtil")
-
 
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()
@@ -28,23 +27,50 @@ search = async function(req, res) {
             }
         }
         else {
-            projects = await Project.findAll({
-                where: {
-                    title: {
-                        [Sequelize.Op.like]: "%" + query + "%"
-                    },
-                    privacy: 1
-                }
-            })
-            
+            // project search
             try {
                 elastic =  await elasticUtil.search(query)
+                elastic.titleResult = elastic.titleResult.filter(t => t.data.privacy == 1 || (t.data.privacy == 0 && t.data.userId == req.userId))
+                elastic.summaryResult = elastic.summaryResult.filter(s => s.data.privacy == 1 || (s.data.privacy == 0 && s.data.userId == req.userId))
+                .filter(project => !elastic.titleResult.map(t => t.data.id).includes(project.data.id))
                 return res.status(200).send({projects: elastic})
             }
             catch(err){
+                projects = await Project.findAll({
+                    where: {
+                        [Op.or]: [
+                            {
+                                title: {
+                                    [Op.like]: "%" + query + "%"
+                                },
+                                [Op.or]: [
+                                    {
+                                        privacy: 1
+                                    },
+                                    {
+                                        userId: req.userId
+                                    }
+                                ]
+                            },
+                            {
+                                summary: {
+                                    [Op.like]: "%" + query + "%"
+                                },
+                                [Op.or]: [
+                                    {
+                                        privacy: 1
+                                    },
+                                    {
+                                        userId: req.userId
+                                    }
+                                ]
+                            },
+                        ]
+                        
+                    }
+                })    
                return res.status(200).send({projects: projects})
             }
-    
         }
     }
     catch(error){

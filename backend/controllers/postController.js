@@ -4,6 +4,7 @@ const {Project, ProjectTag, ProjectFile, ProjectMilestone, ProjectElastic} = req
 const postUtil = require("../util/postUtil")
 const { Op } = require("sequelize");
 const elasticUtil = require("../util/elasticUtil")
+const randomWords = require('random-words')
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -21,6 +22,7 @@ addPost = async function(req,res) {
     file = req.files
     try {
 	postDb = await Project.create(postData)
+	
 	for(var key in tags){
 	    currentTag = tags[key]
 	    projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
@@ -37,6 +39,7 @@ addPost = async function(req,res) {
 	}
 
 	elastic = await elasticUtil.add(postDb)
+
 	/*
 	elasticDb = await ProjectElastic.create({
 		project_id: postDb.id,

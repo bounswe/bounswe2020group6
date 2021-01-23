@@ -1,3 +1,4 @@
+const { map } = require('async')
 const {elasticClient} = require('../elastic/elastic_client')
 
 
@@ -23,6 +24,14 @@ var search = async function(query_word){
         }
     })
 
+    titleResult = titleResult.hits.hits.map(hit => {
+        const s = {
+            data: hit._source, 
+            score: hit._score
+        }
+        return s
+    })
+
     summaryResult =  await elasticClient.search({
         index: "posts",
         type: "post_mapping",
@@ -33,6 +42,14 @@ var search = async function(query_word){
                 }
             }
         }
+    })
+    
+    summaryResult = summaryResult.hits.hits.map(hit => {
+        const s = {
+            data: hit._source, 
+            score: hit._score
+        }
+        return s
     })
 
     return {titleResult, summaryResult}
