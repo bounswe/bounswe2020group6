@@ -12,7 +12,9 @@ var addPost = async function(post){
 }
 
 var updatePost = async function(post){
-
+    await deletePost(post.id)
+    await addPost(post)
+   
 }
 
 var deletePost = async function(postId){
@@ -71,4 +73,5 @@ module.exports = {
     addPost,
     search,
     deletePost,
+    updatePost,
 }

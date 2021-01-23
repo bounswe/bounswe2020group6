@@ -144,8 +144,15 @@ updatePost = async function (req,res){
 	await Project.update(fieldsToUpdate, {
 	    where : {
 	        id : req.params.id
-	    }
+		},
+		returning: true
 	});
+	postToUpdate = await Project.findOne({
+		where: {
+			id: req.params.id
+		}
+	})
+	elasticUtil.updatePost(postToUpdate)
 	res.status(200).send({message : "Post is updated"})
     }catch(error) {
 	res.status(500).send({"error": error})
