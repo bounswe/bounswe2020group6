@@ -1,4 +1,21 @@
 const {User, Project, Notification}  = require('../model/db')
+const {deleteRequest} = require('../controllers/collabController')
+const {addNotification} = require('../util/notificationUtil')
+
+addRejectNotification = async function(req,res){
+    try{
+        rejecterId = req.userId
+        projectId = req.body.projectId
+        collaboratorId = req.body.rejectedId
+        req.requestId = req.body.requestId
+        body = "User " + rejecterId + " rejected collaboration request of user " + collaboratorId + " concerning project " + projectId 
+        addNotification(projectId,-1,rejecterId,rejecterId,collaboratorId,body)
+        deleteRequest(req,res)
+    }catch(error){
+        res.status(500).send(error.message)
+    }
+}
+
 
 deleteNotification = async function(req,res){
     try{
@@ -52,5 +69,6 @@ getNotifications = async function(req,res){
 
 module.exports = {
     deleteNotification,
-    getNotifications
+    getNotifications,
+    addRejectNotification
 }
