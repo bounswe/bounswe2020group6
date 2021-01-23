@@ -1,7 +1,7 @@
 const elastic = require('elasticsearch')
 
 const elasticClient = new elastic.Client({
-    host: 'localhost:9200',
+    host: process.env.ELASTIC_HOST,
     log: 'trace'
 })
 
