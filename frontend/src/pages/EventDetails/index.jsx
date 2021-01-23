@@ -31,22 +31,9 @@ function NewlineText(text) {
 
 
 const EventDetails = () => {
-
-  const DummyEventData = {
-    id: 62,
-    type: 'Rave Party',
-    event_tags: ['Ankara', 'Birds of Mind'],
-    isPublic: true,
-    title: 'MONGO B-Party',
-    body: 'Come join us at Rave Istanbul to enjoy this unique and action-packed party that will have you on your feet all night long! Be prepared for unexpected surprise acts, packed events, and a wild adventure that will have you dancing and jumping until the end of the night!\n\nFriday, June 6th:\n10:00 PM: WELCOME\n10:30 PM: Rave Party\nMidnight: Foam Shower\n\nOrganized by Kusadasi Spring Festival',
-    link: 'https://www.raveparty.com/',
-    location: 'Osmanbey / ISTANBUL',
-    date: '06/06/2021',
-    other: 'Strimg',
-  }
 	 
   const [loadingProject, setLoadingProject] = useState(true);
-  const [eventData, setEventData] = useState(DummyEventData);
+  const [eventData, setEventData] = useState({});
 
   const { eventId } = useParams()
   const history = useHistory()
