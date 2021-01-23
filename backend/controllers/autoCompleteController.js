@@ -1,8 +1,7 @@
-const { User, Tag, University, Department, Title, Interest } = require('../model/db');
+const { Tag, University, Department, Title } = require('../model/db');
 
 addTitle = async function (req, res) {
     title=req.body.title
-    console.log("title: ", title)
 
     if(title != null & title!=""){
         try {
@@ -12,14 +11,12 @@ addTitle = async function (req, res) {
             res.status(500).send(error.message)
         }
     }
-    return res.status(404).send({message: "Erroronous Input"})
+    else return res.status(400).send({message: "Erroronous Input"})
 
 }
 
 addDepartment = async function (req, res) {
     department=req.body.department
-    console.log("department: ", department)
-
     
     if(department != null & department!=""){
         try {
@@ -29,13 +26,12 @@ addDepartment = async function (req, res) {
             res.status(500).send(error.message)
         }
     }
-    return res.status(404).send({message: "Erroronous Input"})
+    else return res.status(400).send({message: "Erroronous Input"})
 
 }
 
 addTag = async function (req, res) {
     tag=req.body.tag
-    console.log("tag: ", tag)
 
     if(tag != null & tag!=""){
         try {
@@ -45,13 +41,12 @@ addTag = async function (req, res) {
             res.status(500).send(error.message)
         }
     }
-    return res.status(404).send({message: "Erroronous Input"})
+    else return res.status(400).send({message: "Erroronous Input"})
 
 }
 
 addUniversity = async function (req, res) {
     university=req.body.university
-    console.log("university: ", university)
 
     if(university != null & university!=""){
         try {
@@ -61,23 +56,11 @@ addUniversity = async function (req, res) {
             res.status(500).send(error.message)
         }
     }
-    return res.status(404).send({message: "Erroronous Input"})
+    else return res.status(400).send({message: "Erroronous Input"})
 }
 
 addInterest = async function (req, res) {
-    interest=req.body.interest
-    console.log("interest: ", interest)
-
-    if(interest != null & interest!=""){
-        try {
-            addedInterest = await Interest.create({interest: interest})
-            res.status(200).send({message: "Interest is created", interest: addedInterest.interest})
-        } catch (error) {
-            res.status(500).send(error.message)
-        }
-    }
-    return res.status(404).send({message: "Erroronous Input"})
-
+    res.status(410).send({error: "this endpoint is now out-of-use. please refer to documentation."})
 }
 
 getTitles = async function (req, res) {
@@ -138,17 +121,7 @@ getUniversities = async function (req, res) {
 }
 
 getInterests = async function (req, res) {
-    try {
-        interests = await Interest.findAll({attributes: ["interest"]})
-        var array=[]
-        
-        for(var i in interests)
-            array.push(interests[i]["interest"]);
-        res.status(200).send({result: array})
-
-    } catch (error) {
-        res.status(500).send(error.message)
-    }
+    res.status(410).send({error: "this endpoint is now out-of-use. please refer to documentation."})
 }
 
 module.exports = {

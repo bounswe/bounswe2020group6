@@ -1,4 +1,4 @@
-const {CollabRequest, User} = require("../model/db")
+const {CollabRequest, User, ProjectCollaborator} = require("../model/db")
 
 
 var requestExists = async function(requesterId,requestedId,projectId){
@@ -21,9 +21,18 @@ var requestExists = async function(requesterId,requestedId,projectId){
     return undefined
 }
 
-
+var getCollaborators = async function(projectId){
+    collaborators = ProjectCollaborator.findAll({
+        where : {
+            project_id : projectId
+	},
+	raw : true
+    });
+    return collaborators
+}
 
 
 module.exports = {
-   requestExists
+    requestExists,
+    getCollaborators
 }
