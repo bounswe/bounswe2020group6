@@ -1,6 +1,7 @@
 const { User, Project } = require("../model/db")
 const Sequelize = require('sequelize')
 const userUtils = require('../util/userUtil')
+const elasticUtil = require("../util/elasticUtil")
 
 
 search = async function(req, res) {
@@ -35,8 +36,10 @@ search = async function(req, res) {
                     privacy: 1
                 }
             })
+
+            elastic =  elasticUtil.indices()
     
-            return res.status(200).send({projects: projects})
+            return res.status(200).send({projects: elastic})
         }
     }
     catch(error){

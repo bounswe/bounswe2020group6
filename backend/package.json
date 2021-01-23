@@ -10,6 +10,7 @@
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "elasticsearch": "^16.7.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "fix-utf8": "^1.1.1",

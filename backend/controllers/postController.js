@@ -3,6 +3,7 @@ const {deleteFolder} = require('./fileController')
 const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
 const postUtil = require("../util/postUtil")
 const { Op } = require("sequelize");
+const elasticUtil = require("../util/elasticUtil")
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -34,6 +35,8 @@ addPost = async function(req,res) {
 		projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
 	    }
 	}
+
+	elasticUtil.addPostToElastic(postDb)
 	res.status(201).send({message: "Post is created", id: postDb.id})
     }catch (error){
 	res.status(500).send({error: error})
