@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authLogoutAction } from "../src/redux/auth/actions";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
@@ -46,6 +47,9 @@ export default function App() {
     <Switch>
       <Route path="/join">
         <SignUp />
+      </Route>
+      <Route path="/about">
+        <About />
       </Route>
       <Route path="/">
         <Landing />
