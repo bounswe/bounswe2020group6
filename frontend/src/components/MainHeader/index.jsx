@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/";
+import ResponseNotification from "../ResponseNotification/";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Badge } from "antd";
 import {
@@ -35,6 +36,7 @@ const SiteHeader = () => {
   const [userId, setUserId] = useState();
 
   const [notificationData, setNotificationData] = useState([]);
+  const [responseNotificationData, setResponseNotificationData] = useState([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -44,6 +46,14 @@ const SiteHeader = () => {
       .get("/collab/get_requests")
       .then((response) => {
         setNotificationData(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    api({ sendToken: true })
+      .get("/notification/get")
+      .then((response) => {
+        setResponseNotificationData(response.data);
       });
   }, []);
 
@@ -60,21 +70,11 @@ const SiteHeader = () => {
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
-        <SideBarItem onClick={() => history.push("/home")}>
-          Home
-        </SideBarItem>
-        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>
-          Profile
-        </SideBarItem>
-        <SideBarItem href="#">
-          Settings
-        </SideBarItem>
-        <SideBarItem onClick={() => showModal()}>
-          Notifications
-        </SideBarItem>
-        <SideBarItem onClick={handleLogout}>
-          Logout
-        </SideBarItem>
+        <SideBarItem onClick={() => history.push("/home")}>Home</SideBarItem>
+        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>Profile</SideBarItem>
+        <SideBarItem href="#">Settings</SideBarItem>
+        <SideBarItem onClick={() => showModal()}>Notifications</SideBarItem>
+        <SideBarItem onClick={handleLogout}>Logout</SideBarItem>
       </SideBarMenu>
     </SideBar>
   );
@@ -172,13 +172,48 @@ const SiteHeader = () => {
     );
   };
 
+  const handleDelete = (id) => {
+    api({ sendToken: true })
+      .delete(`/notification/delete/${id}`)
+      .then(() => {
+        api({ sendToken: true })
+          .get("/notification/get")
+          .then((response) => {
+            setResponseNotificationData(response.data);
+          });
+      });
+  };
+
+  const responseNotificationComponent = (n, k) => {
+    return (
+      <ResponseNotification
+        key={k}
+        type={n.type}
+        userName={n.accepter + " " + n.accepter}
+        userLink={() => {
+          history.push({ pathname: "/profile/" + n.accepter.id });
+        }}
+        projectName={n.project.title}
+        projectLink={() => {
+          history.push({ pathname: "/project/details/" + n.projectId });
+        }}
+        handleDelete={() => handleDelete(n.id)}
+      />
+    );
+  };
+
   return (
     <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "2" }}>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
-        {notificationData.length > 0
-          ? notificationData.map((n, i) => {
-              return notificationComponent(n, i);
-            })
+        {notificationData.length + responseNotificationData.length > 0
+          ? [
+              ...notificationData.map((n, i) => {
+                return notificationComponent(n, i);
+              }),
+              ...responseNotificationData.map((n, i) => {
+                return responseNotificationComponent(n, i);
+              }),
+            ]
           : "You have no new notifications"}
       </NotificationModal>
       {sideBar}
@@ -227,7 +262,7 @@ const SiteHeader = () => {
             </Anchor>{" "}
             |{" "}
             <Anchor onClick={() => showModal()}>
-              <Badge count={notificationData.length}>
+              <Badge count={notificationData.length + responseNotificationData.length}>
                 <BellOutlined style={{ fontSize: "20px" }} />
               </Badge>
             </Anchor>{" "}
