@@ -1,7 +1,7 @@
 const { Project } = require("../model/db")
 const {Op} = require('sequelize')
 const userUtils = require('../util/userUtil')
-const elasticUtil = require("../util/elasticUtil")
+const elasticUtil = require("../elastic/elasticUtil")
 
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()

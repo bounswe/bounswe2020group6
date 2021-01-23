@@ -1,13 +1,25 @@
 const { map } = require('async')
-const {elasticClient} = require('../elastic/elastic_client')
+const {elasticClient} = require('./elastic_client')
 
 
-var add = async function(post){
+var addPost = async function(post){
     return await elasticClient.index({
         index: "posts",
         type: "post_mapping",
         id: post.id,
         body: post
+    })
+}
+
+var updatePost = async function(post){
+
+}
+
+var deletePost = async function(postId){
+    return await elasticClient.delete({
+        index: "posts",
+        type: "post_mapping",
+        id: String(postId)
     })
 }
 
@@ -56,6 +68,7 @@ var search = async function(query_word){
 }
 
 module.exports = {
-    add,
+    addPost,
     search,
+    deletePost,
 }

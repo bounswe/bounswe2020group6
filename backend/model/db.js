@@ -16,9 +16,6 @@ const DepartmentModel = require('./departments')
 const NotificationModel = require('./notifications')
 const EventModel = require('./events')
 const EventTagModel = require('./event_tags')
-const ProjectElasticModel = require('./project_elastic')
-
-
 
 //Connection to server database
 
@@ -45,7 +42,7 @@ const Title = TitleModel(sequelize, Sequelize)
 const Notification = NotificationModel(sequelize, Sequelize)
 const Event = EventModel(sequelize, Sequelize)
 const EventTag = EventTagModel(sequelize, Sequelize)
-const ProjectElastic = ProjectElasticModel(sequelize, Sequelize)
+
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false})
@@ -79,8 +76,6 @@ EventTag.belongsTo(Event, {foreignKey: 'id', onDelete: 'CASCADE'})
 User.hasMany(Notification, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
 Notification.belongsTo(User, {as: 'notificationUser', foreignKey: 'userId', onDelete: 'CASCADE'})
 
-ProjectElastic.belongsTo(Project, {foreignKey: "project_id", onDelete: 'CASCADE'})
-
 sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 .then(function(){
     return sequelize.sync({ force: false });
@@ -113,6 +108,5 @@ module.exports = {
   Notification,
   Event,
   EventTag,
-  ProjectElastic,
   sequelize,
 }
