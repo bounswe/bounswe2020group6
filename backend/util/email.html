@@ -46,7 +46,11 @@
                                             <tbody>
                                                 <tr>
 		                                    <td class="esd-block-text es-m-txt-c" align="center">
-		                                        <h2>Thank you for joining Akademise!</h2>
+                                                {{#if isSignup}}
+                                                <h2>Thank you for joining Akademise!</h2>
+                                                {{else}}
+                                                <h2>Here is your password reset code!</h2>
+                                                {{/if}}
 		                                    </td>
                                                 </tr>
                                             </tbody>
@@ -105,7 +109,11 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="esd-block-text es-m-txt-c es-p15t" align="center">
-                                                                                        <p>We received a request to sign up&nbsp;with the email <b>{{email}}</b>. If this is correct, please confirm by clicking the button below. If you don’t know why you got this email, please tell us straight away so we can fix this for you.</p>
+                                                                                        {{#if isSignup}}
+                                                                                        <p>We received a request to sign up&nbsp;with the email <b>{{email}}</b>. If this is correct, please use this code to validate yourself. If you don’t know why you got this email, please tell us straight away so we can fix this for you.</p>
+                                                                                        {{else}}
+                                                                                        <p>We received a request to reset the password of an account associated &nbsp;with the email <b>{{email}}</b>. If this is correct, please use this code to reset the password. If you don’t know why you got this email, please tell us straight away so we can fix this for you.</p>
+                                                                                        {{/if}}
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>

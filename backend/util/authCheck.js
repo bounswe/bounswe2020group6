@@ -14,21 +14,17 @@ module.exports = {
             return res.status(403).send()
         }
 
-        try {
-            jwt.verify(accessToken, process.env.TOKEN_SECRET, 
-            (err, json) => {
-                if(err){
-                    return res.status(403).send()
-                }
-                req.userId = json.id
-                req.isValidated = json.isValidated
-                next()
-            })
-        }
-        catch(e){
-            console.log("catch " + e)
-            return res.status(403).send()
-        }
+        jwt.verify(accessToken, process.env.TOKEN_SECRET, 
+        (err, json) => {
+            if(err){
+                return res.status(403).send(err.message)
+            }
+            req.userId = json.id
+            req.isValidated = json.isValidated
+            if(json.code) req.code = true
+            next()
+        })
+        
     },
 
     validationCheckMiddleware: (req,res,next) => {
@@ -40,5 +36,9 @@ module.exports = {
 
     createJwt: (id, ifValidated) => {
         return jwt.sign({id: id, isValidated: ifValidated}, process.env.TOKEN_SECRET)
-    }
+    },
+
+    createJwtWithCode: (id, ifValidated) => {
+        return jwt.sign({id: id, isValidated: ifValidated, code: true}, process.env.TOKEN_SECRET)
+    },
 }
