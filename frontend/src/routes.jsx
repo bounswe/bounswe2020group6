@@ -80,7 +80,7 @@ export default function App() {
         <Route path="/project">
           <CreateProject />
         </Route>
-        <Route path="/event/details/:projectId">
+        <Route path="/event/details/:eventId">
           <EventDetails />
         </Route>
         <Route path="/profile/:id">
