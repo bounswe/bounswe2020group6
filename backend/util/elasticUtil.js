@@ -1,39 +1,44 @@
-const {elasticClient} = require('../elastic')
+const {elasticClient} = require('../elastic/elastic_client')
 
 
-var addPostToElastic = function(data){
-    bulkBody = []
+var add = async function(post){
+    return await elasticClient.index({
+        index: "posts",
+        type: "post_mapping",
+        id: post.id,
+        body: post
+    })
+}
 
-    bulkBody.push({
-        index: {
-            _index: "library",
-            _type: "post",
-            _id: data.id
+var search = async function(query_word){
+    titleResult =  await elasticClient.search({
+        index: "posts",
+        type: "post_mapping",
+        body: {
+            query: {
+                match: {
+                    'title': query_word
+                }
+            }
         }
     })
-    bulkBody.push(data)
 
-    elasticClient.bulk({body: bulkBody}).then(response => {
-        console.log("bulked")
-    }).catch(err => {
-        console.log("error")
+    summaryResult =  await elasticClient.search({
+        index: "posts",
+        type: "post_mapping",
+        body: {
+            query: {
+                match: {
+                    'summary': query_word
+                }
+            }
+        }
     })
-}
 
-var updatePostInElastic = function(data){
-
-}
-
-var searchPost = function(query){
-    return elasticClient.get({_index: 'library', _type: "post", _id: 12}).then(resp => console.log(resp)).catch(err => console.log(err))
-}
-
-var indices = function(){
-    return elasticClient.cat.indices({v: true}).then(console.log).catch(err => console.log(err))
+    return {titleResult, summaryResult}
 }
 
 module.exports = {
-    addPostToElastic,
-    searchPost,
-    indices,
+    add,
+    search,
 }

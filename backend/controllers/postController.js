@@ -1,6 +1,6 @@
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
-const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
+const {Project, ProjectTag, ProjectFile, ProjectMilestone, ProjectElastic} = require('../model/db')
 const postUtil = require("../util/postUtil")
 const { Op } = require("sequelize");
 const elasticUtil = require("../util/elasticUtil")
@@ -36,7 +36,13 @@ addPost = async function(req,res) {
 	    }
 	}
 
-	elasticUtil.addPostToElastic(postDb)
+	elastic = await elasticUtil.add(postDb)
+	/*
+	elasticDb = await ProjectElastic.create({
+		project_id: postDb.id,
+		elastic_id: elastic._id
+	})
+	*/
 	res.status(201).send({message: "Post is created", id: postDb.id})
     }catch (error){
 	res.status(500).send({error: error})

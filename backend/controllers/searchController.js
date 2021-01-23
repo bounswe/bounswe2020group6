@@ -36,10 +36,15 @@ search = async function(req, res) {
                     privacy: 1
                 }
             })
-
-            elastic =  elasticUtil.indices()
+            
+            try {
+                elastic =  await elasticUtil.search(query)
+                return res.status(200).send({projects: elastic})
+            }
+            catch(err){
+               return res.status(200).send({projects: projects})
+            }
     
-            return res.status(200).send({projects: elastic})
         }
     }
     catch(error){
