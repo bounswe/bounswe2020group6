@@ -20,6 +20,9 @@ const homeRouter = require('./routers/homeRouter')
 const eventRouter = require('./routers/eventRouter')
 const notificationRouter = require('./routers/notificationRouter')
 
+const cron = require("./util/cron")
+
+cron.start()
 
 const port = process.env.PORT || 3000;
 
