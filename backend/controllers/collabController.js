@@ -1,5 +1,5 @@
 const {CollabRequest, ProjectCollaborator, User, Project}  = require('../model/db')
-const {requestExists} = require('../util/collabUtil')
+const {requestExists, getCollaborators} = require('../util/collabUtil')
 const userUtils = require('../util/userUtil')
 const {postExists} = require('../util/postUtil')
 const {addNotification} = require('../util/notificationUtil')
