@@ -48,7 +48,7 @@ const EventDetails = () => {
       setEventData(response.data.result)
       setLoadingProject(false)
     }).catch((error) => {
-      //history.goBack()
+      history.goBack()
     })
   }, [eventId, history]);
 
