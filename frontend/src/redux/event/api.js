@@ -30,8 +30,6 @@ export const getEvent = (eventId, history, setEventData, setloading) => {
       .then((response) => {
         // get user id
         var myId = localStorage.getItem("userId")
-        
-        console.log(response)
 
         // check if it is current users event
         if(parseInt(response.data.result.userId) !== parseInt(myId)){
@@ -50,6 +48,7 @@ export const getEvent = (eventId, history, setEventData, setloading) => {
       })
       .catch((e) => {
         console.log(e)
+        history.goBack();
       });
   };
 };
