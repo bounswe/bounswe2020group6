@@ -88,7 +88,7 @@ searchEvents = async function (req, res) {
     if('isPublic' in query) delete query.isPublic
     query[Op.or] = [{isPublic: true}, {userId: req.userId}]
     try {
-        events = await Event.findOne({ where: query, include: eventData(req.userId) })
+        events = await Event.findAll({ where: query, include: eventData(req.userId) })
         await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )
         res.status(200).send({result: events})
     } catch (error) {
