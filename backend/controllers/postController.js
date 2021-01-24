@@ -8,6 +8,8 @@ const elasticUtil = require("../elastic/elasticUtil")
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
+    console.log(req.body)
+    console.log(req.userId)
     postData = {
 	userId : req.userId,
 	title : req.body.title,
