@@ -38,7 +38,6 @@ const EditEvent = () => {
   // get event data
   useEffect(() => {
     dispatch(getEvent(eventId, history, setEventData, setloading));
-    console.log(eventData)
     // eslint-disable-next-line
   },[]);
 
@@ -50,9 +49,6 @@ const EditEvent = () => {
 
   // submit action for event creation form
   const editEventSubmit = function (values) {
-    // get user id
-    var myId = localStorage.getItem("userId")
-
     // cast date object into string
     values.date = values.date.toString()
 
