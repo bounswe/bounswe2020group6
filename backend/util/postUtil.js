@@ -121,7 +121,7 @@ var postsByFollowings = async function(userId){
             },
             privacy: 1
         },
-        attributes: ['id', "title", "summary", 'status', 'createdAt'],
+        attributes: ['id', "title", "summary", "description", 'status', 'createdAt'],
         include: {
             model : User,
             attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
@@ -142,7 +142,7 @@ var postsByFollowings = async function(userId){
                     where: {
                         privacy: 1
                     },
-                    attributes: ['id', 'title', 'summary', 'status', 'createdAt'],
+                    attributes: ['id', 'title', 'summary', "description", 'status', 'createdAt'],
                     include: {
                         model : User,
                         attributes : ['id', 'name','surname','university','department', 'profile_picture_url']
