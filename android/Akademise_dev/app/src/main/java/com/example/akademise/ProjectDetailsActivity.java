@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 
@@ -41,6 +42,8 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     TextView tags;
     Button files;
     Button invite;
+    Button edit;
+    Button delete;
 
     TextView privacy;
     TextView collaborators;
@@ -53,6 +56,8 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
         title = findViewById(R.id.title);
 
+        edit = findViewById(R.id.btnEditProject);
+        delete = findViewById(R.id.btnDeleteProject);
         invite = findViewById(R.id.btnReqInvProject);
         files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
@@ -62,9 +67,9 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         tags=findViewById(R.id.tvTagsProject);
         privacy=findViewById(R.id.tvPrivacyProjectDetails);
         collaborators = findViewById(R.id.tvCollaborators);
-
+        summary.setMovementMethod(new ScrollingMovementMethod());
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -74,7 +79,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         getData();
 
         getWholeData(project.getId());
-
+        Log.d("milestones" , ""+project.getProject_milestones().size());
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,19 +89,60 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 Bundle bundle = new Bundle();
-                 bundle.putInt("project_id", project.getId());
-                 RequestInvitationFragment frg = new RequestInvitationFragment();
-                 frg.setArguments(bundle);
-                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
-                 frg).commit();
-                 **/
                 openInvitationActivity();
             }
         });
 
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProjectDetailsActivity.this,EditProjectActivity.class);
+                intent.putExtra("project", project);
+                startActivity(intent);
+            }
+        }
+        );
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteProject(project.getId());
+            }
+        }
+        );
+
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getWholeData(project.getId());
+
+    }
+
+    private void deleteProject(int id) {
+        Call<Project> call= akademiseApi.deleteProject(id,"Bearer "+myToken);
+        call.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
+
+                if(!response.isSuccessful()){
+                    Log.d("Project", "onResponse: not successful");
+                    return;
+                }
+                finish();
+                Log.d("Project", "onResponse: project deleted successfully");
+
+            }
+
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+
+                Log.d("Project", "onFailure: failed");
+
+            }
+        });
+    }
+
 
     private void openShowProjectFilesActivity() {
         Intent intent = new Intent(this, ShowProjectFilesActivity.class);
@@ -153,7 +199,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 }
 
                 List<GetProjects> projects = response.body();
-                GetProjects project = projects.get(0);
+                project = projects.get(0);
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);

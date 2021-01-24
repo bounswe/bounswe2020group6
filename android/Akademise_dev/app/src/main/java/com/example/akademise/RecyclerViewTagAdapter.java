@@ -1,5 +1,6 @@
 package com.example.akademise;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFileAdapter.ViewHolder> {
+public class RecyclerViewTagAdapter extends RecyclerView.Adapter<RecyclerViewTagAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     private int myId;
     private String myToken;
@@ -32,11 +34,13 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
     public static final String accessToken = "XXXXX";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
-    List<String> files;
+    List<Tag> tags;
     Context context;
-    public RecyclerViewFileAdapter(Context ct, List<String> fls) {
+    GetProjects project;
+    public RecyclerViewTagAdapter(Context ct, List<Tag> tags, GetProjects project) {
         context = ct;
-        files = fls;
+        this.tags = tags;
+        this.project = project;
         loadData();
         loadIDData();
 
@@ -44,6 +48,7 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
                 .baseUrl(context.getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
 
         akademiseApi = retrofit.create(AkademiseApi.class);
 
@@ -53,39 +58,42 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.file_row, parent, false);
-        return new RecyclerViewFileAdapter.ViewHolder(view);
+        View view = inflater.inflate(R.layout.tag_row, parent, false);
+        return new RecyclerViewTagAdapter.ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.file_name.setText(files.get(position));
-        holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.tag_name.setText(tags.get(position).getTag());
+        holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
 
-                call.enqueue(new Callback<Collab>() {
+                Call<Tag> call = akademiseApi.deleteTag(tags.get(position).getTag(),project.getId(), "Bearer " + myToken);
+
+                call.enqueue(new Callback<Tag>() {
                     @Override
-                    public void onResponse(Call<Collab> call, Response<Collab> response) {
+                    public void onResponse(Call<Tag> call, Response<Tag> response) {
 
                         if (!response.isSuccessful()) {
-                            Log.d("Project", "onResponse: not successful");
+                            Log.d("Tag", "onResponse: not successful");
                             return;
                         }
-
+                        Log.d("Tag", "onResponse: successful");
+                        Log.d("Tag", "Deleted Tag: " + tags.get(position).getTag() +" "+project.getId());
+                        Toast.makeText(context, tags.get(position).getTag() + " is deleted successfully!", Toast.LENGTH_LONG).show();
+                        ((Activity)context).finish();
                     }
 
-                    @Override
-                    public void onFailure(Call<Collab> call, Throwable t) {
 
-                        Log.d("Project", "onFailure: failed");
+                    @Override
+                    public void onFailure(Call<Tag> call, Throwable t) {
+
+                        Log.d("Tag", "onFailure: failed");
 
                     }
                 });
-                */
             }
         });
 
@@ -93,24 +101,22 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
 
     @Override
     public int getItemCount() {
-        if (files.isEmpty()) {
+        if (tags.isEmpty()) {
             return 0;
         }
 
-        return files.size();
+        return tags.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView file_name;
-        ImageView imageView;
-        View mView;
+        TextView tag_name;
+        Button delete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            file_name = itemView.findViewById(R.id.tv_filename);
-            imageView = itemView.findViewById(R.id.iv_file);
-            mView = itemView;
+            tag_name = itemView.findViewById(R.id.tv_tagname);
+            delete = itemView.findViewById(R.id.btnDelete);
         }
 
     }

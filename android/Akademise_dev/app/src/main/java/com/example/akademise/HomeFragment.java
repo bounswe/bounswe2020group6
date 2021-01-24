@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

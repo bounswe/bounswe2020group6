@@ -118,6 +118,7 @@
         android:layout_height="50dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
+        android:scrollbars = "vertical"
         android:hint="Summary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"

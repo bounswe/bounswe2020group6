@@ -34,7 +34,6 @@ public class RequestInvitationActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
     private Integer myId;
@@ -53,7 +52,7 @@ public class RequestInvitationActivity extends AppCompatActivity {
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
