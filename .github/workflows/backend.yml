@@ -24,7 +24,7 @@ jobs:
       - name: Redeploying the updated project
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST_B }}
+          host: ec2-18-232-99-241.compute-1.amazonaws.com
           username: ${{ secrets.SSH_USER_B }}
           key: ${{ secrets.SSH_PRIVATE_KEY_B }}
           script: |
