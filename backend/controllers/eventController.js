@@ -62,7 +62,7 @@ getEvents = async function (req, res) {
     try {
         events = await Event.findAll({ 
             where: { 
-                [Op.or]: [{isPublic: 1}, {userId: req.userId}]
+                [Op.or]: [{isPublic: true}, {userId: req.userId}]
             }, 
             include: eventData(req.userId)
         })
@@ -86,7 +86,7 @@ getEvent = async function (req, res) {
 searchEvents = async function (req, res) {
     const query = req.body.filters;
     if('isPublic' in query) delete query.isPublic
-    query[Op.or] = [{isPublic: 1}, {userId: req.userId}]
+    query[Op.or] = [{isPublic: true}, {userId: req.userId}]
     try {
         events = await Event.findOne({ where: query, include: eventData(req.userId) })
         await events.forEach( e => e.dataValues.isFavable = (e.event_favs.length === 1) ? false : true )

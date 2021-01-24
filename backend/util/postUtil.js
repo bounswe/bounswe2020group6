@@ -67,7 +67,7 @@ var tagExists = async function(tag,projectId){
 var postsByTag = async function(tags,userId){
     projects = await Project.findAll({
         where : {
-            privacy : 1,
+            privacy : true,
 	    [Op.not] : [{userId : userId}]
         },
         attributes : ['id', 'title','description','summary', 'status', 'createdAt'],
@@ -119,7 +119,7 @@ var postsByFollowings = async function(userId){
             userId : {
                 [Op.in] : userIds
             },
-            privacy: 1
+            privacy: true
         },
         attributes: ['id', "title", "summary", "description", 'status', 'createdAt'],
         include: {
@@ -140,7 +140,7 @@ var postsByFollowings = async function(userId){
                 {
                     model: Project,
                     where: {
-                        privacy: 1
+                        privacy: true
                     },
                     attributes: ['id', 'title', 'summary', "description", 'status', 'createdAt'],
                     include: {

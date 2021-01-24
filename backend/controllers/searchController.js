@@ -30,8 +30,8 @@ search = async function(req, res) {
             // project search
             try {
                 elastic =  await elasticUtil.searchPost(query)
-                elastic.titleResult = elastic.titleResult.filter(t => t.data.privacy == 1 || (t.data.privacy == 0 && t.data.userId == req.userId))
-                elastic.summaryResult = elastic.summaryResult.filter(s => s.data.privacy == 1 || (s.data.privacy == 0 && s.data.userId == req.userId))
+                elastic.titleResult = elastic.titleResult.filter(t => t.data.privacy == true || (t.data.privacy == false && t.data.userId == req.userId))
+                elastic.summaryResult = elastic.summaryResult.filter(s => s.data.privacy == true || (s.data.privacy == false && s.data.userId == req.userId))
                 .filter(project => !elastic.titleResult.map(t => t.data.id).includes(project.data.id))
                 return res.status(200).send({projects: elastic})
             }
@@ -45,7 +45,7 @@ search = async function(req, res) {
                                 },
                                 [Op.or]: [
                                     {
-                                        privacy: 1
+                                        privacy: true
                                     },
                                     {
                                         userId: req.userId
@@ -58,7 +58,7 @@ search = async function(req, res) {
                                 },
                                 [Op.or]: [
                                     {
-                                        privacy: 1
+                                        privacy: true
                                     },
                                     {
                                         userId: req.userId
@@ -87,7 +87,7 @@ search = async function(req, res) {
                                 },
                                 [Op.or]: [
                                     {
-                                        isPublic: 1
+                                        isPublic: true
                                     },
                                     {
                                         userId: req.userId
@@ -100,7 +100,7 @@ search = async function(req, res) {
                                 },
                                 [Op.or]: [
                                     {
-                                        isPublic: 1
+                                        isPublic: true
                                     },
                                     {
                                         userId: req.userId
