@@ -28,11 +28,18 @@ export const getEvent = (eventId, history, setEventData, setloading) => {
     api({ sendToken: true })
       .get("/event/event/" + eventId)
       .then((response) => {
-        /*
         if (! response.data.length > 0){
           history.goBack();
         }
-        */
+
+        // get user id
+        var myId = localStorage.getItem("userId")
+
+        // check if it is current users event
+        if(response.data.result.userId !== parseInt(myId)){
+          history.goBack();
+        }
+
         setEventData(() => {
           var next = {
             ...response.data.result,
