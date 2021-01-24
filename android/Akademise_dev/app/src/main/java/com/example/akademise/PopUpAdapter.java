@@ -18,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +34,16 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     Profile profile;
-    //List<Request> requests;
+    List<Request> requests;
     List<Notifications> notifs;
     Context context;
 
     public PopUpAdapter(Context ct, List<Request> prj, List<Notifications> notif) {
         context = ct;
-        //requests = prj;
+        requests = prj;
         notifs=notif;
+        Collections.reverse(notifs);
+        Collections.reverse(requests);
         loadData();
         loadIDData();
         baseURL=ct.getString(R.string.baseUrl);
@@ -69,132 +72,131 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
         String user_name;
 
         holder.username.setClickable(true);
-        holder.accept.setVisibility(View.INVISIBLE);
-        holder.reject.setVisibility(View.INVISIBLE);
-        if(notifs.get(position).getType()!=5){
-            holder.projectName.setText("Project: "+ notifs.get(position).getProject().getTitle());
-            if(notifs.get(position).getType()==0){
-                user_name= notifs.get(position).getAccepter().getName()+" "
-                        +notifs.get(position).getAccepter().getSurname();
+        if(position<notifs.size()) {
+            if (notifs.get(position).getType() != 5) {
+                holder.projectName.setText("Project: " + notifs.get(position).getProject().getTitle());
+                if (notifs.get(position).getType() == 0) {
+                    user_name = notifs.get(position).getAccepter().getName() + " "
+                            + notifs.get(position).getAccepter().getSurname();
+                    holder.username.setText(user_name);
+                    holder.type.setText("accepted");
+                }
+                if (notifs.get(position).getType() == 1) {
+                    user_name = notifs.get(position).getParticipant().getName() + " "
+                            + notifs.get(position).getParticipant().getSurname();
+                    holder.username.setText(user_name);
+                    holder.type.setText("joined");
+                }
+                if (notifs.get(position).getType() == 2) {
+                    user_name = notifs.get(position).getParticipant().getName() + " "
+                            + notifs.get(position).getParticipant().getSurname();
+                    holder.username.setText(user_name);
+                    holder.type.setText("removed");
+                }
+                if (notifs.get(position).getType() == 3) {
+                    user_name = notifs.get(position).getParticipant().getName() + " "
+                            + notifs.get(position).getParticipant().getSurname();
+                    holder.username.setText(user_name);
+                    holder.type.setText("removed");
+                }
+                if (notifs.get(position).getType() == -1) {
+                    user_name = notifs.get(position).getAccepter().getName() + " "
+                            + notifs.get(position).getAccepter().getSurname();
+                    holder.username.setText(user_name);
+                    holder.type.setText("rejected");
+                }
+            } else {
+                holder.projectName.setText("");
+                user_name = notifs.get(position).getParticipant().getName() + " "
+                        + notifs.get(position).getParticipant().getSurname();
                 holder.username.setText(user_name);
-                holder.type.setText("accepted");
-            }
-            if(notifs.get(position).getType()==1){
-                user_name = notifs.get(position).getParticipant().getName()+" "
-                        +notifs.get(position).getParticipant().getSurname();
-                holder.username.setText(user_name);
-                holder.type.setText("joined");
-            }
-            if(notifs.get(position).getType()==2){
-                user_name = notifs.get(position).getParticipant().getName()+" "
-                        +notifs.get(position).getParticipant().getSurname();
-                holder.username.setText(user_name);
-                holder.type.setText("removed");
-            }
-            if(notifs.get(position).getType()==3){
-                user_name = notifs.get(position).getParticipant().getName()+" "
-                        +notifs.get(position).getParticipant().getSurname();
-                holder.username.setText(user_name);
-                holder.type.setText("removed");
-            }
-            if(notifs.get(position).getType()==-1){
-                user_name= notifs.get(position).getAccepter().getName()+" "
-                        +notifs.get(position).getAccepter().getSurname();
-                holder.username.setText(user_name);
-                holder.type.setText("rejected");
+                holder.type.setText("followed you");
             }
         }
         else{
-            holder.projectName.setText("");
-            user_name = notifs.get(position).getParticipant().getName()+" "
-                    +notifs.get(position).getParticipant().getSurname();
+            holder.projectName.setText(requests.get(position-notifs.size()).getProject().getTitle());
+            user_name = requests.get(position-notifs.size()).getRequesterUser().get("name") + " "
+                    + requests.get(position-notifs.size()).getRequesterUser().get("surname");
             holder.username.setText(user_name);
-            holder.type.setText("followed you");
+            if(requests.get(position-notifs.size()).getRequestType()==0){
+                holder.type.setText("Request");
+            }
+            else{
+                holder.type.setText("Invitation");
+            }
         }
         loadIDData();
 
-        /*holder.accept.setOnClickListener(new View.OnClickListener() {
+        holder.type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
-                Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
-
-                call.enqueue(new Callback<Collab>() {
-                    @Override
-                    public void onResponse(Call<Collab> call, Response<Collab> response) {
-
-                        if (!response.isSuccessful()) {
-                            Log.d("Project", "onResponse: not successful");
-                            return;
+                if (position < notifs.size()) {
+                    Call<Notifications> call =akademiseApi.deleteNotification(notifs.get(position).getId(), "Bearer " + myToken);
+                    call.enqueue(new Callback<Notifications>() {
+                        @Override
+                        public void onResponse(Call<Notifications> call, Response<Notifications> response) {
+                            if (!response.isSuccessful()) {
+                                return;
+                            }
                         }
 
-                    }
+                        @Override
+                        public void onFailure(Call<Notifications> call, Throwable t) {
 
-                    @Override
-                    public void onFailure(Call<Collab> call, Throwable t) {
-
-                        Log.d("Project", "onFailure: failed");
-
-                    }
-                });
-
-            }
-        });
-
-        holder.reject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
-                Call<Collab> call = akademiseApi.deleteReq(requests.get(position).getRequestId(), "Bearer " + myToken);
-
-                call.enqueue(new Callback<Collab>() {
-                    @Override
-                    public void onResponse(Call<Collab> call, Response<Collab> response) {
-
-                        if (!response.isSuccessful()) {
-                            Log.d("Project", "onResponse: not successful");
-                            return;
                         }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Collab> call, Throwable t) {
-
-                        Log.d("Project", "onFailure: failed");
-
-                    }
-                });
+                    });
+                }
             }
         });
 
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (position < notifs.size()) {
+                    Call<Profile> call = akademiseApi.getMyProfile(notifs.get(position).getAccepterId(), "Bearer " + myToken);
+                    call.enqueue(new Callback<Profile>() {
+                        @Override
+                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                            if (!response.isSuccessful()) {
+                                return;
+                            }
+                            profile = response.body();
+                            Intent intent = new Intent(context, ProfileActivity.class);
+                            intent.putExtra("user", profile);
+                            context.startActivity(intent);
 
-                Call<Profile> call = akademiseApi.getMyProfile(notifs.get(position).getAccepterId(), "Bearer " + myToken);
-                call.enqueue(new Callback<Profile>() {
-                    @Override
-                    public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if(!response.isSuccessful()){
-                            return;
                         }
-                        profile = response.body();
-                        Intent intent = new Intent(context, ProfileActivity.class);
-                        intent.putExtra("user", profile);
-                        context.startActivity(intent);
 
-                    }
+                        @Override
+                        public void onFailure(Call<Profile> call, Throwable t) {
+                        }
+                    });
+                }
+                else{
+                    Call<Profile> call = akademiseApi.getMyProfile(requests.get(position-notifs.size()).getRequesterId(), "Bearer " + myToken);
+                    call.enqueue(new Callback<Profile>() {
+                        @Override
+                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                            if (!response.isSuccessful()) {
+                                return;
+                            }
+                            profile = response.body();
+                            Intent intent = new Intent(context, ProfileActivity.class);
+                            intent.putExtra("user", profile);
+                            context.startActivity(intent);
 
-                    @Override
-                    public void onFailure(Call<Profile> call, Throwable t) {
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onFailure(Call<Profile> call, Throwable t) {
+                        }
+                    });
+                }
             }
+
         });
 
-         */
+
 
     }
 
@@ -213,7 +215,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
             return 0;
         }
 
-        return notifs.size();
+        return notifs.size()+requests.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -221,8 +223,6 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
         TextView username;
         TextView projectName;
         TextView type;
-        Button accept;
-        Button reject;
         View mView;
 
 
@@ -230,8 +230,6 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
             super(itemView);
             username = itemView.findViewById(R.id.tv_popup_user);
             projectName = itemView.findViewById(R.id.tv_popup_row_project_name);
-            accept = itemView.findViewById(R.id.btn_accept);
-            reject = itemView.findViewById(R.id.btn_reject);
             type = itemView.findViewById(R.id.tv_popup_req_inv);
             mView = itemView;
 

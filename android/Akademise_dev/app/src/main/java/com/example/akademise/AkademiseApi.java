@@ -145,6 +145,7 @@ public interface AkademiseApi {
     @DELETE("collab/delete_request/{id}")
     Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);
 
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add_tag")
     Call<AddTag>  addTags(@Body AddTag newTags, @Header("Authorization") String auth);
@@ -178,6 +179,10 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("notification/get")
     Call<List<Notifications>> getNotifications(@Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("notification/delete/{id}")
+    Call<Notifications>  deleteNotification(@Path("id") int id, @Header("Authorization") String auth);
 
     @GET("/follow/followers")
     Call<Follower> getFollowers(@Header("Authorization") String auth);
