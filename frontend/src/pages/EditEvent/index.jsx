@@ -73,7 +73,7 @@ const EditEvent = () => {
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
-          {loading ? <Spin/>:
+          {loading ? <Content><Spin/></Content> :
           <Content>
             <Form 
               layout="vertical" 
