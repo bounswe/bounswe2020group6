@@ -9,8 +9,8 @@ module.exports = (sequelize, Seq) => {
 		title: Seq.STRING,
 		summary : Seq.TEXT,
 		description : Seq.TEXT,
-		privacy : Seq.TINYINT,
-		status : Seq.TINYINT,
+		privacy : Seq.BOOLEAN,
+		status : Seq.BOOLEAN,
 		requirements : Seq.TEXT
 	}, 
 	{
