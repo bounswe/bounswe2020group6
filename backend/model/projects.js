@@ -8,7 +8,6 @@ module.exports = (sequelize, Seq) => {
 		userId : Seq.INTEGER,
 		title: Seq.STRING,
 		summary : Seq.TEXT,
-		description : Seq.TEXT,
 		privacy : Seq.BOOLEAN,
 		status : Seq.BOOLEAN,
 		requirements : Seq.TEXT

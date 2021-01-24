@@ -18,7 +18,6 @@ const EventModel = require('./events')
 const EventTagModel = require('./event_tags')
 const EventFavModel = require('./event_favs')
 
-
 //Connection to server database
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
@@ -45,6 +44,7 @@ const Notification = NotificationModel(sequelize, Sequelize)
 const Event = EventModel(sequelize, Sequelize)
 const EventTag = EventTagModel(sequelize, Sequelize)
 const EventFav = EventFavModel(sequelize, Sequelize)
+
 
 User.hasMany(Project, {as: "project", foreignKey: "userId", onDelete: 'CASCADE', constraints: false})
 ProjectCollaborator.belongsTo(User, {foreignKey: 'user_id',constraints: false, onDelete: 'CASCADE'})
@@ -89,7 +89,6 @@ Notification.belongsTo(User,{as : 'accepter', foreignKey : 'accepterId', constra
 Notification.belongsTo(User,{as : 'participant', foreignKey : 'participantId', constraints : false})
 Notification.belongsTo(Project,{foreignKey : 'projectId', constraints : false})
 User.hasMany(Notification, {foreignKey: 'receiverId', onDelete: 'CASCADE'})
-
 
 sequelize.query('')
 .then(function(){

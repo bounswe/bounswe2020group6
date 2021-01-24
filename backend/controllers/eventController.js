@@ -1,5 +1,6 @@
 const { User, EventFav, EventTag,  Event, sequelize } = require('../model/db');
 const { Op } = require("sequelize");
+const elasticUtil = require("../elastic/elasticUtil")
 
 const eventData = function (id) {
     data = 
@@ -45,9 +46,9 @@ addEvent = async function (req, res) {
         
         for (var tag of req.body.tags)
             await EventTag.create( { id: addedEvent.id, tag }, { transaction } )    
-        
+
         await transaction.commit()
-        
+        elasticUtil.addEvent(addedEvent)
         res.status(200).send({message: "Event is created", event: addedEvent})
         
     } catch (error) {
@@ -111,7 +112,12 @@ updateEvent = async function (req, res) {
         console.log(thisEvent.userId);
         
         await Event.update( toUpdate, { where: {id} }, { transaction } )
-
+        eventToUpdate = await Event.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        elasticUtil.updateEvent(eventToUpdate)
         if (tags) {
             await EventTag.destroy( { where: {id} }, { transaction } ) 
 
@@ -176,6 +182,7 @@ deleteEvent = async function (req, res) {
     try {
         const deleted = await Event.destroy( {where: {id, userId}} )
         if(deleted == 0) throw new Error('Nothing is deleted, either you are not the owner or this event does not exist')
+        elasticUtil.deleteEvent(id)
         res.status(201).send("success")
     } catch (error) {
         res.status(500).send(error.message)

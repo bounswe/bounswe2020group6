@@ -1,8 +1,9 @@
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
-const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
+const {Project, ProjectTag, ProjectFile, ProjectMilestone, ProjectElastic} = require('../model/db')
 const postUtil = require("../util/postUtil")
 const { Op } = require("sequelize");
+const elasticUtil = require("../elastic/elasticUtil")
 
 
 //Adds new posts to database also adds uploaded files to filesystem
@@ -20,6 +21,7 @@ addPost = async function(req,res) {
     file = req.files
     try {
 	postDb = await Project.create(postData)
+	
 	for(var key in tags){
 	    currentTag = tags[key]
 	    projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
@@ -34,6 +36,9 @@ addPost = async function(req,res) {
 		projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
 	    }
 	}
+
+	elastic = await elasticUtil.addPost(postDb)
+	console.log(elastic)
 	res.status(201).send({message: "Post is created", id: postDb.id})
     }catch (error){
 	res.status(500).send({error: error})
@@ -139,8 +144,15 @@ updatePost = async function (req,res){
 	await Project.update(fieldsToUpdate, {
 	    where : {
 	        id : req.params.id
-	    }
+		},
+		returning: true
 	});
+	postToUpdate = await Project.findOne({
+		where: {
+			id: req.params.id
+		}
+	})
+	elasticUtil.updatePost(postToUpdate)
 	res.status(200).send({message : "Post is updated"})
     }catch(error) {
 	res.status(500).send({"error": error})
@@ -158,6 +170,7 @@ deletePost = async function (req,res){
 	    }
 	});
 	deleteFolder(req.params.id)
+	elasticUtil.deletePost(req.params.id)
 	res.status(204).send({message : "Post is deleted"})
     }catch(error) {
 	res.status(500).send({error: error})
