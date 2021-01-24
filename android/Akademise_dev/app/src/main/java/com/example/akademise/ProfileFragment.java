@@ -125,7 +125,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
+      /*  ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pressTime = System.currentTimeMillis();
@@ -136,6 +136,8 @@ public class ProfileFragment extends Fragment {
                 lastPressTime = pressTime;
             }
         });
+
+       */
 
         publicationsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

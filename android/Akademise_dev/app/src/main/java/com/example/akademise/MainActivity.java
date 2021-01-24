@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
+    String baseURL ;
     AkademiseApi akademiseApi;
     private String myToken;
     private Integer myId;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        baseURL=getString(R.string.baseUrl);
 
         BottomNavigationView bottomNav= findViewById(R.id.bottomNavigationView);
 
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.miNotifications:
                             getRequests();
+
                             break;
                     }
                     if(selectedFragment!=null) {
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Request>> call, Throwable t) {
 
-                Log.d("Project", "onFailure: failed");
+                Log.d("Request", "onFailure: failed");
 
             }
         });

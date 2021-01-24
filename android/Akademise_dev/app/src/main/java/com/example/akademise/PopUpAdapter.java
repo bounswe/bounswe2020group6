@@ -29,7 +29,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
     private String myToken;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
+    String baseURL ;
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     Profile profile;
@@ -41,6 +41,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
         requests = prj;
         loadData();
         loadIDData();
+        baseURL=ct.getString(R.string.baseUrl);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
