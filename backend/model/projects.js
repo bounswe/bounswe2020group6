@@ -8,8 +8,8 @@ module.exports = (sequelize, Seq) => {
 		userId : Seq.INTEGER,
 		title: Seq.STRING,
 		summary : Seq.TEXT,
-		privacy : Seq.TINYINT,
-		status : Seq.TINYINT,
+		privacy : Seq.BOOLEAN,
+		status : Seq.BOOLEAN,
 		requirements : Seq.TEXT
 	}, 
 	{

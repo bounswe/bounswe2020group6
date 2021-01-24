@@ -22,7 +22,7 @@ const EventFavModel = require('./event_favs')
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
-  dialect: 'mysql',
+  dialect: 'postgres',
 })
 
 
@@ -90,12 +90,9 @@ Notification.belongsTo(User,{as : 'participant', foreignKey : 'participantId', c
 Notification.belongsTo(Project,{foreignKey : 'projectId', constraints : false})
 User.hasMany(Notification, {foreignKey: 'receiverId', onDelete: 'CASCADE'})
 
-sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
+sequelize.query('')
 .then(function(){
     return sequelize.sync({ force: false });
-})
-.then(function(){
-    return sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
 })
 .then(function(){
     console.log('Database & tables are created.');
