@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="111dp">
+            android:layout_height="wrap_content">
 
 
             <Button
@@ -23,10 +23,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_shape"
                 android:text="Accept"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_reject"
-                app:layout_constraintHorizontal_bias="0.53"
-                app:layout_constraintStart_toEndOf="@+id/tv_popup_user"
+                app:layout_constraintBottom_toTopOf="@+id/btn_reject"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -34,37 +32,32 @@
                 style="@style/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:background="@drawable/button_shape"
                 android:text="Reject"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="@+id/btn_accept"
+                app:layout_constraintTop_toBottomOf="@+id/btn_accept" />
 
             <TextView
                 android:id="@+id/tv_popup_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:layout_marginStart="28dp"
                 android:text="USER NAME"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_popup_row_project_name"
+                app:layout_constraintEnd_toStartOf="@+id/tv_popup_req_inv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.444" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_popup_row_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
                 android:text="Project Name"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_popup_req_inv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_popup_user"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_popup_user" />
 
             <TextView
                 android:id="@+id/tv_popup_req_inv"
@@ -72,9 +65,8 @@
                 android:layout_height="wrap_content"
                 android:text="Request/Invitation"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_popup_row_project_name" />
+                app:layout_constraintEnd_toStartOf="@+id/btn_accept"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

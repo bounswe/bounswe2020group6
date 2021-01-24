@@ -175,6 +175,10 @@ public interface AkademiseApi {
     @GET("home/users")
     Call<Home> getHomeUsers(@Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("notification/get")
+    Call<List<Notifications>> getNotifications(@Header("Authorization") String auth);
+
     @GET("/follow/followers")
     Call<Follower> getFollowers(@Header("Authorization") String auth);
 
