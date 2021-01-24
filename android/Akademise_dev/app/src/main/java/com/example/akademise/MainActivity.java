@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private String myToken;
     private Integer myId;
     List<Request> requests;
+    List<Notifications> notif;
 
 
     @Override
@@ -84,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                             break;
                         case R.id.miNotifications:
-                            getRequests();
-
+                            getNotifications();
                             break;
                     }
                     if(selectedFragment!=null) {
@@ -126,23 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-              /*  final Dialog dialog = new Dialog(getApplicationContext());
-
-                dialog.setContentView(R.layout.popup);
-                dialog.setCancelable(false);
-
-                if (dialog.getWindow() != null){
-                    dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                }
-
-                RecyclerView recyclerView = dialog.findViewById(R.id.rv_popup);
-                RequestAdapter recyclerViewAdapter = new RequestAdapter(MainActivity.this, mod_req);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                recyclerView.setAdapter(recyclerViewAdapter);
-
-                dialog.show();
-
-                 */
                 final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 mBuilder.setTitle("Notifications");
                 LayoutInflater inflater = getLayoutInflater();
@@ -150,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                 RecyclerView list = convertView.findViewById(R.id.rv_popup);
                 list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                PopUpAdapter recyclerViewAdapter = new PopUpAdapter(MainActivity.this, mod_req);
+                PopUpAdapter recyclerViewAdapter = new PopUpAdapter(MainActivity.this, mod_req, notif);
                 list.setAdapter(recyclerViewAdapter);
                 mBuilder.setView(convertView); // setView
 
@@ -168,6 +151,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void getNotifications(){
+         notif = new ArrayList<Notifications>();
+        Call<List<Notifications>> call = akademiseApi.getNotifications("Bearer " + myToken);
+        call.enqueue(new Callback<List<Notifications>>() {
+            @Override
+            public void onResponse(Call<List<Notifications>> call, Response<List<Notifications>> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("Notifications", "onResponse: not successful");
+                    return;
+                }
+                List<Notifications> getNotif = response.body();
+                for (int i = 0; i < getNotif.size(); i++) {
+                    Notifications not = getNotif.get(i);
+                    notif.add(not);
+                }
+                getRequests();
+            }
+
+            @Override
+            public void onFailure(Call<List<Notifications>> call, Throwable t) {
+                Log.d("Notifications", "onFailure: failed");
+            }
+        });
     }
 
     private void loadData() {
