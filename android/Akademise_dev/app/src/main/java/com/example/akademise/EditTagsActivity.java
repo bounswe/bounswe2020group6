@@ -55,7 +55,7 @@ public class EditTagsActivity extends AppCompatActivity {
         addTag = findViewById(R.id.btnAddTag);
         manuelNewTag = findViewById(R.id.etNewTag);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

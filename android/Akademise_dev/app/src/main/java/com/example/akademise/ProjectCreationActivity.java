@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProjectCreationActivity extends AppCompatActivity {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
+
     Button next;
     AkademiseApi akademiseApi;
     private String myToken;
@@ -55,7 +55,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 new ProjectInfoEntryFragment()).commit();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

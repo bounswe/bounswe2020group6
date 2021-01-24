@@ -30,7 +30,6 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
     private String myToken;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     List<String> files;
@@ -42,7 +41,7 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
         loadIDData();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(context.getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

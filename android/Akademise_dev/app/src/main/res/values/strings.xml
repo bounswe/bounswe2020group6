@@ -12,6 +12,7 @@
     <string name="isPublic"> Public</string>
     <string name="tags">Tags: </string>
     <string name="project">Project</string>
+    <string name="baseUrl">http://ec2-52-90-125-147.compute-1.amazonaws.com:3000/</string>
 
 
     <string-array name="college_array">

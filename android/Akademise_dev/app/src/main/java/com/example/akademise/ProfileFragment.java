@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private Button statsAndOverviewButton;
     private Button publicationsButton;
@@ -106,7 +105,7 @@ public class ProfileFragment extends Fragment {
                 changeTextsEditability(false);
 
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(baseURL)
+                        .baseUrl(getString(R.string.baseUrl))
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
@@ -169,7 +168,7 @@ public class ProfileFragment extends Fragment {
         //tvAffiliation = getView().findViewById(R.id.affiliation_content);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

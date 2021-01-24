@@ -35,7 +35,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileOthersFragment extends Fragment {
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
@@ -86,7 +85,7 @@ public class ProfileOthersFragment extends Fragment {
         loadIDData();
         otherGoogleScholar = view.findViewById(R.id.btnOtherGoogleScholar);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
