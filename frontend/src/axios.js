@@ -7,7 +7,7 @@ export default function api(config) {
     jwtToken = localStorage.getItem("token");
   }
   const defaultConfig = {
-    baseURL: "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000",
+    baseURL: "http://ec2-18-232-99-241.compute-1.amazonaws.com:3000",
     headers: config.sendToken && { Authorization: `Bearer ${jwtToken}` },
   };
   return axios.create(defaultConfig);

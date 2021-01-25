@@ -5,6 +5,7 @@ import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import Home from "./pages/Home";
+import Events from "./pages/Events";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import CreateProject from "./pages/CreateProject";
@@ -63,6 +64,9 @@ export default function App() {
       <Switch>
         <Route path="/home">
           <Home />
+        </Route>
+        <Route path="/events">
+          <Events />
         </Route>
         <Route path="/search">
           <Search />
