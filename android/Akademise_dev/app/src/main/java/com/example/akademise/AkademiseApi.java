@@ -190,8 +190,9 @@ public interface AkademiseApi {
     @POST("/event/unfav")
     Call<String> unfavEvent(@Body Id id, @Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("/event/add")
-    Call<AddEvent> addEvent(@Header("Authorization") String auth);
+    Call<AddEvent> addEvent(@Body AddEvent addEvent,@Header("Authorization") String auth);
 
     @GET("/event/all")
     Call<Event> getAllEvents(@Header("Authorization") String auth);
@@ -203,6 +204,7 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("/event/delete")
     Call<EventOperation> eventOperation(@Body EventOperation eventOperation, @Header("Authorization") String auth);
+
 
 }
 

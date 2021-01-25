@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +60,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
         holder.eventType.setText(results.result.get(position).type);
         holder.eventTitle.setText(results.result.get(position).title);
+        holder.eventBody.setText(results.result.get(position).body);
         holder.eventLocation.setText(results.result.get(position).location);
         holder.eventInfo.setText(results.result.get(position).other);
         holder.eventLink.setText(results.result.get(position).link);
@@ -94,6 +97,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView eventType;
         TextView eventTitle;
+        TextView eventBody;
         TextView eventLocation;
         TextView eventInfo;
         TextView eventLink;
@@ -105,6 +109,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             super(itemView);
             eventType = itemView.findViewById(R.id.my_event_type);
             eventTitle = itemView.findViewById(R.id.my_event_title);
+            eventBody = itemView.findViewById(R.id.my_event_body);
             eventLocation = itemView.findViewById(R.id.my_event_location);
             eventInfo = itemView.findViewById(R.id.my_event_info);
             eventDate = itemView.findViewById(R.id.my_event_date);

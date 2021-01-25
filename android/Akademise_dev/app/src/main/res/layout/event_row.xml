@@ -37,13 +37,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/event_type" />
 
             <TextView
-                android:id="@+id/event_location"
+                android:id="@+id/event_body"
                 style="@style/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_title" />
+
+            <TextView
+                android:id="@+id/event_location"
+                style="@style/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/event_body" />
 
             <TextView
                 android:id="@+id/event_info"

@@ -76,6 +76,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
 
         holder.eventType.setText(results.result.get(position).type);
         holder.eventTitle.setText(results.result.get(position).title);
+        holder.eventBody.setText(results.result.get(position).body);
         holder.eventLocation.setText(results.result.get(position).location);
         holder.eventInfo.setText(results.result.get(position).other);
         holder.eventLink.setText(results.result.get(position).link);
@@ -157,6 +158,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView eventType;
         TextView eventTitle;
+        TextView eventBody;
         TextView eventLocation;
         TextView eventInfo;
         TextView eventLink;
@@ -168,6 +170,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
             super(itemView);
             eventType = itemView.findViewById(R.id.event_type);
             eventTitle = itemView.findViewById(R.id.event_title);
+            eventBody = itemView.findViewById(R.id.event_body);
             eventLocation = itemView.findViewById(R.id.event_location);
             eventInfo = itemView.findViewById(R.id.event_info);
             eventDate = itemView.findViewById(R.id.event_date);
