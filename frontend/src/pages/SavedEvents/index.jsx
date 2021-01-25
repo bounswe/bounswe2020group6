@@ -10,10 +10,10 @@ import {
 import Frame from "../../components/Frame";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3, StHref } from "./style";
-import moment from "moment";
+
 import api from "../../axios";
 
-const Events = () => {
+const SavedEvents = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(
@@ -22,9 +22,11 @@ const Events = () => {
   const [userRecommendations, setUserRecommendations] = useState([]);
 
   useEffect(() => {
+    const myId = localStorage.getItem("userId")
+
     setLoading(true);
     api({ sendToken: true })
-      .get("/event/all")
+      .get("/event/favorites?userId=" + myId)
       .then((response) => {
         setFeed(response.data);
         setLoading(false);
@@ -77,52 +79,55 @@ const Events = () => {
             Loading... <Spin />
           </H2>
         ) : (
-          <List
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-              onChange: (page) => {
-                console.log(page);
-              },
-              pageSize: 4,
-            }}
-            dataSource={feed.result}
-            renderItem={(item) => (
-              <List.Item
-                key={item.id}
-                actions={[
-                  <IconText
-                    icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
-                    text={item.location}
-                    key="list-vertical-star-o"
-                  />,
-                  <IconText
-                    icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
-                    text={moment(item.date).format("DD MMMM YYYY HH:mm")}
-                    key="list-vertical-message"
-                  />,
-                  <IconText
-                    icon={() => <TagTwoTone twoToneColor="#548d5d" />}
-                    text={item.type}
-                    key="list-vertical-message"
-                  />,
-                ]}
-              >
-                <List.Item.Meta
-                  title={
-                    <StHref href={"/event/details/" + item.id}>
-                      {item.title}
-                    </StHref>
-                  }
-                  description={
-                    item.body.length < 150
-                      ? item.body.concat("...")
-                      : item.body.substring(0, 150).concat("...")
-                  }
-                />
-              </List.Item>
-            )}
-          />
+          <>
+            <H2>Saved Events</H2>
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={{
+                onChange: (page) => {
+                  console.log(page);
+                },
+                pageSize: 4,
+              }}
+              dataSource={feed.result}
+              renderItem={(item) => (
+                <List.Item
+                  key={item.id}
+                  actions={[
+                    <IconText
+                      icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
+                      text={item.location}
+                      key="list-vertical-star-o"
+                    />,
+                    <IconText
+                      icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
+                      text={item.date.substring(0, 10)}
+                      key="list-vertical-message"
+                    />,
+                    <IconText
+                      icon={() => <TagTwoTone twoToneColor="#548d5d" />}
+                      text={item.type}
+                      key="list-vertical-message"
+                    />,
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={
+                      <StHref href={"/event/details/" + item.id}>
+                        {item.title}
+                      </StHref>
+                    }
+                    description={
+                      item.body.length < 150
+                        ? item.body.concat("...")
+                        : item.body.substring(0, 150).concat("...")
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </>
         )}
       </Main>
       <Col
@@ -145,6 +150,7 @@ const Events = () => {
               return (
                 <PersonRecommendationCard
                   id={u.id}
+                  key={i}
                   name={u.name + " " + u.surname}
                   university={u.university}
                   department={u.department}
@@ -163,4 +169,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default SavedEvents;
