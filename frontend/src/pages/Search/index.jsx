@@ -67,7 +67,7 @@ const Search = () => {
       setSearchText(params.get('query'));
     }
     if(params.has('tags')){
-      setSelectedFilter('project')
+      setSelectedFilter('advanced')
       setSearchTags(params.get('tags'));
     }
 
