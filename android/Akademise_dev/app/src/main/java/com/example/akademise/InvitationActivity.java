@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,10 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import androidx.fragment.app.Fragment;
 
-public class RequestInvitationActivity extends AppCompatActivity {
-
+public class InvitationActivity extends AppCompatActivity {
 
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -40,12 +39,11 @@ public class RequestInvitationActivity extends AppCompatActivity {
     private Integer projectId;
     RecyclerView recyclerView;
     List<Request> requests;
-
-
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_requests_and_invitations);
+        setContentView(R.layout.fragment_invitation);
         Intent in= getIntent();
         Bundle b = in.getExtras();
         projectId = b.getInt("project_id");
@@ -60,69 +58,37 @@ public class RequestInvitationActivity extends AppCompatActivity {
         loadIDData();
 
 
-        Button btnAdd = findViewById(R.id.btnInvite);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+        searchView = (SearchView) findViewById(R.id.svSearch_invitation);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RequestInvitationActivity.this,InvitationActivity.class);
-                intent.putExtra("pId", projectId);
-                startActivity(intent);
+            public boolean onQueryTextSubmit(String query) {
+                getUsers(query);
+                Log.d("search", query.toString());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
-
-        getRequests(projectId);
 
     }
 
 
 
 
-    private void loadData() {
+
+
+
+    private void loadData(){
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
     }
-
-    private void getRequests(Integer projectId) {
-        List<Request> mod_req = new ArrayList<Request>();
-        Call<List<Request>> call = akademiseApi.getRequests("Bearer " + myToken);
-        call.enqueue(new Callback<List<Request>>() {
-            @Override
-            public void onResponse(Call<List<Request>> call, Response<List<Request>> response) {
-
-                if (!response.isSuccessful()) {
-                    Log.d("Request", "onResponse: not successful");
-                    return;
-                }
-
-                requests = response.body();
-
-
-                for (int i = 0; i < requests.size(); i++) {
-                    Request req = requests.get(i);
-                    if (req.getProjectId().equals(projectId)) {
-                        mod_req.add(req);
-                    }
-                }
-
-                recyclerView = findViewById(R.id.rv_recyclerView2);
-                RequestAdapter recyclerViewAdapter = new RequestAdapter(RequestInvitationActivity.this, mod_req);
-                recyclerView.setLayoutManager(new LinearLayoutManager(RequestInvitationActivity.this));
-                recyclerView.setAdapter(recyclerViewAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Request>> call, Throwable t) {
-
-                Log.d("Project", "onFailure: failed");
-
-            }
-        });
-
-
-    }
-
 
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
@@ -130,7 +96,46 @@ public class RequestInvitationActivity extends AppCompatActivity {
 
     }
 
+    private  void getUsers(String query){
+
+        Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
+        inside_call.enqueue(new Callback<SearchedUsers>() {
+            @Override
+            public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
+                if(!response.isSuccessful()){
+                    Log.d("Get", "onResponse: " + response.code());
+                    return;
+                }
+                Log.d("GET", "On response: " + response.message());
+                SearchedUsers searchedUsers = response.body();
+                recyclerView = findViewById(R.id.invitationRv);
+                RecyclerViewAdapterInvite recyclerViewAdapter = new RecyclerViewAdapterInvite(InvitationActivity.this, searchedUsers,projectId);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(InvitationActivity.this));
+
+            }
+
+            @Override
+            public void onFailure(Call<SearchedUsers> call, Throwable t) {
+                Log.d("Get", "onFailure: " + t.getMessage());
+
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
-
-
