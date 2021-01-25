@@ -29,7 +29,6 @@ const Events = () => {
         setFeed(response.data);
         setLoading(false);
         console.log(response.data);
-        console.log(feed);
       })
       .catch((error) => {
         console.log(error);
@@ -88,10 +87,9 @@ const Events = () => {
               pageSize: 4,
             }}
             dataSource={feed.result}
-
             renderItem={(item) => (
               <List.Item
-                key={item.title}
+                key={item.id}
                 actions={[
                   <IconText
                     icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
