@@ -1,32 +1,24 @@
-const { User, Project } = require("../model/db")
-const Sequelize = require('sequelize')
+const { Project, Event } = require("../model/db")
+const {Op} = require('sequelize')
+const elasticUtil = require("../elastic/elasticUtil")
+const searchUtil = require("../util/searchUtil")
+
 
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()
     const type = req.query.type
     try{
         if(type == 0){
-            
-            users = await User.findAll({
-                where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
-                    [Sequelize.Op.like]: "%" + query + "%"
-                })
-            })
-           
-
-            return res.status(200).send({users: users})
+            result = await searchUtil.userSearch(query)
+            return res.status(200).send(result)
         }
-        else {
-            projects = await Project.findAll({
-                where: {
-                    title: {
-                        [Sequelize.Op.like]: "%" + query + "%"
-                    },
-                    privacy: 1
-                }
-            })
-    
-            return res.status(200).send({projects: projects})
+        else if(type == 1) {
+            result = await searchUtil.projectSearch(query, req.userId)
+            return res.status(200).send({projects: result})
+        }
+        else { 
+            result = await searchUtil.eventSearch(query, req.userId)
+            return res.status(200).send({events: result})
         }
     }
     catch(error){

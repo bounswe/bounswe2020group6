@@ -1,7 +1,8 @@
 const {CollabRequest, ProjectCollaborator, User, Project}  = require('../model/db')
-const {requestExists} = require('../util/collabUtil')
+const {requestExists, getCollaborators} = require('../util/collabUtil')
 const userUtils = require('../util/userUtil')
 const {postExists} = require('../util/postUtil')
+const {addNotification} = require('../util/notificationUtil')
 const { Op } = require("sequelize");
 
 
@@ -35,7 +36,7 @@ addRequest = async function(req, res){
 	}
 	res.status(201).send({message: "Available Collaborations are Requested",requestError : requestError ,alreadyRequestedUsers : alreadyRequestedUsers, userError : userError,notFoundUsers : notFoundUsers})
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
     }
 }
 
@@ -57,7 +58,6 @@ deleteRequest = async function(req, res){
 	res.status(201).send({message: "Operation is Completed"})
     }catch(error){
 	res.status(500).send({error: "ooop"})
-	console.log(err)
     }
 }
 
@@ -84,9 +84,9 @@ getRequest = async function(req,res){
 	    }
 	]
 	});
-	res.status(201).send(requests)
+	res.status(200).send(requests)
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
     }
 }
 
@@ -106,12 +106,20 @@ addCollaborator = async function(req,res){
 		    ],
 		    projectId : projectId
 		},
-		attributes: ['id'],
+		attributes: ['id','requestedId','requesterId'],
 		raw : true
 	    });
 	    if(request.length == 0){
 		res.status(500).send({message : "Request is no longer available"})
 	    }else{
+		var body = "user " + request[0].requestedId + " accepted collaboration request concerning project " + projectId 
+		await addNotification(projectId,0,request[0].requestedId,collaboratorId,request[0].requesterId,body)
+		project_collaborators = await getCollaborators(projectId)
+		collab_length = project_collaborators.length
+		body = "user " + collaboratorId + " joined to project " + projectId
+		for (i = 0; i < collab_length; i++) {
+  		    await addNotification(projectId,1,collaboratorId,collaboratorId,project_collaborators[i].user_id,body)
+		}
 		collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
 		req.requestId = request[0].id
 		deleteRequest(req,res);	
@@ -120,7 +128,7 @@ addCollaborator = async function(req,res){
 	    res.status(500).send({message : "Project doesn't exist"})
 	}
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
     }
 }
 
@@ -137,9 +145,16 @@ deleteCollaborator = async function(req,res){
 		user_id : collaboratorId
 	    }
 	});
-	res.status(201).send({message: "Collaborator is Deleted"})
+	var body = "user " + collaboratorId + " removed from project " + projectId
+	await addNotification(projectId,2,collaboratorId,collaboratorId,collaboratorId,body)
+	project_collaborators = await getCollaborators(projectId)
+	collab_length = project_collaborators.length
+	for (i = 0; i < collab_length; i++) {
+  	    await addNotification(projectId,3,collaboratorId,collaboratorId,project_collaborators[i].user_id,body)
+	}
+	res.status(200).send({message: "Collaborator is Deleted"})
     }catch(error){
-	res.status(500).send({error: error})
+	res.status(500).send({error: error.message})
 	console.log(error)
     }
 }

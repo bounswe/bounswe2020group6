@@ -1,5 +1,6 @@
 const { Follow, User } = require('../model/db')
 const userUtils = require('../util/userUtil')
+const {addNotification} = require('../util/notificationUtil')
 
 addFollow = async function(req, res){
     follower_user_id = Number(req.userId)
@@ -19,8 +20,9 @@ addFollow = async function(req, res){
             followed_user_id
         }
         followDb = await Follow.create(followData)
-        res.status(200).send({message: "Successful"})
-       
+        body = "User " + follower_user_id + " followed " + "user " + followed_user_id
+        addNotification(1,5,follower_user_id,follower_user_id,followed_user_id,body)
+        res.status(200).send({message: "Successful"}) 
     }catch(error){
         res.status(500).send({error: "Something is wrong"})
 

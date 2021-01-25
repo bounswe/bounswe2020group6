@@ -1,43 +1,52 @@
 const {moveFile} = require('../util/uploadUtil')  
 const {deleteFolder} = require('./fileController')
-const {Project, ProjectTag, ProjectFile, ProjectMilestone} = require('../model/db')
+const {Project, ProjectTag, ProjectFile, ProjectMilestone, ProjectElastic} = require('../model/db')
 const postUtil = require("../util/postUtil")
 const { Op } = require("sequelize");
+const elasticUtil = require("../elastic/elasticUtil")
 
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
     postData = {
-	userId : req.userId,
-	title : req.body.title,
-	summary : req.body.summary,
-	description : req.body.description,
-	privacy : req.body.privacy,
-	status : req.body.status,
-	requirements : req.body.requirements
+		userId : req.userId,
+		title : req.body.title,
+		summary : req.body.summary,
+		description : req.body.description,
+		privacy : req.body.privacy,
+		status : req.body.status,
+		requirements : req.body.requirements
     }
     tags = req.body.tags
     file = req.files
     try {
-	postDb = await Project.create(postData)
-	for(var key in tags){
-	    currentTag = tags[key]
-	    projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
-	}
+		postDb = await Project.create(postData)
+		
+		for(var key in tags){
+			currentTag = tags[key]
+			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
+		}
 
-	if(file != undefined){
-	    for(var i = 0; i < file.length; i++){
-		currentFile = file[i]
-		oldPath = `./uploads/${currentFile.filename}`
-		newPath = `./uploads/${postDb.id}`
-		moveFile(currentFile.filename, oldPath, newPath)
-		projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
-	    }
-	}
-	res.status(201).send({message: "Post is created", id: postDb.id})
+		if(file != undefined){
+			for(var i = 0; i < file.length; i++){
+			currentFile = file[i]
+			oldPath = `./uploads/${currentFile.filename}`
+			newPath = `./uploads/${postDb.id}`
+			moveFile(currentFile.filename, oldPath, newPath)
+			projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
+			}
+		}
+		try{
+			elastic = await elasticUtil.addPost(postDb)
+			console.log(elastic)
+		}
+		finally{
+			res.status(201).send({message: "Post is created", id: postDb.id})
+		}
+		
     }catch (error){
-	res.status(500).send({error: error})
-	console.log(error)
+		res.status(500).send({error: error})
+		console.log(error)
     }
 }
 
@@ -139,9 +148,21 @@ updatePost = async function (req,res){
 	await Project.update(fieldsToUpdate, {
 	    where : {
 	        id : req.params.id
-	    }
+		},
+		returning: true
 	});
-	res.status(200).send({message : "Post is updated"})
+	postToUpdate = await Project.findOne({
+		where: {
+			id: req.params.id
+		}
+	})
+	try{
+		elasticUtil.updatePost(postToUpdate)
+	}
+	finally {
+		res.status(200).send({message : "Post is updated"})
+
+	}
     }catch(error) {
 	res.status(500).send({"error": error})
 	console.log(error)
@@ -158,7 +179,12 @@ deletePost = async function (req,res){
 	    }
 	});
 	deleteFolder(req.params.id)
-	res.status(204).send({message : "Post is deleted"})
+	try{
+		elasticUtil.deletePost(req.params.id)
+	}
+	finally {
+		res.status(204).send({message : "Post is deleted"})
+	}
     }catch(error) {
 	res.status(500).send({error: error})
 	console.log(error)
@@ -181,12 +207,12 @@ getPosts = async function(req,res){
 			    {'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
 			    [Op.or] : [
 			        {'$project.userId$' : {[Op.eq] : user_id}},
-				{'$project.privacy$' : {[Op.eq] : 1}}
+				{'$project.privacy$' : {[Op.eq] : true}}
 			    ]},
 			    {userId : userParameter,
 			    [Op.or] : [
 				{'$project_collaborators.user_id$' : {[Op.eq]: user_id}},
-				{'$project.privacy$' : {[Op.eq]: 1}}
+				{'$project.privacy$' : {[Op.eq]: true}}
 			    ]}
 			]
 		    },
