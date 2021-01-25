@@ -21,6 +21,7 @@ import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
 import CreateEvent from "./pages/CreateEvent";
 import EditEvent from "./pages/EditEvent";
+import SavedEvents from "./pages/SavedEvents";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -79,6 +80,9 @@ export default function App() {
         </Route>
         <Route path="/events">
           <Events />
+        </Route>
+        <Route path="/event/saved">
+          <SavedEvents />
         </Route>
         <Route path="/search">
           <Search />
