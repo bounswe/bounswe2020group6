@@ -5,7 +5,6 @@ const elasticUtil = require("../elastic/elasticUtil")
 
 
 var userSearch = async function(query){
-    const query = req.query.query.toLowerCase()
     let [fullnameStarts, lastNameStarts, contains] = 
                 await Promise.all([
                     userUtils.fullnameStartsWith(query),
