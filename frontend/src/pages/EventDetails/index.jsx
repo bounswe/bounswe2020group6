@@ -116,7 +116,7 @@ const EventDetails = () => {
                   twoToneColor={deadlineColor(eventData.date)}
                   style={{ fontSize: "12px", marginRight: "8px" }}
                 />
-                {moment(eventData.date).format("DD/MM/YYYY")} &nbsp;
+                {moment(eventData.date).format("DD/MM/YYYY HH:mm")} &nbsp;
               </span>
             ) : (
               <></>
