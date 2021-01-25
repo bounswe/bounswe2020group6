@@ -31,7 +31,9 @@ const projectInfo = [
     },
     {
         model: ProjectMilestone,
-	required : false
+	required : false,
+        separate : true,
+        order: [['date', 'asc']]
     }
 ]
 
