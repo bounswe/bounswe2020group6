@@ -8,9 +8,31 @@ public class Home implements Serializable {
 
     private List<GetProjects> byUserTags;
 
-    public Home(List<GetProjects> byFollowings, List<GetProjects> byUserTags) {
+    private List<Profile> similarInterests;
+
+    private List<Profile> sameUniversity;
+
+    private List<Profile> sameDepartment;
+
+
+    public Home(List<GetProjects> byFollowings, List<GetProjects> byUserTags, List<Profile> similarInterests, List<Profile> sameUniversity, List<Profile> sameDepartment) {
         this.byFollowings = byFollowings;
         this.byUserTags = byUserTags;
+        this.similarInterests = similarInterests;
+        this.sameUniversity = sameUniversity;
+        this.sameDepartment = sameDepartment;
+    }
+
+    public List<Profile> getSimilarInterests() {
+        return similarInterests;
+    }
+
+    public List<Profile> getSameUniversity() {
+        return sameUniversity;
+    }
+
+    public List<Profile> getSameDepartment() {
+        return sameDepartment;
     }
 
     public List<GetProjects> getByFollowings() {

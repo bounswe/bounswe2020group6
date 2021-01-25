@@ -1,5 +1,7 @@
 package com.example.akademise;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class GetProjects implements Serializable {
 
     private String description;
 
-    private int privacy;
+    private boolean privacy;
 
     private int status;
 
@@ -31,6 +33,8 @@ public class GetProjects implements Serializable {
     private List<Tag> project_tags;
 
     private List<ProjectFiles> project_files;
+
+    private List<Milestone> project_milestones;
 
     public void setId(int id){
         this.id = id;
@@ -62,10 +66,10 @@ public class GetProjects implements Serializable {
     public String getDescription(){
         return this.description;
     }
-    public void setPrivacy(int privacy){
+    public void setPrivacy(boolean privacy){
         this.privacy = privacy;
     }
-    public int getPrivacy(){
+    public boolean getPrivacy(){
         return this.privacy;
     }
     public void setStatus(int status){
@@ -115,5 +119,11 @@ public class GetProjects implements Serializable {
     }
     public List<ProjectFiles> getProject_files(){
         return this.project_files;
+    }
+    public void setProject_milestones(List<Milestone> project_milestones){
+        this.project_milestones = project_milestones;
+    }
+    public List<Milestone> getProject_milestones(){
+        return this.project_milestones;
     }
 }

@@ -11,6 +11,11 @@
         android:title="Projects"
         android:icon="@drawable/ic_create_foreground" />
     <item
+        android:id="@+id/miNotifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notification_foreground"
+        />
+    <item
         android:id="@+id/miProfile"
         android:title="Profile"
         android:icon="@drawable/ic_profile_foreground"

@@ -42,7 +42,6 @@ public class ProfileFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private Button statsAndOverviewButton;
     private Button publicationsButton;
@@ -51,9 +50,9 @@ public class ProfileFragment extends Fragment {
     private Button updateButton;
     private Button googleScholar;
     private String myToken;
-    private  Integer myId;
+    private Integer myId;
     private TextView tvName;
-    private  TextView tvContact;
+    private TextView tvContact;
     private TextView tvTags;
     private TextView tvBiogprahy;
     private TextView tvUniversity;
@@ -70,26 +69,24 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
         publicationsButton = view.findViewById(R.id.projects);
-        logoutButton =view.findViewById(R.id.logout_button);
+        logoutButton = view.findViewById(R.id.logout_button);
         editButton = view.findViewById(R.id.edit_button);
         updateButton = view.findViewById(R.id.update_button);
         tvName = view.findViewById(R.id.name);
-        tvContact=view.findViewById(R.id.contact_content);
+        tvContact = view.findViewById(R.id.contact_content);
         tvTags = view.findViewById(R.id.research_tags_content);
         tvBiogprahy = view.findViewById(R.id.biograpy_content);
         tvUniversity = view.findViewById(R.id.university_content);
         tvDepartment = view.findViewById(R.id.department_content);
         tvTitle = view.findViewById(R.id.title_content);
-        ivProfilePhoto=view.findViewById(R.id.avatar);
+        ivProfilePhoto = view.findViewById(R.id.avatar);
 
         tvUpvote = view.findViewById(R.id.upvote_content);
 
         googleScholar = view.findViewById(R.id.btnMyGoogleScholar);
-
-        loadData();
         loadIDData();
-
-        editButton.setOnClickListener(new View.OnClickListener(){
+        loadData();
+        editButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -98,7 +95,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        updateButton.setOnClickListener(new View.OnClickListener(){
+        updateButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -106,7 +103,7 @@ public class ProfileFragment extends Fragment {
                 changeTextsEditability(false);
 
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(baseURL)
+                        .baseUrl(getString(R.string.baseUrl))
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
@@ -126,7 +123,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
+      /*  ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pressTime = System.currentTimeMillis();
@@ -137,6 +134,8 @@ public class ProfileFragment extends Fragment {
                 lastPressTime = pressTime;
             }
         });
+
+       */
 
         publicationsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -169,7 +168,7 @@ public class ProfileFragment extends Fragment {
         //tvAffiliation = getView().findViewById(R.id.affiliation_content);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -179,25 +178,26 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
 
     }
-    private void loadIDData(){
+
+    private void loadIDData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
     }
 
-    private void getAffiliation(){
+    private void getAffiliation() {
 
-        Call<Profile> call = akademiseApi.getMyProfile(myId, "Bearer "+myToken);
+        Call<Profile> call = akademiseApi.getMyProfile(myId, "Bearer " + myToken);
 
 
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
                     return;
@@ -212,15 +212,15 @@ public class ProfileFragment extends Fragment {
                 tvUniversity.setText(university);
                 tvDepartment.setText(department);
                 tvTitle.setText(title);
-                tvName.setText(profile.getName()+" "+profile.getSurname());
+                tvName.setText(profile.getName() + " " + profile.getSurname());
                 tvContact.setText(profile.getEmail());
                 tvUpvote.setText(String.valueOf(profile.getUpCounts()));
                 tvBiogprahy.setText(profile.getBio());
                 new DownloadImageTask(ivProfilePhoto)
                         .execute(profile.getProfile_picture_url());
-                String temp="";
-                for(int i=0; i<profile.getUser_interests().size(); i++){
-                    temp+=profile.getUser_interests().get(i).getInterest()+",";
+                String temp = "";
+                for (int i = 0; i < profile.getUser_interests().size(); i++) {
+                    temp += profile.getUser_interests().get(i).getInterest() + ",";
                 }
                 tvTags.setText(temp);
 
@@ -242,14 +242,14 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private void deleteValidationData(){
+    private void deleteValidationData() {
         SharedPreferences preferences = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(accessToken);
         editor.apply();
     }
 
-    private void changeTextsEditability(Boolean type){
+    private void changeTextsEditability(Boolean type) {
         tvName.setFocusable(type);
         tvName.setFocusableInTouchMode(type);
         tvName.setClickable(type);
@@ -334,7 +334,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void goToGoogleScholar(Profile profile){
+    private void goToGoogleScholar(Profile profile) {
         Fragment fragment = new GoogleScholarFragment();
         Bundle args = new Bundle();
         args.putSerializable("profile", profile);

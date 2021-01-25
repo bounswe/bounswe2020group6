@@ -34,7 +34,6 @@ public class RequestInvitationActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
     private Integer myId;
@@ -53,7 +52,7 @@ public class RequestInvitationActivity extends AppCompatActivity {
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -65,7 +64,9 @@ public class RequestInvitationActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                invite();
+                Intent intent = new Intent(RequestInvitationActivity.this,InvitationActivity.class);
+                intent.putExtra("project_id", projectId);
+                startActivity(intent);
             }
         });
 
@@ -122,37 +123,6 @@ public class RequestInvitationActivity extends AppCompatActivity {
 
     }
 
-    private void invite() {
-        List<Integer> i = new ArrayList<Integer>() {{
-            add(myId);
-            add(1);
-            add(projectId);
-            add(0);
-        }};
-        Invitation invitation = new Invitation(i);
-
-        Call<Invitation> call = akademiseApi.addInvitation(invitation, "Bearer " + myToken);
-        call.enqueue(new Callback<Invitation> () {
-            @Override
-            public void onResponse(Call<Invitation> call, Response<Invitation> response) {
-                if (!response.isSuccessful()) {
-                    System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(getApplicationContext(), "Couldnt send request. ", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Invitation  invResponse = response.body();
-                Toast.makeText(getApplicationContext(), "Successful. ", Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<Invitation> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Be sure to be connected. ", Toast.LENGTH_LONG).show();
-                System.out.println("FAILURE");
-                System.out.println(t.getMessage());
-            }
-        });
-    }
 
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);

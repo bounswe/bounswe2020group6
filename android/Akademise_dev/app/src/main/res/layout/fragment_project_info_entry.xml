@@ -140,18 +140,18 @@
         android:id="@+id/space4"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sAddResearchTag">
     </Space>
     <EditText
-        android:id="@+id/etMilestone"
+        android:id="@+id/etNewTags"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
-        android:hint="Milestone List"
+        android:hint="Add unlisted tags comma seperated (Eg: tag1,tag2)"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintEnd_toEndOf="parent"
@@ -164,7 +164,7 @@
         app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMilestone">
+        app:layout_constraintTop_toBottomOf="@id/etNewTags">
     </Space>
     <TextView
         android:id="@+id/tvPrivacy"
