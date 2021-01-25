@@ -1,14 +1,11 @@
 package com.example.akademise;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,13 +36,11 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     TextView title;
     TextView summary;
     TextView status;
+    TextView milestones;
     TextView requirements;
-    RecyclerView recyclerViewTag;
-    RecyclerView recyclerViewMilestone;
+    TextView tags;
     Button files;
     Button invite;
-    Button edit;
-    Button delete;
 
     TextView privacy;
     TextView collaborators;
@@ -59,20 +53,18 @@ public class ProjectDetailsActivity extends AppCompatActivity {
 
         title = findViewById(R.id.title);
 
-        edit = findViewById(R.id.btnEditProject);
-        delete = findViewById(R.id.btnDeleteProject);
         invite = findViewById(R.id.btnReqInvProject);
         files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
         status=findViewById(R.id.tvStatusProject);
+        milestones=findViewById(R.id.tvMilestoneProject);
         requirements=findViewById(R.id.tvRequirementsProject);
+        tags=findViewById(R.id.tvTagsProject);
         privacy=findViewById(R.id.tvPrivacyProjectDetails);
         collaborators = findViewById(R.id.tvCollaborators);
-        recyclerViewTag = findViewById(R.id.rv_recyclerViewProjectTags);
-        recyclerViewMilestone = findViewById(R.id.rv_recyclerViewProjectMilestone);
-        summary.setMovementMethod(new ScrollingMovementMethod());
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -82,7 +74,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         getData();
 
         getWholeData(project.getId());
-        Log.d("milestones" , ""+project.getProject_milestones().size());
+
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,60 +84,19 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 Bundle bundle = new Bundle();
+                 bundle.putInt("project_id", project.getId());
+                 RequestInvitationFragment frg = new RequestInvitationFragment();
+                 frg.setArguments(bundle);
+                 getSupportFragmentManager().beginTransaction().replace(R.id.req_and_invitations,
+                 frg).commit();
+                 **/
                 openInvitationActivity();
             }
         });
 
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProjectDetailsActivity.this,EditProjectActivity.class);
-                intent.putExtra("project", project);
-                startActivity(intent);
-            }
-        }
-        );
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteProject(project.getId());
-            }
-        }
-        );
-
     }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        getWholeData(project.getId());
-
-    }
-
-    private void deleteProject(int id) {
-        Call<Project> call= akademiseApi.deleteProject(id,"Bearer "+myToken);
-        call.enqueue(new Callback<Project>() {
-            @Override
-            public void onResponse(Call<Project> call, Response<Project> response) {
-
-                if(!response.isSuccessful()){
-                    Log.d("Project", "onResponse: not successful");
-                    return;
-                }
-                finish();
-                Log.d("Project", "onResponse: project deleted successfully");
-
-            }
-
-            @Override
-            public void onFailure(Call<Project> call, Throwable t) {
-
-                Log.d("Project", "onFailure: failed");
-
-            }
-        });
-    }
-
 
     private void openShowProjectFilesActivity() {
         Intent intent = new Intent(this, ShowProjectFilesActivity.class);
@@ -202,31 +153,18 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 }
 
                 List<GetProjects> projects = response.body();
-                project = projects.get(0);
+                GetProjects project = projects.get(0);
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);
                 status.setText(statusArray[(project.getStatus()%5)]);
                 requirements.setText(project.getRequirements());
-                List<Tag> tags = project.getProject_tags();
-                List<String> str_tags = new ArrayList<String>();
-                for(Tag tag : tags){
-                    str_tags.add(tag.getTag());
+                String tagList="";
+                for(int i=0; i<project.getProject_tags().size(); i++){
+                    tagList+= project.getProject_tags().get(i).getTag()+" ";
                 }
-                RecyclerViewDetailsAdapter recyclerViewAdapter = new RecyclerViewDetailsAdapter(ProjectDetailsActivity.this, str_tags);
-                recyclerViewTag.setLayoutManager(new LinearLayoutManager(ProjectDetailsActivity.this));
-                recyclerViewTag.setAdapter(recyclerViewAdapter);
-
-                List<Milestone> milestones = project.getProject_milestones();
-                List<String> str_milestones = new ArrayList<String>();
-                for(Milestone milestone: milestones){
-                    str_milestones.add(milestone.getTitle());
-                }
-                RecyclerViewDetailsAdapter recyclerViewAdapter2 = new RecyclerViewDetailsAdapter(ProjectDetailsActivity.this, str_milestones);
-                recyclerViewMilestone.setLayoutManager(new LinearLayoutManager(ProjectDetailsActivity.this));
-                recyclerViewMilestone.setAdapter(recyclerViewAdapter2);
-
-                if(!project.getPrivacy()) privacy.setText("Private");
+                tags.setText(tagList);
+                if(project.getPrivacy()==0) privacy.setText("Private");
                 else privacy.setText("Public");
                 String collaboratorList="";
                 for(int i=0; i<project.getProject_collaborators().size(); i++){

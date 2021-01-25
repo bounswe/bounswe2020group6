@@ -73,31 +73,11 @@ public interface AkademiseApi {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")
-    Call<GetProjects> createProject(@Body Project project, @Header("Authorization") String auth);
+    Call<Project> createProject(@Body Project project, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @PATCH("post/update/{id}")
     Call<Project> updateAbstract(@Path("id") int id, @Body Summary summary, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PATCH("post/update/{id}")
-    Call<Project> updateProject(@Path("id") int id, @Body UpdateProject updates, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @DELETE("post/delete/{id}")
-    Call<Project> deleteProject(@Path("id") int id, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @POST("post/add_milestone")
-    Call<AddMilestone> addMilestone(@Body AddMilestone milestones, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @PATCH("post/update_milestone/{id}")
-    Call<Milestone> updateMilestone(@Path("id") int id, @Body Milestone update, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @DELETE("post/delete_milestone/{id}")
-    Call<Milestone> deleteMilestone(@Path("id") int id, @Header("Authorization") String auth);
 
     @POST("auth/signup")
     Call<User> createUser(@Body User user);
@@ -145,15 +125,6 @@ public interface AkademiseApi {
     @DELETE("collab/delete_request/{id}")
     Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);
 
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @POST("post/add_tag")
-    Call<AddTag>  addTags(@Body AddTag newTags, @Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @DELETE("post/delete_tag/")
-    Call<Tag>  deleteTag(@Query("tags[]") String tag, @Query("projectId") int id, @Header("Authorization") String auth);
-
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("collab/get_requests")
     Call<List<Request>> getRequests(@Header("Authorization") String auth);
@@ -172,17 +143,6 @@ public interface AkademiseApi {
     @GET("home/posts")
     Call<Home> getHome(@Header("Authorization") String auth);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("home/users")
-    Call<Home> getHomeUsers(@Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @GET("notification/get")
-    Call<List<Notifications>> getNotifications(@Header("Authorization") String auth);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8"})
-    @DELETE("notification/delete/{id}")
-    Call<Notifications>  deleteNotification(@Path("id") int id, @Header("Authorization") String auth);
 
     @GET("/follow/followers")
     Call<Follower> getFollowers(@Header("Authorization") String auth);

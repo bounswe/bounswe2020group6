@@ -32,6 +32,7 @@ public class ProjectFragment extends Fragment {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
     private  Integer myId;
@@ -50,7 +51,7 @@ public class ProjectFragment extends Fragment {
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -66,12 +67,7 @@ public class ProjectFragment extends Fragment {
             }
         });
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        getProjects(myId);
 
-    }
     private void gotoPublicationCreation(){
         Intent intent = new Intent(getActivity().getBaseContext(), ProjectCreationActivity.class);
         startActivity(intent);

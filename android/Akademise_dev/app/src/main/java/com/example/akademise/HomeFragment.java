@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl("http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -149,34 +149,10 @@ public class HomeFragment extends Fragment {
                 List<GetProjects> suggestedProjects= new ArrayList<>();
                 suggestedProjects.addAll(home.getByFollowings());
                 suggestedProjects.addAll(home.getByUserTags());
-                Call<Home> inner_call= akademiseApi.getHomeUsers("Bearer " + myToken);
-                inner_call.enqueue(new Callback<Home>() {
-                    @Override
-                    public void onResponse(Call<Home> call, Response<Home> response) {
-                        if(!response.isSuccessful()){
-                            Log.d("Get", "onResponse: " + response.code());
-                            return;
-                        }
-                        Log.d("GET", "On response: " + response.message());
-                        Home home_user= response.body();
-                        List<Profile> suggestedProfiles= new ArrayList<>();
-                        suggestedProfiles.addAll(home_user.getSimilarInterests());
-                        suggestedProfiles.addAll(home_user.getSameUniversity());
-                        suggestedProfiles.addAll(home_user.getSameDepartment());
-                        SearchedUsers suggested_users = new SearchedUsers(suggestedProfiles);
-                        recyclerView = getView().findViewById(R.id.rv_home);
-                        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), suggestedProjects,suggested_users);
-                        recyclerView.setAdapter(recyclerViewAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Home> call, Throwable t) {
-                        Log.d("Get", "onFailure: " + t.getMessage());
-                    }
-                });
-
+                recyclerView = getView().findViewById(R.id.rv_home);
+                RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), suggestedProjects,null);
+                recyclerView.setAdapter(recyclerViewAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             }
 

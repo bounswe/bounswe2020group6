@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String accessToken = "XXXXX";
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private Button btnLogin;
     private Button btnSignup;
@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         loadData();
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -45,8 +46,9 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(signup);
         email= findViewById(R.id.email);
         password = findViewById(R.id.password);
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

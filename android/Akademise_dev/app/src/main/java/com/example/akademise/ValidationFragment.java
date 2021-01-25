@@ -24,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ValidationFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     TextView validation;
     Button btn;
@@ -44,7 +45,7 @@ public class ValidationFragment extends Fragment {
         validation = getView().findViewById(R.id.validation_code);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
