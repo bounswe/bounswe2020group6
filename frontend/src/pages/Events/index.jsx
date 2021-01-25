@@ -10,7 +10,7 @@ import {
 import Frame from "../../components/Frame";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3, StHref } from "./style";
-
+import moment from "moment";
 import api from "../../axios";
 
 const Events = () => {
@@ -98,7 +98,7 @@ const Events = () => {
                   />,
                   <IconText
                     icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
-                    text={item.date.substring(0, 10)}
+                    text={moment(item.date).format("DD MMMM YYYY HH:mm")}
                     key="list-vertical-message"
                   />,
                   <IconText
