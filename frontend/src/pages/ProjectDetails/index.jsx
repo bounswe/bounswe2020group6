@@ -317,7 +317,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}>
           <Spin size="large" /> Content is Loading
         </Main>:
-      (((projectData.privacy === 0) && !isUserCollaboratesOnThisProject())? // if it is private
+      (((projectData.privacy === 0 || projectData.privacy === false) && !isUserCollaboratesOnThisProject())? // if it is private
       <>
         <Main
           xs={{span: 20, offset: 1}}
@@ -348,7 +348,7 @@ const ProjectDetails = () => {
         lg={{span: 12, offset: 5}}> 
         <H1> {projectData.title} </H1>
         <DateSection>
-          {projectData.privacy === 0 ? <LockFilled/> : <UnlockFilled/>}
+          {projectData.privacy === 0 || projectData.privacy === false ? <LockFilled/> : <UnlockFilled/>}
           Project Due{" "}
         {!(projectData.project_milestones === null || projectData.project_milestones === undefined) && projectData.project_milestones.length > 0 
         ? moment(
