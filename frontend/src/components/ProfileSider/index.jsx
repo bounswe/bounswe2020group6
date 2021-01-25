@@ -11,6 +11,7 @@ import {
   CalendarOutlined,
   UnorderedListOutlined,
 } from "@ant-design/icons";
+
 import { Layout, NameText, Img } from "./style";
 import GoogleScholarModal from "../GoogleScholarModal";
 import { projectsClickedAction } from "../../redux/profile/actions";
