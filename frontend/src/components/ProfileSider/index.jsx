@@ -10,6 +10,7 @@ import {
   ContainerOutlined,
   CalendarOutlined,
   UnorderedListOutlined,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
 import GoogleScholarModal from "../GoogleScholarModal";
@@ -111,6 +112,13 @@ const ProfileSider = () => {
                 icon={<UnorderedListOutlined />}
               >
                 Events
+              </Menu.Item>
+              <Menu.Item
+                key="6"
+                onClick={() => history.push("/event/saved")}
+                icon={<AppstoreAddOutlined />}
+              >
+                Saved Events
               </Menu.Item>
             </Menu>
           </div>
