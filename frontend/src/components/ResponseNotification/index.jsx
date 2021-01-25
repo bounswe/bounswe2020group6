@@ -43,6 +43,31 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
             <span onClick={projectLink}>{projectName}</span> .
           </p>
         );
+      case 2:
+        return (
+          <p style={{ fontSize: "16px" }}>
+            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+              <DeleteOutlined onClick={() => handleDelete()} style={{ color: "crimson" }} />
+            </div>
+            <i>
+              <CloseOutlined />
+            </i>
+            You are removed from the project <span onClick={projectLink}>{projectName}</span> .
+          </p>
+        );
+      case 3:
+        return (
+          <p style={{ fontSize: "16px" }}>
+            <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
+              <DeleteOutlined onClick={() => handleDelete()} style={{ color: "crimson" }} />
+            </div>
+            <i>
+              <CloseOutlined />
+            </i>
+            <span onClick={userLink}>{userName}</span> has been removed from the project{" "}
+            <span onClick={projectLink}>{projectName}</span> .
+          </p>
+        );
       case 5:
         return (
           <p style={{ fontSize: "16px" }}>
