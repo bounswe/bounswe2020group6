@@ -213,13 +213,10 @@ listFavEvents = async function (req, res) {
             where:{
                 userId
             },
-            attributes: [],
-            include: [
-                {
-                    model: Event,
-                    include: eventData(userId)
-                }
-            ]
+            include: {
+                model: Event,
+                include: eventData(userId)
+            }
         })
 
         events = events.map( e => e.event )
