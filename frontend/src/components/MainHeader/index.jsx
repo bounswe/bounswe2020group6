@@ -121,7 +121,10 @@ const SiteHeader = () => {
       };
     }
 
-    api({ sendToken: true }).post("/collab/add_collaborator", data);
+    api({ sendToken: true })
+      .post("/collab/add_collaborator", data)
+      .then((r) => console.log(r.data))
+      .catch((e) => console.log(e.response.data.error));
     api({ sendToken: true })
       .delete("/collab/delete_request/" + request_id)
       .then((_) => {
@@ -135,9 +138,11 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
-  const rejectRequest = (request_id) => {
+  const rejectRequest = (requestId, projectId, rejectedId) => {
+    const body = { requestId, projectId, rejectedId };
+    api({ sendToken: true }).post("/notification/add_rejection", body);
     api({ sendToken: true })
-      .delete("/collab/delete_request/" + request_id)
+      .delete("/collab/delete_request/" + requestId)
       .then((_) => {
         api({ sendToken: true })
           .get("/collab/get_requests")
@@ -166,7 +171,7 @@ const SiteHeader = () => {
           acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
         }}
         reject={() => {
-          rejectRequest(n.id);
+          rejectRequest(n.id, n.projectId, n.requesterId);
         }}
       />
     );
@@ -189,9 +194,9 @@ const SiteHeader = () => {
       <ResponseNotification
         key={k}
         type={n.type}
-        userName={n.accepter + " " + n.accepter}
+        userName={n.accepter.name + " " + n.accepter.surname}
         userLink={() => {
-          history.push({ pathname: "/profile/" + n.accepter.id });
+          history.push({ pathname: "/profile/" + n.accepterId });
         }}
         projectName={n.project.title}
         projectLink={() => {
@@ -207,12 +212,16 @@ const SiteHeader = () => {
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
         {notificationData.length + responseNotificationData.length > 0
           ? [
-              ...notificationData.map((n, i) => {
-                return notificationComponent(n, i);
-              }),
-              ...responseNotificationData.map((n, i) => {
-                return responseNotificationComponent(n, i);
-              }),
+              ...notificationData
+                .map((n, i) => {
+                  return notificationComponent(n, i);
+                })
+                .reverse(),
+              ...responseNotificationData
+                .map((n, i) => {
+                  return responseNotificationComponent(n, i);
+                })
+                .reverse(),
             ]
           : "You have no new notifications"}
       </NotificationModal>

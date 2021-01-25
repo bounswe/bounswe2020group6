@@ -16,7 +16,7 @@ const NotificationCard = ({
       case 0:
         return (
           <>
-            <p style={{ fontSize: "14px" }}>
+            <p style={{ fontSize: "16px" }}>
               <i>
                 <TeamOutlined />
               </i>
@@ -36,7 +36,7 @@ const NotificationCard = ({
       case 1:
         return (
           <>
-            <p style={{ fontSize: "14px" }}>
+            <p style={{ fontSize: "16px" }}>
               <i>
                 <TeamOutlined />
               </i>
