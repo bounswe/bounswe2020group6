@@ -132,7 +132,7 @@ const Search = () => {
       case "project":
         if (!loadingProjectResults) {
           return projectResults.projects.length > 0 ?
-          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy === 1 ? createContentCard(p) : "")}</> 
+          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.data.privacy ? createContentCard(p.data) : "")}</> 
           : <H2>"No projects found."</H2>
         }
         else{
