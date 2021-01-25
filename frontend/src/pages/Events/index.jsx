@@ -8,26 +8,18 @@ import {
   EnvironmentTwoTone,
 } from "@ant-design/icons";
 import Frame from "../../components/Frame";
-import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3, StHref } from "./style";
-import moment from "moment";
 
 import api from "../../axios";
 
-const Home = () => {
+const Events = () => {
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(
     true
   );
   const [userRecommendations, setUserRecommendations] = useState([]);
-
-  function momentComparator(a, b) {
-    var dateA = moment(a.createdAt);
-    var dateB = moment(b.createdAt);
-    return dateA > dateB ? 1 : -1;
-  }
 
   useEffect(() => {
     setLoading(true);
@@ -64,15 +56,12 @@ const Home = () => {
         setUserRecommendationsLoading(false);
       });
   }, []);
-
+  /*
   const listData = [];
   for (let i = 0; i < 23; i++) {
     listData.push({
-      href: "https://ant.design",
       title: `Computer Network Testing Conference ${i}`,
       id: "5",
-      avatar:
-        "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
       type: "algo",
       description:
         "Ant Design, a design language for background applications, is refined by Ant UED Team.",
@@ -82,7 +71,7 @@ const Home = () => {
       date: "121212",
     });
   }
-
+*/
   const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -196,4 +185,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Events;
