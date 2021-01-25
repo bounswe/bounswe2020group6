@@ -40,6 +40,12 @@ export const LoginModal = styled(Modal)`
   .ant-input-affix-wrapper .ant-input {
     border-radius: 0;
   }
+
+  .ant-btn-link {
+    color: ${theme.main.colors.first};
+    font-size: 16px;
+    font-weight: 500;
+}
 `;
 
 export const LoginTitle = styled.h1`

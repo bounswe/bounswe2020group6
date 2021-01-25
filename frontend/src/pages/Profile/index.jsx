@@ -365,9 +365,7 @@ const Profile = () => {
                             profile.bio ? (
                               profile.bio
                             ) : (
-                              <span style={{ color: "rgba(0,0,0,0.4)" }}>
-                                No biography added yet
-                              </span>
+                              ""
                             )
                           }
                         />
