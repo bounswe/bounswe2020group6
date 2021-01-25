@@ -41,10 +41,15 @@ const CreateProject = () => {
   }, []);
 
   const createPostSubmit = function (values) {
+
+    var new_privacy = values.privacy === 1
+
     let updatedValues = {
       ...values,
       status: 2,
+      privacy: new_privacy,
     };
+
     dispatch(postPost(updatedValues, history, message));
   };
 
