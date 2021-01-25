@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".EventActivity"
+            android:theme="@style/AppStyle.Signup">
+        </activity>
         <activity android:name=".OtherUserProjectsActivity"></activity>
         <activity
             android:name=".ProfileActivity"
