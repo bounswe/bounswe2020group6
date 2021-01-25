@@ -65,7 +65,7 @@ public class RequestInvitationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RequestInvitationActivity.this,InvitationActivity.class);
-                intent.putExtra("pId", projectId);
+                intent.putExtra("project_id", projectId);
                 startActivity(intent);
             }
         });
