@@ -4,12 +4,6 @@ import { Row } from "antd";
 export const Layout = styled(Row)`
   border-bottom: 1px solid rgba(0,0,0,0.15);
   padding-top: 1.2em;
-
-  margin-bottom: 70px;
-`;
-
-export const StHref = styled.a`
-  color: #000000d9;
 `;
 
 export const Title = styled.p`

@@ -36,7 +36,6 @@ const CreateProject = () => {
 
   const dispatch = useDispatch();
   const selector = useSelector;
-
   const tags = selector((state) => state.choices.tags);
 
   const history = useHistory();

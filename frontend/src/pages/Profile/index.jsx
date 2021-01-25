@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Divider, Tag, List, Avatar, Card, Input, Form, Upload, message } from "antd";
 import {
   PaperClipOutlined,
-  TeamOutlined,
+  GoogleOutlined,
   FormOutlined,
   CheckOutlined,
   CloseOutlined,
@@ -12,6 +12,7 @@ import {
   PlusCircleTwoTone,
   EditOutlined,
   EditFilled,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -20,11 +21,13 @@ import {
   getProjectsOfUser,
   changePicture,
 } from "../../redux/profile/api";
+import { scrolledToProjectsAction } from "../../redux/profile/actions";
 import { getFollowing, follow, unfollow, addUp, removeUp } from "../../redux/follow/api";
 import MainHeader from "../../components/MainHeader";
 import PrimaryButton from "../../components/PrimaryButton";
 import Spinner from "../../components/Spinner";
 import EditModal from "./components/EditModal";
+import InviteModal from "./components/InviteModal";
 import theme from "../../theme";
 
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
@@ -33,11 +36,13 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const Profile = () => {
   const history = useHistory();
+  const projectsRef = useRef(null);
 
   const { id } = useParams();
   const dispatch = useDispatch();
 
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [inviteModalVisible, setInviteModalVisible] = useState(false);
   const [editPictureVisible, setEditPictureVisible] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
 
@@ -46,6 +51,7 @@ const Profile = () => {
   const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
+  const scrollToProjects = useSelector((state) => state.profile.scrollToProjects);
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
   const isOwnProfile = () => {
@@ -57,6 +63,14 @@ const Profile = () => {
     !isOwnProfile() && followings && followings.filter((f) => f.following.id == id).length > 0;
 
   useEffect(() => {
+    if (scrollToProjects) {
+      projectsRef.current.scrollIntoView();
+      dispatch(scrolledToProjectsAction());
+    }
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
     dispatch(getProfileInfo(id));
     dispatch(getProjectsOfUser(id));
     if (!isOwnProfile()) {
@@ -65,21 +79,11 @@ const Profile = () => {
     // eslint-disable-next-line
   }, [id]);
 
-  const data = [
-    {
-      title: "Ant Design Title 1",
-      description: "",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
+  const toggleInviteModal = () => {
+    setInviteModalVisible((prev) => !prev);
+  };
+
+  // picture upload functions
 
   const handleFollow = () => {
     if (alreadyFollowing) {
@@ -100,8 +104,6 @@ const Profile = () => {
   const toggleEditModal = () => {
     setEditModalVisible((prev) => !prev);
   };
-
-  // picture upload functions
 
   function beforeUpload(file) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -162,6 +164,7 @@ const Profile = () => {
   return (
     <div>
       <EditModal profile={profile} visible={editModalVisible} toggleEditModal={toggleEditModal} />
+      <InviteModal visible={inviteModalVisible} toggleInviteModal={toggleInviteModal} />
       <MainHeader />
       <Content>
         <Row style={{ marginTop: "90px", padding: "16px" }}>
@@ -179,6 +182,7 @@ const Profile = () => {
               showUploadList={false}
               beforeUpload={beforeUpload}
               onChange={handlePictureChange}
+              disabled={!isOwnProfile()}
             >
               <div style={{ width: "100%" }}>
                 {pictureLoading ? (
@@ -187,7 +191,7 @@ const Profile = () => {
                   <>
                     <EditFilled
                       style={{
-                        display: editPictureVisible ? "block" : "none",
+                        display: isOwnProfile() ? (editPictureVisible ? "block" : "none") : "none",
                         position: "absolute",
                         right: "20%",
                         fontSize: "20px",
@@ -212,27 +216,30 @@ const Profile = () => {
               style={{ fontSize: "28px", fontWeight: "500" }}
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
-              {profile.isUpped ? (
-                <MinusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleRemoveUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              ) : (
-                <PlusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleAddUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              )}
+              {
+                isOwnProfile() ? "" :
+                profile.isUpped ? (
+                  <MinusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleRemoveUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                ) : (
+                  <PlusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleAddUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                )
+              }
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>
                 {profile.upCounts === null || profile.upCounts === undefined
@@ -302,7 +309,9 @@ const Profile = () => {
                         </PrimaryButton>
                       </Col>
                       <Col xs={10} sm={8} md={7} offset={4}>
-                        <PrimaryButton icon={<FormOutlined />}>Invite</PrimaryButton>
+                        <PrimaryButton icon={<UsergroupAddOutlined />} onClick={toggleInviteModal}>
+                          Invite
+                        </PrimaryButton>
                       </Col>
                     </>
                   )}
@@ -356,9 +365,7 @@ const Profile = () => {
                             profile.bio ? (
                               profile.bio
                             ) : (
-                              <span style={{ color: "rgba(0,0,0,0.4)" }}>
-                                No biography added yet
-                              </span>
+                              ""
                             )
                           }
                         />
@@ -383,16 +390,25 @@ const Profile = () => {
         <Row>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 1 }}>
             <SectionTitle>Projects</SectionTitle>
-            <Scrollable>
+            <Scrollable ref={projectsRef}>
               <List
                 itemLayout="horizontal"
                 dataSource={projects}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push(`/project/details/${item.id}`)}
+                  >
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description={item.summary}
+                      description=          {
+                        item.summary === undefined || item.summary === null 
+                        ? ""
+                        : item.summary.length > 100 
+                          ? item.summary.substring(0,100) + "..."
+                          : item.summary
+                      }
                     />
                   </List.Item>
                 )}
@@ -400,22 +416,39 @@ const Profile = () => {
             </Scrollable>
           </SectionCol>
           <SectionCol xs={24} sm={24} md={{ span: 10, offset: 2 }}>
-            <SectionTitle>Google Scholar Projects</SectionTitle>
+            <SectionTitle>
+              <span>Google Scholar Projects</span>
+              {profile.citations && (
+                <span
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "normal",
+                    marginLeft: "40px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {profile.citations}
+                  </span>
+                  {` citations`}
+                </span>
+              )}
+            </SectionTitle>
             <Scrollable>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={profile.projects ? JSON.parse(profile.projects) : []}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item style={{ cursor: "pointer" }}>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          style={{ color: "yelow" }}
-                          icon={<TeamOutlined twoToneColor="#eb2f96" />}
-                        />
-                      }
+                      onClick={() => window.open(profile.scholar_profile_url, "_blank")}
+                      avatar={<Avatar icon={<GoogleOutlined twoToneColor="#eb2f96" />} />}
                       title={item.title}
-                      description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                      description={item.venue}
                     />
                   </List.Item>
                 )}

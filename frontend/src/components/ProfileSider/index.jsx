@@ -1,17 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
-import { PieChartOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import { GoogleOutlined, DesktopOutlined, ContainerOutlined, CalendarOutlined } from "@ant-design/icons";
 import { Layout, NameText, Img } from "./style";
+import GoogleScholarModal from "../GoogleScholarModal";
+import { projectsClickedAction } from "../../redux/profile/actions";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const ProfileSider = () => {
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
+  const [googleScholarModalVisible, setGoogleScholarModalVisible] = useState(false);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -21,8 +24,16 @@ const ProfileSider = () => {
     dispatch(getProfileInfo(myId));
   }, [dispatch]);
 
+  const toogleGoogleScholarModal = () => {
+    setGoogleScholarModalVisible((prev) => !prev);
+  };
+
   return (
     <Layout>
+      <GoogleScholarModal
+        visible={googleScholarModalVisible}
+        toggleGoogleScholarModal={toogleGoogleScholarModal}
+      />
       {profileLoading || !profile ? (
         <Spin size="large" style={{ margin: "auto" }} />
       ) : (
@@ -52,10 +63,17 @@ const ProfileSider = () => {
                 : " " + profile.upCounts}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
-              <Menu.Item key="1" icon={<PieChartOutlined />}>
+              <Menu.Item key="1" onClick={toogleGoogleScholarModal} icon={<GoogleOutlined />}>
                 Google Scholar
               </Menu.Item>
-              <Menu.Item key="2" icon={<DesktopOutlined />}>
+              <Menu.Item
+                key="2"
+                onClick={() => {
+                  dispatch(projectsClickedAction());
+                  history.push("/profile/" + profile.id);
+                }}
+                icon={<DesktopOutlined />}
+              >
                 Projects
               </Menu.Item>
               <Menu.Item
@@ -64,6 +82,13 @@ const ProfileSider = () => {
                 icon={<ContainerOutlined />}
               >
                 Create New Project
+              </Menu.Item>
+              <Menu.Item
+                key="4"
+                onClick={() => history.push("/event/create")}
+                icon={<CalendarOutlined />}
+              >
+                Create New Event
               </Menu.Item>
             </Menu>
           </div>

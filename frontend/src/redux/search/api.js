@@ -11,5 +11,9 @@ export const search = (params, setData, setLoading) => {
       setData(response.data)
       setLoading(false)
     })
+    .catch((error) => {
+      console.log("err")
+      setLoading(false)
+    })
   };
 };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authLogoutAction } from "../src/redux/auth/actions";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
@@ -15,6 +16,8 @@ import ListFollowers from "./pages/ListFollow";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
+import CreateEvent from "./pages/CreateEvent";
+import EditEvent from "./pages/EditEvent";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -46,6 +49,9 @@ export default function App() {
     <Switch>
       <Route path="/join">
         <SignUp />
+      </Route>
+      <Route path="/about">
+        <About />
       </Route>
       <Route path="/">
         <Landing />
@@ -80,6 +86,12 @@ export default function App() {
         </Route>
         <Route path="/list/:type">
           <ListFollowers />
+        </Route>
+        <Route path="/event/create">
+          <CreateEvent />
+        </Route>
+        <Route path="/event/edit/:eventId">
+          <EditEvent />
         </Route>
         <Redirect to="/home" />
       </Switch>

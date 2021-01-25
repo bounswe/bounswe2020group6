@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -10,6 +10,8 @@ import UserCard from "../../components/UserCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
 import { Main, H2, H3 } from "./style";
 import { useHistory } from "react-router-dom";
+
+import api from "../../axios";
 
 const capitalize = function (type) {
   return type.charAt(0).toUpperCase() + type.slice(1);
@@ -32,6 +34,30 @@ const Home = () => {
   const allPeople = type === "followers" ? followers : followings;
 
   const history = useHistory();
+
+  const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
+  const [userRecommendations, setUserRecommendations] = useState([]);
+  useEffect(() => {
+    setUserRecommendationsLoading(true)
+    api({ sendToken: true })
+      .get("/home/users")
+      .then((response) => {
+        console.log("resp", response);
+        setUserRecommendations(
+          [
+            ...response.data.sameDepartment,
+            ...response.data.sameUniversity,
+            ...response.data.similarInterests,
+          ]
+          .sort(() => 0.5 - Math.random())
+        );
+        setUserRecommendationsLoading(false)
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserRecommendationsLoading(false)
+      });
+  }, []);
 
   useEffect(() => {
     if (type === "followers") {
@@ -98,11 +124,31 @@ const Home = () => {
           )
         )}
       </Main>
-      <Col align="center" md={0} lg={{ span: 5, offset: 0 }} xl={{ span: 4, offset: 1 }}>
-        <H3>Recommended users</H3>
-        <PersonRecommendationCard name="Yeliz Yenigünler" commoncolabsnum={0} />
-        <PersonRecommendationCard name="Ali Velvez" commoncolabsnum={1} />
-        <PersonRecommendationCard name="Bahar Gülsonu" commoncolabsnum={2} />
+      <Col 
+        align="center" md={0} 
+        lg={{ span: 5, offset: 0 }} 
+        xl={{ span: 4, offset: 1 }}
+        style={{ position: "fixed", right: "20px", minWidth: "280px" }}
+      >
+      <H3>Recommended users</H3>
+        { 
+          userRecommendationsLoading ? <Spin/> :(
+            userRecommendations.length === 0 ? "No recommendations yet..." :
+              userRecommendations
+              .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
+              .slice(0, 4)
+              .map((u,i) => {
+                return <PersonRecommendationCard 
+                id={u.id}
+                name={u.name + " " + u.surname}
+                university={u.university}
+                department={u.department}
+                imgUrl={u.profile_picture_url}
+                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
+                />
+              })
+          ) 
+        }
       </Col>
     </Frame>
   );

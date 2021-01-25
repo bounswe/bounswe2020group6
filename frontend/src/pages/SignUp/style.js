@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 export const footerStyle = {
   backgroundColor: theme.main.colors.third,
@@ -122,4 +122,15 @@ export const ConfirmButton = styled.button`
   :hover {
     color: ${theme.main.colors.sixth};
   }
+`;
+
+export const AgreementModal = styled(Modal).attrs({
+  title: "User Agreement",
+  footer: null,
+  bodyStyle: {
+    maxHeight: "60vh", 
+    overflowY: "auto"
+  },
+  width: "60vw"
+})`
 `;

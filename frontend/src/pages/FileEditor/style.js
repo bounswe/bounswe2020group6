@@ -57,6 +57,9 @@ export const Files = styled.div`
 export const FileContainer = styled.div` 
   border: solid 2px #E4E4E4;
   border-radius: 5px;
+  min-height: 80px;
+
+  text-align:center;
   @media only screen and (max-width: 768px) {
     width: 100%;
   }
@@ -75,6 +78,7 @@ export const UserDiv = styled(Col)`
 `; 
 
 export const FileDiv = styled(Col)`
+  cursor: pointer;
   display: flex;
   flex-direction: row; 
   align-items: center;
