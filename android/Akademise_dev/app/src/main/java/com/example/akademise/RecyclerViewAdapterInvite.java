@@ -92,8 +92,8 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
     }
     private void invite(Integer uId) {
         List<Integer> i = new ArrayList<Integer>() {{
-            add(myId);
             add(uId);
+            add(myId);
             add(projectId);
             add(0);
         }};
@@ -109,7 +109,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
                     return;
                 }
                 Invitation  invResponse = response.body();
-                Toast.makeText(context, "Successful. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Invitation sent. ", Toast.LENGTH_LONG).show();
 
             }
 
