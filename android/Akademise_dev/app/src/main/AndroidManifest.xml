@@ -22,6 +22,9 @@
             android:name=".ProjectDetailsActivity"
             android:theme="@style/AppStyle.Signup" />
         <activity
+            android:name=".InvitationActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
             android:name=".RequestInvitationActivity"
             android:theme="@style/AppStyle.Signup" />
         <activity
