@@ -7,17 +7,21 @@ const searchUtil = require("../util/searchUtil")
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()
     const type = req.query.type
+    let tags = []
+    if (req.query.tags){
+        tags = req.query.tags.split(",")
+    }
     try{
         if(type == 0){
             result = await searchUtil.userSearch(query)
             return res.status(200).send(result)
         }
         else if(type == 1) {
-            result = await searchUtil.projectSearch(query, req.userId)
+            result = await searchUtil.projectSearch(query, req.userId, tags)
             return res.status(200).send({projects: result})
         }
         else { 
-            result = await searchUtil.eventSearch(query, req.userId)
+            result = await searchUtil.eventSearch(query, req.userId, tags)
             return res.status(200).send({events: result})
         }
     }
