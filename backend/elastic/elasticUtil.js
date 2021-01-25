@@ -62,13 +62,7 @@ var searchPost = async function(query_word){
         }
     })
 
-    titleResult = titleResult.hits.hits.map(hit => {
-        const s = {
-            data: hit._source, 
-            score: hit._score
-        }
-        return s
-    })
+    titleResult = titleResult.hits.hits.map(hit => hit._source)
 
     summaryResult =  await elasticClient.search({
         index: "posts",
@@ -82,15 +76,10 @@ var searchPost = async function(query_word){
         }
     })
     
-    summaryResult = summaryResult.hits.hits.map(hit => {
-        const s = {
-            data: hit._source, 
-            score: hit._score
-        }
-        return s
-    })
-
-    return {titleResult, summaryResult}
+    concatVersion = summaryResult.hits.hits.map(hit => hit._source).concat(titleResult)
+    uniqueSet = new Set(concatVersion.map(res => JSON.stringify(res)))
+    result = Array.from(uniqueSet).map(res => JSON.parse(res))
+    return result
 }
 
 var searchEvent = async function(query_word){
@@ -106,13 +95,7 @@ var searchEvent = async function(query_word){
         }
     })
 
-    titleResult = titleResult.hits.hits.map(hit => {
-        const s = {
-            data: hit._source, 
-            score: hit._score
-        }
-        return s
-    })
+    titleResult = titleResult.hits.hits.map(hit => hit._source)
 
     bodyResult =  await elasticClient.search({
         index: "events",
@@ -126,15 +109,10 @@ var searchEvent = async function(query_word){
         }
     })
     
-    bodyResult = bodyResult.hits.hits.map(hit => {
-        const s = {
-            data: hit._source, 
-            score: hit._score
-        }
-        return s
-    })
-
-    return {titleResult, bodyResult}
+    concatVersion = bodyResult.hits.hits.map(hit => hit._source).concat(titleResult)
+    uniqueSet = new Set(concatVersion.map(res => JSON.stringify(res)))
+    result = Array.from(uniqueSet).map(res => JSON.parse(res))
+    return result
 }
 
 module.exports = {

@@ -48,8 +48,13 @@ addEvent = async function (req, res) {
             await EventTag.create( { id: addedEvent.id, tag }, { transaction } )    
 
         await transaction.commit()
-        elasticUtil.addEvent(addedEvent)
-        res.status(200).send({message: "Event is created", event: addedEvent})
+
+        try{
+            elasticUtil.addEvent(addedEvent)
+        }
+        finally{
+            res.status(200).send({message: "Event is created", event: addedEvent})
+        }
         
     } catch (error) {
         await transaction.rollback()
@@ -117,7 +122,6 @@ updateEvent = async function (req, res) {
                 id: req.params.id
             }
         })
-        elasticUtil.updateEvent(eventToUpdate)
         if (tags) {
             await EventTag.destroy( { where: {id} }, { transaction } ) 
 
@@ -126,8 +130,14 @@ updateEvent = async function (req, res) {
         }
         
         await transaction.commit()
+        
+        try {
+            elasticUtil.updateEvent(eventToUpdate)
+        }
+        finally{
+            res.status(200).send("success!")
+        }
 
-        res.status(200).send("success!")
     } catch (error) {
         
         await transaction.rollback()
@@ -182,8 +192,14 @@ deleteEvent = async function (req, res) {
     try {
         const deleted = await Event.destroy( {where: {id, userId}} )
         if(deleted == 0) throw new Error('Nothing is deleted, either you are not the owner or this event does not exist')
-        elasticUtil.deleteEvent(id)
-        res.status(201).send("success")
+
+        try{
+            elasticUtil.deleteEvent(id)
+        }
+        finally{
+            res.status(201).send("success")
+
+        }
     } catch (error) {
         res.status(500).send(error.message)
     }
