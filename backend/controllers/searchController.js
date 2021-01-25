@@ -9,15 +9,15 @@ search = async function(req, res) {
     const type = req.query.type
     try{
         if(type == 0){
-            result = searchUtil.userSearch(query)
+            result = await searchUtil.userSearch(query)
             return res.status(200).send(result)
         }
         else if(type == 1) {
-            result = searchUtil.projectSearch(query, req.userId)
+            result = await searchUtil.projectSearch(query, req.userId)
             return res.status(200).send({projects: result})
         }
         else { 
-            result = searchUtil.eventSearch(query, req.userId)
+            result = await searchUtil.eventSearch(query, req.userId)
             return res.status(200).send({events: result})
         }
     }
