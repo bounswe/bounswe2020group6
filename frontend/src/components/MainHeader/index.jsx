@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/";
+import ChangePasswordModal from "../ChangePasswordModal";
+import DeleteAccountModal from "../DeleteAccountModal";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Badge } from "antd";
+import { Row, Col, Badge, Divider, Menu } from "antd";
 import {
   MenuOutlined,
   BellOutlined,
@@ -12,6 +14,8 @@ import {
   SettingOutlined,
   UserOutlined,
   HomeOutlined,
+  LockOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import {
   Header,
@@ -24,6 +28,7 @@ import {
   SearchBar,
   LogoText,
   NotificationModal,
+  SettingsModal,
 } from "./style";
 import logo from "../../assets/ad-logo-b9f5d8.png";
 import searchIcon from "../../assets/search-icon.png";
@@ -34,10 +39,23 @@ const SiteHeader = () => {
   const [searchText, setSearchText] = useState(null);
   const [userId, setUserId] = useState();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
+  const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
+  const [isDeleteAccountModalVisible, setIsDeleteAccountModalVisible] = useState(false);
+
   const [notificationData, setNotificationData] = useState([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const toggleChangePasswordModal = () => {
+    setIsChangePasswordModalVisible((prev) => !prev);
+  };
+
+  const toggleDeleteAccountModal = () => {
+    setIsDeleteAccountModalVisible((prev) => !prev);
+  };
 
   useEffect(() => {
     api({ sendToken: true })
@@ -60,21 +78,13 @@ const SiteHeader = () => {
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
-        <SideBarItem onClick={() => history.push("/home")}>
-          Home
-        </SideBarItem>
-        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>
-          Profile
-        </SideBarItem>
-        <SideBarItem href="#">
+        <SideBarItem onClick={() => history.push("/home")}>Home</SideBarItem>
+        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>Profile</SideBarItem>
+        <SideBarItem onClick={() => setIsSettingsModalVisible((prev) => !prev)}>
           Settings
         </SideBarItem>
-        <SideBarItem onClick={() => showModal()}>
-          Notifications
-        </SideBarItem>
-        <SideBarItem onClick={handleLogout}>
-          Logout
-        </SideBarItem>
+        <SideBarItem onClick={() => showModal()}>Notifications</SideBarItem>
+        <SideBarItem onClick={handleLogout}>Logout</SideBarItem>
       </SideBarMenu>
     </SideBar>
   );
@@ -91,8 +101,6 @@ const SiteHeader = () => {
       style={{ height: "15px", width: "15px", cursor: "pointer" }}
     />
   );
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -174,6 +182,28 @@ const SiteHeader = () => {
 
   return (
     <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "2" }}>
+      <ChangePasswordModal
+        visible={isChangePasswordModalVisible}
+        toggleChangePasswordModal={toggleChangePasswordModal}
+      />
+      <DeleteAccountModal
+        visible={isDeleteAccountModalVisible}
+        toggleDeleteAccountModal={toggleDeleteAccountModal}
+      />
+      <SettingsModal
+        mask={false}
+        visible={isSettingsModalVisible}
+        onCancel={() => setIsSettingsModalVisible(false)}
+      >
+        <Menu selectable={false} onClick={() => setIsSettingsModalVisible(false)}>
+          <Menu.Item icon={<LockOutlined />} onClick={() => toggleChangePasswordModal()}>
+            Change Password
+          </Menu.Item>
+          <Menu.Item icon={<CloseOutlined />} onClick={() => toggleDeleteAccountModal()}>
+            Delete Account
+          </Menu.Item>
+        </Menu>
+      </SettingsModal>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
         {notificationData.length > 0
           ? notificationData.map((n, i) => {
@@ -222,7 +252,7 @@ const SiteHeader = () => {
               <UserOutlined />{" "}
             </Anchor>{" "}
             |{" "}
-            <Anchor href="#">
+            <Anchor onClick={() => setIsSettingsModalVisible((prev) => !prev)}>
               <SettingOutlined />
             </Anchor>{" "}
             |{" "}
