@@ -39,6 +39,7 @@ getNotifications = async function(req,res){
             where : {
 		receiverId : userId
 	    },
+            order: [['id', 'desc']],
             include : [
 		{
                     model : User,
