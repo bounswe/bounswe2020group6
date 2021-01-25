@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/";
+import ResponseNotification from "../ResponseNotification/";
 import ChangePasswordModal from "../ChangePasswordModal";
 import DeleteAccountModal from "../DeleteAccountModal";
 import { useHistory } from "react-router-dom";
@@ -45,6 +46,7 @@ const SiteHeader = () => {
   const [isDeleteAccountModalVisible, setIsDeleteAccountModalVisible] = useState(false);
 
   const [notificationData, setNotificationData] = useState([]);
+  const [responseNotificationData, setResponseNotificationData] = useState([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -62,6 +64,14 @@ const SiteHeader = () => {
       .get("/collab/get_requests")
       .then((response) => {
         setNotificationData(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    api({ sendToken: true })
+      .get("/notification/get")
+      .then((response) => {
+        setResponseNotificationData(response.data);
       });
   }, []);
 
@@ -129,7 +139,10 @@ const SiteHeader = () => {
       };
     }
 
-    api({ sendToken: true }).post("/collab/add_collaborator", data);
+    api({ sendToken: true })
+      .post("/collab/add_collaborator", data)
+      .then((r) => console.log(r.data))
+      .catch((e) => console.log(e.response.data.error));
     api({ sendToken: true })
       .delete("/collab/delete_request/" + request_id)
       .then((_) => {
@@ -143,9 +156,11 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
-  const rejectRequest = (request_id) => {
+  const rejectRequest = (requestId, projectId, rejectedId) => {
+    const body = { requestId, projectId, rejectedId };
+    api({ sendToken: true }).post("/notification/add_rejection", body);
     api({ sendToken: true })
-      .delete("/collab/delete_request/" + request_id)
+      .delete("/collab/delete_request/" + requestId)
       .then((_) => {
         api({ sendToken: true })
           .get("/collab/get_requests")
@@ -174,8 +189,38 @@ const SiteHeader = () => {
           acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
         }}
         reject={() => {
-          rejectRequest(n.id);
+          rejectRequest(n.id, n.projectId, n.requesterId);
         }}
+      />
+    );
+  };
+
+  const handleDelete = (id) => {
+    api({ sendToken: true })
+      .delete(`/notification/delete/${id}`)
+      .then(() => {
+        api({ sendToken: true })
+          .get("/notification/get")
+          .then((response) => {
+            setResponseNotificationData(response.data);
+          });
+      });
+  };
+
+  const responseNotificationComponent = (n, k) => {
+    return (
+      <ResponseNotification
+        key={k}
+        type={n.type}
+        userName={n.accepter.name + " " + n.accepter.surname}
+        userLink={() => {
+          history.push({ pathname: "/profile/" + n.accepterId });
+        }}
+        projectName={n.project.title}
+        projectLink={() => {
+          history.push({ pathname: "/project/details/" + n.projectId });
+        }}
+        handleDelete={() => handleDelete(n.id)}
       />
     );
   };
@@ -205,10 +250,19 @@ const SiteHeader = () => {
         </Menu>
       </SettingsModal>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
-        {notificationData.length > 0
-          ? notificationData.map((n, i) => {
-              return notificationComponent(n, i);
-            })
+        {notificationData.length + responseNotificationData.length > 0
+          ? [
+              ...notificationData
+                .map((n, i) => {
+                  return notificationComponent(n, i);
+                })
+                .reverse(),
+              ...responseNotificationData
+                .map((n, i) => {
+                  return responseNotificationComponent(n, i);
+                })
+                .reverse(),
+            ]
           : "You have no new notifications"}
       </NotificationModal>
       {sideBar}
@@ -257,7 +311,7 @@ const SiteHeader = () => {
             </Anchor>{" "}
             |{" "}
             <Anchor onClick={() => showModal()}>
-              <Badge count={notificationData.length}>
+              <Badge count={notificationData.length + responseNotificationData.length}>
                 <BellOutlined style={{ fontSize: "20px" }} />
               </Badge>
             </Anchor>{" "}
