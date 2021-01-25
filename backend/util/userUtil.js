@@ -215,7 +215,7 @@ var usersSharingSimilarity = async function(field, userId) {
 var fullnameStartsWith = async function(query){
     users = User.findAll({
         where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
-            [Sequelize.Op.like]: query + "%"
+            [Sequelize.Op.iLike]: query + "%"
         }),
         attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
     })
@@ -227,7 +227,7 @@ var lastNameStartsWith = async function(query){
     users = User.findAll({
         where: {
             surname: {
-                [Sequelize.Op.like]: query + "%"
+                [Sequelize.Op.iLike]: query + "%"
             }
         },
         attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
@@ -239,7 +239,7 @@ var lastNameStartsWith = async function(query){
 var fullnameContains = async function(query){
     users = User.findAll({
         where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
-            [Sequelize.Op.like]: "%" + query + "%"
+            [Sequelize.Op.iLike]: "%" + query + "%"
         }),
         attributes : ['id', 'name','surname','university','department', 'title', 'profile_picture_url'],
     })
