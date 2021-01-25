@@ -13,18 +13,33 @@
         android:theme="@style/AppStyle"
         android:usesCleartextTraffic="true">
         <activity
+
             android:name=".EventActivity"
             android:theme="@style/AppStyle.Signup">
         </activity>
         <activity android:name=".OtherUserProjectsActivity"></activity>
+
+            android:name=".OtherUserProjectsActivity"
+            android:theme="@style/AppStyle.Signup" />
+
         <activity
             android:name=".ProfileActivity"
             android:theme="@style/AppStyle.Signup" />
-        <activity android:name=".ProfileOthersFragment" />
-        <activity android:name=".ProjectDetailsActivity" />
-        <activity android:name=".RequestInvitationActivity" />
-        <activity android:name=".ShowProjectFilesActivity" />
-        <activity android:name=".ProjectDetailsUserActivity" />
+        <activity
+            android:name=".ProjectDetailsActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
+            android:name=".InvitationActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
+            android:name=".RequestInvitationActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
+            android:name=".ShowProjectFilesActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
+            android:name=".ProjectDetailsUserActivity"
+            android:theme="@style/AppStyle.Signup" />
         <activity
             android:name=".ProjectCreationActivity"
             android:theme="@style/AppStyle.Signup" />

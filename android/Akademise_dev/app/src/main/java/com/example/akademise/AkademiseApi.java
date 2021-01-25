@@ -73,7 +73,7 @@ public interface AkademiseApi {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")
-    Call<Project> createProject(@Body Project project, @Header("Authorization") String auth);
+    Call<GetProjects> createProject(@Body Project project, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @PATCH("post/update/{id}")
@@ -86,6 +86,10 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @DELETE("post/delete/{id}")
     Call<Project> deleteProject(@Path("id") int id, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("collab/delete_collaborator/{projectId}/{collaboratorId}")
+    Call<Project> leaveProject(@Path("projectId") int projectId,@Path("collaboratorId") int collaboratorId, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add_milestone")
@@ -145,6 +149,7 @@ public interface AkademiseApi {
     @DELETE("collab/delete_request/{id}")
     Call<Collab>  deleteReq(@Path("id") int id, @Header("Authorization") String auth);
 
+
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add_tag")
     Call<AddTag>  addTags(@Body AddTag newTags, @Header("Authorization") String auth);
@@ -174,6 +179,14 @@ public interface AkademiseApi {
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @GET("home/users")
     Call<Home> getHomeUsers(@Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @GET("notification/get")
+    Call<List<Notifications>> getNotifications(@Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("notification/delete/{id}")
+    Call<Notifications>  deleteNotification(@Path("id") int id, @Header("Authorization") String auth);
 
     @GET("/follow/followers")
     Call<Follower> getFollowers(@Header("Authorization") String auth);

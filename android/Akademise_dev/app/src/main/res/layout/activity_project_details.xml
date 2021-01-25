@@ -52,7 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView">
@@ -61,13 +61,16 @@
     <TextView
         android:id="@+id/title"
         style="@style/textView"
-        android:layout_width="129dp"
-        android:layout_height="32dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:hint="Project Title"
+        android:gravity="center"
+        android:textStyle="bold"
         app:layout_constraintHeight_percent="0.03"
         app:layout_constraintStart_toEndOf="@+id/space"
         app:layout_constraintTop_toBottomOf="@+id/spacex"
-        app:layout_constraintWidth_percent="0.30"></TextView>
+        app:layout_constraintWidth_percent="0.30">
+    </TextView>
     <Space
         android:id="@+id/right_space"
         android:layout_width="0dp"
@@ -106,118 +109,188 @@
         android:id="@+id/space1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.02"
         app:layout_constraintStart_toEndOf="@+id/space"
         app:layout_constraintTop_toBottomOf="@+id/btnEditProject"
         app:layout_constraintWidth_percent="1">
     </Space>
-
+    <TextView
+        android:id="@+id/header_tvAbstract"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Summary"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space1">
+    </TextView>
     <TextView
         android:id="@+id/tvAbstractProject"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:background="@drawable/textview_shape"
         style="@style/textView"
         android:scrollbars = "vertical"
         android:hint="Summary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space1"/>
+        app:layout_constraintTop_toBottomOf="@+id/header_tvAbstract"/>
     <Space
         android:id="@+id/space2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAbstractProject">
 
     </Space>
     <TextView
-        android:id="@+id/tvTagsProject"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/textview_shape"
+        android:id="@+id/header_rvProjectTags"
         style="@style/textView"
-        android:hint="Tags"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.95"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tags"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space2">
+    </TextView>
+    <TextView
+        android:id="@+id/header_rvProjectMilestones"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Milestones"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space2">
+    </TextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recyclerViewProjectTags"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_rvProjectTags"
+        tools:layout_editor_absoluteX="0dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recyclerViewProjectMilestone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_rvProjectMilestones"
+        tools:layout_editor_absoluteX="0dp" />
     <Space
         android:id="@+id/space3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTagsProject">
+        app:layout_constraintTop_toBottomOf="@+id/rv_recyclerViewProjectMilestone">
 
     </Space>
     <TextView
-        android:id="@+id/tvMilestoneProject"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/textview_shape"
+        android:id="@+id/header_tvRequirements"
         style="@style/textView"
-        android:hint="Milestones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintWidth_percent="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space3"/>
-    <Space
-        android:id="@+id/space4"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
-        app:layout_constraintWidth_percent="1"
+        android:layout_height="wrap_content"
+        android:text="Requirements"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMilestoneProject"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space3">
+    </TextView>
     <TextView
         android:id="@+id/tvRequirementsProject"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:background="@drawable/textview_shape"
+        android:scrollbars = "vertical"
         style="@style/textView"
         android:hint="Requirements"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHeight_percent="0.10"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space4"/>
+        app:layout_constraintTop_toBottomOf="@+id/header_tvRequirements"/>
     <Space
         android:id="@+id/space5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRequirementsProject"/>
-
+    <TextView
+        android:id="@+id/header_tvStatus"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space5">
+    </TextView>
     <TextView
         android:id="@+id/tvStatusProject"
         style="@style/textView"
-        android:layout_width="186dp"
-        android:layout_height="67dp"
-        android:background="@drawable/textview_shape"
-        android:hint="Status"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintHorizontal_bias="0.15"
+        android:background="@drawable/rowview_shape_white"
+        android:gravity="center"
+        android:hint="Status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space5" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_tvStatus" />
     <Space
         android:id="@+id/space6"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintHeight_percent="0.01"
         app:layout_constraintWidth_percent="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStatusProject"/>
 
+    <TextView
+        android:id="@+id/header_tvCollaborators"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Collaborators"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.95"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space6">
+    </TextView>
     <TextView
         android:id="@+id/tvCollaborators"
         android:layout_width="0dp"
@@ -229,7 +302,7 @@
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space6"/>
+        app:layout_constraintTop_toBottomOf="@+id/header_tvCollaborators"/>
     <Space
         android:id="@+id/space7"
         android:layout_width="0dp"
@@ -239,14 +312,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCollaborators"/>
 
-
-
     <Button
 
         android:id="@+id/btnReqInvProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Requests and Invıtatıons"
+        android:text="Requests and Invıtes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnFilesProject"
         app:layout_constraintHorizontal_bias="0.5"
@@ -270,15 +341,31 @@
         app:layout_constraintTop_toTopOf="@+id/btnReqInvProject" />
 
     <TextView
+        android:id="@+id/header_tvPrivacy"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Privacy"
+        android:textSize="14sp"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space5">
+    </TextView>
+    <TextView
         android:id="@+id/tvPrivacyProjectDetails"
         style="@style/textView"
-        android:layout_width="186dp"
-        android:layout_height="67dp"
-        android:background="@drawable/textview_shape"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:background="@drawable/rowview_shape_white"
+        android:gravity="center"
         android:hint="Privacy"
-        app:layout_constraintBottom_toTopOf="@+id/space6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvStatusProject"
-        app:layout_constraintTop_toBottomOf="@+id/space5" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_tvPrivacy" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

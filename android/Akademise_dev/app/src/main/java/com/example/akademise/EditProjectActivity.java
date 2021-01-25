@@ -41,7 +41,7 @@ public class EditProjectActivity extends AppCompatActivity {
     Button tags;
     Button update;
     String privacy;
-    int pr;
+    boolean pr;
     String status;
     int stat;
 
@@ -132,10 +132,10 @@ public class EditProjectActivity extends AppCompatActivity {
         String[] statusArray = getResources().getStringArray(R.array.status_array);
         stat = java.util.Arrays.asList(statusArray).indexOf(status);
         if(privacy.equals("Private")){
-            pr=0;
+            pr=false;
         }
         else{
-            pr=1;
+            pr=true;
         }
         UpdateProject updates = new UpdateProject(title.getText().toString(), summary.getText().toString(), requirements.getText().toString(), pr, stat);
         Call<Project> call = akademiseApi.updateProject(project.getId(), updates, "Bearer " + myToken);
@@ -195,7 +195,7 @@ public class EditProjectActivity extends AppCompatActivity {
             summary.setText(project.getSummary());
             requirements.setText(project.getRequirements());
             pr = project.getPrivacy();
-            if( pr == 0){
+            if( !pr ){
                 privacy = "Private";
             }
             else{
@@ -235,7 +235,7 @@ public class EditProjectActivity extends AppCompatActivity {
                 summary.setText(project.getSummary());
                 requirements.setText(project.getRequirements());
                 pr = project.getPrivacy();
-                if( pr == 0){
+                if( !pr){
                     privacy = "Private";
                 }
                 else{

@@ -66,7 +66,12 @@ public class ProjectFragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getProjects(myId);
 
+    }
     private void gotoPublicationCreation(){
         Intent intent = new Intent(getActivity().getBaseContext(), ProjectCreationActivity.class);
         startActivity(intent);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
@@ -74,6 +75,9 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
         String day = time.substring(8,10);
         String date = day + "/" + month + "/" + year;
         holder.milestone_date.setText(date);
+        if(position%2==0){
+            holder.row_view.setBackground(context.getResources().getDrawable(R.drawable.rowview_shape_white));
+        }
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +164,7 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
         EditText milestone_date;
         Button delete;
         Button update;
+        ConstraintLayout row_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,6 +173,7 @@ public class RecyclerViewMilestoneAdapter extends RecyclerView.Adapter<RecyclerV
             milestone_date = itemView.findViewById(R.id.et_milestoneDate);
             delete = itemView.findViewById(R.id.btnMilestoneDelete);
             update = itemView.findViewById(R.id.btnMilestoneUpdate);
+            row_view = itemView.findViewById(R.id.constraintLayout_milestone);
         }
 
     }
