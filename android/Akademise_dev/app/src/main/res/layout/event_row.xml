@@ -72,6 +72,38 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/event_link" />
 
+            <Button
+                android:id="@+id/btn_favorite_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                app:layout_constraintBottom_toTopOf="@+id/tv_favorite_events"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/event_type"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_fav_count_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_favorite_events"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_favorite_events"
+                app:layout_constraintTop_toTopOf="@+id/tv_favorite_events" />
+
+            <TextView
+                android:id="@+id/tv_favorite_events"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favs: "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btn_favorite_event"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/btn_favorite_event"
+                app:layout_constraintTop_toBottomOf="@+id/btn_favorite_event" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
