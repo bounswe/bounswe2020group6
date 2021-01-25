@@ -13,9 +13,14 @@ import {
   UsergroupAddOutlined,
   LockFilled,
 } from "@ant-design/icons";
+
 import { sendJoinRequest, sendBatchInviteRequest } from "../../redux/collaboration/api";
 import Frame from "../../components/Frame";
 import PrimaryButton from "../../components/PrimaryButton";
+import SearchableTag from "../../components/SearchableTag";
+
+
+
 import {
   H1,
   H3,
@@ -342,62 +347,55 @@ const ProjectDetails = () => {
       : // if it is not private
       <>
         <Main
-        xs={{span: 20, offset: 1}}
-        sm={{span: 20, offset: 1}}
-        md={{span: 20, offset: 1}}
-        lg={{span: 12, offset: 5}}> 
-        <H1> {projectData.title} </H1>
-        <DateSection>
-          {projectData.privacy === 0 || projectData.privacy === false ? <LockFilled/> : <UnlockFilled/>}
-          Project Due{" "}
-        {!(projectData.project_milestones === null || projectData.project_milestones === undefined) && projectData.project_milestones.length > 0 
-        ? moment(
-          projectData.project_milestones[projectData.project_milestones.length - 1].date
-          ).format("DD/MM/YYYY")
-        : "Unknown"}
-          <Tag 
-          color={statusColorMap[projectData.status]} 
-          style={{
-            marginLeft: "5px"
-          }}>
-            {statusMap[projectData.status]}
-          </Tag>
-        </DateSection>
-        <Tags>
-        {projectData.project_tags.map((t, i) => {
-          return (
-            <Tag key={i} style={{ color: "grey" }}>
-            {" "}
-            {t.tag}{" "}
+          xs={{span: 20, offset: 1}}
+          sm={{span: 20, offset: 1}}
+          md={{span: 20, offset: 1}}
+          lg={{span: 12, offset: 5}}> 
+          <H1> {projectData.title} </H1>
+          <DateSection>
+            {projectData.privacy === 0 || projectData.privacy === false ? <LockFilled/> : <UnlockFilled/>}
+            Project Due{" "}
+          {!(projectData.project_milestones === null || projectData.project_milestones === undefined) && projectData.project_milestones.length > 0 
+          ? moment(
+            projectData.project_milestones[projectData.project_milestones.length - 1].date
+            ).format("DD/MM/YYYY")
+          : "Unknown"}
+            <Tag 
+            color={statusColorMap[projectData.status]} 
+            style={{
+              marginLeft: "5px"
+            }}>
+              {statusMap[projectData.status]}
             </Tag>
-          );
-          })}
+          </DateSection>
+          <Tags>
+          {projectData.project_tags.map((t, i) => SearchableTag(t, i) )}
           </Tags>
           <Summary>
             <H3>Summary</H3>
             {projectData.summary}
           </Summary>
           {projectData.project_milestones.length > 0 ? (
-                  <Deadlines>
-                    <H3>Milestones</H3>
-                    {projectData.project_milestones.map((dl, i) => {
-                      return (
-                        <p key={i}>
-                          <ClockCircleTwoTone
-                            twoToneColor={deadlineColor(dl.date)}
-                            style={{ fontSize: "12px", marginRight: "8px" }}
-                          />
-                          {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
-                          {dl.title}
-                          <br />
-                          {dl.description}
-                        </p>
-                      );
-                    })}
-                  </Deadlines>
-                ) : (
-                  ""
-                )}
+            <Deadlines>
+              <H3>Milestones</H3>
+              {projectData.project_milestones.map((dl, i) => {
+                return (
+                  <p key={i}>
+                    <ClockCircleTwoTone
+                      twoToneColor={deadlineColor(dl.date)}
+                      style={{ fontSize: "12px", marginRight: "8px" }}
+                    />
+                    {moment(dl.date).format("DD/MM/YYYY")} &nbsp;&nbsp;
+                    {dl.title}
+                    <br />
+                    {dl.description}
+                  </p>
+                );
+              })}
+            </Deadlines>
+          ) : (
+            ""
+          )}
           <Files>
             <H3>
               Project Files
