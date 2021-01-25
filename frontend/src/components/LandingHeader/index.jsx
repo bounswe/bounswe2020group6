@@ -49,6 +49,7 @@ const LandingHeader = () => {
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
         <SideBarItem onClick={() => setLoginVisible(true)}>Login</SideBarItem>
+        <SideBarItem onClick={() => history.push("/join")}>Signup</SideBarItem>
         <SideBarItem onClick={(e) => history.push("/")}>Home</SideBarItem>
         <SideBarItem onClick={(e) => history.push("/about")}>About Us</SideBarItem>
       </SideBarMenu>
@@ -105,9 +106,11 @@ const LandingHeader = () => {
           <SideBarIcon xs={1} sm={0} md={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
             <MenuOutlined style={{ fontSize: "32px" }} />
           </SideBarIcon>
-          <Nav xs={0} sm={5} md={4} lg={3}/>
           <Nav xs={0} sm={4} md={4} lg={3} onClick={(e) => history.push("/")}>
             Home
+          </Nav>
+          <Nav xs={0} sm={5} md={4} lg={3} onClick={() => history.push("/join")}>
+            Signup
           </Nav>
           <Col
             xs={{ span: 10, offset: 6 }}
