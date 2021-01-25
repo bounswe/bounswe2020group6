@@ -1,4 +1,4 @@
-const { Project, Event } = require("../model/db")
+const { Project, Event, ProjectTag, EventTag } = require("../model/db")
 const {Op} = require('sequelize')
 const userUtils = require('../util/userUtil')
 const elasticUtil = require("../elastic/elasticUtil")
@@ -24,7 +24,7 @@ var userSearch = async function(query){
             }
 }
 
-var projectSearch = async function(query, requestingUserId){
+var projectSearch = async function(query, requestingUserId, tags){
     elastic = []
     normalSearch = []
     isElasticFetched = false
@@ -51,18 +51,33 @@ var projectSearch = async function(query, requestingUserId){
     if(isElasticFetched && isNormalFetched){
         uniqueSet = new Set(elastic.concat(normalSearch).map(s => JSON.stringify(s)))
         resultingList =  Array.from(uniqueSet).map(s => JSON.parse(s))
-        return resultingList            
+        return filterProjectByTag(resultingList, tags)            
 
     }
     else if(isElasticFetched){
-        return elastic
+        return filterProjectByTag(elastic, tags)            
     }
     else if(isNormalFetched){
-        return normalSearch
+        return filterProjectByTag(normalSearch, tags)            
     }
     else {
         return []
     }
+}
+
+var filterProjectByTag = async function(projects, tags) {
+    if(tags.length == 0) return projects
+    projectIdsWithGivenTags = await ProjectTag.findAll({
+        where: {
+            tag: tags
+        },
+        attributes: ["project_id"],
+        raw: true
+
+    })
+    projectIdsWithGivenTags = projectIdsWithGivenTags.map(a => a.project_id)
+    return projects.filter(pr => projectIdsWithGivenTags.includes(pr.id))
+
 }
 
 var nonSemanticProjectSearch = async function(query, requestingUserId) {
@@ -103,7 +118,7 @@ var nonSemanticProjectSearch = async function(query, requestingUserId) {
     return projects
 }
 
-var eventSearch = async function(query, requestingUserId) {
+var eventSearch = async function(query, requestingUserId, tags) {
     elastic = []
     normalSearch = []
     isElasticFetched = false
@@ -137,18 +152,31 @@ var eventSearch = async function(query, requestingUserId) {
         normalSearch = normalSearch.map(s => s.dataValues)
         uniqueSet = new Set(elastic.concat(normalSearch).map(s => JSON.stringify(s)))
         resultingList =  Array.from(uniqueSet).map(s => JSON.parse(s))  
-        return resultingList            
+        return filterEventsByTag(resultingList, tags)            
 
     }
     else if(isElasticFetched){
-        return elastic
+        return filterEventsByTag(elastic, tags)
     }
     else if(isNormalFetched){
-        return normalSearch
+        return filterEventsByTag(normalSearch, tags)
     }
     else {
         return []
     }
+}
+
+var filterEventsByTag = async function(events, tags) {
+    if(tags.length == 0) return events
+    eventsIdsWithGivenTags = await EventTag.findAll({
+        where: {
+            tag: tags
+        },
+        attributes: ["id"],
+        raw: true
+    })
+    eventsIdsWithGivenTags = eventsIdsWithGivenTags.map(a => a.id)
+    return events.filter(ev => eventsIdsWithGivenTags.includes(ev.id))
 }
 
 var nonSemanticEventSearch = async function(query, requestingUserId){
