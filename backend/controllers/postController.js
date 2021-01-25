@@ -8,43 +8,41 @@ const elasticUtil = require("../elastic/elasticUtil")
 
 //Adds new posts to database also adds uploaded files to filesystem
 addPost = async function(req,res) {
-    console.log(req.body)
-    console.log(req.userId)
     postData = {
-	userId : req.userId,
-	title : req.body.title,
-	summary : req.body.summary,
-	description : req.body.description,
-	privacy : req.body.privacy,
-	status : req.body.status,
-	requirements : req.body.requirements
+		userId : req.userId,
+		title : req.body.title,
+		summary : req.body.summary,
+		description : req.body.description,
+		privacy : req.body.privacy,
+		status : req.body.status,
+		requirements : req.body.requirements
     }
     tags = req.body.tags
     file = req.files
     try {
-	postDb = await Project.create(postData)
-	
-	for(var key in tags){
-	    currentTag = tags[key]
-	    projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
-	}
+		postDb = await Project.create(postData)
+		
+		for(var key in tags){
+			currentTag = tags[key]
+			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
+		}
 
-	if(file != undefined){
-	    for(var i = 0; i < file.length; i++){
-		currentFile = file[i]
-		oldPath = `./uploads/${currentFile.filename}`
-		newPath = `./uploads/${postDb.id}`
-		moveFile(currentFile.filename, oldPath, newPath)
-		projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
-	    }
-	}
+		if(file != undefined){
+			for(var i = 0; i < file.length; i++){
+			currentFile = file[i]
+			oldPath = `./uploads/${currentFile.filename}`
+			newPath = `./uploads/${postDb.id}`
+			moveFile(currentFile.filename, oldPath, newPath)
+			projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
+			}
+		}
 
-	elastic = await elasticUtil.addPost(postDb)
-	console.log(elastic)
-	res.status(201).send({message: "Post is created", id: postDb.id})
+		elastic = await elasticUtil.addPost(postDb)
+		console.log(elastic)
+		res.status(201).send({message: "Post is created", id: postDb.id})
     }catch (error){
-	res.status(500).send({error: error})
-	console.log(error)
+		res.status(500).send({error: error})
+		console.log(error)
     }
 }
 
