@@ -13,7 +13,7 @@ const SearchableTag = (tagObj, index) => {
         color: "grey", 
         cursor: 'pointer'
       }}
-      onClick={e => history.push('search?q=&tags=' + tagObj.tag)}
+      onClick={e => history.push('/search?query=&tags=' + tagObj.tag)}
     >
       {" "}{tagObj.tag}{" "}
     </Tag>

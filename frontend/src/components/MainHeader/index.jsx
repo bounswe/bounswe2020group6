@@ -100,7 +100,7 @@ const SiteHeader = () => {
   );
 
   const redirectToSearchPage = () => {
-    history.push({ pathname: "/search", search: searchText });
+    history.push("/search?query=" + searchText );
   };
 
   const suffix = (

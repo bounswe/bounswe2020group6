@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { search } from "../../redux/search/api";
 
-import { Col, Row, Spin, List, Space } from "antd";
+import moment from "moment";
+
+import { Col, Row, Spin, List, Space, Select, Form, Input } from "antd";
 import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import UserCard from "../../components/UserCard";
@@ -12,11 +14,16 @@ import FilterButtonSmall from "../../components/FilterButtonSmall";
 import {
   Main, 
   H1, 
-  H2
+  H2,
+  H3,
 } from "./style";
+
+import { FormButton, FormLabel, FormTitle } from "../EditEvent/style";
+
 
 import { StHref } from "../Events/style";
 
+import { getTags } from "../../redux/choices/api";
 
 import {
   CalendarTwoTone,
@@ -44,12 +51,29 @@ const Search = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [searchText, setSearchText] = useState(location.search.substring(1));
+  const [searchText, setSearchText] = useState('');
+  const [searchTags, setSearchTags] = useState('');
 
+  const { Option } = Select;
+
+  var params = new URLSearchParams(location.search.substring(0))
+  
   useEffect(() => {
+    params = new URLSearchParams(location.search.substring(0))
     setLoadingUserResults(true);
     setLoadingProjectResults(true);
-    setSearchText(location.search.substring(1));
+    setLoadingEventResults(true);
+    if(params.has('query')){
+      setSearchText(params.get('query'));
+    }
+    if(params.has('tags')){
+      setSelectedFilter('project')
+      setSearchTags(params.get('tags'));
+    }
+
+    if(params.has('tags') && !params.has('query')){
+
+    }
   }, [location]);
 
   useEffect(() => {
@@ -58,11 +82,22 @@ const Search = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(search({query: searchText, type: 0}, setUserResults, setLoadingUserResults))
-    dispatch(search({query: searchText, type: 1}, setProjectResults, setLoadingProjectResults))
-    dispatch(search({query: searchText, type: 2}, setEventResults, setLoadingEventResults))
+      dispatch(search({query: searchText, type: 0, tags: searchTags}, setUserResults, setLoadingUserResults))
+      dispatch(search({query: searchText, type: 1, tags: searchTags}, setProjectResults, setLoadingProjectResults))
+      dispatch(search({query: searchText, type: 2, tags: searchTags}, setEventResults, setLoadingEventResults))
     // eslint-disable-next-line
-  }, [selectedFilter, searchText]);
+  }, [selectedFilter, searchText, searchTags]);
+
+  // get tags  
+  useEffect(() => {
+    dispatch(getTags());
+    // eslint-disable-next-line
+  },[]);
+  // tags that are available
+
+  const selector = useSelector;
+  const tags = selector((state) => state.choices.tags);
+
 
   const createContentCard = (p) => {
     return (<ContentCard
@@ -116,52 +151,65 @@ const Search = () => {
     </Space>
   );
 
-  const eventResultsList = () => (
-    <List
-      itemLayout="vertical"
-      size="large"
-      pagination={{
-        pageSize: 4,
-      }}
-      dataSource={eventResults.events}
+  const eventResultsList = () => {
+    return (
+      <List
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          pageSize: 4,
+        }}
+        dataSource={eventResults.events}
 
-      renderItem={(item) => (
-        <List.Item
-          key={item.data.title}
-          actions={[
-            <IconText
-              icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
-              text={item.data.location}
-              key="list-vertical-star-o"
-            />,
-            <IconText
-              icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
-              text={item.data.date.substring(0, 10)}
-              key="list-vertical-message"
-            />,
-            <IconText
-              icon={() => <TagTwoTone twoToneColor="#548d5d" />}
-              text={item.data.type}
-              key="list-vertical-message"
-            />,
-          ]}
-        >
-          <List.Item.Meta
-            title={
-              <StHref href={"/event/details/" + item.data.id}>
-                {item.data.title}
-              </StHref>
+        renderItem={(item) => 
+          {
+            // if item is a project
+            if(item.description !== undefined){
+              return ""
+            } else {
+              return (
+                <List.Item
+                  key={item.title}
+                  actions={[
+                    <IconText
+                      icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
+                      text={item.location}
+                      key="list-vertical-star-o"
+                    />,
+                    <IconText
+                      icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
+                      text={moment(item.date).format("DD/MM/YYYY HH:mm")}
+                      key="list-vertical-message"
+                    />,
+                    <IconText
+                      icon={() => <TagTwoTone twoToneColor="#548d5d" />}
+                      text={item.type}
+                      key="list-vertical-message"
+                    />,
+                  ]}
+                >
+                  <List.Item.Meta
+                    title={
+                      <StHref href={"/event/details/" + item.id}>
+                        {item.title}
+                      </StHref>
+                    }
+                    description={
+                      item.body !== undefined && item.body !== null
+                      ? item.body.length < 150
+                        ? item.body.concat("...")
+                        : item.body.substring(0, 150).concat("...")
+                      : ""
+                    }
+                  />
+                </List.Item>
+              )
             }
-            description={
-              item.data.body.length < 150
-                ? item.data.body.concat("...")
-                : item.data.body.substring(0, 150).concat("...")
-            }
-          />
-        </List.Item>
-      )}
-    />
-  )
+          }
+        }
+      />
+    )
+  }
 
   const content = () => {
     var spin = <H2><Spin/></H2>;
@@ -179,20 +227,20 @@ const Search = () => {
       case "project":
         if (!loadingProjectResults) {
           return projectResults.projects.length > 0 ?
-          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.data.privacy ? createContentCard(p.data) : "")}</> 
-          : <H2>"No projects found."</H2>
+          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
+          : <H3>No projects found.</H3>
         }
         else{
           return spin;
         }
       case "event":
         if (!loadingEventResults) {
-          return eventResults.events.length > 0 ?
+          return eventResults.events.filter(d => d.requirements === undefined).length > 0 ?
           <>
             <H2>Event Results</H2> 
             {eventResultsList()}
           </> 
-          : <H2>"No events found."</H2>
+          : <H3>No events found.</H3>
         }
         else{
           return spin;
@@ -202,20 +250,54 @@ const Search = () => {
           return projectResults.projects.length > 0 || userResults.users.length > 0 || eventResults.events.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
-            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.data.privacy ? createContentCard(p.data) : "")}</>
-            :""}
-            {userResults.users.length > 0 ? 
-            <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
+            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</>
             :""}
             {eventResults.events.length > 0 ? 
             <><H2>Event Results</H2> {eventResultsList()}</>
             :""}
+            {userResults.users.length > 0  && searchTags === '' ? 
+            <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
+            :""}
           </>
-          :<H2>"No results found."</H2>
+          :<H3>No results found.</H3>
         }
         else{
           return spin;
         }
+      case "advanced":
+        return (
+          <>
+            <H2>Advanced Project Search</H2>
+            <Form
+              layout="vertical" 
+              initialValues={
+                {query: searchText, tags: searchTags.split(',')}
+              }
+            >
+              <Form.Item
+                label={<FormLabel>Search Query</FormLabel>}
+                name="query"
+                rules={[{ required: false, message: "" }]}
+              >
+                <Input placeholder="Query to be included in project" onChange={(e)=>{setSearchText(e.target.value)}}/>
+              </Form.Item>
+              <Form.Item
+                label={<FormLabel>Choose tags to filter with<br/></FormLabel>}
+                name="tags"
+                rules={[{ required: false, message: "" }]}
+              >
+                <Select mode="tags" style={{ width: "100%" }} placeholder="Tags" onChange={(e)=>{setSearchTags(e.join(','))}}>
+                  {tags.map((x)=>(<Option key={x}>{x}</Option>))}
+                </Select>
+              </Form.Item>
+            </Form>
+            { (!loadingProjectResults) ?
+              projectResults.projects.length > 0 ?
+              <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
+              : <H3>No projects found.</H3>
+            : spin }
+          </>
+        )
       default:
         return ""
     }
@@ -246,6 +328,9 @@ const Search = () => {
             <H1>
               {searchText !== "" ? <>Search results for '{searchText}'</>: <>Results</>}
             </H1>
+            <H2>
+              {searchTags !== "" ? <>Filtered by tags: {searchTags.split(',').map(s => ("'"+s+"'")).join(", ")}</>: <>Results</>}
+            </H2>
 
             {content()}
             
