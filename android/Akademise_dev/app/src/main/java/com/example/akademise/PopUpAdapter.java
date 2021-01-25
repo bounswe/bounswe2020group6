@@ -70,7 +70,9 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
         //Map<String, String> user = requests.get(position).getRequesterUser();
         //String user_ = user.get("name") + " " + user.get("surname");
         String user_name;
-
+        if(position%2==1){
+            holder.username.setBackgroundColor(context.getResources().getColor( R.color.light_green));
+        }
         holder.username.setClickable(true);
         if(position<notifs.size()) {
             if (notifs.get(position).getType() != 5) {
@@ -119,10 +121,10 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
                     + requests.get(position-notifs.size()).getRequesterUser().get("surname");
             holder.username.setText(user_name);
             if(requests.get(position-notifs.size()).getRequestType()==0){
-                holder.type.setText("Request");
+                holder.type.setText("Invitation");
             }
             else{
-                holder.type.setText("Invitation");
+                holder.type.setText("Request");
             }
         }
         loadIDData();
