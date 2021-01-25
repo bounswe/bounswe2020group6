@@ -48,9 +48,9 @@ const LandingHeader = () => {
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
-        <SideBarItem>Menu</SideBarItem>
-        <SideBarItem>Events</SideBarItem>
-        <SideBarItem>About Us</SideBarItem>
+        <SideBarItem onClick={() => setLoginVisible(true)}>Login</SideBarItem>
+        <SideBarItem onClick={(e) => history.push("/")}>Home</SideBarItem>
+        <SideBarItem onClick={(e) => history.push("/about")}>About Us</SideBarItem>
       </SideBarMenu>
     </SideBar>
   );
@@ -102,14 +102,12 @@ const LandingHeader = () => {
       </LoginModal>
       <Header style={{ width: "100%" }}>
         <Row justify="center">
-          <SideBarIcon xs={3} sm={0} md={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
+          <SideBarIcon xs={1} sm={0} md={0} onClick={() => setSideBarCollapsed((prev) => !prev)}>
             <MenuOutlined style={{ fontSize: "32px" }} />
           </SideBarIcon>
+          <Nav xs={0} sm={5} md={4} lg={3}/>
           <Nav xs={0} sm={4} md={4} lg={3} onClick={(e) => history.push("/")}>
-            Menu
-          </Nav>
-          <Nav xs={0} sm={5} md={4} lg={3}>
-            Events
+            Home
           </Nav>
           <Col
             xs={{ span: 10, offset: 6 }}
@@ -136,7 +134,7 @@ const LandingHeader = () => {
             About Us
           </Nav>
           <Nav
-            xs={{ span: 2, offset: 3 }}
+            xs={{ span: 0, offset: 3 }}
             sm={{ span: 4, offset: 0 }}
             md={{ span: 4, offset: 0 }}
             lg={{ span: 3, offset: 0 }}
