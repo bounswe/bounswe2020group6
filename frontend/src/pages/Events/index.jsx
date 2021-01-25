@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 
 import { Col, Spin } from "antd";
 import { List, Avatar, Space } from "antd";
-import { CalendarTwoTone, PushpinTwoTone } from "@ant-design/icons";
+import {
+  CalendarTwoTone,
+  TagTwoTone,
+  EnvironmentTwoTone,
+} from "@ant-design/icons";
 import Frame from "../../components/Frame";
 import ContentCard from "../../components/ContentCard";
 import PersonRecommendationCard from "../../components/PersonRecommendationCard";
-import { Main, H2, H3 } from "./style";
+import { Main, H2, H3, StHref } from "./style";
 import moment from "moment";
 
 import api from "../../axios";
@@ -66,8 +70,10 @@ const Home = () => {
     listData.push({
       href: "https://ant.design",
       title: `Computer Network Testing Conference ${i}`,
+      id: "5",
       avatar:
         "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+      type: "algo",
       description:
         "Ant Design, a design language for background applications, is refined by Ant UED Team.",
       body:
@@ -90,48 +96,67 @@ const Home = () => {
         xs={{ span: 22, offset: 1 }}
         sm={{ span: 22, offset: 1 }}
         md={{ span: 22, offset: 1 }}
-        lg={{ span: 14, offset: 4 }}
+        lg={{ span: 15, offset: 4 }}
         style={{ marginTop: "32px" }}
       >
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
-            pageSize: 4,
-          }}
-          dataSource={feed.result}
-          /*footer={
+        {loading ? (
+          <H2>
+            Loading... <Spin />
+          </H2>
+        ) : (
+          <List
+            itemLayout="vertical"
+            size="large"
+            pagination={{
+              onChange: (page) => {
+                console.log(page);
+              },
+              pageSize: 4,
+            }}
+            dataSource={feed.result}
+            /*footer={
             <div>
               <b>ant design</b> footer part
             </div>
           }*/
-          renderItem={(item) => (
-            <List.Item
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={() => <PushpinTwoTone twoToneColor="#6B8F71" />}
-                  text={item.location}
-                  key="list-vertical-star-o"
-                />,
-                <IconText
-                  icon={() => <CalendarTwoTone twoToneColor="#6B8F71" />}
-                  text={item.date}
-                  key="list-vertical-message"
-                />,
-              ]}
-            >
-              <List.Item.Meta
-                /*avatar={<Avatar src={item.avatar} />}*/
-                title={<a /*href={item.href}*/>{item.title}</a>}
-                description={item.body.substring(0, 150).concat("...")}
-              />
-            </List.Item>
-          )}
-        />
+            renderItem={(item) => (
+              <List.Item
+                key={item.title}
+                actions={[
+                  <IconText
+                    icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
+                    text={item.location}
+                    key="list-vertical-star-o"
+                  />,
+                  <IconText
+                    icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
+                    text={item.date.substring(0, 10)}
+                    key="list-vertical-message"
+                  />,
+                  <IconText
+                    icon={() => <TagTwoTone twoToneColor="#548d5d" />}
+                    text={item.type}
+                    key="list-vertical-message"
+                  />,
+                ]}
+              >
+                <List.Item.Meta
+                  /*avatar={<Avatar src={item.avatar} />}*/
+                  title={
+                    <StHref href={"/event/details/" + item.id}>
+                      {item.title}
+                    </StHref>
+                  }
+                  description={
+                    item.body.length < 150
+                      ? item.body.concat("...")
+                      : item.body.substring(0, 150).concat("...")
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </Main>
       <Col
         style={{ position: "fixed", right: "20px", minWidth: "280px" }}

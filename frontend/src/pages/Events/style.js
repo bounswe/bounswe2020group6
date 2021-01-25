@@ -20,6 +20,13 @@ export const Main = styled(Col)`
   }
 `;
 
+export const StHref = styled.a`
+  color: #000000d9;
+  &:hover {
+    color: #548d5d;
+  }
+`;
+
 export const H1 = styled.h1`
   color: #4e4e4e;
   margin-bottom: 0;
