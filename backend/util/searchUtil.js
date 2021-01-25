@@ -129,6 +129,12 @@ var eventSearch = async function(query, requestingUserId) {
     }
 
     if(isElasticFetched && isNormalFetched){
+        elastic.forEach(e => {
+            x =  e.updatedAt
+            delete e.updatedAt
+            e.updatedAt = x
+        })
+        normalSearch = normalSearch.map(s => s.dataValues)
         uniqueSet = new Set(elastic.concat(normalSearch).map(s => JSON.stringify(s)))
         resultingList =  Array.from(uniqueSet).map(s => JSON.parse(s))  
         return resultingList            
