@@ -36,10 +36,14 @@ addPost = async function(req,res) {
 			projectFile = await ProjectFile.create({project_id : postDb.id, file_name : currentFile.originalname, file_type : currentFile.mimetype})
 			}
 		}
-
-		elastic = await elasticUtil.addPost(postDb)
-		console.log(elastic)
-		res.status(201).send({message: "Post is created", id: postDb.id})
+		try{
+			elastic = await elasticUtil.addPost(postDb)
+			console.log(elastic)
+		}
+		finally{
+			res.status(201).send({message: "Post is created", id: postDb.id})
+		}
+		
     }catch (error){
 		res.status(500).send({error: error})
 		console.log(error)
@@ -152,8 +156,14 @@ updatePost = async function (req,res){
 			id: req.params.id
 		}
 	})
-	elasticUtil.updatePost(postToUpdate)
-	res.status(200).send({message : "Post is updated"})
+	try{
+		throw new Error("asd")
+		elasticUtil.updatePost(postToUpdate)
+	}
+	finally {
+		res.status(200).send({message : "Post is updated"})
+
+	}
     }catch(error) {
 	res.status(500).send({"error": error})
 	console.log(error)
@@ -170,8 +180,12 @@ deletePost = async function (req,res){
 	    }
 	});
 	deleteFolder(req.params.id)
-	elasticUtil.deletePost(req.params.id)
-	res.status(204).send({message : "Post is deleted"})
+	try{
+		elasticUtil.deletePost(req.params.id)
+	}
+	finally {
+		res.status(204).send({message : "Post is deleted"})
+	}
     }catch(error) {
 	res.status(500).send({error: error})
 	console.log(error)
