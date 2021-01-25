@@ -48,7 +48,7 @@ public class MyEventsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.flEventFragments,
-                        new EventFragment()).commit();
+                        new AddEventFragment()).commit();
             }
         });
 

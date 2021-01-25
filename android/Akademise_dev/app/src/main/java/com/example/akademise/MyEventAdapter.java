@@ -73,6 +73,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
                     @Override
                     public void onResponse(Call<EventOperation> call, Response<EventOperation> response) {
                         if(!response.isSuccessful()){
+                            System.out.println("NO SUCCESS");
                             return;
                         }
                     }

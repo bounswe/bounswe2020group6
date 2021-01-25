@@ -183,7 +183,7 @@ public interface AkademiseApi {
     Call<FollowingUsers> getFollowings(@Header("Authorization") String auth);
 
     @POST("event/add")
-    Call<AddEvent> addEvent(@Header("Authorization") String auth);
+    Call<AddEvent> addEvent(@Body AddEvent addEvent, @Header("Authorization") String auth);
 
     @GET("/event/all")
     Call<Event> getAllEvents(@Header("Authorization") String auth);
