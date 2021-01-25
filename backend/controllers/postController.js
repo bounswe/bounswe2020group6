@@ -157,7 +157,6 @@ updatePost = async function (req,res){
 		}
 	})
 	try{
-		throw new Error("asd")
 		elasticUtil.updatePost(postToUpdate)
 	}
 	finally {
