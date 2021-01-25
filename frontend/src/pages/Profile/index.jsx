@@ -30,6 +30,8 @@ import EditModal from "./components/EditModal";
 import InviteModal from "./components/InviteModal";
 import theme from "../../theme";
 
+import SearchableTag from "../../components/SearchableTag";
+
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
@@ -216,27 +218,30 @@ const Profile = () => {
               style={{ fontSize: "28px", fontWeight: "500" }}
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
-              {profile.isUpped ? (
-                <MinusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleRemoveUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              ) : (
-                <PlusCircleTwoTone
-                  twoToneColor={theme.main.colors.first}
-                  onClick={handleAddUp}
-                  style={{
-                    marginRight: "10px",
-                    fontSize: "22px",
-                    cursor: "pointer",
-                  }}
-                />
-              )}
+              {
+                isOwnProfile() ? "" :
+                profile.isUpped ? (
+                  <MinusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleRemoveUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                ) : (
+                  <PlusCircleTwoTone
+                    twoToneColor={theme.main.colors.first}
+                    onClick={handleAddUp}
+                    style={{
+                      marginRight: "10px",
+                      fontSize: "22px",
+                      cursor: "pointer",
+                    }}
+                  />
+                )
+              }
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>
                 {profile.upCounts === null || profile.upCounts === undefined
@@ -328,9 +333,7 @@ const Profile = () => {
               <Col span={24} style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (
-                    <Tag key={i} closable={false}>
-                      {tag.interest}
-                    </Tag>
+                    SearchableTag({tag: tag.interest}, i)
                   ))}
               </Col>
             </Row>
@@ -362,9 +365,7 @@ const Profile = () => {
                             profile.bio ? (
                               profile.bio
                             ) : (
-                              <span style={{ color: "rgba(0,0,0,0.4)" }}>
-                                No biography added yet
-                              </span>
+                              ""
                             )
                           }
                         />

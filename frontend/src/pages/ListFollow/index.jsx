@@ -42,15 +42,20 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
-        setUserRecommendations(          
-          response.data
+        console.log("resp", response);
+        setUserRecommendations(
+          [
+            ...response.data.sameDepartment,
+            ...response.data.sameUniversity,
+            ...response.data.similarInterests,
+          ]
           .sort(() => 0.5 - Math.random())
         );
         setUserRecommendationsLoading(false)
-        //console.log(response.data)
       })
       .catch((error) => {
         console.log(error);
+        setUserRecommendationsLoading(false)
       });
   }, []);
 
@@ -119,7 +124,12 @@ const Home = () => {
           )
         )}
       </Main>
-      <Col align="center" md={0} lg={{ span: 5, offset: 0 }} xl={{ span: 4, offset: 1 }}>
+      <Col 
+        align="center" md={0} 
+        lg={{ span: 5, offset: 0 }} 
+        xl={{ span: 4, offset: 1 }}
+        style={{ position: "fixed", right: "20px", minWidth: "280px" }}
+      >
       <H3>Recommended users</H3>
         { 
           userRecommendationsLoading ? <Spin/> :(

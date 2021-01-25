@@ -41,14 +41,20 @@ const Home = () => {
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
+        console.log("resp", response);
         setUserRecommendations(
-          response.data
+          [
+            ...response.data.sameDepartment,
+            ...response.data.sameUniversity,
+            ...response.data.similarInterests,
+          ]
           .sort(() => 0.5 - Math.random())
         );
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
         console.log(error);
+        setUserRecommendationsLoading(false)
       });
   }, []);
 
@@ -84,7 +90,7 @@ const Home = () => {
           
           [...feed.byUserTags, ...feed.byFollowings]
           .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId"))) // not this user's project
-          .filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                  // unique
+          //.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                // unique (deprecated as of 29.12.2020)
           .sort(momentComparator)                                                // sorted by date
           .reverse()                                                             // descending
           .map((p) => createContentCard(p))
@@ -93,7 +99,7 @@ const Home = () => {
 
       </Main>
       <Col
-        style={{ position: "fixed", right: "20px" }}
+        style={{ position: "fixed", right: "20px", minWidth: "280px" }}
         align="center"
         span={0}
         lg={{ span: 5, offset: 0 }}
@@ -102,7 +108,10 @@ const Home = () => {
         <H3>Recommended users</H3>
         { 
           userRecommendationsLoading ? <Spin/> :(
-            userRecommendations.length === 0 ? "No recommendations yet..." :
+            userRecommendations.length === 1 
+              ? 
+              "No recommendations yet." 
+              :
               userRecommendations
               .filter((u) => u.id !== parseInt(localStorage.getItem("userId")))
               .slice(0, 4)
@@ -113,7 +122,9 @@ const Home = () => {
                 university={u.university}
                 department={u.department}
                 imgUrl={u.profile_picture_url}
-                onFollowed={() => setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))}
+                onFollowed={() => (
+                  setUserRecommendations(prev => prev.filter((x) => x.id !== u.id))
+                )}
                 />
               })
           ) 

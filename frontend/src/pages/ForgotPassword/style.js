@@ -12,6 +12,8 @@ export const Content = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 
+  min-height: 80vh;
+
   @media only screen and (max-width: 600px) {
     background-position: initial;
   }

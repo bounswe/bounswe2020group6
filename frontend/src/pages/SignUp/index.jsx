@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -22,8 +22,10 @@ import { footerStyle, Content } from "./style";
 
 import { Layout, Row, Col, Form, Input, Checkbox, Select, Steps, Divider, message } from "antd";
 import { PlusCircleTwoTone } from "@ant-design/icons";
-import { FormWrapper, FormTitle, FormButton, FormLabel } from "./style";
+import { FormWrapper, FormTitle, FormButton, FormLabel, AgreementModal } from "./style";
 import theme from "../../theme";
+
+import userAgreementText from "../../assets/user_agreement"
 
 const { Footer } = Layout;
 const { Option } = Select;
@@ -162,6 +164,45 @@ const SignUp = () => {
     setAddedItemName("");
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const validatePassword = (rule, value, callback) => {
+
+    var includesSymbol = false;
+    var includesAlpha  = false;
+    var includesNum    = false;
+
+    var alphas = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    var nums   = "1234567890"
+
+    var i;
+    for(i=0;i<value.length;i++){
+      if(alphas.includes(value[i])){
+        includesAlpha = true;
+      }
+      else if(nums.includes(value[i])){
+        includesNum = true;
+      }
+      else {
+        includesSymbol = true;
+      }
+    }
+
+    if (value && !(value.length >=8 && includesAlpha && includesNum && includesSymbol)) {
+      callback("Your password should be at least 8 characters long with at least one letter, one number and one symbol.");
+    } else {
+      callback();
+    }
+  };
+
   const adderDropdown = (itemAddHandler) => (menu) => (
     <div>
       {menu}
@@ -184,6 +225,9 @@ const SignUp = () => {
 
   return (
     <Layout>
+      <AgreementModal title="Basic Modal" visible={isModalVisible} onCancel={handleCancel} footer={null} style={{}}>
+        {userAgreementText}
+      </AgreementModal>
       <LandingHeader />
       <Content>
         <Row style={{ height: "50px" }} />
@@ -245,7 +289,10 @@ const SignUp = () => {
                   <Form.Item
                     label={<FormLabel>Password</FormLabel>}
                     name="password"
-                    rules={[{ required: true, message: "Please enter your password!" }]}
+                    rules={[
+                      { required: true, message: "Please enter your password!" },
+                      { validator: validatePassword }
+                    ]}
                   >
                     <Input.Password
                       onChange={(e) => setPassword(e.target.value)}
@@ -405,7 +452,7 @@ const SignUp = () => {
                       { required: true, message: "You have to accept the terms and conditions!" },
                     ]}
                   >
-                    <Checkbox>I have read & accepted the terms and conditions.</Checkbox>
+                    <Row><Checkbox></Checkbox><span style={{marginLeft: "4px"}}>I have read & accepted the</span> <span onClick={() => showModal()} style={{color: theme.main.colors.first, cursor: "pointer", marginLeft: "4px"}}> terms and conditions</span>.</Row>
                   </Form.Item>
                   <br />
                   <Form.Item>

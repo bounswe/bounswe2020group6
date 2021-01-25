@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProfileInfo } from "../../redux/profile/api";
 
 import { Spin, Menu } from "antd";
-import { GoogleOutlined, DesktopOutlined, ContainerOutlined } from "@ant-design/icons";
+import {
+  GoogleOutlined,
+  DesktopOutlined,
+  ContainerOutlined,
+  CalendarOutlined,
+  UnorderedListOutlined,
+  AppstoreAddOutlined,
+} from "@ant-design/icons";
+
 import { Layout, NameText, Img } from "./style";
 import GoogleScholarModal from "../GoogleScholarModal";
 import { projectsClickedAction } from "../../redux/profile/actions";
@@ -14,7 +22,9 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 const ProfileSider = () => {
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
-  const [googleScholarModalVisible, setGoogleScholarModalVisible] = useState(false);
+  const [googleScholarModalVisible, setGoogleScholarModalVisible] = useState(
+    false
+  );
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -41,14 +51,17 @@ const ProfileSider = () => {
           <Img
             style={{ height: "90px", width: "90px" }}
             src={
-              profile.profile_picture_url === null || profile.profile_picture_url === undefined
+              profile.profile_picture_url === null ||
+              profile.profile_picture_url === undefined
                 ? defaultProfilePictureHref
                 : profile.profile_picture_url
             }
             alt="profile photo"
           />
           <NameText>{profile.name + " " + profile.surname}</NameText>
-          <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+          <div
+            style={{ width: "100%", display: "flex", flexDirection: "column" }}
+          >
             <div
               href="#"
               style={{
@@ -63,7 +76,11 @@ const ProfileSider = () => {
                 : " " + profile.upCounts}
             </div>
             <Menu style={{ marginTop: "24px" }} mode="inline" theme="dark">
-              <Menu.Item key="1" onClick={toogleGoogleScholarModal} icon={<GoogleOutlined />}>
+              <Menu.Item
+                key="1"
+                onClick={toogleGoogleScholarModal}
+                icon={<GoogleOutlined />}
+              >
                 Google Scholar
               </Menu.Item>
               <Menu.Item
@@ -82,6 +99,27 @@ const ProfileSider = () => {
                 icon={<ContainerOutlined />}
               >
                 Create New Project
+              </Menu.Item>
+              <Menu.Item
+                key="4"
+                onClick={() => history.push("/event/create")}
+                icon={<CalendarOutlined />}
+              >
+                Create New Event
+              </Menu.Item>
+              <Menu.Item
+                key="5"
+                onClick={() => history.push("/events")}
+                icon={<UnorderedListOutlined />}
+              >
+                Events
+              </Menu.Item>
+              <Menu.Item
+                key="6"
+                onClick={() => history.push("/event/saved")}
+                icon={<AppstoreAddOutlined />}
+              >
+                Saved Events
               </Menu.Item>
             </Menu>
           </div>

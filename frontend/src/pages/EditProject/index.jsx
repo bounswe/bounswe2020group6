@@ -262,7 +262,7 @@ const EditProject = () => {
                             marginBottom: "10px",
                             display: activeMilestone === index ? "block" : "none",
                           }}
-                        >
+                        > {/*}
                           <Row style={{ marginBottom: "16px" }}>
                             <Radio.Group
                               disabled={dueDateExists()}
@@ -284,6 +284,7 @@ const EditProject = () => {
                               <Radio value={"Due Date"}>Due Date</Radio>
                             </Radio.Group>
                           </Row>
+                          {*/}
                           <Row style={{ marginBottom: "16px" }}>
                             <h4>Milestone Name</h4>
                             <Input
@@ -345,8 +346,8 @@ const EditProject = () => {
                   >
                     <Radio.Group>
                       <Space size={20}>
-                        <Radio value={1}>Public</Radio>
-                        <Radio value={0}>Private</Radio>
+                        <Radio value={true}>Public</Radio>
+                        <Radio value={false}>Private</Radio>
                       </Space>
                     </Radio.Group>
                   </Form.Item>

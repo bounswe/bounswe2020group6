@@ -3,8 +3,11 @@ import { useDispatch } from "react-redux";
 
 import { authLogoutAction } from "../../redux/auth/actions";
 import Notification from "../Notification/";
+import ResponseNotification from "../ResponseNotification/";
+import ChangePasswordModal from "../ChangePasswordModal";
+import DeleteAccountModal from "../DeleteAccountModal";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Badge } from "antd";
+import { Row, Col, Badge, Divider, Menu } from "antd";
 import {
   MenuOutlined,
   BellOutlined,
@@ -12,6 +15,8 @@ import {
   SettingOutlined,
   UserOutlined,
   HomeOutlined,
+  LockOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import {
   Header,
@@ -24,6 +29,7 @@ import {
   SearchBar,
   LogoText,
   NotificationModal,
+  SettingsModal,
 } from "./style";
 import logo from "../../assets/ad-logo-b9f5d8.png";
 import searchIcon from "../../assets/search-icon.png";
@@ -34,16 +40,38 @@ const SiteHeader = () => {
   const [searchText, setSearchText] = useState(null);
   const [userId, setUserId] = useState();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
+  const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
+  const [isDeleteAccountModalVisible, setIsDeleteAccountModalVisible] = useState(false);
+
   const [notificationData, setNotificationData] = useState([]);
+  const [responseNotificationData, setResponseNotificationData] = useState([]);
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const toggleChangePasswordModal = () => {
+    setIsChangePasswordModalVisible((prev) => !prev);
+  };
+
+  const toggleDeleteAccountModal = () => {
+    setIsDeleteAccountModalVisible((prev) => !prev);
+  };
 
   useEffect(() => {
     api({ sendToken: true })
       .get("/collab/get_requests")
       .then((response) => {
         setNotificationData(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    api({ sendToken: true })
+      .get("/notification/get")
+      .then((response) => {
+        setResponseNotificationData(response.data);
       });
   }, []);
 
@@ -60,27 +88,19 @@ const SiteHeader = () => {
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
-        <SideBarItem onClick={() => history.push("/home")}>
-          Home
-        </SideBarItem>
-        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>
-          Profile
-        </SideBarItem>
-        <SideBarItem href="#">
+        <SideBarItem onClick={() => history.push("/home")}>Home</SideBarItem>
+        <SideBarItem onClick={() => history.push(`/profile/${userId}`)}>Profile</SideBarItem>
+        <SideBarItem onClick={() => setIsSettingsModalVisible((prev) => !prev)}>
           Settings
         </SideBarItem>
-        <SideBarItem onClick={() => showModal()}>
-          Notifications
-        </SideBarItem>
-        <SideBarItem onClick={handleLogout}>
-          Logout
-        </SideBarItem>
+        <SideBarItem onClick={() => showModal()}>Notifications</SideBarItem>
+        <SideBarItem onClick={handleLogout}>Logout</SideBarItem>
       </SideBarMenu>
     </SideBar>
   );
 
   const redirectToSearchPage = () => {
-    history.push({ pathname: "/search", search: searchText });
+    history.push("/search?query=" + searchText );
   };
 
   const suffix = (
@@ -91,8 +111,6 @@ const SiteHeader = () => {
       style={{ height: "15px", width: "15px", cursor: "pointer" }}
     />
   );
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -121,7 +139,10 @@ const SiteHeader = () => {
       };
     }
 
-    api({ sendToken: true }).post("/collab/add_collaborator", data);
+    api({ sendToken: true })
+      .post("/collab/add_collaborator", data)
+      .then((r) => console.log(r.data))
+      .catch((e) => console.log(e.response.data.error));
     api({ sendToken: true })
       .delete("/collab/delete_request/" + request_id)
       .then((_) => {
@@ -135,9 +156,11 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
-  const rejectRequest = (request_id) => {
+  const rejectRequest = (requestId, projectId, rejectedId) => {
+    const body = { requestId, projectId, rejectedId };
+    api({ sendToken: true }).post("/notification/add_rejection", body);
     api({ sendToken: true })
-      .delete("/collab/delete_request/" + request_id)
+      .delete("/collab/delete_request/" + requestId)
       .then((_) => {
         api({ sendToken: true })
           .get("/collab/get_requests")
@@ -166,19 +189,80 @@ const SiteHeader = () => {
           acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
         }}
         reject={() => {
-          rejectRequest(n.id);
+          rejectRequest(n.id, n.projectId, n.requesterId);
         }}
+      />
+    );
+  };
+
+  const handleDelete = (id) => {
+    api({ sendToken: true })
+      .delete(`/notification/delete/${id}`)
+      .then(() => {
+        api({ sendToken: true })
+          .get("/notification/get")
+          .then((response) => {
+            setResponseNotificationData(response.data);
+          });
+      });
+  };
+
+  const responseNotificationComponent = (n, k) => {
+    return (
+      <ResponseNotification
+        key={k}
+        type={n.type}
+        userName={n.accepter.name + " " + n.accepter.surname}
+        userLink={() => {
+          history.push({ pathname: "/profile/" + n.accepterId });
+        }}
+        projectName={n.project.title}
+        projectLink={() => {
+          history.push({ pathname: "/project/details/" + n.projectId });
+        }}
+        handleDelete={() => handleDelete(n.id)}
       />
     );
   };
 
   return (
     <div style={{ position: "fixed", top: "0", width: "100%", zIndex: "2" }}>
+      <ChangePasswordModal
+        visible={isChangePasswordModalVisible}
+        toggleChangePasswordModal={toggleChangePasswordModal}
+      />
+      <DeleteAccountModal
+        visible={isDeleteAccountModalVisible}
+        toggleDeleteAccountModal={toggleDeleteAccountModal}
+      />
+      <SettingsModal
+        mask={false}
+        visible={isSettingsModalVisible}
+        onCancel={() => setIsSettingsModalVisible(false)}
+      >
+        <Menu selectable={false} onClick={() => setIsSettingsModalVisible(false)}>
+          <Menu.Item icon={<LockOutlined />} onClick={() => toggleChangePasswordModal()}>
+            Change Password
+          </Menu.Item>
+          <Menu.Item icon={<CloseOutlined />} onClick={() => toggleDeleteAccountModal()}>
+            Delete Account
+          </Menu.Item>
+        </Menu>
+      </SettingsModal>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
-        {notificationData.length > 0
-          ? notificationData.map((n, i) => {
-              return notificationComponent(n, i);
-            })
+        {notificationData.length + responseNotificationData.length > 0
+          ? [
+              ...notificationData
+                .map((n, i) => {
+                  return notificationComponent(n, i);
+                })
+                .reverse(),
+              ...responseNotificationData
+                .map((n, i) => {
+                  return responseNotificationComponent(n, i);
+                })
+                .reverse(),
+            ]
           : "You have no new notifications"}
       </NotificationModal>
       {sideBar}
@@ -222,12 +306,12 @@ const SiteHeader = () => {
               <UserOutlined />{" "}
             </Anchor>{" "}
             |{" "}
-            <Anchor href="#">
+            <Anchor onClick={() => setIsSettingsModalVisible((prev) => !prev)}>
               <SettingOutlined />
             </Anchor>{" "}
             |{" "}
             <Anchor onClick={() => showModal()}>
-              <Badge count={notificationData.length}>
+              <Badge count={notificationData.length + responseNotificationData.length}>
                 <BellOutlined style={{ fontSize: "20px" }} />
               </Badge>
             </Anchor>{" "}

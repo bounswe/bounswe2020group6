@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import theme from "../../theme";
-import { Col, Modal, Tag } from "antd";
+import { Col, Modal } from "antd";
 import { EditOutlined } from '@ant-design/icons';
 
 export const Main = styled(Col)` 
@@ -44,7 +44,6 @@ export const EditButton = styled(EditOutlined)`
     color: ${theme.main.colors.first};
   }
 `; 
-
 
 export const IndentedBlock = styled.div` 
   margin-left: 16px;
@@ -196,7 +195,3 @@ export const FadedDark = styled.p`
     font-size: 12px;
   }
 `;
-
-export const SearchableTagComp = styled(Tag)` 
-
-`; 

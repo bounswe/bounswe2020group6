@@ -12,6 +12,8 @@ const statusColorMap = ["red", "green", "cyan", "purple", "volcano"];
 const ContentCard = (props) => {
   const history = useHistory();
 
+  console.log(props)
+
   return (
     <Layout wrap={false} xs={18} sm={18} md={18} lg={18}>
       <Col flex="40px">
@@ -45,7 +47,10 @@ const ContentCard = (props) => {
             ? props.summary.substring(0, 180) + "..."
             : props.summary}
         </Summary>
-        <Footer> {props.footer}, {moment(props.date).fromNow(true)} ago </Footer>
+        <Footer> 
+          {props.footer}
+          {props.date === undefined ? "" : ", " + moment(props.date).fromNow(true) + " ago" } 
+        </Footer>
       </Col>
     </Layout>
   );

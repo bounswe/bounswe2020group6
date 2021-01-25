@@ -16,10 +16,7 @@ import { getTags } from "../../redux/choices/api";
 
 const { Option } = Select;
 
-
-
 const CreateProject = () => {
-
   const data = {
     title: "",
     project_tags: [],
@@ -27,11 +24,9 @@ const CreateProject = () => {
     privacy: 1,
     project_milestones: [],
     requirements: "",
-    status: 0
-  }
+    status: 0,
+  };
 
-
-    
   const [createPostForm] = Form.useForm();
 
   const dispatch = useDispatch();
@@ -43,14 +38,13 @@ const CreateProject = () => {
   useEffect(() => {
     dispatch(getTags());
     // eslint-disable-next-line
-  },[]);
-
+  }, []);
 
   const createPostSubmit = function (values) {
     let updatedValues = {
       ...values,
       status: 2,
-    }
+    };
     dispatch(postPost(updatedValues, history, message));
   };
 
@@ -58,21 +52,20 @@ const CreateProject = () => {
     <Content>
       <Col>
         <MainHeader />
-        <Divider style={{ marginTop: "90px"}}>
+        <Divider style={{ marginTop: "90px" }}>
           <FormTitle>New Project</FormTitle>
         </Divider>
         <Row style={{ height: "%100vh" }} align="top" justify="start">
           <ProfileSider />
 
           <Content>
-            <Form 
-              layout="vertical" 
-              onFinish={(values) => createPostSubmit(values)} form={createPostForm}
-              initialValues={
-                {...data}
-              }
+            <Form
+              layout="vertical"
+              onFinish={(values) => createPostSubmit(values)}
+              form={createPostForm}
+              initialValues={{ ...data }}
             >
-              <Row  justify="center">
+              <Row justify="center">
                 <Col
                   xs={{ span: 20, offset: 1 }}
                   sm={{ span: 14, offset: 1 }}
@@ -84,7 +77,7 @@ const CreateProject = () => {
                     name="title"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input/>
+                    <Input />
                   </Form.Item>
 
                   <Form.Item
@@ -92,14 +85,14 @@ const CreateProject = () => {
                     name="summary"
                     rules={[{ required: true, message: "Required" }]}
                   >
-                    <Input.TextArea rows={4}/>
+                    <Input.TextArea rows={4} />
                   </Form.Item>
                 </Col>
 
                 <Col
-                xs={{ span: 20, offset: 1 }}
-                sm={{ span: 14, offset: 1 }}
-                lg={{ span: 7, offset: 1 }}
+                  xs={{ span: 20, offset: 1 }}
+                  sm={{ span: 14, offset: 1 }}
+                  lg={{ span: 7, offset: 1 }}
                 >
                   <br />
                   <Form.Item
@@ -108,14 +101,13 @@ const CreateProject = () => {
                     rules={[{ required: false, message: "" }]}
                   >
                     <Select mode="tags" style={{ width: "100%" }} placeholder="Tags">
-                     {tags.map((x)=>(<Option key={x}>{x}</Option>))}
+                      {tags.map((x) => (
+                        <Option key={x}>{x}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
-                  <Form.Item
-                    label={<FormLabel>Requirements</FormLabel>}
-                    name="requirements"
-                  >
-                    <Input.TextArea rows={4}/>
+                  <Form.Item label={<FormLabel>Requirements</FormLabel>} name="requirements">
+                    <Input.TextArea rows={4} />
                   </Form.Item>
                   <Form.Item
                     label={<FormLabel>Privacy</FormLabel>}
@@ -134,11 +126,11 @@ const CreateProject = () => {
                       </Space>
                     </Radio.Group>
                   </Form.Item>
-                  <Row style={{marginBottom: "16px"}}>
-                    <Col style={{width:"100%"}}>
-                    <FormButton type="primary" htmlType="submit">
-                      Confirm
-                    </FormButton>
+                  <Row style={{ marginBottom: "16px" }}>
+                    <Col style={{ width: "100%" }}>
+                      <FormButton type="primary" htmlType="submit">
+                        Confirm
+                      </FormButton>
                     </Col>
                   </Row>
                 </Col>
