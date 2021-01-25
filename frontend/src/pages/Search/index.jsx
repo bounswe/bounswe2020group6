@@ -202,7 +202,7 @@ const Search = () => {
           return projectResults.projects.length > 0 || userResults.users.length > 0 || eventResults.events.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
-            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy === 1 ? createContentCard(p) : "")}</>
+            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.data.privacy ? createContentCard(p.data) : "")}</>
             :""}
             {userResults.users.length > 0 ? 
             <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
@@ -244,7 +244,7 @@ const Search = () => {
           </Row>
             </Col>
             <H1>
-              {searchText !== "" ? <>Search Results:'{searchText}'</>: <>Results</>}
+              {searchText !== "" ? <>Search results for '{searchText}'</>: <>Results</>}
             </H1>
 
             {content()}
