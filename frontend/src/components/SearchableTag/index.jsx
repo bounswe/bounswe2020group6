@@ -5,6 +5,8 @@ import { useHistory } from "react-router-dom";
 const SearchableTag = (tagObj, index) => {
 
   const history = useHistory()
+
+  console.log(tagObj)
   
   return (
     <Tag 
