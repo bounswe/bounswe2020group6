@@ -101,3 +101,36 @@ export const NotificationModal = styled(Modal).attrs({
 top: 74px;
 margin-right:10px;
 `;
+
+export const SettingsModal = styled(Modal).attrs({
+  closable: false,
+  footer: null,
+  bodyStyle: {
+    maxHeight: "60vh", 
+    overflowY: "auto"
+  },
+  width: 200
+})`
+top: 65px;
+margin-right:20px;
+
+.ant-modal-body {
+    padding: 5px;
+}
+
+.ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+    border-right: none;
+}
+
+.ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
+    color: ${theme.main.colors.sixth};
+}
+
+.ant-menu-item-selected {
+    color: ${theme.main.colors.sixth};
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: ${theme.main.colors.third}10;
+}
+`;

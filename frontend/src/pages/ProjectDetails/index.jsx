@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import api from "../../axios";
 import moment from "moment";
 
-import { Row, Col, Tag, Avatar, Spin, Button, Input, message, Popconfirm } from "antd";
+import { Row, Col, Tag, Avatar, Spin, Button, Input } from "antd";
 import {
   UnlockFilled,
   FileOutlined,
@@ -12,8 +12,6 @@ import {
   EditFilled,
   UsergroupAddOutlined,
   LockFilled,
-  CloseCircleOutlined,
-  ExclamationOutlined,
 } from "@ant-design/icons";
 import { sendJoinRequest, sendBatchInviteRequest } from "../../redux/collaboration/api";
 import Frame from "../../components/Frame";
@@ -68,33 +66,7 @@ const ProjectDetails = () => {
       });
   }, [projectId]);
 
-  const handleRemoveCollab = (projectId, collabId) => {
-    setLoadingProject(true);
-    api({ sendToken: true })
-      .delete(`/collab/delete_collaborator/${projectId}/${collabId}`)
-      .then((r) => {
-        api({ sendToken: true })
-          .get("/post/get/" + projectId + "/1")
-          .then((response) => {
-            message.success(r.data.message);
-            setProjectData(response.data[0]);
-            setLoadingProject(false);
-          })
-          .catch((error) => {
-            setLoadingProject(false);
-            console.log(error);
-          });
-      })
-      .catch((e) => {
-        message.error(e.response.data.error);
-        setLoadingProject(false);
-      });
-  };
-
   const displayCollabs = () => {
-    const currUserId = localStorage.getItem("userId");
-    const isOwner = projectData.userId === parseInt(currUserId);
-
     var u = projectData.user;
     var user = (
       <UserDiv key={0} onClick={() => redirectToProfile(projectData.userId)}>
@@ -124,25 +96,6 @@ const ProjectDetails = () => {
               <FadedDark> {"Collaborator"} </FadedDark>
               <FadedText> {c.user.university} </FadedText>
               <FadedText> {c.user.department} </FadedText>
-            </Col>
-            <Col style={{ display: isOwner ? "block" : "none" }}>
-              <Popconfirm
-                placement="bottom"
-                title={`Are you sure to remove ${c.user.name} ${c.user.surname} from this project?`}
-                okType="danger"
-                icon={<ExclamationOutlined style={{ color: "red", fontSize: "18px" }} />}
-                onCancel={(e) => e.stopPropagation()}
-                okText="Remove"
-                onConfirm={(e) => {
-                  e.stopPropagation();
-                  handleRemoveCollab(projectData.id, c.user_id);
-                }}
-              >
-                <CloseCircleOutlined
-                  onClick={(e) => e.stopPropagation()}
-                  style={{ color: "crimson" }}
-                />
-              </Popconfirm>
             </Col>
           </UserDiv>
         </IndentedBlock>
@@ -195,6 +148,8 @@ const ProjectDetails = () => {
   const isUserCollaboratesOnThisProject = () => {
     var myId = parseInt(localStorage.getItem("userId"));
 
+    console.log("collabos", projectData.project_collaborators);
+
     if (projectData.userId === myId) {
       return true;
     }
@@ -206,6 +161,10 @@ const ProjectDetails = () => {
     }
 
     return false;
+  };
+
+  const dueDateExists = () => {
+    return projectData.project_milestones.filter((m) => m.title === "Due Date").length > 0;
   };
 
   const handleJoinRequest = () => {
@@ -362,7 +321,8 @@ const ProjectDetails = () => {
         >
           <Spin size="large" /> Content is Loading
         </Main>
-      ) : projectData.privacy === 0 && !isUserCollaboratesOnThisProject() ? ( // if it is private
+      ) : (projectData.privacy === 0 || projectData.privacy === false) &&
+        !isUserCollaboratesOnThisProject() ? ( // if it is private
         <>
           <Main
             xs={{ span: 20, offset: 1 }}
@@ -396,7 +356,11 @@ const ProjectDetails = () => {
           >
             <H1> {projectData.title} </H1>
             <DateSection>
-              {projectData.privacy === 0 ? <LockFilled /> : <UnlockFilled />}
+              {projectData.privacy === 0 || projectData.privacy === false ? (
+                <LockFilled />
+              ) : (
+                <UnlockFilled />
+              )}
               Project Due{" "}
               {!(
                 projectData.project_milestones === null ||

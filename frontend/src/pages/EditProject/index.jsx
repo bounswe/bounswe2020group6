@@ -346,8 +346,8 @@ const EditProject = () => {
                   >
                     <Radio.Group>
                       <Space size={20}>
-                        <Radio value={1}>Public</Radio>
-                        <Radio value={0}>Private</Radio>
+                        <Radio value={true}>Public</Radio>
+                        <Radio value={false}>Private</Radio>
                       </Space>
                     </Radio.Group>
                   </Form.Item>

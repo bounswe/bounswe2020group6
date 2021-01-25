@@ -5,17 +5,22 @@ import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import Home from "./pages/Home";
+import Events from "./pages/Events";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import Search from "./pages/Search";
 import CreateProject from "./pages/CreateProject";
 import EditProject from "./pages/EditProject";
 import ProjectDetails from "./pages/ProjectDetails";
+import EventDetails from "./pages/EventDetails";
 import FileEditor from "./pages/FileEditor";
 import Profile from "./pages/Profile";
 import ListFollowers from "./pages/ListFollow";
 import api from "./axios";
 import Spinner from "./components/Spinner";
 import { Row, Col } from "antd";
+import CreateEvent from "./pages/CreateEvent";
+import EditEvent from "./pages/EditEvent";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
@@ -35,7 +40,6 @@ export default function App() {
       })
       .catch(() => {
         dispatch(authLogoutAction());
-        history.push("/");
         setLoading(false);
       });
     // eslint-disable-next-line
@@ -45,6 +49,15 @@ export default function App() {
 
   let routes = (
     <Switch>
+      <Route path="/forgotPassword/newPassword">
+        <ForgotPassword step={2} />
+      </Route>
+      <Route path="/forgotPassword/code">
+        <ForgotPassword step={1} />
+      </Route>
+      <Route path="/forgotPassword">
+        <ForgotPassword step={0} />
+      </Route>
       <Route path="/join">
         <SignUp />
       </Route>
@@ -64,6 +77,9 @@ export default function App() {
         <Route path="/home">
           <Home />
         </Route>
+        <Route path="/events">
+          <Events />
+        </Route>
         <Route path="/search">
           <Search />
         </Route>
@@ -79,11 +95,20 @@ export default function App() {
         <Route path="/project">
           <CreateProject />
         </Route>
+        <Route path="/event/details/:eventId">
+          <EventDetails />
+        </Route>
         <Route path="/profile/:id">
           <Profile />
         </Route>
         <Route path="/list/:type">
           <ListFollowers />
+        </Route>
+        <Route path="/event/create">
+          <CreateEvent />
+        </Route>
+        <Route path="/event/edit/:eventId">
+          <EditEvent />
         </Route>
         <Redirect to="/home" />
       </Switch>
