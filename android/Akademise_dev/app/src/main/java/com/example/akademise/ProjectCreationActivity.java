@@ -42,7 +42,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
     private String myToken;
     String currentText;
     List<String> tags= new ArrayList<String>();
-    private int privacy;
+    private boolean privacy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,35 +143,51 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 }
             });
             EditText etTitle = findViewById(R.id.etTitle);
-            //EditText etAbstract = findViewById(R.id.etAbstract);
-            EditText etDeadline = findViewById(R.id.etMilestone);
             EditText etRequirements = findViewById(R.id.etRequirements);
-            privacy=1;
-            if(text_privacy.getText().toString().equals("Private")){
-                privacy=0;
-            }
+            privacy = !text_privacy.getText().toString().equals("Private");
+
 
             createProject(privacy,etTitle.getText().toString(),
                     "Insert abstract here!",
-                    etDeadline.getText().toString(),
+                    null,
                     etRequirements.getText().toString(), tags, null);
 
 
         }
     };
 
-    private void createProject(Integer privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
+    private void createProject(Boolean privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
         TextView tvChosenTags =findViewById(R.id.tvProjectTags);
+        EditText etNewTags = findViewById(R.id.etNewTags);
         String thetags = tvChosenTags.getText().toString();
         thetags= thetags.replace(", ", ",");
         thetags=thetags.replace("Tags:","");
         List<String> tagging = Arrays.asList(thetags.split(","));
+        List<String> Ltagging = new ArrayList<String>(tagging);
+        String written = etNewTags.getText().toString();
+        List<String> writtenTags = Arrays.asList(written.split(","));
+        for(int i=0; i<writtenTags.size(); i++){
+            if(!writtenTags.get(i).equals("")){
+                Call<Tag> call = akademiseApi.addTag(new Tag(writtenTags.get(i)), "Bearer " + myToken);
+                call.enqueue(new Callback<Tag>() {
+                    @Override
+                    public void onResponse(Call<Tag> call, Response<Tag> response) {
 
-        Project project = new Project(privacy, 4,title,  _abstract, null, null, null, deadline, requirements, tagging);
-        Call<Project> call = akademiseApi.createProject(project, "Bearer "+ myToken);
-        call.enqueue(new Callback<Project>() {
+                    }
+
+                    @Override
+                    public void onFailure(Call<Tag> call, Throwable t) {
+
+                    }
+                });
+                Ltagging.add(writtenTags.get(i));
+            }
+        }
+        Project project = new Project(privacy, 4,title,  _abstract, null, requirements, Ltagging);
+        Call<GetProjects> call = akademiseApi.createProject(project, "Bearer "+ myToken);
+        call.enqueue(new Callback<GetProjects>() {
             @Override
-            public void onResponse(Call<Project> call, Response<Project> response) {
+            public void onResponse(Call<GetProjects> call, Response<GetProjects> response) {
 
                 if(!response.isSuccessful()){
                     Log.d("Project", "onResponse: not successful");
@@ -180,7 +196,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
                     Toast.makeText(ProjectCreationActivity.this, "Not created, try again", Toast.LENGTH_LONG).show();
                     return;
                 }
-
+                Log.d("Response", response.message());
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
                 int id = response.body().getId();
@@ -191,7 +207,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Project> call, Throwable t) {
+            public void onFailure(Call<GetProjects> call, Throwable t) {
                 Toast.makeText(ProjectCreationActivity.this, "Be sure to be connected", Toast.LENGTH_LONG).show();
                 Log.d("Project", "onFailure: failed");
             }

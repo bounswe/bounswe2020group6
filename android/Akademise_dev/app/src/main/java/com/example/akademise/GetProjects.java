@@ -16,7 +16,7 @@ public class GetProjects implements Serializable {
 
     private String description;
 
-    private int privacy;
+    private boolean privacy;
 
     private int status;
 
@@ -66,10 +66,10 @@ public class GetProjects implements Serializable {
     public String getDescription(){
         return this.description;
     }
-    public void setPrivacy(int privacy){
+    public void setPrivacy(boolean privacy){
         this.privacy = privacy;
     }
-    public int getPrivacy(){
+    public boolean getPrivacy(){
         return this.privacy;
     }
     public void setStatus(int status){

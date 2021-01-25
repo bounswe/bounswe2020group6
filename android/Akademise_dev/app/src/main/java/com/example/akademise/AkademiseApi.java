@@ -73,7 +73,7 @@ public interface AkademiseApi {
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add")
-    Call<Project> createProject(@Body Project project, @Header("Authorization") String auth);
+    Call<GetProjects> createProject(@Body Project project, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
     @PATCH("post/update/{id}")
