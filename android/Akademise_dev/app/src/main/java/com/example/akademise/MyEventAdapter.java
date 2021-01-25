@@ -87,6 +87,16 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             }
         });
 
+        holder.eventUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int eventId = results.result.get(position).id;
+                Intent intent = new Intent(context, UpdateEventActivity.class);
+                intent.putExtra("eventId", eventId);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

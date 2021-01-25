@@ -8,6 +8,9 @@ public class Event{
     public List<EventResult> result;
 }
 
+class MyEvent{
+    public EventResult result;
+}
 class EventResult{
     public int id;
     public int userId;

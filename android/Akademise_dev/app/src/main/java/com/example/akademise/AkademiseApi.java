@@ -205,6 +205,12 @@ public interface AkademiseApi {
     @POST("/event/delete")
     Call<EventOperation> eventOperation(@Body EventOperation eventOperation, @Header("Authorization") String auth);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("/event/event/{id}")
+    Call<MyEvent> getEvent(@Path("id") int id, @Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PATCH("/event/update/{id}")
+    Call<UpdateEvent> updateEvent(@Path("id") int id, @Body UpdateEvent updateEvent, @Header("Authorization") String auth);
 }
 

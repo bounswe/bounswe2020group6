@@ -54,6 +54,7 @@
         <activity
             android:name=".SignupActivity"
             android:theme="@style/AppStyle.Signup" />
+        <activity android:name=".UpdateEventActivity" />
     </application>
 
 </manifest>
