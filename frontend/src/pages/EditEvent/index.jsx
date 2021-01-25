@@ -10,7 +10,7 @@ import { Content } from "./style";
 import { Select, Form, Input, Divider, Spin } from "antd";
 import { FormButton, FormLabel, FormTitle } from "./style";
 
-import { getEvent, editEvent } from "../../redux/event/api";
+import { getEvent, editEvent, deleteEvent } from "../../redux/event/api";
 
 import { getTags } from "../../redux/choices/api";
 
@@ -40,6 +40,11 @@ const EditEvent = () => {
     dispatch(getEvent(eventId, history, setEventData, setloading));
     // eslint-disable-next-line
   },[]);
+
+  const handleDeleteEvent = () => {
+    var eventId = eventData.id
+    dispatch(deleteEvent(eventId, history, message)); 
+  }
 
   // tags that are available
   const tags = selector((state) => state.choices.tags);
@@ -172,8 +177,11 @@ const EditEvent = () => {
                   </Form.Item>
                   <Row style={{marginBottom: "16px"}}>
                     <Col style={{width:"100%"}}>
-                    <FormButton type="primary" htmlType="submit">
+                    <FormButton type="primary" htmlType="submit" style={{width:"48%"}}>
                       Confirm
+                    </FormButton>
+                    <FormButton type="secondary" htmlType="button" type="button" style={{width:"48%", marginRight: "4%", background: "#7b002c"}} onClick={handleDeleteEvent}>
+                      Delete
                     </FormButton>
                     </Col>
                   </Row>
