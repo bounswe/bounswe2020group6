@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SearchedUsers implements Serializable {
-    private List<Profile> users;
+    private List<Profile> nameMatchedResults;
 
     public void setUsers(List<Profile> users){
-        this.users = users;
+        this.nameMatchedResults = users;
     }
     public List<Profile> getUsers(){
-        return this.users;
+        return this.nameMatchedResults;
     }
 
     public SearchedUsers(List<Profile> users) {
-        this.users = users;
+        this.nameMatchedResults = users;
     }
 }
