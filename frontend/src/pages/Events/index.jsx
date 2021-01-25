@@ -56,22 +56,7 @@ const Events = () => {
         setUserRecommendationsLoading(false);
       });
   }, []);
-  /*
-  const listData = [];
-  for (let i = 0; i < 23; i++) {
-    listData.push({
-      title: `Computer Network Testing Conference ${i}`,
-      id: "5",
-      type: "algo",
-      description:
-        "Ant Design, a design language for background applications, is refined by Ant UED Team.",
-      body:
-        "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
-      location: "istanbul",
-      date: "121212",
-    });
-  }
-*/
+
   const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -103,11 +88,7 @@ const Events = () => {
               pageSize: 4,
             }}
             dataSource={feed.result}
-            /*footer={
-            <div>
-              <b>ant design</b> footer part
-            </div>
-          }*/
+
             renderItem={(item) => (
               <List.Item
                 key={item.title}
@@ -130,7 +111,6 @@ const Events = () => {
                 ]}
               >
                 <List.Item.Meta
-                  /*avatar={<Avatar src={item.avatar} />}*/
                   title={
                     <StHref href={"/event/details/" + item.id}>
                       {item.title}
