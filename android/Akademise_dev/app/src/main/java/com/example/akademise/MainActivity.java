@@ -84,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra("me",1);
                             startActivity(intent);
                             break;
+                        case R.id.miEvents:
+                            Intent eventIntent = new Intent(MainActivity.this, EventActivity.class);
+                            eventIntent.putExtra("me", 1);
+                            startActivity(eventIntent);
+                            break;
                         case R.id.miNotifications:
                             getNotifications();
                             break;

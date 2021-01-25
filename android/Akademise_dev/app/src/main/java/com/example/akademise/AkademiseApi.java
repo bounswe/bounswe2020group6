@@ -195,6 +195,35 @@ public interface AkademiseApi {
     @GET("/follow/followings")
     Call<FollowingUsers> getFollowings(@Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("event/fav")
+    Call<String> favEvent(@Body Id id, @Header("Authorization") String auth);
 
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("/event/unfav")
+    Call<String> unfavEvent(@Body Id id, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("/event/add")
+    Call<AddEvent> addEvent(@Body AddEvent addEvent,@Header("Authorization") String auth);
+
+    @GET("/event/all")
+    Call<Event> getAllEvents(@Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("/event/search")
+    Call<Event> searchEvent(@Body EventFilters filters, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @POST("/event/delete")
+    Call<EventOperation> eventOperation(@Body EventOperation eventOperation, @Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("/event/event/{id}")
+    Call<MyEvent> getEvent(@Path("id") int id, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @PATCH("/event/update/{id}")
+    Call<UpdateEvent> updateEvent(@Path("id") int id, @Body UpdateEvent updateEvent, @Header("Authorization") String auth);
 }
 

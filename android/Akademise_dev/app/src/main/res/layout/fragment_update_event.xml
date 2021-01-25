@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/event_update_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Type"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/event_update_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_type" />
+
+    <EditText
+        android:id="@+id/event_update_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Body"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_title" />
+
+    <EditText
+        android:id="@+id/event_update_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Date"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_body" />
+
+    <EditText
+        android:id="@+id/event_update_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Location"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_date" />
+
+    <EditText
+        android:id="@+id/event_update_extra_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Extra Info"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_location" />
+
+    <EditText
+        android:id="@+id/event_update_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Link"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_extra_info" />
+
+    <Spinner
+        android:id="@+id/event_update_privacy_menu"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.60"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_event_tags"
+        app:layout_constraintWidth_percent="0.50" />
+    <Spinner
+
+        android:id="@+id/event_update_tags_menu"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="0.60"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_privacy_menu"
+        app:layout_constraintWidth_percent="0.50" />
+
+    <TextView
+        android:id="@+id/event_update_add_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Tags:"
+        app:layout_constraintBottom_toBottomOf="@+id/event_update_tags_menu"
+        app:layout_constraintEnd_toStartOf="@+id/event_update_tags_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/event_update_tags_menu" />
+
+    <TextView
+        android:id="@+id/event_update_added_tags"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Tags from spinner:"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_tags_menu"
+        app:layout_constraintWidth_percent="0.90">
+    </TextView>
+
+    <EditText
+        android:id="@+id/event_update_new_tags"
+        style="@style/textView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/textview_shape"
+        android:hint="New Tags (Add them comma separated (Eg:Tag1,Tag2)"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_update_added_tags"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <Button
+        android:id="@+id/event_update_tag_add_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/textView"
+        android:background="@drawable/button_shape"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="+"
+        android:textSize="40sp"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toBottomOf="@id/event_update_new_tags"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/event_update_new_tags"
+        app:layout_constraintStart_toEndOf="@id/event_update_new_tags">
+    </Button>
+
+    <TextView
+        android:id="@+id/event_update_privacy_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Privacy"
+        app:layout_constraintBottom_toBottomOf="@+id/event_update_privacy_menu"
+        app:layout_constraintEnd_toStartOf="@+id/event_update_privacy_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/event_update_privacy_menu" />
+
+    <Button
+        android:id="@+id/event_update_event_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Event"
+        android:background="@drawable/button_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_new_tags" />
+
+    <EditText
+        android:id="@+id/my_event_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Tags"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_update_link" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
