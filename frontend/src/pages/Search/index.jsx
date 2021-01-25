@@ -218,8 +218,8 @@ const Search = () => {
       case "people":
         if (!loadingUserResults) {
           return userResults.users.length > 0 ?
-          <> <H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
-          : <H2>"No users found."</H2>
+          <> <H2>Users</H2> {userResults.users.map((u) => createUserCard(u))}</>
+          : <H3>No users found.</H3>
         }
         else{
           return spin;
@@ -227,7 +227,7 @@ const Search = () => {
       case "project":
         if (!loadingProjectResults) {
           return projectResults.projects.length > 0 ?
-          <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
+          <><H2>Projects</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
           : <H3>No projects found.</H3>
         }
         else{
@@ -237,7 +237,7 @@ const Search = () => {
         if (!loadingEventResults) {
           return eventResults.events.filter(d => d.requirements === undefined).length > 0 ?
           <>
-            <H2>Event Results</H2> 
+            <H2>Events</H2> 
             {eventResultsList()}
           </> 
           : <H3>No events found.</H3>
@@ -250,13 +250,13 @@ const Search = () => {
           return projectResults.projects.length > 0 || userResults.users.length > 0 || eventResults.events.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
-            <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</>
+            <><H2>Projects</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</>
             :""}
             {eventResults.events.length > 0 ? 
-            <><H2>Event Results</H2> {eventResultsList()}</>
+            <><H2>Events</H2> {eventResultsList()}</>
             :""}
             {userResults.users.length > 0  && searchTags === '' ? 
-            <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
+            <><H2>Users</H2> {userResults.users.map((u) => createUserCard(u))}</>
             :""}
           </>
           :<H3>No results found.</H3>
@@ -326,10 +326,10 @@ const Search = () => {
           </Row>
             </Col>
             <H1>
-              {searchText !== "" ? <>Search results for '{searchText}'</>: <>Results</>}
+              {searchText !== "" ? <>Search results for '{searchText}'</>: <>All Results</>}
             </H1>
             <H2>
-              {searchTags !== "" ? <>Filtered by tags: {searchTags.split(',').map(s => ("'"+s+"'")).join(", ")}</>: <>Results</>}
+              {searchTags !== "" ? <>Filtered by tags: {searchTags.split(',').map(s => ("'"+s+"'")).join(", ")}</>: <></>}
             </H2>
 
             {content()}
