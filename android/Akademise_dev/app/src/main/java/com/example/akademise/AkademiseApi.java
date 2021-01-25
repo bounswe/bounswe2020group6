@@ -88,6 +88,10 @@ public interface AkademiseApi {
     Call<Project> deleteProject(@Path("id") int id, @Header("Authorization") String auth);
 
     @Headers({"Content-Type: application/json;charset=UTF-8"})
+    @DELETE("collab/delete_collaborator/{projectId}/{collaboratorId}")
+    Call<Project> leaveProject(@Path("projectId") int projectId,@Path("collaboratorId") int collaboratorId, @Header("Authorization") String auth);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8"})
     @POST("post/add_milestone")
     Call<AddMilestone> addMilestone(@Body AddMilestone milestones, @Header("Authorization") String auth);
 

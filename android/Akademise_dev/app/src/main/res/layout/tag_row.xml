@@ -13,9 +13,10 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_tag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_green"
+            android:background="@drawable/rowview_shape_lightgreen"
             >
 
             <TextView

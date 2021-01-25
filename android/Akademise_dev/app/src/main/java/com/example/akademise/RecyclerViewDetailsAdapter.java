@@ -3,15 +3,18 @@ package com.example.akademise;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.ColorFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +56,7 @@ public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.content_name.setText(contents.get(position));
         if(position%2==0){
-            holder.content_name.setBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.row_view.setBackground(context.getResources().getDrawable(R.drawable.rowview_shape_white));
         }
     }
 
@@ -69,10 +72,12 @@ public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerVie
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView content_name;
+        ConstraintLayout row_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             content_name = itemView.findViewById(R.id.tv_contentname);
+            row_view = itemView.findViewById(R.id.relativeLayoutContent);
         }
 
     }

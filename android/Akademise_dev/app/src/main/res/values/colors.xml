@@ -8,6 +8,23 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="reddish">#FB7E6A</color>
+    <color name="light_purple">#B87FDD</color>
+    <color name="turquoise">#53CBCC</color>
+    <color name="live_green">#7BCF66</color>
+    <color name="dark_pink">#F66268</color>
+
+    <array name="status_colors">
+        <item>@color/dark_pink</item>
+        <item>@color/live_green</item>
+        <item>@color/turquoise</item>
+        <item>@color/light_purple</item>
+        <item>@color/reddish</item>
+
+    </array>
+
+
+
     <color name="dark_green">#6B8F71</color>
     <color name="medium_green">#B9F5D8</color>
     <color name="light_green">#D9FFF5</color>

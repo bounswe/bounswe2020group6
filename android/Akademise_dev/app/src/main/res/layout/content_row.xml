@@ -10,12 +10,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayoutContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dark_green"
+            android:background="@drawable/rowview_shape"
             >
 
             <TextView

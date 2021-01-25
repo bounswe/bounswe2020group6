@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.method.ScrollingMovementMethod;
@@ -71,6 +72,7 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         recyclerViewTag = findViewById(R.id.rv_recyclerViewProjectTags);
         recyclerViewMilestone = findViewById(R.id.rv_recyclerViewProjectMilestone);
         summary.setMovementMethod(new ScrollingMovementMethod());
+        requirements.setMovementMethod(new ScrollingMovementMethod());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -207,6 +209,9 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 summary.setText(project.getSummary());
                 String[] statusArray = getResources().getStringArray(R.array.status_array);
                 status.setText(statusArray[(project.getStatus()%5)]);
+                int[] stat_colors = getResources().getIntArray(R.array.status_colors);
+                status.setTextColor(stat_colors[project.getStatus()%5]);
+
                 requirements.setText(project.getRequirements());
                 List<Tag> tags = project.getProject_tags();
                 List<String> str_tags = new ArrayList<String>();
