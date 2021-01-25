@@ -206,6 +206,31 @@ deleteEvent = async function (req, res) {
 }
 
 
+listFavEvents = async function (req, res) {
+    const userId = req.query.userId
+    try {
+        let events = await EventFav.findAll({
+            where:{
+                userId
+            },
+            attributes: [],
+            include: [
+                {
+                    model: Event,
+                    include: eventData(userId)
+                }
+            ]
+        })
+
+        events = events.map( e => e.event )
+
+        res.status(200).send({result: events})
+
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
 module.exports = {
     addEvent,
     getEvents,
@@ -215,4 +240,5 @@ module.exports = {
     favEvent,
     unfavEvent,
     deleteEvent,
+    listFavEvents,
 }

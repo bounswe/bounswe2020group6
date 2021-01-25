@@ -11,5 +11,6 @@ router.patch('/update/:id', eventController.updateEvent)
 router.post('/fav', eventController.favEvent)
 router.post('/unfav', eventController.unfavEvent)
 router.post('/delete', eventController.deleteEvent)
+router.get('/favorites', eventController.listFavEvents)
 
 module.exports = router
