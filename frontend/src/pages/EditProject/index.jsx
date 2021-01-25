@@ -145,7 +145,6 @@ const EditProject = () => {
       status: parseInt(values.status),
     };
     dispatch(editPost(updatedValues, projectId, history, message));
-    console.log(updatedValues)
   };
 
   function handleDeleteProject() {
