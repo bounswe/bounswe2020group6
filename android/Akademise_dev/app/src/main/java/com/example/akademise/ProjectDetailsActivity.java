@@ -1,6 +1,8 @@
 package com.example.akademise;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,9 +40,9 @@ public class ProjectDetailsActivity extends AppCompatActivity {
     TextView title;
     TextView summary;
     TextView status;
-    TextView milestones;
     TextView requirements;
-    TextView tags;
+    RecyclerView recyclerViewTag;
+    RecyclerView recyclerViewMilestone;
     Button files;
     Button invite;
     Button edit;
@@ -62,11 +65,11 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         files = findViewById(R.id.btnFilesProject);
         summary = findViewById(R.id.tvAbstractProject);
         status=findViewById(R.id.tvStatusProject);
-        milestones=findViewById(R.id.tvMilestoneProject);
         requirements=findViewById(R.id.tvRequirementsProject);
-        tags=findViewById(R.id.tvTagsProject);
         privacy=findViewById(R.id.tvPrivacyProjectDetails);
         collaborators = findViewById(R.id.tvCollaborators);
+        recyclerViewTag = findViewById(R.id.rv_recyclerViewProjectTags);
+        recyclerViewMilestone = findViewById(R.id.rv_recyclerViewProjectMilestone);
         summary.setMovementMethod(new ScrollingMovementMethod());
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
@@ -205,12 +208,25 @@ public class ProjectDetailsActivity extends AppCompatActivity {
                 String[] statusArray = getResources().getStringArray(R.array.status_array);
                 status.setText(statusArray[(project.getStatus()%5)]);
                 requirements.setText(project.getRequirements());
-                String tagList="";
-                for(int i=0; i<project.getProject_tags().size(); i++){
-                    tagList+= project.getProject_tags().get(i).getTag()+" ";
+                List<Tag> tags = project.getProject_tags();
+                List<String> str_tags = new ArrayList<String>();
+                for(Tag tag : tags){
+                    str_tags.add(tag.getTag());
                 }
-                tags.setText(tagList);
-                if(project.getPrivacy()==0) privacy.setText("Private");
+                RecyclerViewDetailsAdapter recyclerViewAdapter = new RecyclerViewDetailsAdapter(ProjectDetailsActivity.this, str_tags);
+                recyclerViewTag.setLayoutManager(new LinearLayoutManager(ProjectDetailsActivity.this));
+                recyclerViewTag.setAdapter(recyclerViewAdapter);
+
+                List<Milestone> milestones = project.getProject_milestones();
+                List<String> str_milestones = new ArrayList<String>();
+                for(Milestone milestone: milestones){
+                    str_milestones.add(milestone.getTitle());
+                }
+                RecyclerViewDetailsAdapter recyclerViewAdapter2 = new RecyclerViewDetailsAdapter(ProjectDetailsActivity.this, str_milestones);
+                recyclerViewMilestone.setLayoutManager(new LinearLayoutManager(ProjectDetailsActivity.this));
+                recyclerViewMilestone.setAdapter(recyclerViewAdapter2);
+
+                if(!project.getPrivacy()) privacy.setText("Private");
                 else privacy.setText("Public");
                 String collaboratorList="";
                 for(int i=0; i<project.getProject_collaborators().size(); i++){

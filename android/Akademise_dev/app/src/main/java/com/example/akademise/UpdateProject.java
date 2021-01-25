@@ -2,7 +2,7 @@ package com.example.akademise;
 
 public class UpdateProject
 {
-    public UpdateProject(String title, String summary, String requirements, int privacy, int status){
+    public UpdateProject(String title, String summary, String requirements, boolean privacy, int status){
         this.title = title;
         this.summary = summary;
         this.requirements = requirements;
@@ -15,7 +15,7 @@ public class UpdateProject
 
     private String description;
 
-    private int privacy;
+    private boolean privacy;
 
     private String requirements;
 
@@ -39,10 +39,10 @@ public class UpdateProject
     public String getDescription(){
         return this.description;
     }
-    public void setPrivacy(int privacy){
+    public void setPrivacy(boolean privacy){
         this.privacy = privacy;
     }
-    public int getPrivacy(){
+    public boolean getPrivacy(){
         return this.privacy;
     }
     public void setRequirements(String requirements){
