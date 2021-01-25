@@ -30,6 +30,8 @@ import EditModal from "./components/EditModal";
 import InviteModal from "./components/InviteModal";
 import theme from "../../theme";
 
+import SearchableTag from "../../components/SearchableTag";
+
 import { Image, Content, NumbersCol, Scrollable, SectionTitle, SectionCol } from "./style";
 
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
@@ -331,9 +333,7 @@ const Profile = () => {
               <Col span={24} style={{ marginTop: "10px" }}>
                 {profile &&
                   profile.user_interests.map((tag, i) => (
-                    <Tag key={i} closable={false}>
-                      {tag.interest}
-                    </Tag>
+                    SearchableTag({tag: tag.interest}, i)
                   ))}
               </Col>
             </Row>

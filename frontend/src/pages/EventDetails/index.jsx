@@ -16,6 +16,8 @@ import Frame from "../../components/Frame";
 import PrimaryButton from "../../components/PrimaryButton";
 import { H1, H2, H4, Main, DateSection, Tags, Summary, Side } from "./style";
 
+import SearchableTag from "../../components/SearchableTag";
+
 // src: https://forum.freecodecamp.org/t/newline-in-react-string-solved/68484
 function NewlineText(text) {
   return text.split("\n").map((s, i) => (
@@ -164,10 +166,7 @@ const EventDetails = () => {
             <Tags>
               {eventData.event_tags.map((t, i) => {
                 return (
-                  <Tag key={i} style={{ color: "grey" }}>
-                    {" "}
-                    {t.tag}{" "}
-                  </Tag>
+                  SearchableTag(t, i)
                 );
               })}
             </Tags>

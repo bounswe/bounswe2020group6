@@ -15,9 +15,14 @@ import {
   ExclamationOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+
 import { sendJoinRequest, sendBatchInviteRequest } from "../../redux/collaboration/api";
 import Frame from "../../components/Frame";
 import PrimaryButton from "../../components/PrimaryButton";
+import SearchableTag from "../../components/SearchableTag";
+
+
+
 import {
   H1,
   H3,
@@ -427,14 +432,7 @@ const ProjectDetails = () => {
               </Tag>
             </DateSection>
             <Tags>
-              {projectData.project_tags.map((t, i) => {
-                return (
-                  <Tag key={i} style={{ color: "grey" }}>
-                    {" "}
-                    {t.tag}{" "}
-                  </Tag>
-                );
-              })}
+              {projectData.project_tags.map((t, i) => SearchableTag(t, i) )}
             </Tags>
             <Summary>
               <H3>Summary</H3>
