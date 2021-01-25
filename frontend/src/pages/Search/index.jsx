@@ -116,6 +116,53 @@ const Search = () => {
     </Space>
   );
 
+  const eventResultsList = () => (
+    <List
+      itemLayout="vertical"
+      size="large"
+      pagination={{
+        pageSize: 4,
+      }}
+      dataSource={eventResults.events}
+
+      renderItem={(item) => (
+        <List.Item
+          key={item.data.title}
+          actions={[
+            <IconText
+              icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
+              text={item.data.location}
+              key="list-vertical-star-o"
+            />,
+            <IconText
+              icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
+              text={item.data.date.substring(0, 10)}
+              key="list-vertical-message"
+            />,
+            <IconText
+              icon={() => <TagTwoTone twoToneColor="#548d5d" />}
+              text={item.data.type}
+              key="list-vertical-message"
+            />,
+          ]}
+        >
+          <List.Item.Meta
+            title={
+              <StHref href={"/event/details/" + item.data.id}>
+                {item.data.title}
+              </StHref>
+            }
+            description={
+              item.data.body.length < 150
+                ? item.data.body.concat("...")
+                : item.data.body.substring(0, 150).concat("...")
+            }
+          />
+        </List.Item>
+      )}
+    />
+  )
+
   const content = () => {
     var spin = <H2><Spin/></H2>;
     if (loadingAllPeople) return spin;
@@ -143,50 +190,7 @@ const Search = () => {
           return eventResults.events.length > 0 ?
           <>
             <H2>Event Results</H2> 
-            <List
-              itemLayout="vertical"
-              size="large"
-              pagination={{
-                pageSize: 4,
-              }}
-              dataSource={eventResults.events}
-
-              renderItem={(item) => (
-                <List.Item
-                  key={item.data.title}
-                  actions={[
-                    <IconText
-                      icon={() => <EnvironmentTwoTone twoToneColor="#6B8F71" />}
-                      text={item.data.location}
-                      key="list-vertical-star-o"
-                    />,
-                    <IconText
-                      icon={() => <CalendarTwoTone twoToneColor="#548d5d" />}
-                      text={item.data.date.substring(0, 10)}
-                      key="list-vertical-message"
-                    />,
-                    <IconText
-                      icon={() => <TagTwoTone twoToneColor="#548d5d" />}
-                      text={item.data.type}
-                      key="list-vertical-message"
-                    />,
-                  ]}
-                >
-                  <List.Item.Meta
-                    title={
-                      <StHref href={"/event/details/" + item.data.id}>
-                        {item.data.title}
-                      </StHref>
-                    }
-                    description={
-                      item.data.body.length < 150
-                        ? item.data.body.concat("...")
-                        : item.data.body.substring(0, 150).concat("...")
-                    }
-                  />
-                </List.Item>
-              )}
-            />
+            {eventResultsList()}
           </> 
           : <H2>"No events found."</H2>
         }
@@ -204,7 +208,7 @@ const Search = () => {
             <><H2>User Results</H2> {userResults.users.map((u) => createUserCard(u))}</>
             :""}
             {eventResults.events.length > 0 ? 
-            <><H2>Event Results</H2> {eventResults.events.map((e) => createUserCard(e))}</>
+            <><H2>Event Results</H2> {eventResultsList()}</>
             :""}
           </>
           :<H2>"No results found."</H2>
