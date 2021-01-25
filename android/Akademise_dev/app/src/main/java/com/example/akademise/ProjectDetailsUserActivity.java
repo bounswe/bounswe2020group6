@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,10 +39,10 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
     TextView title;
     TextView summary;
     TextView status;
-    TextView milestones;
     TextView requirements;
     TextView tags;
-
+    RecyclerView recyclerViewTag;
+    RecyclerView recyclerViewMilestone;
     Button files;
     Button req_button;
 
@@ -57,12 +61,14 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         status=findViewById(R.id.tvStatusUserProject);
         //milestones=findViewById(R.id.tvMilestoneProject);
         requirements=findViewById(R.id.tvRequirementsUserProject);
-        tags=findViewById(R.id.tvTagsUserProject);
         userNameSurname=findViewById(R.id.tvUserNameSurname);
         userNameSurname.setClickable(true);
         collaborators=findViewById(R.id.tvUserCollaborators);
         req_button = findViewById(R.id.btnReqUserProject);
-
+        recyclerViewTag = findViewById(R.id.rv_recyclerViewUserProjectTags);
+        recyclerViewMilestone = findViewById(R.id.rv_recyclerViewUserProjectMilestone);
+        summary.setMovementMethod(new ScrollingMovementMethod());
+        requirements.setMovementMethod(new ScrollingMovementMethod());
         files.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +79,12 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         req_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                request();
+                if(req_button.getText().toString().equalsIgnoreCase("Request Collaboration")){
+                    request();
+                }
+                else if(req_button.getText().toString().equalsIgnoreCase("Leave Project")){
+                    leaveProject();
+                }
             }});
 
 
@@ -117,6 +128,28 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
         });
     }
 
+    private void leaveProject() {
+        Call<Project> call = akademiseApi.leaveProject(project.getId(),myId,"Bearer " + myToken);
+        call.enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
+                if(!response.isSuccessful()){
+                    Log.d("LeaveProject", "onResponse: not successful" + response.message());
+                    return;
+                }
+                Log.d("GetProfile", "onResponse: successful" + response.message());
+                Toast.makeText(getApplicationContext(), "Leaved project successfully.", Toast.LENGTH_LONG).show();
+                finish();
+                startActivity(getIntent());
+            }
+
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+                Log.d("LeaveProject", "onResponse: failed" + t.toString());
+
+            }
+        });
+    }
 
 
     private void loadIDData() {
@@ -156,7 +189,7 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
             public void onResponse(Call<Invitation> call, Response<Invitation> response) {
                 if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
-                    Toast.makeText(getApplicationContext(), "WCouldnt send request. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Couldnt send request. ", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Invitation  invResponse = response.body();
@@ -187,25 +220,48 @@ public class ProjectDetailsUserActivity extends AppCompatActivity {
 
                 List<GetProjects> projects = response.body();
                 GetProjects project = projects.get(0);
-                userNameSurname.setText(project.getUser().getName()+" "+project.getUser().getSurname());
+                String nameSurname = project.getUser().getName()+" "+project.getUser().getSurname();
+                userNameSurname.setText(nameSurname);
                 title.setText(project.getTitle());
                 summary.setText(project.getSummary());
+
                 String[] statusArray = getResources().getStringArray(R.array.status_array);
                 status.setText(statusArray[(project.getStatus()%5)]);
+                int[] stat_colors = getResources().getIntArray(R.array.status_colors);
+                status.setTextColor(stat_colors[project.getStatus()%5]);
+
                 requirements.setText(project.getRequirements());
-                String tagList="";
-                for(int i=0; i<project.getProject_tags().size(); i++){
-                    tagList+= project.getProject_tags().get(i).getTag()+" ";
+                List<Tag> tags = project.getProject_tags();
+                List<String> str_tags = new ArrayList<String>();
+                for(Tag tag : tags){
+                    str_tags.add(tag.getTag());
                 }
-                tags.setText(tagList);
+                RecyclerViewDetailsAdapter recyclerViewAdapter = new RecyclerViewDetailsAdapter(ProjectDetailsUserActivity.this, str_tags);
+                recyclerViewTag.setLayoutManager(new LinearLayoutManager(ProjectDetailsUserActivity.this));
+                recyclerViewTag.setAdapter(recyclerViewAdapter);
 
                 String collaboratorList="";
+                List<ProjectCollaborators> collabs = project.getProject_collaborators();
                 for(int i=0; i<project.getProject_collaborators().size(); i++){
                     collaboratorList+= project.getProject_collaborators().get(i).getUser().getName()+" "+
                             project.getProject_collaborators().get(i).getUser().getSurname()+", ";
                 }
-                collaborators.setText(collaboratorList);
 
+                List<Milestone> milestones = project.getProject_milestones();
+                List<String> str_milestones = new ArrayList<String>();
+                for(Milestone milestone: milestones){
+                    str_milestones.add(milestone.getTitle());
+                }
+                RecyclerViewDetailsAdapter recyclerViewAdapter2 = new RecyclerViewDetailsAdapter(ProjectDetailsUserActivity.this, str_milestones);
+                recyclerViewMilestone.setLayoutManager(new LinearLayoutManager(ProjectDetailsUserActivity.this));
+                recyclerViewMilestone.setAdapter(recyclerViewAdapter2);
+                collaborators.setText(collaboratorList);
+                for(ProjectCollaborators collab : collabs){
+                    if(collab.getUser_id()==myId){
+                        req_button.setText("Leave Project");
+                        break;
+                    }
+                }
             }
 
             @Override

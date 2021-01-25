@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -66,6 +67,9 @@ public class RecyclerViewTagAdapter extends RecyclerView.Adapter<RecyclerViewTag
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tag_name.setText(tags.get(position).getTag());
+        if(position%2==0){
+            holder.row_view.setBackground(context.getResources().getDrawable(R.drawable.rowview_shape_white));
+        }
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,11 +116,13 @@ public class RecyclerViewTagAdapter extends RecyclerView.Adapter<RecyclerViewTag
 
         TextView tag_name;
         Button delete;
+        ConstraintLayout row_view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tag_name = itemView.findViewById(R.id.tv_tagname);
             delete = itemView.findViewById(R.id.btnDelete);
+            row_view = itemView.findViewById(R.id.constraintLayout_tag);
         }
 
     }
