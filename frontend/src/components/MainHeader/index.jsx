@@ -173,26 +173,29 @@ const SiteHeader = () => {
   };
 
   const notificationComponent = (n, k) => {
-    return (
-      <Notification
-        key={k}
-        type={n.requestType}
-        userName={n.user.name + " " + n.user.surname}
-        userLink={() => {
-          history.push({ pathname: "/profile/" + n.requester.id });
-        }}
-        projectName={n.project.title}
-        projectLink={() => {
-          history.push({ pathname: "/project/details/" + n.projectId });
-        }}
-        accept={() => {
-          acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
-        }}
-        reject={() => {
-          rejectRequest(n.id, n.projectId, n.requesterId);
-        }}
-      />
-    );
+    if (n.project !== null && n.user !== null){
+      return (
+        <Notification
+          key={k}
+          type={n.requestType}
+          userName={n.user.name + " " + n.user.surname}
+          userLink={() => {
+            history.push({ pathname: "/profile/" + n.requester.id });
+          }}
+          projectName={n.project.title}
+          projectLink={() => {
+            history.push({ pathname: "/project/details/" + n.projectId });
+          }}
+          accept={() => {
+            acceptRequest(n.id, n.projectId, n.requesterId, n.requestedId, n.requestType);
+          }}
+          reject={() => {
+            rejectRequest(n.id, n.projectId, n.requesterId);
+          }}
+        />
+      );
+    }
+    
   };
 
   const handleDelete = (id) => {
@@ -208,21 +211,23 @@ const SiteHeader = () => {
   };
 
   const responseNotificationComponent = (n, k) => {
-    return (
-      <ResponseNotification
-        key={k}
-        type={n.type}
-        userName={n.accepter.name + " " + n.accepter.surname}
-        userLink={() => {
-          history.push({ pathname: "/profile/" + n.accepterId });
-        }}
-        projectName={n.project.title}
-        projectLink={() => {
-          history.push({ pathname: "/project/details/" + n.projectId });
-        }}
-        handleDelete={() => handleDelete(n.id)}
-      />
-    );
+    if (n.project !== null && n.accepter !== null){
+      return (
+        <ResponseNotification
+          key={k}
+          type={n.type}
+          userName={n.accepter.name + " " + n.accepter.surname}
+          userLink={() => {
+            history.push({ pathname: "/profile/" + n.accepterId });
+          }}
+          projectName={n.project.title}
+          projectLink={() => {
+            history.push({ pathname: "/project/details/" + n.projectId });
+          }}
+          handleDelete={() => handleDelete(n.id)}
+        />
+      );
+    }
   };
 
   return (
@@ -250,7 +255,7 @@ const SiteHeader = () => {
         </Menu>
       </SettingsModal>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
-        {notificationData.length + responseNotificationData.length > 0
+        {notificationData.filter(n=>(n.project !== null && n.accepter !== null)).length + responseNotificationData.length > 0
           ? [
               ...notificationData
                 .map((n, i) => {
