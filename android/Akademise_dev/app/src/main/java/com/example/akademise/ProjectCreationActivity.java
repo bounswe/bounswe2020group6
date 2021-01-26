@@ -161,7 +161,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
         EditText etNewTags = findViewById(R.id.etNewTags);
         String thetags = tvChosenTags.getText().toString();
         thetags= thetags.replace(", ", ",");
-        thetags=thetags.replace("Tags:","");
+        thetags=thetags.replace("Tags: ","");
         List<String> tagging = Arrays.asList(thetags.split(","));
         List<String> Ltagging = new ArrayList<String>(tagging);
         String written = etNewTags.getText().toString();
