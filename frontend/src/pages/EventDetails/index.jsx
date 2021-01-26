@@ -165,9 +165,7 @@ const EventDetails = () => {
             </DateSection>
             <Tags>
               {eventData.event_tags.map((t, i) => {
-                return (
-                  SearchableTag(t, i)
-                );
+                return SearchableTag(t, i);
               })}
             </Tags>
             <Summary>
@@ -219,7 +217,11 @@ const EventDetails = () => {
             eventData.link !== null &&
             eventData.link !== "" ? (
               <a
-                href={eventData.link}
+                href={
+                  eventData.link.charAt(0) == "w"
+                    ? "//" + eventData.link
+                    : eventData.link
+                }
                 title={eventData.link}
                 target="_blank"
                 rel="noreferrer"
