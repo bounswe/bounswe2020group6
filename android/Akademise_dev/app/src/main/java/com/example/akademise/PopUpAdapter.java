@@ -71,7 +71,10 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
         //String user_ = user.get("name") + " " + user.get("surname");
         String user_name;
         if(position%2==1){
-            holder.username.setBackgroundColor(context.getResources().getColor( R.color.light_green));
+            holder.username.setBackgroundColor(context.getResources().getColor( R.color.dark_green));
+            holder.type.setBackgroundColor(context.getResources().getColor( R.color.dark_green));
+            holder.projectName.setBackgroundColor(context.getResources().getColor( R.color.dark_green));
+
         }
         holder.username.setClickable(true);
         if(position<notifs.size()) {

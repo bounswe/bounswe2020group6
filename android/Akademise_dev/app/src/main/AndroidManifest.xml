@@ -17,10 +17,10 @@
             android:name=".EventActivity"
             android:theme="@style/AppStyle.Signup">
         </activity>
-        <activity android:name=".OtherUserProjectsActivity"></activity>
+        <activity
 
             android:name=".OtherUserProjectsActivity"
-            android:theme="@style/AppStyle.Signup" />
+            android:theme="@style/AppStyle.Signup"/>
 
         <activity
             android:name=".ProfileActivity"
