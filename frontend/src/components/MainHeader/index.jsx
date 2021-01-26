@@ -255,7 +255,7 @@ const SiteHeader = () => {
         </Menu>
       </SettingsModal>
       <NotificationModal mask={false} visible={isModalVisible} onCancel={hideModal}>
-        {notificationData.filter(n=>(n.project !== null && n.accepter !== null)).length + responseNotificationData.length > 0
+        {notificationData.filter(n=>(n.project !== null && n.accepter !== null)).length + responseNotificationData.filter(n=>(n.project !== null && n.accepter !== null)).length > 0
           ? [
               ...notificationData
                 .map((n, i) => {
@@ -316,7 +316,7 @@ const SiteHeader = () => {
             </Anchor>{" "}
             |{" "}
             <Anchor onClick={() => showModal()}>
-              <Badge count={notificationData.length + responseNotificationData.length}>
+              <Badge count={notificationData.filter(n=>(n.project !== null && n.accepter !== null)).length + responseNotificationData.filter(n=>(n.project !== null && n.accepter !== null)).length}>
                 <BellOutlined style={{ fontSize: "20px" }} />
               </Badge>
             </Anchor>{" "}
