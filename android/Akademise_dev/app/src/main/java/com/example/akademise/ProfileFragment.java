@@ -47,6 +47,7 @@ public class ProfileFragment extends Fragment {
     private Button publicationsButton;
     private Button logoutButton;
     private Button editButton;
+    private Button invitationButton;
     private Button updateButton;
     private Button googleScholar;
     private String myToken;
@@ -80,7 +81,7 @@ public class ProfileFragment extends Fragment {
         tvDepartment = view.findViewById(R.id.department_content);
         tvTitle = view.findViewById(R.id.title_content);
         ivProfilePhoto = view.findViewById(R.id.avatar);
-
+        invitationButton = view.findViewById(R.id.invitations_btn);
         tvUpvote = view.findViewById(R.id.upvote_content);
 
         googleScholar = view.findViewById(R.id.btnMyGoogleScholar);
@@ -145,6 +146,12 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.replace(R.id.flProfileFragments, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+            }
+        });
+        invitationButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),ReceivedInvitationsActivity.class);
+                startActivity(intent);
             }
         });
 

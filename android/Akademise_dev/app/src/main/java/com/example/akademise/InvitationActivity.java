@@ -44,9 +44,7 @@ public class InvitationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_invitation);
-        Intent in= getIntent();
-        Bundle b = in.getExtras();
-        projectId = b.getInt("project_id");
+
         loadData();
 
         Retrofit retrofit = new Retrofit.Builder()
