@@ -8,13 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +18,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +29,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     private String myToken;
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     Profile profile;
@@ -48,7 +42,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         loadIDData();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseURL)
+                .baseUrl(context.getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -71,7 +65,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
         holder.username.setText(user_);
         holder.username.setClickable(true);
-        holder.projectName.setText(requests.get(position).getProject().get("name"));
+        holder.projectName.setText(requests.get(position).getProject().getTitle());
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,7 +179,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.textView12);
-            projectName = itemView.findViewById(R.id.textViewProject);
+            projectName = itemView.findViewById(R.id.tv_req_row_project_name);
             accept = itemView.findViewById(R.id.button);
             reject = itemView.findViewById(R.id.button2);
             mView = itemView;

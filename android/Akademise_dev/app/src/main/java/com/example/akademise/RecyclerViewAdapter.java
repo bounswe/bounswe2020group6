@@ -103,13 +103,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        if(searchedUsers!=null)
-            return projects.size() +searchedUsers.getUsers().size();
-        else {
-            if(projects!=null)
-            return projects.size();
-            else return 0;
+        if(searchedUsers!=null && searchedUsers.getUsers()!=null ){
+            return projects.size() + searchedUsers.getUsers().size();
         }
+        else return projects.size();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

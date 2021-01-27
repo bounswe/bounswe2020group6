@@ -12,6 +12,7 @@
     <string name="isPublic"> Public</string>
     <string name="tags">Tags: </string>
     <string name="project">Project</string>
+    <string name="baseUrl">http://ec2-18-232-99-241.compute-1.amazonaws.com:3000/</string>
 
 
     <string-array name="college_array">
@@ -23,12 +24,20 @@
 
 
     <string-array name="status_array">
-        <item> "cancelled"</item>
-        <item>"completed"</item>
-        <item> "in progress"</item>
-        <item> "hibernating"</item>
-        <item>"team building"</item>
+        <item>"Cancelled"</item>
+        <item>"Completed"</item>
+        <item>"In progress"</item>
+        <item>"Hibernating"</item>
+        <item>"Team building"</item>
 
+    </string-array>
+    <string-array name="update_status">
+        <item>"Choose"</item>
+        <item>"Cancelled"</item>
+        <item>"Completed"</item>
+        <item>"In progress"</item>
+        <item>"Hibernating"</item>
+        <item>"Team building"</item>
     </string-array>
 
     <string-array name="department_array">
@@ -59,7 +68,12 @@
     </string-array>
     <string-array name="privacy">
         <item>"Public"</item>
-        <item>Private</item>
+        <item>"Private"</item>
+    </string-array>
+    <string-array name="update_privacy">
+        <item>"Choose"</item>
+        <item>"Public"</item>
+        <item>"Private"</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
