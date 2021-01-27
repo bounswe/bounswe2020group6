@@ -32,6 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PersonalInfoFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    String baseURL = "http://ec2-52-91-31-85.compute-1.amazonaws.com:3000/";
     AkademiseApi akademiseApi;
     private String myToken;
     Button btn;
@@ -62,7 +63,7 @@ public class PersonalInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.baseUrl))
+                .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

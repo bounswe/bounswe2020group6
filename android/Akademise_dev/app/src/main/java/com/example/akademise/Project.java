@@ -9,71 +9,98 @@ import java.util.List;
 // Projects fields are prepared with respect to return of search
 
 public class Project implements Serializable {
-        private String title;
+    @SerializedName("userId")
+    private int userId;
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("summary")
+    private String abstract1;
+    @SerializedName("content")
+    private String content;
+    @SerializedName("privacy")
+    private Integer privacy;
+    @SerializedName("status")
+    private Integer status;
+    @SerializedName("deadline")
+    private String deadline;
+    @SerializedName("requirements")
+    private String requirements;
+    @SerializedName("createdat")
+    private String createdat;
+    @SerializedName("updatedat")
+    private String updatedat;
+    @SerializedName("tags")
+    private List<String> tags;
 
-        private String summary;
 
-        private String description;
 
-        private boolean privacy;
-
-        private int status;
-
-        private String requirements;
-
-        private List<String> tags;
-
-        public void setTitle(String title){
-        this.title = title;
+    public int getUserId() {
+        return userId;
     }
-        public String getTitle(){
-        return this.title;
+
+    public int getId() {
+        return id;
     }
-        public void setSummary(String summary){
-        this.summary = summary;
+
+    public String getTitle() {
+        return title;
     }
-        public String getSummary(){
-        return this.summary;
+
+    public String getAbstract1() {
+        return abstract1;
     }
-        public void setDescription(String description){
-        this.description = description;
+
+    public String getContent() {
+        return content;
     }
-        public String getDescription(){
-        return this.description;
+
+    public int getPrivacy() {
+        return privacy;
     }
-        public void setPrivacy(boolean privacy){
+    public int getStatus() {
+        return status;
+    }
+
+    public String getDeadline(){
+        return deadline;
+    }
+
+    public String getRequirements() {
+        return requirements;
+    }
+
+    public String getCreatedat() {
+        return createdat;
+    }
+
+    public String getUpdatedat() {
+        return updatedat;
+    }
+
+    public Project(int privacy, int status, String deadline, String requirements) {
+        //TODO collaborators and tags are missing in the constructor
+        //collaborators (array of ids)
+        //tags (array of str)
         this.privacy = privacy;
-    }
-        public boolean getPrivacy(){
-        return this.privacy;
-    }
-        public void setStatus(int status){
         this.status = status;
-    }
-        public int getStatus(){
-        return this.status;
-    }
-        public void setRequirements(String requirements){
+        this.deadline = deadline;
         this.requirements = requirements;
     }
-        public String getRequirements(){
-        return this.requirements;
-    }
-        public void setProject_tags(List<String> project_tags){
-        this.tags = project_tags;
-    }
-        public List<String> getProject_tags(){
-        return this.tags;
-    }
-    public Project(boolean privacy, int status, String title, String summary,
-                   String description, String requirements, List<String> tags) {
+    public Project(int privacy, int status, String title, String abstract1,
+                   String content, String createdat, String updatedat,
+                   String deadline, String requirements, List<String> tags) {
 
         this.privacy = privacy;
         this.status = status;
+        this.deadline = deadline;
         this.requirements = requirements;
-        this.title = title;
-        this.summary = summary;
-        this.description = description;
+        this.title=title;
+        this.abstract1=abstract1;
+        this.content=content;
+        this.createdat=createdat;
+        this.updatedat=updatedat;
         this.tags = tags;
     }
 

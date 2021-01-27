@@ -22,17 +22,11 @@ public class Request implements Serializable {
     @SerializedName("projectId")
     private Integer projectId;
 
-    private Integer requestType;
-
-    public Integer getRequestType() {
-        return requestType;
-    }
-
     @SerializedName("user")
     private Map<String, String> requesterUser;
 
     @SerializedName("project")
-    private Project project;
+    private Map<String, String> project;
 
     public Integer getRequesterId() {
         return requesterId;
@@ -50,12 +44,12 @@ public class Request implements Serializable {
         return requesterUser;
     }
 
-    public Project getProject() {
+    public Map<String, String> getProject() {
         return project;
     }
 
 
-    public Request(Integer id,Integer requesterId, Integer requestedId, Integer projectId, Map<String, String> requesterUser, Project project) {
+    public Request(Integer id,Integer requesterId, Integer requestedId, Integer projectId, Map<String, String> requesterUser, Map<String, String> project) {
         this.requesterId = requesterId;
         this.requestedId = requestedId;
         this.projectId = projectId;
