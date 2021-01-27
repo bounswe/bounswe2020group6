@@ -80,9 +80,9 @@ public class EditMilestonesActivity extends AppCompatActivity {
                 //get date from the edit text
                 String date = milestoneDate.getText().toString();
                 //extract day, month and year from DD/MM/YYYY format
-                List<String> dateFields =  Arrays.asList(date.split("/"));
                 //check the date format is correct
-                if(dateFields.size()==3){
+                if(checkDateFormat(date)){
+                    List<String> dateFields =  Arrays.asList(date.split("/"));
                     //convert the expected json YYYY-MM-DD and add hour part as 00.00
                     String dateJson = dateFields.get(2) + "-" + dateFields.get(1) + "-" + dateFields.get(0) + "T00:00:00.000Z";
                     //create add milestone object to give it into api call
@@ -119,6 +119,21 @@ public class EditMilestonesActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static boolean checkDateFormat(String date) {
+        if(date.length()==10){
+            if(date.substring(2,3).equalsIgnoreCase("/") && date.substring(5,6).equalsIgnoreCase("/")){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
     //gets current milestone and sets necessary fields for it
     private void getMilestoneData(int id){
         //api call for getting projects fields
