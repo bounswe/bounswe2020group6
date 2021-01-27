@@ -25,6 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//activity for adding abstract and milestone to newly created project
 public class ProjectCreationActivity2 extends AppCompatActivity {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -34,22 +35,22 @@ public class ProjectCreationActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // initialize the view from the layout
         setContentView(R.layout.activity_project_creation2);
         loadData();
         done = findViewById(R.id.btnPublicationCreation2);
         done.setOnClickListener(btnNextClickListener);
-
+        //call fragment to input fields
         getSupportFragmentManager().beginTransaction().replace(R.id.flPublicationCreation2,
                 new ProjectInfoEntryFragment2()).commit();
-
+        //initialize api
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         akademiseApi = retrofit.create(AkademiseApi.class);
     }
-
+    //button for adding abstract and milestone to the project
     View.OnClickListener btnNextClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -57,11 +58,13 @@ public class ProjectCreationActivity2 extends AppCompatActivity {
             addMilestone();
         }
     };
-
+    //function that updates abstract of a project
     private void updateAbstract() {
         EditText _abstract = findViewById(R.id.etAbstract);
+        //gets the written summary
         Summary summary = new Summary(_abstract.getText().toString());
         int id = (int) getIntent().getSerializableExtra("id");
+        //api call for updating summary of the project
         Call<Project> call = akademiseApi.updateAbstract(id, summary, "Bearer " + myToken);
         call.enqueue(new Callback<Project>() {
             @Override
@@ -85,23 +88,30 @@ public class ProjectCreationActivity2 extends AppCompatActivity {
             }
         });
     }
-        private void loadData () {
+    //get token of the user from local storage
+    private void loadData () {
             SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
             myToken = sharedPreferences.getString(accessToken, "");
             Log.d("mytoken", myToken.toString());
 
     }
+    //add new milestone to the project
     private void addMilestone() {
         int id = (int) getIntent().getSerializableExtra("id");
+        //gets the written fields for the milestone
         EditText milestoneTitle = findViewById(R.id.etMilestoneTitleC);
         EditText milestoneDescription = findViewById(R.id.etMilestoneDescriptionC);
         EditText milestoneDate = findViewById(R.id.etMilestoneDateC);
+        //splits date into desired parts
         String date = milestoneDate.getText().toString();
         List<String> dateFields =  Arrays.asList(date.split("/"));
+        //checks the validity of the date
         if(dateFields.size()==3){
+            //converting date into json form
             String dateJson = dateFields.get(2) + "-" + dateFields.get(1) + "-" + dateFields.get(0) + "T00:00:00.000Z";
+            //creating add milestone object for api call with necessary information
             AddMilestone newMilestone = new AddMilestone(id,dateJson,milestoneTitle.getText().toString(),milestoneDescription.getText().toString());
-            //changedMilestones.add(newMilestone);
+            //api call for adding new milestone
             Call<AddMilestone> call = akademiseApi.addMilestone(newMilestone, "Bearer " + myToken);
             call.enqueue(new Callback<AddMilestone>() {
                 @Override
@@ -114,6 +124,7 @@ public class ProjectCreationActivity2 extends AppCompatActivity {
                         return;
                     }
                     Toast.makeText(ProjectCreationActivity2.this, "Project is updated", Toast.LENGTH_LONG).show();
+                    //finishing the activity
                     finish();
                     Log.d("Project", "onResponse: successful");
 
@@ -125,9 +136,11 @@ public class ProjectCreationActivity2 extends AppCompatActivity {
                 }
             });
         }
+        //all fields are empty
         else if((date + milestoneTitle.getText().toString() + milestoneDescription.getText().toString()).equals("")){
             Toast.makeText(ProjectCreationActivity2.this, "Add at least 1 milestone", Toast.LENGTH_LONG).show();
         }
+        //date syntax is not valid
         else {
             Toast.makeText(ProjectCreationActivity2.this, "Invalid syntax for milestone", Toast.LENGTH_LONG).show();
         }

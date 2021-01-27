@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+//fragment for adding abstract and milestone for new project
 public class ProjectInfoEntryFragment2 extends Fragment {
 
     @Nullable

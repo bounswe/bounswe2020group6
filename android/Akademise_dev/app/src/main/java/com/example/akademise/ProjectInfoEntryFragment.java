@@ -26,13 +26,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//fragment for project creation
 public class ProjectInfoEntryFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
-    Button next;
     AkademiseApi akademiseApi;
     private String myToken;
-    String currentText;
     List<String> tags= new ArrayList<String>();
 
 
@@ -48,25 +47,26 @@ public class ProjectInfoEntryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadData();
+        //initialize api
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         akademiseApi = retrofit.create(AkademiseApi.class);
-
+        //spinner for setting privacy
         Spinner privacy_spinner = getView().findViewById(R.id.sPrivacy);
-
+        //set privacy spinner's content
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity().getBaseContext(),
                 R.array.privacy,
                 android.R.layout.simple_spinner_item);
 
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         privacy_spinner.setAdapter(adapter2);
-
+        //set chosen tags for the new project
         TextView tvChosenTags =getView().findViewById(R.id.tvProjectTags);
+        //set privact for the new project
         TextView text_privacy =getView().findViewById(R.id.textPrivacy);
+        //api call for getting all tags from the database
         Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
         call.enqueue(new Callback<Result>() {
             @Override
@@ -79,20 +79,23 @@ public class ProjectInfoEntryFragment extends Fragment {
                 Result result = response.body();
                 Log.d("GetTags-success","GOR BUNU-------------------------");
                 Log.d("GetTags-success",result.getResult().toString());
+                //initialize tag spinner
                 Spinner tag_spinner = (Spinner) getView().findViewById(R.id.sAddResearchTag);
                 List<String> tagList = result.getResult();
                 tagList.add(0, "Choose Tag");
+                //set tags of the tags spinner from the tags acquired from database
                 ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getActivity().getBaseContext(),
                         android.R.layout.simple_spinner_dropdown_item,tagList);
-
                 tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 tag_spinner.setAdapter(tag_adapter);
                 tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    //update selected tags after each tag selection
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (position != 0) {
                             String currentText = tvChosenTags.getText().toString();
                             String tag = parent.getItemAtPosition(position).toString();
+                            //check the new tags validness for addition
                             if (!currentText.contains(tag)) {
                                 if(currentText.endsWith(":")) {
                                     currentText += " " + tag;
@@ -100,6 +103,7 @@ public class ProjectInfoEntryFragment extends Fragment {
                                 else{
                                     currentText += ", "+ tag;
                                 }
+                                //update tags
                                 tvChosenTags.setText(currentText);
                             }
 
@@ -119,6 +123,7 @@ public class ProjectInfoEntryFragment extends Fragment {
             }
         });
         privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //set privacy of the new project
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 text_privacy.setText(parent.getItemAtPosition(position).toString());
@@ -131,6 +136,7 @@ public class ProjectInfoEntryFragment extends Fragment {
         });
 
     }
+    //get token of the user from local storage
     private void loadData(){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");

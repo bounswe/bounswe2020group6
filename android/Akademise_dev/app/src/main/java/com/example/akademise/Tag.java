@@ -2,6 +2,7 @@ package com.example.akademise;
 
 import java.io.Serializable;
 
+//class that holds tag of the project in it
 public class Tag implements Serializable {
 
     private String tag;

@@ -27,6 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//fragment for displaying projects of a user
 public class ProjectFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -48,16 +49,16 @@ public class ProjectFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadData();
-
+        //initialize api
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         akademiseApi = retrofit.create(AkademiseApi.class);
+        //get necessary information for the projects to list them
         loadIDData();
         getProjects(myId);
-
+        //button for adding new project
         Button btnAdd = view.findViewById(R.id.btnAddPublication);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,26 +67,28 @@ public class ProjectFragment extends Fragment {
             }
         });
     }
+    //refresh user's projects
     @Override
     public void onResume() {
         super.onResume();
+        //get user's projects and update recycler view for projects
         getProjects(myId);
-
     }
+    //function that directs user to project creation activity
     private void gotoPublicationCreation(){
         Intent intent = new Intent(getActivity().getBaseContext(), ProjectCreationActivity.class);
         startActivity(intent);
     }
-
+    //get token of the user from local storage
     private void loadData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
     }
-
+    // function to get all projects of the user
      private  void getProjects(Integer id){
-
+        //api call to get all projects of the user
         Call<List<GetProjects>> call= akademiseApi.getProjects(id, 0,"Bearer "+myToken);
         call.enqueue(new Callback<List<GetProjects>>() {
             @Override
@@ -97,6 +100,7 @@ public class ProjectFragment extends Fragment {
                 }
 
                 projects = response.body();
+                //initialization of the recycler view for listing projects of a user
                 recyclerView = getView().findViewById(R.id.rv_projects);
                 RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,null);
                 recyclerView.setAdapter(recyclerViewAdapter);
@@ -112,7 +116,7 @@ public class ProjectFragment extends Fragment {
         });
 
     }
-
+    //get id of the user from local storage
     private void loadIDData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);

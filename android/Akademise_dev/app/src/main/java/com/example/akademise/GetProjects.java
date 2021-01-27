@@ -5,37 +5,40 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+//class for holding all fields of the project
 public class GetProjects implements Serializable {
+    //id of the project
     private int id;
-
+    //owners id of the project
     private int userId;
-
+    //title of the project
     private String title;
-
+    //summary of the project
     private String summary;
-
+    //description of the projet
     private String description;
-
+    //privacy of the project
     private boolean privacy;
-
+    //status of the project
     private int status;
-
+    //requirements of the project
     private String requirements;
-
+    //when it is created
     private String createdAt;
-
+    //when it is updated
     private String updatedAt;
-
+    //project owner's data
     private User user;
-
+    //list of project collaborators
     private List<ProjectCollaborators> project_collaborators;
-
+    //tags of the project
     private List<Tag> project_tags;
-
+    //files of the project
     private List<ProjectFiles> project_files;
-
+    //milestones of the project
     private List<Milestone> project_milestones;
 
+    //getters and setters
     public void setId(int id){
         this.id = id;
     }

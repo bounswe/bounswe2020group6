@@ -33,6 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//activity for creating a new project
 public class ProjectCreationActivity extends AppCompatActivity {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -46,26 +47,26 @@ public class ProjectCreationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // initialize the view from the layout
         setContentView(R.layout.activity_project_creation);
         loadData();
         next = findViewById(R.id.btnPublicationCreation);
         next.setOnClickListener(btnNextClickListener);
-
+        //call fragment to input fields
         getSupportFragmentManager().beginTransaction().replace(R.id.flPublicationCreation,
                 new ProjectInfoEntryFragment()).commit();
-
+        //initialize api
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         akademiseApi = retrofit.create(AkademiseApi.class);
     }
-
+    //button for making a call for project creation
     View.OnClickListener btnNextClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            //spinner for privacy
             Spinner privacy_spinner = findViewById(R.id.sPrivacy);
 
             ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getBaseContext(),
@@ -78,7 +79,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
             TextView tvChosenTags =findViewById(R.id.tvProjectTags);
             TextView text_privacy =findViewById(R.id.textPrivacy);
-
+            //getting tags for putting them into spinner
             Call<Result> call = akademiseApi.getTags("Bearer " + myToken);
             call.enqueue(new Callback<Result>() {
                 @Override
@@ -96,10 +97,11 @@ public class ProjectCreationActivity extends AppCompatActivity {
                     tagList.add(0, "Choose Tag");
                     ArrayAdapter<String> tag_adapter = new ArrayAdapter<String> (getBaseContext(),
                             android.R.layout.simple_spinner_dropdown_item,tagList);
-
+                    //creating tags spinner
                     tag_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tag_spinner.setAdapter(tag_adapter);
                     tag_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        //updating tags according to selections
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             if (position != 0) {
@@ -132,6 +134,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 }
             });
             privacy_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                //setting privacy of the project accordin to the selection
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     text_privacy.setText(parent.getItemAtPosition(position).toString());
@@ -142,24 +145,26 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                 }
             });
+            //getting title, requirements of the project
             EditText etTitle = findViewById(R.id.etTitle);
             EditText etRequirements = findViewById(R.id.etRequirements);
             privacy = !text_privacy.getText().toString().equals("Private");
 
-
+            //create project call for creating new project
             createProject(privacy,etTitle.getText().toString(),
                     "Insert abstract here!",
-                    null,
                     etRequirements.getText().toString(), tags, null);
 
 
         }
     };
-
-    private void createProject(Boolean privacy, String title, String _abstract, String deadline, String requirements, List<String> tags, List<Integer> collaborators){
+    //function that makes a call for new project
+    private void createProject(Boolean privacy, String title, String _abstract, String requirements, List<String> tags, List<Integer> collaborators){
+        //gets the chosen tags
         TextView tvChosenTags =findViewById(R.id.tvProjectTags);
         EditText etNewTags = findViewById(R.id.etNewTags);
         String thetags = tvChosenTags.getText().toString();
+        //aplies tokenization to new tags
         thetags= thetags.replace(", ", ",");
         thetags=thetags.replace("Tags: ","");
         List<String> tagging = Arrays.asList(thetags.split(","));
@@ -167,6 +172,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
         String written = etNewTags.getText().toString();
         List<String> writtenTags = Arrays.asList(written.split(","));
         for(int i=0; i<writtenTags.size(); i++){
+            //adds newly written tags into the database
             if(!writtenTags.get(i).equals("")){
                 Call<Tag> call = akademiseApi.addTag(new Tag(writtenTags.get(i)), "Bearer " + myToken);
                 call.enqueue(new Callback<Tag>() {
@@ -180,10 +186,13 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
                     }
                 });
+                //adding written tags into the tags will be added
                 Ltagging.add(writtenTags.get(i));
             }
         }
+        //project object creation for new project
         Project project = new Project(privacy, 4,title,  _abstract, null, requirements, Ltagging);
+        //api call for creating new object
         Call<GetProjects> call = akademiseApi.createProject(project, "Bearer "+ myToken);
         call.enqueue(new Callback<GetProjects>() {
             @Override
@@ -199,10 +208,12 @@ public class ProjectCreationActivity extends AppCompatActivity {
                 Log.d("Response", response.message());
                 Log.d("Project", "onResponse: successful");
                 Toast.makeText(ProjectCreationActivity.this, "Project is created", Toast.LENGTH_LONG).show();
+                //getting id of the project and giving into next page for the project creation
                 int id = response.body().getId();
                 Intent intent = new Intent(ProjectCreationActivity.this, ProjectCreationActivity2.class);
                 intent.putExtra("id", id);
                 startActivity(intent);
+                //closing activity
                 finish();
             }
 
@@ -215,7 +226,7 @@ public class ProjectCreationActivity extends AppCompatActivity {
 
 
     }
-
+    //get token of the user from local storage
     private void loadData(){
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");

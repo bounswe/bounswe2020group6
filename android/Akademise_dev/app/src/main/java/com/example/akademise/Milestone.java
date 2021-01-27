@@ -2,24 +2,27 @@ package com.example.akademise;
 
 import java.io.Serializable;
 
+//fiels of the milestone when we make a get call
 public class Milestone implements Serializable
 {
+//id of the milestone
 private int id;
-
+//project id of the milestone
 private int project_id;
-
+//deadline of the milestone
 private String date;
-
+//title of the milestone
 private String title;
-
+//description of the milestone
 private String description;
-
+//type of the milestone(mostly null)
 private String type;
-
+//when the milestone is created
 private String createdAt;
-
+//when it is updated
 private String updatedAt;
 
+//getters and setters
 public void setId(int id){
         this.id = id;
         }

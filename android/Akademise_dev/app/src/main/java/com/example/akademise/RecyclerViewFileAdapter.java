@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
-
+//recycler view for viewing files
 public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFileAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     private int myId;
@@ -34,21 +34,21 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
     AkademiseApi akademiseApi;
     List<String> files;
     Context context;
+    //constructor for the adapter
     public RecyclerViewFileAdapter(Context ct, List<String> fls) {
         context = ct;
         files = fls;
         loadData();
         loadIDData();
-
+        //initalize api
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         akademiseApi = retrofit.create(AkademiseApi.class);
 
     }
-
+    //customize the view holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,41 +56,14 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
         View view = inflater.inflate(R.layout.file_row, parent, false);
         return new RecyclerViewFileAdapter.ViewHolder(view);
     }
-
+    //add functionalities to items in the view holders by their positions
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //set name of the file
         holder.file_name.setText(files.get(position));
         holder.imageView.setImageResource(R.drawable.ic_folder_foreground);
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*
-                Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
-
-                call.enqueue(new Callback<Collab>() {
-                    @Override
-                    public void onResponse(Call<Collab> call, Response<Collab> response) {
-
-                        if (!response.isSuccessful()) {
-                            Log.d("Project", "onResponse: not successful");
-                            return;
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Collab> call, Throwable t) {
-
-                        Log.d("Project", "onFailure: failed");
-
-                    }
-                });
-                */
-            }
-        });
-
     }
-
+    //get how many files project has
     @Override
     public int getItemCount() {
         if (files.isEmpty()) {
@@ -99,13 +72,16 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
 
         return files.size();
     }
-
+    //define view holder for file
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        //name of the file
         TextView file_name;
+        //file icon for the file
         ImageView imageView;
+        //whole view
         View mView;
 
+        //constructor for view holder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             file_name = itemView.findViewById(R.id.tv_filename);
@@ -115,13 +91,14 @@ public class RecyclerViewFileAdapter extends RecyclerView.Adapter<RecyclerViewFi
 
     }
 
+    //get token of the user from local storage
     private void loadData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
     }
-
+    //get id of the user from local storage
     private void loadIDData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);

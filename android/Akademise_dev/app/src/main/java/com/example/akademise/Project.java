@@ -6,23 +6,24 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-// Projects fields are prepared with respect to return of search
-
+// Projects fields are prepared for the fields of creating a project call
 public class Project implements Serializable {
+        //title of the project
         private String title;
-
+        //summary of the project
         private String summary;
-
+        //description of the project
         private String description;
-
+        //privacy of the project
         private boolean privacy;
-
+        //status of the project
         private int status;
-
+        //requirements of the project
         private String requirements;
-
+        //tags of the project
         private List<String> tags;
 
+        //getters and setters
         public void setTitle(String title){
         this.title = title;
     }
@@ -65,6 +66,8 @@ public class Project implements Serializable {
         public List<String> getProject_tags(){
         return this.tags;
     }
+
+    //constructor for project
     public Project(boolean privacy, int status, String title, String summary,
                    String description, String requirements, List<String> tags) {
 

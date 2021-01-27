@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
-
+//recycler view for viewing contents(tags and milestones)
 public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerViewDetailsAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     private int myId;
@@ -38,11 +38,12 @@ public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerVie
     AkademiseApi akademiseApi;
     List<String> contents;
     Context context;
+    //constructor for the adapter
     public RecyclerViewDetailsAdapter(Context ct, List<String> contents) {
         context = ct;
         this.contents = contents;
     }
-
+    //customize the view holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,15 +52,17 @@ public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerVie
         return new RecyclerViewDetailsAdapter.ViewHolder(view);
     }
 
-
+    //add functionalities to items in the view holders by their positions
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //set name of the content(
         holder.content_name.setText(contents.get(position));
+        //change color of the background of the content
         if(position%2==0){
             holder.row_view.setBackground(context.getResources().getDrawable(R.drawable.rowview_shape_white));
         }
     }
-
+    //get how many contents in recycler view
     @Override
     public int getItemCount() {
         if (contents.isEmpty()) {
@@ -70,10 +73,12 @@ public class RecyclerViewDetailsAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        //name of the content (tag or milestone)
         TextView content_name;
+        //all viewholder for changing background
         ConstraintLayout row_view;
 
+        //constructor for view holder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             content_name = itemView.findViewById(R.id.tv_contentname);

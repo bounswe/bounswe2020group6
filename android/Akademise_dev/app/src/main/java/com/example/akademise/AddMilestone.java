@@ -2,26 +2,29 @@ package com.example.akademise;
 
 import java.io.Serializable;
 
+
+//This object holds necessary date for adding a new milestone
 public class AddMilestone implements Serializable
 {
-
+    //id of the project
     private int projectId;
-
+    //deadline of the milestone
     private String date;
-
+    //title of the milestone
     private String title;
-
+    //description of the milestone
     private String description;
-
+    //type of the milestone (mostly null)
     private String type;
 
-
+    //constructor of the AddMilestone object
     public AddMilestone(int project_id, String date, String title, String description){
         this.projectId = project_id;
         this.date = date;
         this.title = title;
         this.description = description;
     }
+    //getters and setters
     public void setProject_id(int project_id){
         this.projectId = project_id;
     }
