@@ -26,6 +26,9 @@
             android:name=".ProfileActivity"
             android:theme="@style/AppStyle.Signup" />
         <activity
+            android:name=".ReceivedInvitationsActivity"
+            android:theme="@style/AppStyle.Signup" />
+        <activity
             android:name=".ProjectDetailsActivity"
             android:theme="@style/AppStyle.Signup" />
         <activity
