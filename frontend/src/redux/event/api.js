@@ -74,7 +74,7 @@ export const deleteEvent = (eventId, history, message) => {
     var body = {id: eventId}
 
     api({ sendToken: true })
-      .delete("/event/delete/", body)
+      .post("/event/delete", body)
       .then((response) => {
         message.success("Event deleted.", 4);
         history.push("/home");
