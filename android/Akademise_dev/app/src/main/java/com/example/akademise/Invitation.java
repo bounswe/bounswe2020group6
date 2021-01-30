@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//class to represent received or sent invitations
 public class Invitation implements Serializable {
     @SerializedName("requests")
 
@@ -14,6 +15,7 @@ public class Invitation implements Serializable {
 
 
     public Invitation(List<Integer> details) {
+        //list of invitations
         List<List<Integer>> i = new ArrayList<>();
         i.add(details);
         this.invitations = i;

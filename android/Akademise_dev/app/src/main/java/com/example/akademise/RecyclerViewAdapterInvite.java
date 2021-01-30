@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+//recycler view for viewing contents(see search user's results to send an invite)
 
 public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.akademise.RecyclerViewAdapterInvite.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
@@ -41,10 +42,12 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
     List<Integer> userId = new ArrayList<>();
     Integer projectId;
 
+    //constructor for the adapter
     public RecyclerViewAdapterInvite(Context ct, SearchedUsers srchdUsr, Integer pId) {
         context = ct;
         loadData();
         loadIDData();
+        //which project i am sending an invitation for
         projectId = pId;
         searchedUsers = srchdUsr;
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,6 +57,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
 
         akademiseApi = retrofit.create(AkademiseApi.class);
     }
+
     private void loadData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
@@ -63,6 +67,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
 
     @NonNull
     @Override
+    //customize the view holder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.invite_row, parent, false);
@@ -72,7 +77,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         loadIDData();
-
+        //show user name, title
         String person = searchedUsers.getUsers().get(position).getName() + " " +
                 searchedUsers.getUsers().get(position).getSurname();
         holder.title.setText(person);
@@ -82,6 +87,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
         holder.invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //invite the yser
                 invite(searchedUsers.getUsers().get(position).getId());
 
 
@@ -90,7 +96,9 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
 
 
     }
+
     private void invite(Integer uId) {
+        //first index is other users id, second is my id, third is project id, 0 means this is an invitation
         List<Integer> i = new ArrayList<Integer>() {{
             add(uId);
             add(myId);
@@ -98,7 +106,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
             add(0);
         }};
         Invitation invitation = new Invitation(i);
-
+//send the invitation
         Call<Invitation> call = akademiseApi.addInvitation(invitation, "Bearer " + myToken);
         call.enqueue(new Callback<Invitation>() {
             @Override
@@ -108,7 +116,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
                     Toast.makeText(context, "WCouldnt send request. ", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Invitation  invResponse = response.body();
+                Invitation invResponse = response.body();
                 Toast.makeText(context, "Invitation sent. ", Toast.LENGTH_LONG).show();
 
             }
@@ -122,6 +130,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
         });
     }
 
+    //get how many contents in recycler view
     @Override
     public int getItemCount() {
         if (searchedUsers != null)
@@ -131,6 +140,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
 
         TextView title;
         TextView _abstract;
@@ -147,6 +157,7 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
 
     }
 
+    //get my userıd
     private void loadIDData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);

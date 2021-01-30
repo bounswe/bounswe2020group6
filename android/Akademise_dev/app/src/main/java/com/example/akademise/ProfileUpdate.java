@@ -3,7 +3,7 @@ package com.example.akademise;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+//wrapper class to make it easier to update the affiliation information
 public class ProfileUpdate implements Serializable {
     public List<String> researchAreas;
     public Affiliation affiliation;

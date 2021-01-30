@@ -37,30 +37,36 @@ public class InvitationActivity extends AppCompatActivity {
     private String myToken;
     private Integer myId;
     private Integer projectId;
-    RecyclerView recyclerView;
     List<Request> requests;
+
+    //xml elements i will be using
+    RecyclerView recyclerView;
     SearchView searchView;
+
     @Override
+    //set the layout, initialize the api
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set the layout
         setContentView(R.layout.fragment_invitation);
 
         loadData();
-
+//init retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+//init api
         akademiseApi = retrofit.create(AkademiseApi.class);
         loadIDData();
 
 
-
+        //set the search bar to search and find users to invite
         searchView = (SearchView) findViewById(R.id.svSearch_invitation);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
+            //get the information of the searched user
             public boolean onQueryTextSubmit(String query) {
                 getUsers(query);
                 Log.d("search", query.toString());
@@ -76,38 +82,39 @@ public class InvitationActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-    private void loadData(){
+    //load my login token
+    private void loadData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
     }
 
+    //load my user id
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
 
     }
 
-    private  void getUsers(String query){
-
-        Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
+    //get the result for our search query
+    private void getUsers(String query) {
+//request
+        Call<SearchedUsers> inside_call = akademiseApi.getUsersSearched(query, "0", "Bearer " + myToken);
         inside_call.enqueue(new Callback<SearchedUsers>() {
             @Override
             public void onResponse(Call<SearchedUsers> call, Response<SearchedUsers> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     Log.d("Get", "onResponse: " + response.code());
                     return;
                 }
                 Log.d("GET", "On response: " + response.message());
+                //get the result of the request
                 SearchedUsers searchedUsers = response.body();
+                //we should set the recyclerviewer and necessary layouts to acheive a dynamic, scrollable screen
                 recyclerView = findViewById(R.id.invitationRv);
-                RecyclerViewAdapterInvite recyclerViewAdapter = new RecyclerViewAdapterInvite(InvitationActivity.this, searchedUsers,projectId);
+                //initialize rv
+                RecyclerViewAdapterInvite recyclerViewAdapter = new RecyclerViewAdapterInvite(InvitationActivity.this, searchedUsers, projectId);
                 recyclerView.setAdapter(recyclerViewAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(InvitationActivity.this));
 
@@ -122,18 +129,6 @@ public class InvitationActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

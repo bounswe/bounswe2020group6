@@ -3,7 +3,7 @@ package com.example.akademise;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+//class to represent followed users
 public class FollowingUsers implements Serializable {
     public ArrayList<Data> data;
 }

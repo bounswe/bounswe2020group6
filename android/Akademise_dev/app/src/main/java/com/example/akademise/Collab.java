@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//class to represent colllaborated users
 public class Collab implements Serializable {
+    //id of the collabrative project
     private String projectId;
-
-
+    //id of the collaborator
     private String userId;
 
 

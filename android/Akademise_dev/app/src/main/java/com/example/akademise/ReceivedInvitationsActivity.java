@@ -34,6 +34,8 @@ public class ReceivedInvitationsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Request> requests;
 
+    //set the layout
+    //init retrofit and api object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,6 @@ public class ReceivedInvitationsActivity extends AppCompatActivity {
     }
 
 
-
-
     private void loadData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
@@ -62,6 +62,7 @@ public class ReceivedInvitationsActivity extends AppCompatActivity {
 
     }
 
+    //get received invitations
     private void getRequests(Integer projectId) {
         List<Request> mod_req = new ArrayList<Request>();
         Call<List<Request>> call = akademiseApi.getRequests("Bearer " + myToken);
@@ -76,14 +77,14 @@ public class ReceivedInvitationsActivity extends AppCompatActivity {
 
                 requests = response.body();
 
-
+                //only see the invitations
                 for (int i = 0; i < requests.size(); i++) {
                     Request req = requests.get(i);
                     if (req.getRequestType().equals(0)) {
                         mod_req.add(req);
                     }
                 }
-
+                //set the rv to have a scrollable and responsive list of requests
                 recyclerView = findViewById(R.id.rv_recyclerView3);
                 InviteAdapter recyclerViewAdapter = new InviteAdapter(ReceivedInvitationsActivity.this, mod_req);
                 recyclerView.setLayoutManager(new LinearLayoutManager(ReceivedInvitationsActivity.this));

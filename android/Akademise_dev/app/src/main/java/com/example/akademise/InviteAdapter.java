@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
+//recycler view for viewing contents(see received invitations)
 
 public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
@@ -36,12 +37,13 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
     List<Request> requests;
     Context context;
 
+    //constructor for the adapter
     public InviteAdapter(Context ct, List<Request> prj) {
         context = ct;
         requests = prj;
         loadData();
         loadIDData();
-
+//initialize the retrofit and api object to make a request
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(context.getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -53,6 +55,8 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
 
     @NonNull
     @Override
+    //customize the view holder
+
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.request_row, parent, false);
@@ -60,7 +64,11 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
     }
 
     @Override
+    //add functionalities to items in the view holders by their positions
+
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //invitations are stored in a list, we will populate very list item with the fields
+        //that are defined in viewholder classs below according to query results
         Map<String, String> user = requests.get(position).getRequesterUser();
         String user_ = user.get("name") + " " + user.get("surname");
 
@@ -71,7 +79,9 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequestedId().toString());
+                //find which inivtation is being accepted
+                Collab c = new Collab(requests.get(position).getProjectId().toString(), requests.get(position).getRequestedId().toString());
+                //add the user to collaborators.
                 Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
 
                 call.enqueue(new Callback<Collab>() {
@@ -100,9 +110,9 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
         holder.reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//find which invitation is being rejected
                 Call<Collab> call = akademiseApi.deleteReq(requests.get(position).getRequestId(), "Bearer " + myToken);
-
+//delete the invitation
                 call.enqueue(new Callback<Collab>() {
                     @Override
                     public void onResponse(Call<Collab> call, Response<Collab> response) {
@@ -124,15 +134,16 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
                 });
             }
         });
+        //go to users profile
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//get which user is being clicked
                 Call<Profile> call = akademiseApi.getMyProfile(requests.get(position).getRequesterId(), "Bearer " + myToken);
                 call.enqueue(new Callback<Profile>() {
                     @Override
                     public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if(!response.isSuccessful()){
+                        if (!response.isSuccessful()) {
                             return;
                         }
                         profile = response.body();
@@ -159,6 +170,7 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
 
     }
 
+    //get how many contents in recycler view
 
     @Override
     public int getItemCount() {
@@ -170,14 +182,16 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        //name of the user that made the invitations
         TextView username;
+        //name of the project
         TextView projectName;
+        //buttons to accept / reject
         Button accept;
         Button reject;
         View mView;
 
-
+        //set the xml elements acc. to ids.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.textView12);
