@@ -30,7 +30,7 @@ public class SignupFragment extends Fragment {
     AkademiseApi akademiseApi;
     Button btn;
     private String myToken;
-    private  Integer myId;
+    private Integer myId;
 
     @Nullable
     @Override
@@ -44,7 +44,6 @@ public class SignupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -62,16 +61,23 @@ public class SignupFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUser(emailView.getText().toString(), passwordView.getText().toString(), nameView.getText().toString(), surnameView.getText().toString());
-                System.out.println("EMAIL: " + emailView.getText().toString());
-                System.out.println("PASSWORD: " + passwordView.getText().toString());
-                System.out.println("NAME: " + nameView.getText().toString());
-                System.out.println("SURNAME: " + surnameView.getText().toString());
+                if (checkEmail(emailView.getText().toString())) {
+                    createUser(emailView.getText().toString(), passwordView.getText().toString(), nameView.getText().toString(), surnameView.getText().toString());
+                    System.out.println("EMAIL: " + emailView.getText().toString());
+                    System.out.println("PASSWORD: " + passwordView.getText().toString());
+                    System.out.println("NAME: " + nameView.getText().toString());
+                    System.out.println("SURNAME: " + surnameView.getText().toString());
+
+
+                }
+
             }
         });
     }
 
-    private void createUser(String email, String password, String name, String surname){
+    private void createUser(String email, String password, String name, String surname) {
+
+
         User user = new User(email, password, name, surname);
 
         Call<User> call = akademiseApi.createUser(user);
@@ -80,7 +86,7 @@ public class SignupFragment extends Fragment {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Try again", Toast.LENGTH_LONG).show();
                     return;
@@ -106,29 +112,39 @@ public class SignupFragment extends Fragment {
         });
     }
 
-    private void saveData(String token){
+    private void saveData(String token) {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(accessToken, token);
         editor.apply();
     }
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
 
     }
 
-    private void saveIDData(Integer id){
+    private void saveIDData(Integer id) {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(accessID, id);
         editor.apply();
     }
 
-    private void loadIDData(){
+    private void loadIDData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
 
+    }
+
+    public static  boolean checkEmail(String email) {
+        String regex = "^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+        boolean match = email.matches(regex);
+        if (!match) {
+            System.out.println("Given email is not valid!");
+            return false;
+        }
+        return true;
     }
 }
