@@ -1,7 +1,7 @@
 package com.example.akademise;
 
 import java.io.Serializable;
-
+//represent the userid of the upvote
 public class Upvote implements Serializable {
     int userId;
 

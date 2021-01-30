@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
+//recycler view for viewing contents(see search received ewuest for a project)
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
@@ -32,9 +33,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     Profile profile;
+    //list of requests
     List<Request> requests;
     Context context;
 
+    //init api, retrofit
+    //load my user id and token
     public RequestAdapter(Context ct, List<Request> prj) {
         context = ct;
         requests = prj;
@@ -52,6 +56,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     @NonNull
     @Override
+    //customize the view holder
+
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.request_row, parent, false);
@@ -60,6 +66,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //show received requests
+        //show username , surname
         Map<String, String> user = requests.get(position).getRequesterUser();
         String user_ = user.get("name") + " " + user.get("surname");
 
@@ -69,8 +77,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         loadIDData();
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
+            //accept the request and add as a collaborator
             public void onClick(View v) {
-                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
+                Collab c = new Collab(requests.get(position).getProjectId().toString(), requests.get(position).getRequesterId().toString());
                 Call<Collab> call = akademiseApi.addCollab(c, "Bearer " + myToken);
 
                 call.enqueue(new Callback<Collab>() {
@@ -94,12 +103,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
             }
         });
-
+//reject the reuqest and delete it
         holder.reject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Collab c= new Collab(requests.get(position).getProjectId().toString(),requests.get(position).getRequesterId().toString());
+                Collab c = new Collab(requests.get(position).getProjectId().toString(), requests.get(position).getRequesterId().toString());
                 Call<Collab> call = akademiseApi.deleteReq(requests.get(position).getRequestId(), "Bearer " + myToken);
 
                 call.enqueue(new Callback<Collab>() {
@@ -122,6 +131,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 });
             }
         });
+        //go to profile
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +140,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 call.enqueue(new Callback<Profile>() {
                     @Override
                     public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if(!response.isSuccessful()){
+                        if (!response.isSuccessful()) {
                             return;
                         }
                         profile = response.body();
@@ -157,6 +167,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     }
 
+    //get how many contents in recycler view
 
     @Override
     public int getItemCount() {
@@ -168,9 +179,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        //name of the requester
         TextView username;
+        //name of the project
         TextView projectName;
+        //buttons to accept and reject
         Button accept;
         Button reject;
         View mView;

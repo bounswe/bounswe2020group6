@@ -1,7 +1,7 @@
 package com.example.akademise;
 
 import java.io.Serializable;
-
+//to represnt a user
 public class User implements Serializable {
     private String email;
 
@@ -17,7 +17,7 @@ public class User implements Serializable {
 
     private Integer id;
 
-    //SIGNUP
+    //created object in the first page of signup, just basic info
     public User(String email, String password, String name, String surname) {
         this.email = email;
         this.password = password;

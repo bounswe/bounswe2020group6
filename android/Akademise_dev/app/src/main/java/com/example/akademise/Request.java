@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 public class Request implements Serializable {
+    //serialized the field names to match them with the api function's field names
     @SerializedName("requesterId")
     private Integer requesterId;
 
@@ -33,7 +34,7 @@ public class Request implements Serializable {
 
     @SerializedName("project")
     private Project project;
-
+//getter methods
     public Integer getRequesterId() {
         return requesterId;
     }
@@ -54,7 +55,7 @@ public class Request implements Serializable {
         return project;
     }
 
-
+// object to represent a request , field names are self- explanatory
     public Request(Integer id,Integer requesterId, Integer requestedId, Integer projectId, Map<String, String> requesterUser, Project project) {
         this.requesterId = requesterId;
         this.requestedId = requestedId;

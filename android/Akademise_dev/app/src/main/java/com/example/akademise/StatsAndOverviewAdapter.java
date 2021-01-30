@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
+//see the content of the call (followings and followers)
 public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOverviewAdapter.ViewHolder> {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -28,14 +29,15 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     private String myToken;
-    private  Integer myId;
+    private Integer myId;
     Profile profile;
     Context context;
     Follower followers;
     FollowingUsers followings;
     Boolean isFollowers;
+    //constructor for the adapter
 
-    public StatsAndOverviewAdapter(Context context, Follower followers, FollowingUsers followings, Boolean isFollowers){
+    public StatsAndOverviewAdapter(Context context, Follower followers, FollowingUsers followings, Boolean isFollowers) {
         this.context = context;
         this.followers = followers;
         this.followings = followings;
@@ -50,6 +52,7 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
 
         akademiseApi = retrofit.create(AkademiseApi.class);
     }
+    //customize the view holder
 
 
     @NonNull
@@ -62,27 +65,30 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
 
     @Override
     public void onBindViewHolder(@NonNull StatsAndOverviewAdapter.ViewHolder holder, int position) {
-        if(isFollowers){
+        //if query is to see followers
+        if (isFollowers) {
             String currentName = followers.data.get(position).followed.name + " " + followers.data.get(position).followed.surname;
             holder.name.setText(currentName);
-        }else{
+            //if query is to see followings
+        } else {
             String currentName = followings.data.get(position).following.name + " " + followings.data.get(position).following.surname;
             holder.name.setText(currentName);
         }
 
         holder.seeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
+            //to see more details  get the profile info
             public void onClick(View v) {
                 Call<Profile> call;
-                if(isFollowers){
+                if (isFollowers) {
                     call = akademiseApi.getMyProfile(followers.data.get(position).followed.id, "Bearer " + myToken);
-                }else{
+                } else {
                     call = akademiseApi.getMyProfile(followings.data.get(position).following.id, "Bearer " + myToken);
                 }
                 call.enqueue(new Callback<Profile>() {
                     @Override
                     public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if(!response.isSuccessful()){
+                        if (!response.isSuccessful()) {
                             return;
                         }
                         profile = response.body();
@@ -90,6 +96,7 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
                         intent.putExtra("user", profile);
                         context.startActivity(intent);
                     }
+
                     @Override
                     public void onFailure(Call<Profile> call, Throwable t) {
                     }
@@ -99,22 +106,25 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
         });
 
     }
+    //get how many elements rv has
 
     @Override
     public int getItemCount() {
-        if(isFollowers){
+        if (isFollowers) {
             return followers.data.size();
-        }else{
+        } else {
             return followings.data.size();
         }
     }
 
+    //define view holder for followers/ followings
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         Button seeFollowers;
         Button seeFollowing;
         TextView name;
         Button seeProfileButton;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             seeFollowers = itemView.findViewById(R.id.see_followers);
@@ -123,12 +133,15 @@ public class StatsAndOverviewAdapter extends RecyclerView.Adapter<StatsAndOvervi
             seeProfileButton = itemView.findViewById(R.id.see_profile);
         }
     }
+    //get token of the user from local storage
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPEREFERENCES, MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
     }
-    private void loadIDData(){
+    //get id of the user from local storage
+
+    private void loadIDData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
     }

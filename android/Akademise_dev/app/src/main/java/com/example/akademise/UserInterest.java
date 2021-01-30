@@ -1,7 +1,7 @@
 package com.example.akademise;
 
 import java.io.Serializable;
-
+//represent user interests
 public class UserInterest implements Serializable {
     private String interest;
 

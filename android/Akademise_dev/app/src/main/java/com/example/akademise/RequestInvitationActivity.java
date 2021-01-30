@@ -44,13 +44,15 @@ public class RequestInvitationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //set the layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_requests_and_invitations);
         Intent in= getIntent();
         Bundle b = in.getExtras();
+        //get the project id of the  request thats made
         projectId = b.getInt("project_id");
         loadData();
-
+    //init retrofit and api object
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -64,6 +66,8 @@ public class RequestInvitationActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if you want to invite other people to this project
+                //click the invite button to go to invite activity
                 Intent intent = new Intent(RequestInvitationActivity.this,InvitationActivity.class);
                 intent.putExtra("project_id", projectId);
                 startActivity(intent);
@@ -83,9 +87,10 @@ public class RequestInvitationActivity extends AppCompatActivity {
         Log.d("mytoken", myToken.toString());
 
     }
-
+//see the received requetss
     private void getRequests(Integer projectId) {
         List<Request> mod_req = new ArrayList<Request>();
+        //get requests
         Call<List<Request>> call = akademiseApi.getRequests("Bearer " + myToken);
         call.enqueue(new Callback<List<Request>>() {
             @Override
@@ -98,14 +103,14 @@ public class RequestInvitationActivity extends AppCompatActivity {
 
                 requests = response.body();
 
-
+                //only see received requests for this project
                 for (int i = 0; i < requests.size(); i++) {
                     Request req = requests.get(i);
                     if (req.getProjectId().equals(projectId)) {
                         mod_req.add(req);
                     }
                 }
-
+                //set the rv to have a scrollable and responsive list of requests
                 recyclerView = findViewById(R.id.rv_recyclerView2);
                 RequestAdapter recyclerViewAdapter = new RequestAdapter(RequestInvitationActivity.this, mod_req);
                 recyclerView.setLayoutManager(new LinearLayoutManager(RequestInvitationActivity.this));

@@ -22,6 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+//class for sign up page
 public class SignupFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
@@ -32,6 +33,7 @@ public class SignupFragment extends Fragment {
     private String myToken;
     private Integer myId;
 
+    //set the layout
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class SignupFragment extends Fragment {
         return view;
     }
 
+    //initialize the layout elements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -57,10 +60,12 @@ public class SignupFragment extends Fragment {
         TextView passwordView = view.findViewById(R.id.password);
         TextView nameView = view.findViewById(R.id.name_signup);
         TextView surnameView = view.findViewById(R.id.surname);
-
+        //when name, surname, mail and password is filled in
+        //button is clicked and we create a user
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //check if emial format is valid
                 if (checkEmail(emailView.getText().toString())) {
                     createUser(emailView.getText().toString(), passwordView.getText().toString(), nameView.getText().toString(), surnameView.getText().toString());
                     System.out.println("EMAIL: " + emailView.getText().toString());
@@ -68,6 +73,9 @@ public class SignupFragment extends Fragment {
                     System.out.println("NAME: " + nameView.getText().toString());
                     System.out.println("SURNAME: " + surnameView.getText().toString());
 
+
+                } else {
+                    Toast.makeText(getActivity(), "Given email is not valid!", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -77,7 +85,7 @@ public class SignupFragment extends Fragment {
 
     private void createUser(String email, String password, String name, String surname) {
 
-
+        //reuest to create a new user
         User user = new User(email, password, name, surname);
 
         Call<User> call = akademiseApi.createUser(user);
@@ -91,10 +99,13 @@ public class SignupFragment extends Fragment {
                     Toast.makeText(getActivity(), "Try again", Toast.LENGTH_LONG).show();
                     return;
                 }
+                //if successfully created, show a toast
                 User userResponse = response.body();
                 System.out.println("SUCCESSFUL");
                 System.out.println("Token: " + userResponse.getAccessToken());
                 System.out.println("userId: " + userResponse.getUserId());
+                //save the user id and special token that will be used
+                //as a bearer token in the requests
                 saveData(userResponse.getAccessToken());
                 saveIDData(userResponse.getUserId());
                 btn.setText(getString(R.string.validate));
@@ -112,6 +123,7 @@ public class SignupFragment extends Fragment {
         });
     }
 
+    //save the token
     private void saveData(String token) {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -119,12 +131,14 @@ public class SignupFragment extends Fragment {
         editor.apply();
     }
 
+    //load the token
     private void loadData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
 
     }
 
+    // save userid
     private void saveIDData(Integer id) {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -132,13 +146,15 @@ public class SignupFragment extends Fragment {
         editor.apply();
     }
 
+    //load user id
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
 
     }
 
-    public static  boolean checkEmail(String email) {
+    //check email format with regex
+    public static boolean checkEmail(String email) {
         String regex = "^([\\w-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([\\w-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
         boolean match = email.matches(regex);
         if (!match) {

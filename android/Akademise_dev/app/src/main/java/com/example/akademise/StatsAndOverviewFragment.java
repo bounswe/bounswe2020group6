@@ -29,28 +29,31 @@ public class StatsAndOverviewFragment extends Fragment {
     public static final String accessID = "XXXXXID";
     AkademiseApi akademiseApi;
     private String myToken;
-    private  Integer myId;
+    private Integer myId;
     Button seeFollowers;
     Button seeFollowing;
     private RecyclerView recyclerView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //load token and user id
         loadData();
         loadIDData();
+        //set layout elements
         View view = inflater.inflate(R.layout.fragment_stats_and_overview, container, false);
         seeFollowers = view.findViewById(R.id.see_followers);
         seeFollowing = view.findViewById(R.id.see_following);
         recyclerView = view.findViewById(R.id.rv_follow);
-
-        seeFollowers.setOnClickListener(new View.OnClickListener(){
+//if ypu want to see followers
+        seeFollowers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleFollowersCall();
             }
         });
-
-        seeFollowing.setOnClickListener(new View.OnClickListener(){
+///if you want to see followings
+        seeFollowing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleFollowingCall();
@@ -73,20 +76,22 @@ public class StatsAndOverviewFragment extends Fragment {
 
     }
 
-    private void handleFollowersCall(){
+    //get  followers
+    private void handleFollowersCall() {
         Call<Follower> call = akademiseApi.getFollowers("Bearer " + myToken);
 
         call.enqueue(new Callback<Follower>() {
             @Override
             public void onResponse(Call<Follower> call, Response<Follower> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Follower followers = response.body();
                 FollowingUsers followingUsers = new FollowingUsers();
-                StatsAndOverviewAdapter adapter = new StatsAndOverviewAdapter(getActivity(),followers, followingUsers, true);
+                //to see a scrollable list of  followers and user details
+                StatsAndOverviewAdapter adapter = new StatsAndOverviewAdapter(getActivity(), followers, followingUsers, true);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
@@ -100,20 +105,23 @@ public class StatsAndOverviewFragment extends Fragment {
         });
     }
 
-    private void handleFollowingCall(){
+    //get  followings
+    private void handleFollowingCall() {
         Call<FollowingUsers> call = akademiseApi.getFollowings("Bearer " + myToken);
 
         call.enqueue(new Callback<FollowingUsers>() {
             @Override
             public void onResponse(Call<FollowingUsers> call, Response<FollowingUsers> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     System.out.println("NOT SUCCESSFUL");
                     Toast.makeText(getActivity(), "Something went wrong :(", Toast.LENGTH_LONG).show();
                     return;
                 }
                 FollowingUsers followings = response.body();
                 Follower followers = new Follower();
-                StatsAndOverviewAdapter adapter = new StatsAndOverviewAdapter(getActivity(),followers, followings, false);
+                //to see a scrollable list of  followings and user details
+
+                StatsAndOverviewAdapter adapter = new StatsAndOverviewAdapter(getActivity(), followers, followings, false);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             }
@@ -128,11 +136,12 @@ public class StatsAndOverviewFragment extends Fragment {
     }
 
 
-    private void loadData(){
+    private void loadData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
     }
-    private void loadIDData(){
+
+    private void loadIDData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
     }
