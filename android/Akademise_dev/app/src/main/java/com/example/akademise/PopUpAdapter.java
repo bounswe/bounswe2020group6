@@ -25,6 +25,12 @@ import java.util.Map;
 import static android.content.Context.MODE_PRIVATE;
 
 public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> {
+    /*
+    This adapter gets two lists and displays them in a recycler view.
+    One of them is collaboration request and invitation list.
+    The other one is notification list. (following, joining, accepting, rejecting ..)
+     */
+    //variables for id and token
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     private int myId;
     private String myToken;
@@ -32,27 +38,33 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
     public static final String accessToken = "XXXXX";
     String baseURL ;
     public static final String accessID = "XXXXXID";
+    //API
     AkademiseApi akademiseApi;
+
     Profile profile;
     List<Request> requests;
     List<Notifications> notifs;
     Context context;
 
     public PopUpAdapter(Context ct, List<Request> prj, List<Notifications> notif) {
+        //get the parameters
         context = ct;
         requests = prj;
         notifs=notif;
+        //reverse the lists so that last notification can be seen first.
         Collections.reverse(notifs);
         Collections.reverse(requests);
+        //load token
         loadData();
+        //load id
         loadIDData();
         baseURL=ct.getString(R.string.baseUrl);
-
+        //initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
 
     }
@@ -61,15 +73,15 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
+        //popup_row xml is used
         View view = inflater.inflate(R.layout.popup_row, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Map<String, String> user = requests.get(position).getRequesterUser();
-        //String user_ = user.get("name") + " " + user.get("surname");
         String user_name;
+        //set the background color
         if(position%2==1){
             holder.username.setBackgroundColor(context.getResources().getColor( R.color.dark_green));
             holder.type.setBackgroundColor(context.getResources().getColor( R.color.dark_green));
@@ -77,40 +89,49 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
 
         }
         holder.username.setClickable(true);
+        //if it is a notif element
         if(position<notifs.size()) {
+            //if it is not a following notification (5- following)
             if (notifs.get(position).getType() != 5) {
+                //set project name
                 holder.projectName.setText("Project: " + notifs.get(position).getProject().getTitle());
                 if (notifs.get(position).getType() == 0) {
+                    //acceptation notification
                     user_name = notifs.get(position).getAccepter().getName() + " "
                             + notifs.get(position).getAccepter().getSurname();
                     holder.username.setText(user_name);
                     holder.type.setText("accepted");
                 }
                 if (notifs.get(position).getType() == 1) {
+                    //joining notification
                     user_name = notifs.get(position).getParticipant().getName() + " "
                             + notifs.get(position).getParticipant().getSurname();
                     holder.username.setText(user_name);
                     holder.type.setText("joined");
                 }
                 if (notifs.get(position).getType() == 2) {
+                    //removing notification
                     user_name = notifs.get(position).getParticipant().getName() + " "
                             + notifs.get(position).getParticipant().getSurname();
                     holder.username.setText(user_name);
                     holder.type.setText("removed");
                 }
                 if (notifs.get(position).getType() == 3) {
+                    //removing notification
                     user_name = notifs.get(position).getParticipant().getName() + " "
                             + notifs.get(position).getParticipant().getSurname();
                     holder.username.setText(user_name);
                     holder.type.setText("removed");
                 }
                 if (notifs.get(position).getType() == -1) {
+                    //rejection notification
                     user_name = notifs.get(position).getAccepter().getName() + " "
                             + notifs.get(position).getAccepter().getSurname();
                     holder.username.setText(user_name);
                     holder.type.setText("rejected");
                 }
             } else {
+                //following notification
                 holder.projectName.setText("");
                 user_name = notifs.get(position).getParticipant().getName() + " "
                         + notifs.get(position).getParticipant().getSurname();
@@ -118,20 +139,25 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
                 holder.type.setText("followed you");
             }
         }
+        //collaboration requests and invitations
         else{
+            //fill holder variable texts
             holder.projectName.setText(requests.get(position-notifs.size()).getProject().getTitle());
             user_name = requests.get(position-notifs.size()).getRequesterUser().get("name") + " "
                     + requests.get(position-notifs.size()).getRequesterUser().get("surname");
             holder.username.setText(user_name);
+            //invitation
             if(requests.get(position-notifs.size()).getRequestType()==0){
                 holder.type.setText("Invitation");
             }
+            //request
             else{
                 holder.type.setText("Request");
             }
         }
+        //load id
         loadIDData();
-
+        //if notification type is clicked, that notification is deleted. (Not collaboration requsets and invitations)
         holder.type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,10 +179,11 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
                 }
             }
         });
-
+        //if name is clicked, that profile is opened
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //if clicked one is from notifs list
                 if (position < notifs.size()) {
                     Call<Profile> call = akademiseApi.getMyProfile(notifs.get(position).getAccepterId(), "Bearer " + myToken);
                     call.enqueue(new Callback<Profile>() {
@@ -177,6 +204,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
                         }
                     });
                 }
+                //if clicked one is from requests list
                 else{
                     Call<Profile> call = akademiseApi.getMyProfile(requests.get(position-notifs.size()).getRequesterId(), "Bearer " + myToken);
                     call.enqueue(new Callback<Profile>() {
@@ -201,11 +229,9 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
 
         });
 
-
-
     }
 
-
+    //load token
     private void loadData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
@@ -216,9 +242,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (notifs.isEmpty()) {
-            return 0;
-        }
+        //return the size of recycler view
 
         return notifs.size()+requests.size();
     }
@@ -233,6 +257,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            //initialize the xml variables
             username = itemView.findViewById(R.id.tv_popup_user);
             projectName = itemView.findViewById(R.id.tv_popup_row_project_name);
             type = itemView.findViewById(R.id.tv_popup_req_inv);
@@ -241,7 +266,7 @@ public class PopUpAdapter extends RecyclerView.Adapter<PopUpAdapter.ViewHolder> 
 
         }
     }
-
+    //load id
     private void loadIDData() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);

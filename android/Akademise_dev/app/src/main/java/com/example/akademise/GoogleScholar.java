@@ -3,6 +3,9 @@ package com.example.akademise;
 import java.util.List;
 
 public class GoogleScholar {
+    /*  this class is to get the google scholar information from the backend.
+        We show total_citations and publications on the Google Scholar page. (Google Scholar Fragment)
+     */
     private String message;
 
     private int total_citations;

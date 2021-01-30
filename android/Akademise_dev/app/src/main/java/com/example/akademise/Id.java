@@ -3,6 +3,12 @@ package com.example.akademise;
 import java.io.Serializable;
 
 public class Id implements Serializable {
+    /*
+    It is expected to get a json by the backend like below.
+    {
+        id=1
+    }
+     */
 
     private int id;
 

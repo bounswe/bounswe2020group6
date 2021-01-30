@@ -21,12 +21,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OtherUserProjectsActivity extends AppCompatActivity {
-
+    /*
+    this activity is to display projects of other users
+     */
+    //token variables
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    //id variable
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
     private String myToken;
+
     private List<GetProjects> projects;
     private RecyclerView recyclerView;
 
@@ -36,23 +41,25 @@ public class OtherUserProjectsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_user_projects);
+        //load token
         loadData();
-
+        //initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
+        //get projects of a user
         getProjects();
 
     }
-
+    //get projects
     private void getProjects(){
-
+        //get user id
        if( getIntent().hasExtra("userId")) {
            int userId = getIntent().getIntExtra("userId", -1);
-
+            //call to get projects of a user who got the "userId"
            Call<List<GetProjects>> call = akademiseApi.getProjects(userId, 0, "Bearer " + myToken);
            call.enqueue(new Callback<List<GetProjects>>() {
                @Override
@@ -64,8 +71,8 @@ public class OtherUserProjectsActivity extends AppCompatActivity {
                    }
                    System.out.println("SUCCESSFUL");
                    projects = response.body();
-                   //Log.d("whyNotShowing", projects.toString());
-
+                    //got the projects successfully
+                   //initialize recycler view
                    recyclerView = findViewById(R.id.rvOtherUserProject);
                    RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getBaseContext(), projects,null);
                    recyclerView.setAdapter(recyclerViewAdapter);
@@ -80,6 +87,7 @@ public class OtherUserProjectsActivity extends AppCompatActivity {
            });
        }
     }
+    //load token
     private void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");

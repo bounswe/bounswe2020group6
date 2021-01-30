@@ -1,6 +1,10 @@
 package com.example.akademise;
 
 public class Department {
+     /*
+    Department variable.
+    This class is to send data in expected format.
+     */
 
     private String department;
 

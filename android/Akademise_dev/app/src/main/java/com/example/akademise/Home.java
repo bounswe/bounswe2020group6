@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Home implements Serializable {
+    /*
+     Home page has a recommendation system.
+     It recommends projects by logged in user's followings and interests areas.
+     It recommends users by logged in user's interests, university, and department.
+     */
     private List<GetProjects> byFollowings;
 
     private List<GetProjects> byUserTags;

@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Profile implements Serializable {
+    /*
+    Profile class is to get profile data from the backend.
+     */
     private int id;
 
     private String name;

@@ -38,11 +38,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
+    /*
+    This class to display logged in user's profile
+     */
+    //variables for token
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    //variables for id
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
+    //API
     AkademiseApi akademiseApi;
+
+    private String myToken;
+    private Integer myId;
+    //xml variables
     private Button statsAndOverviewButton;
     private Button publicationsButton;
     private Button logoutButton;
@@ -50,8 +60,6 @@ public class ProfileFragment extends Fragment {
     private Button invitationButton;
     private Button updateButton;
     private Button googleScholar;
-    private String myToken;
-    private Integer myId;
     private TextView tvName;
     private TextView tvContact;
     private TextView tvTags;
@@ -61,13 +69,12 @@ public class ProfileFragment extends Fragment {
     private TextView tvTitle;
     private TextView tvUpvote;
     private ImageView ivProfilePhoto;
-    long pressTime = 0;
-    long lastPressTime = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        //initialize the xml variables
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview);
         publicationsButton = view.findViewById(R.id.projects);
         logoutButton = view.findViewById(R.id.logout_button);
@@ -85,34 +92,39 @@ public class ProfileFragment extends Fragment {
         tvUpvote = view.findViewById(R.id.upvote_content);
 
         googleScholar = view.findViewById(R.id.btnMyGoogleScholar);
+        //load id
         loadIDData();
+        //load token
         loadData();
+        //edit button on click listener
         editButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 changeTextsEditability(true);
+                //set update button as visible
                 updateButton.setVisibility(View.VISIBLE);
             }
         });
-
+        //update on click listener
         updateButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 updateButton.setVisibility(View.INVISIBLE);
                 changeTextsEditability(false);
-
+                //initialize retrofit
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(getString(R.string.baseUrl))
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
-
+                //initialize API
                 akademiseApi = retrofit.create(AkademiseApi.class);
+                //update profile according to changed fields
                 updateProfile();
             }
         });
-
+        //go to stats and overview page
         statsAndOverviewButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment fragment = new StatsAndOverviewFragment();
@@ -124,20 +136,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-      /*  ivProfilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pressTime = System.currentTimeMillis();
-                if(pressTime - lastPressTime <= ViewConfiguration.getDoubleTapTimeout()){
-                    ivProfilePhoto.setImageResource(R.drawable.cactus);
-                }
-
-                lastPressTime = pressTime;
-            }
-        });
-
-       */
-
+        //go to projects page
         publicationsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Fragment fragment = new ProjectFragment(); //
@@ -148,6 +147,7 @@ public class ProfileFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+        //go to invitation page
         invitationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),ReceivedInvitationsActivity.class);
@@ -155,7 +155,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
+        //logout
         logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 deleteValidationData();
@@ -172,30 +172,29 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //tvAffiliation = getView().findViewById(R.id.affiliation_content);
-
+        //Initialize Retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //Initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
-
+        //get user affiliation data
         getAffiliation();
 
     }
-
+    //load token
     private void loadData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
 
     }
-
+    //load id
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
     }
-
+    //get user affiliation data
     private void getAffiliation() {
 
         Call<Profile> call = akademiseApi.getMyProfile(myId, "Bearer " + myToken);
@@ -211,7 +210,7 @@ public class ProfileFragment extends Fragment {
                 }
                 Profile profile = response.body();
                 System.out.println("SUCCESSFUL");
-
+                //fill the xml variables according to profile data
                 String university = profile.getUniversity();
                 String department = profile.getDepartment();
                 String title = profile.getTitle();
@@ -230,7 +229,7 @@ public class ProfileFragment extends Fragment {
                     temp += profile.getUser_interests().get(i).getInterest() + ",";
                 }
                 tvTags.setText(temp);
-
+                //fo to google scholar
                 googleScholar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -248,14 +247,14 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-
+    //when logging out, delete token
     private void deleteValidationData() {
         SharedPreferences preferences = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove(accessToken);
         editor.apply();
     }
-
+    //when editing change it to true, after that change it to false
     private void changeTextsEditability(Boolean type) {
         tvName.setFocusable(type);
         tvName.setFocusableInTouchMode(type);
@@ -276,11 +275,11 @@ public class ProfileFragment extends Fragment {
         tvTitle.setFocusableInTouchMode(type);
         tvTitle.setClickable(type);
     }
-
+    //update profile according to the changes
     private void updateProfile() {
         ArrayList<String> user_interests = new ArrayList<String>();
         String[] interests_split = tvTags.getText().toString().split(",");
-
+        //get changes
         for (String s : interests_split) {
             user_interests.add(s);
         }
@@ -293,7 +292,7 @@ public class ProfileFragment extends Fragment {
         ProfileUpdate updatedProfile = new ProfileUpdate(user_interests, affiliation);
         Biography updateBio = new Biography(tvBiogprahy.getText().toString());
 
-
+        //send changes to backend
         Call<ProfileUpdate> call = akademiseApi.updateProfile(updatedProfile, "Bearer " + myToken);
         Call<Biography> callBio = akademiseApi.updateBio(updateBio, "Bearer " + myToken);
 
@@ -340,7 +339,7 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
+    //go to google scholar and send the profile i nfo to that page
     private void goToGoogleScholar(Profile profile) {
         Fragment fragment = new GoogleScholarFragment();
         Bundle args = new Bundle();
@@ -353,7 +352,7 @@ public class ProfileFragment extends Fragment {
         fragmentTransaction.commit();
 
     }
-
+    //download profile photo
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

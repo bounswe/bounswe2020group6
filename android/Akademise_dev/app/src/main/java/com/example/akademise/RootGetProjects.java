@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class RootGetProjects implements Serializable {
+    /*
+    This class is to get the project information in an expected format.
+     */
     @SerializedName("projects")
     private List<GetProjects> projects;
 

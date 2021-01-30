@@ -35,21 +35,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileOthersFragment extends Fragment {
+    /*
+    this class to display other user's profile.
+     */
+    //token access variables
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    //id access variables
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
-
+    //API
     AkademiseApi akademiseApi;
-    private Profile profile;
-    private List<GetProjects> projects;
-    private Button otherGoogleScholar;
-    private Button statsAndOverviewButton;
-    private Button publicationsButton;
-    private Button upvoteButton;
-    private Button followButton;
-    private String myToken;
-
+    //xml variables
     private  Integer myId;
     private TextView tvName;
     private  TextView tvContact;
@@ -60,13 +57,23 @@ public class ProfileOthersFragment extends Fragment {
     private TextView tvTitle;
     private TextView tvUpvote;
     private ImageView ivProfilePhoto;
+    private Profile profile;
+    private Button otherGoogleScholar;
+    private Button statsAndOverviewButton;
+    private Button publicationsButton;
+    private Button upvoteButton;
+    private Button followButton;
+    //token variable
+    private String myToken;
+    private List<GetProjects> projects;
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_others, container, false);
-
+        //initialize the xml variables
         statsAndOverviewButton = view.findViewById(R.id.stats_and_overview_others);
         publicationsButton = view.findViewById(R.id.projects_others);
         upvoteButton = view.findViewById(R.id.upvote_button);
@@ -80,19 +87,21 @@ public class ProfileOthersFragment extends Fragment {
         tvTitle = view.findViewById(R.id.title_content_others);
         ivProfilePhoto=view.findViewById(R.id.avatar_others);
         tvUpvote = view.findViewById(R.id.upvote_content_others);
-
-        loadData();
-        loadIDData();
         otherGoogleScholar = view.findViewById(R.id.btnOtherGoogleScholar);
+        //load token
+        loadData();
+        //load id
+        loadIDData();
+        //initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
-
+        //get profile info
         getData();
-
+        //upvote or downvote the user
         upvoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +114,7 @@ public class ProfileOthersFragment extends Fragment {
                 }
             }
         });
-
+        //follow or unfollow the user
         followButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +136,7 @@ public class ProfileOthersFragment extends Fragment {
 
 
     }
-
+    //get end set profile variables.
     private void getProfileInfo(){
         String university = profile.getUniversity();
         String department = profile.getDepartment();
@@ -170,17 +179,19 @@ public class ProfileOthersFragment extends Fragment {
             }
         });
     }
-
+    //load token
     private void loadData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
     }
+    //load id
     private void loadIDData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyIDPEREFERENCES, MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
     }
 
+    //get profile variables
     private void getData(){
         if(this.getActivity().getIntent().hasExtra("user")){
             profile = (Profile) this.getActivity().getIntent().getSerializableExtra("user");
@@ -196,9 +207,9 @@ public class ProfileOthersFragment extends Fragment {
                     }
                     profile = response.body();
                     System.out.println("SUCCESSFUL");
-
+                    //set variables
                     getProfileInfo();
-
+                    //go to projects of that user
                     publicationsButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -223,7 +234,8 @@ public class ProfileOthersFragment extends Fragment {
             Toast.makeText(this.getActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
         }
     }
-
+    //upvote or downvote a user
+    //if upvoted already, then downvote
     private void handleUpvoteCall(Boolean isUpvote){
         Call<Upvote> call;
         Upvote upvote = new Upvote(profile.getId());
@@ -255,7 +267,8 @@ public class ProfileOthersFragment extends Fragment {
             }
         });
     }
-
+    //follow or unfollow a user
+    //if following already, then unfollow
     private void handleFollowCall(Boolean isFollow) {
         Upvote follow = new Upvote(profile.getId());
         Call<Upvote> call;
@@ -288,7 +301,7 @@ public class ProfileOthersFragment extends Fragment {
         });
     }
 
-
+    //go to google scholar. Declare that it is another user's google scholar and send the profile
     private void goToGoogleScholar(Profile profile){
         Fragment fragment = new GoogleScholarFragment();
         Bundle args = new Bundle();
@@ -302,7 +315,7 @@ public class ProfileOthersFragment extends Fragment {
         fragmentTransaction.commit();
 
     }
-
+    //download profile photo
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

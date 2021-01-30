@@ -1,6 +1,9 @@
 package com.example.akademise;
 
 public class Notifications {
+    /*
+    This class is to get notifications in an expected format from backend
+     */
 
         private int id;
 

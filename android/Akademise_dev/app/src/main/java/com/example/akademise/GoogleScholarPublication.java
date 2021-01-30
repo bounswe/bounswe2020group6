@@ -3,6 +3,9 @@ package com.example.akademise;
 import java.io.Serializable;
 
 public class GoogleScholarPublication implements Serializable {
+    /*  this class is to get the google scholar publications information from the backend.
+       We show title and venue on the Google Scholar page. (Google Scholar Fragment)
+    */
     public class Publications
     {
         private String title;

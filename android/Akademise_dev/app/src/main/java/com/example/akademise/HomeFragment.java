@@ -27,10 +27,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
+    /*
+    This fragment has two functionalities.
+    One of them is recommendation system.
+    Another one is search.
+     */
 
+    //API
     AkademiseApi akademiseApi;
+    //variables of xml file
     SearchView searchView;
     RecyclerView recyclerView;
+    //variables to access to the token of a logged in user.
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
     private String myToken;
@@ -45,19 +53,27 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.baseUrl))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //load token data into myToken variable.
         loadData();
+        //initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
+
+        //get project and user recommendations
         getHome();
 
+        //initialize xml variable
         searchView = (SearchView) getView().findViewById(R.id.svSearch);
+        //initialize set on query listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                //get projects and users when the query is submitted.
+                //function name remained as getPosts but it gets both projects and users.
                 getPosts(query);
                 Log.d("search", query.toString());
                 return false;
@@ -73,11 +89,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    //get projects and users
     private  void getPosts(String query){
-
-
-        //List<Post> searchedPosts;
-        //String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImlhdCI6MTYwNjEyODgwNH0.5JLFXGx4E2_RT7sGt-as2lgmFk67h1KWODTgZFT9QR0";
+        //get projects first
         Call<RootGetProjects> call= akademiseApi.getProjectsSearched(query,"1","Bearer " + myToken);
         call.enqueue(new Callback<RootGetProjects>() {
             @Override
@@ -88,9 +102,11 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 Log.d("GET", "On response: " + response.message());
+                //get projects
                 RootGetProjects Projects = response.body();
 
                 List<GetProjects> projects = Projects.getProjects();
+                //when projects are gotten successfully, then get users
                 Call<SearchedUsers> inside_call= akademiseApi.getUsersSearched(query,"0","Bearer " + myToken);
                 inside_call.enqueue(new Callback<SearchedUsers>() {
                     @Override
@@ -100,7 +116,9 @@ public class HomeFragment extends Fragment {
                             return;
                         }
                         Log.d("GET", "On response: " + response.message());
+                        //get searched users
                         SearchedUsers searchedUsers = response.body();
+                        //initialize recycler view.
                         recyclerView = getView().findViewById(R.id.rv_home);
                         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), projects,searchedUsers);
                         recyclerView.setAdapter(recyclerViewAdapter);
@@ -128,14 +146,16 @@ public class HomeFragment extends Fragment {
 
 
     }
+    //load token
     private void loadData(){
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
         Log.d("mytoken", myToken.toString());
 
     }
-
+    //get recommendations
     private void getHome(){
+        //get projects first.
         Call<Home> call= akademiseApi.getHome("Bearer " + myToken);
         call.enqueue(new Callback<Home>() {
             @Override
@@ -146,9 +166,11 @@ public class HomeFragment extends Fragment {
                 }
                 Log.d("GET", "On response: " + response.message());
                 Home home = response.body();
+                //prepare suggested projects list
                 List<GetProjects> suggestedProjects= new ArrayList<>();
                 suggestedProjects.addAll(home.getByFollowings());
                 suggestedProjects.addAll(home.getByUserTags());
+                //When suggested projects are gotten successfully, then get recommended users
                 Call<Home> inner_call= akademiseApi.getHomeUsers("Bearer " + myToken);
                 inner_call.enqueue(new Callback<Home>() {
                     @Override
@@ -159,12 +181,15 @@ public class HomeFragment extends Fragment {
                         }
                         Log.d("GET", "On response: " + response.message());
                         Home home_user= response.body();
+                        //prepare suggested users list
                         List<Profile> suggestedProfiles= new ArrayList<>();
                         suggestedProfiles.addAll(home_user.getSimilarInterests());
                         suggestedProfiles.addAll(home_user.getSameUniversity());
                         suggestedProfiles.addAll(home_user.getSameDepartment());
                         SearchedUsers suggested_users = new SearchedUsers(suggestedProfiles);
+                        //initialize recycler view.
                         recyclerView = getView().findViewById(R.id.rv_home);
+                        //prepared suggestedProjects and suggested_users lists are parameters of the adapter.
                         RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), suggestedProjects,suggested_users);
                         recyclerView.setAdapter(recyclerViewAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

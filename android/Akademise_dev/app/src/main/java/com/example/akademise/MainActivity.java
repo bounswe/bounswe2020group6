@@ -31,15 +31,31 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    /*
+    This activity directs user to different fragments according chosen options in the menu
+    -home page
+    -projects page
+    -notifications
+    -events
+    -profile page
+     */
+    //variables for token
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";
+    //variables for id
     public static final String MyIDPEREFERENCES = "MyIDPrefs";
     public static final String accessID = "XXXXXID";
+
     String baseURL ;
+    //API
     AkademiseApi akademiseApi;
+
     private String myToken;
     private Integer myId;
+
+    //colalboration requests/invitation list for notifications
     List<Request> requests;
+    //notification list fot notifications (following, joining ..)
     List<Notifications> notif;
 
 
@@ -47,25 +63,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         baseURL=getString(R.string.baseUrl);
-
+        //initialize the navigation menu
         BottomNavigationView bottomNav= findViewById(R.id.bottomNavigationView);
-
+        //set on click listener
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+        //firstly, it is home page displayed
         getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
                 new HomeFragment()).commit();
+        //load token
         loadData();
-
+        //initialize retrofit
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        //initialize API
         akademiseApi = retrofit.create(AkademiseApi.class);
+        //load id
         loadIDData();
     }
-
+    //navigation menu set on click listener
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -73,22 +92,27 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragment = null;
 
                     switch (item.getItemId()){
+                        //if home is clicked go to home
                         case R.id.miHome:
                             selectedFragment = new HomeFragment();
                             break;
+                            //if project page is created go to project page
                         case R.id.miCreate:
                             selectedFragment = new ProjectFragment();
                             break;
+                            //if profile is clicked, go to profile page
                         case R.id.miProfile:
                             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                             intent.putExtra("me",1);
                             startActivity(intent);
                             break;
+                            //if events is clicked, go to events page
                         case R.id.miEvents:
                             Intent eventIntent = new Intent(MainActivity.this, EventActivity.class);
                             eventIntent.putExtra("me", 1);
                             startActivity(eventIntent);
                             break;
+                            //if notification is clicked, open notifications
                         case R.id.miNotifications:
                             getNotifications();
                             break;
@@ -103,13 +127,14 @@ public class MainActivity extends AppCompatActivity {
             };
 
 
-
+    //load id
     private void loadIDData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyIDPEREFERENCES, Context.MODE_PRIVATE);
         myId = sharedPreferences.getInt(accessID, 0);
 
     }
-
+    //get collaboration requests and invitations
+    //called inside of getNotifications()
     private void getRequests() {
         List<Request> mod_req = new ArrayList<Request>();
         Call<List<Request>> call = akademiseApi.getRequests("Bearer " + myToken);
@@ -124,13 +149,13 @@ public class MainActivity extends AppCompatActivity {
 
                 requests = response.body();
 
-
+                //crate requests list
                 for (int i = 0; i < requests.size(); i++) {
                     Request req = requests.get(i);
                         mod_req.add(req);
 
                 }
-
+                //create alert dialog. Create a recycler view inside the alert dialog.
                 final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 mBuilder.setTitle("Notifications");
                 LayoutInflater inflater = getLayoutInflater();
@@ -138,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
                 RecyclerView list = convertView.findViewById(R.id.rv_popup);
                 list.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                //send request list (mod_req) and notification list (notif) as a parameter
                 PopUpAdapter recyclerViewAdapter = new PopUpAdapter(MainActivity.this, mod_req, notif);
                 list.setAdapter(recyclerViewAdapter);
                 mBuilder.setView(convertView); // setView
@@ -157,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+    //get notifications
     private void getNotifications(){
          notif = new ArrayList<Notifications>();
         Call<List<Notifications>> call = akademiseApi.getNotifications("Bearer " + myToken);
@@ -168,11 +194,13 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Notifications", "onResponse: not successful");
                     return;
                 }
+                //fill the notification list (notif)
                 List<Notifications> getNotif = response.body();
                 for (int i = 0; i < getNotif.size(); i++) {
                     Notifications not = getNotif.get(i);
                     notif.add(not);
                 }
+                //after getting notifications successfully, get collaboration requests and invitations
                 getRequests();
             }
 
@@ -182,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    //load token
     private void loadData() {
         SharedPreferences sharedPreferences = this.getSharedPreferences(MyPEREFERENCES, Context.MODE_PRIVATE);
         myToken = sharedPreferences.getString(accessToken, "");
