@@ -34,35 +34,46 @@ import {
 import { useHistory } from "react-router-dom";
 
 const Search = () => {
+  // define history hook
   const history = useHistory();
 
+  // loading states
   const [loadingAllPeople, setLoadingAllPeople] = useState(true);
   const [loadingUserResults, setLoadingUserResults] = useState(true);
   const [loadingProjectResults, setLoadingProjectResults] = useState(true);
   const [loadingEventResults, setLoadingEventResults] = useState(true);
   
+  // states
   const [allPeople, setAllPeople] = useState(null);
   const [userResults, setUserResults] = useState(null);
   const [projectResults, setProjectResults] = useState(null);
   const [eventResults, setEventResults] = useState(null);
-
   const [selectedFilter, setSelectedFilter] = useState("all");
 
+  // define location and dispatch hooks
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // search states
   const [searchText, setSearchText] = useState('');
   const [searchTags, setSearchTags] = useState('');
 
+  // get option from select
   const { Option } = Select;
 
+  // get parameters
   var params = new URLSearchParams(location.search.substring(0))
   
   useEffect(() => {
+    // get parameters
     params = new URLSearchParams(location.search.substring(0))
+
+    // set loading
     setLoadingUserResults(true);
     setLoadingProjectResults(true);
     setLoadingEventResults(true);
+
+    // check 
     if(params.has('query')){
       setSearchText(params.get('query'));
     }
@@ -81,7 +92,9 @@ const Search = () => {
     // eslint-disable-next-line
   }, []);
 
+  // get resutls 
   useEffect(() => {
+      // get results for every type of search
       dispatch(search({query: searchText, type: 0, tags: searchTags}, setUserResults, setLoadingUserResults))
       dispatch(search({query: searchText, type: 1, tags: searchTags}, setProjectResults, setLoadingProjectResults))
       dispatch(search({query: searchText, type: 2, tags: searchTags}, setEventResults, setLoadingEventResults))
@@ -95,10 +108,13 @@ const Search = () => {
   },[]);
   // tags that are available
 
+  // define selector
   const selector = useSelector;
+  // define tags
   const tags = selector((state) => state.choices.tags);
 
-
+  // creates a content card
+  // by using content card component
   const createContentCard = (p) => {
     return (<ContentCard
       id={p.id}
@@ -111,6 +127,8 @@ const Search = () => {
       />)
   }
 
+  // creates a user card by using 
+  // user card component
   const createUserCard = (u) => {
     return (<UserCard
       id={u.id}
@@ -123,27 +141,33 @@ const Search = () => {
       />)
   }
 
+  // selects the type of search
   const selectType = (filterType) => {
     if (filterType !== selectedFilter){
+      // set loading
       setLoadingUserResults(true);
       setLoadingProjectResults(true);
       setLoadingEventResults(true);
+      // set selected
       setSelectedFilter(filterType);
     }
   }
 
+  // get user name of a user by id
   const getUserNameById = (userId) => {
     var userList = allPeople.users
     var user = userList.find(u => u.id === userId)
     return user ? (user.name + " " + user.surname) : null
   }
 
+  // get pp of a user by id
   const getUserPhotoById = (userId) => {
     var userList = allPeople.users
     var user = userList.find(u => u.id === userId)
     return user ? (user.profile_picture_url) : null
   }
 
+  // creates a text with icon
   const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -151,6 +175,7 @@ const Search = () => {
     </Space>
   );
 
+  // lists event results
   const eventResultsList = () => {
     return (
       <List
@@ -211,12 +236,17 @@ const Search = () => {
     )
   }
 
+  // lists the contents that needs to be displayed
+  // according to the filters and loading states
   const content = () => {
     var spin = <H2><Spin/></H2>;
     if (loadingAllPeople) return spin;
+    // according to selected filter
     switch(selectedFilter){
       case "people":
+        // if user results are loaded
         if (!loadingUserResults) {
+          // list user results
           return userResults.users.length > 0 ?
           <> <H2>Users</H2> {userResults.users.map((u) => createUserCard(u))}</>
           : <H3>No users found.</H3>
@@ -225,7 +255,9 @@ const Search = () => {
           return spin;
         }
       case "project":
+        // if project results are loaded
         if (!loadingProjectResults) {
+          // list project results
           return projectResults.projects.length > 0 ?
           <><H2>Projects</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
           : <H3>No projects found.</H3>
@@ -234,7 +266,9 @@ const Search = () => {
           return spin;
         }
       case "event":
+        // if event results are loaded
         if (!loadingEventResults) {
+          // list event results
           return eventResults.events.filter(d => d.requirements === undefined).length > 0 ?
           <>
             <H2>Events</H2> 
@@ -246,7 +280,9 @@ const Search = () => {
           return spin;
         }
       case "all":
+        // if all results are loaded
         if (!loadingProjectResults && !loadingUserResults && !loadingEventResults) {
+          // list all results
           return projectResults.projects.length > 0 || userResults.users.length > 0 || eventResults.events.length > 0 ?
           <>
             {projectResults.projects.length > 0 ? 
@@ -265,6 +301,8 @@ const Search = () => {
           return spin;
         }
       case "advanced":
+        // get search query and the selected tags
+        // with following form
         return (
           <>
             <H2>Advanced Project Search</H2>
@@ -291,7 +329,8 @@ const Search = () => {
                 </Select>
               </Form.Item>
             </Form>
-            { (!loadingProjectResults) ?
+            { // list the results that are filtered by the tags
+              (!loadingProjectResults) ?
               projectResults.projects.length > 0 ?
               <><H2>Project Results</H2> {projectResults.projects.map((p) => p.privacy ? createContentCard(p) : "")}</> 
               : <H3>No projects found.</H3>

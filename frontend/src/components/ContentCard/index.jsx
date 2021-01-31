@@ -6,13 +6,13 @@ import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 import { Layout, TopNote, Title, Summary, Footer, StHref } from "./style";
 
+// maps that determines status of the content and corresponding color
 const statusMap = ["cancelled", "completed", "in progress", "hibernating", "team building"];
 const statusColorMap = ["red", "green", "cyan", "purple", "volcano"];
 
 const ContentCard = (props) => {
+  // define history hook
   const history = useHistory();
-
-  console.log(props)
 
   return (
     <Layout wrap={false} xs={18} sm={18} md={18} lg={18}>

@@ -11,9 +11,11 @@ const NotificationCard = ({
   accept,
   reject,
 }) => {
+  // creats the corresponding element according to notification type
   const cardContent = () => {
     switch (type) {
       case 0:
+        // if type is 0, create an invite notification
         return (
           <>
             <p style={{ fontSize: "16px" }}>
@@ -34,6 +36,7 @@ const NotificationCard = ({
           </>
         );
       case 1:
+        // if type is 1, create an request notification
         return (
           <>
             <p style={{ fontSize: "16px" }}>
