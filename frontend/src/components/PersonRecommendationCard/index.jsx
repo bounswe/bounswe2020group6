@@ -15,11 +15,15 @@ import {
 
 const PersonRecommendationCard = ({ id, name, university, department, imgUrl, onFollowed}) => {
 
+  // define dispatch and history hooks
   const dispatch = useDispatch()
   const history = useHistory()
 
+  // handle follow request
   const handleFollow = () => {
+    // send a follow request
     dispatch(follow(id, 1))
+    // a call-back function for follow event 
     onFollowed()
   }
 

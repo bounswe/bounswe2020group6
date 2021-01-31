@@ -14,21 +14,31 @@ import { Main, H2, H3, StHref } from "./style";
 import api from "../../axios";
 
 const SavedEvents = () => {
+  // loading state
   const [loading, setLoading] = useState(true);
+  // feed state
   const [feed, setFeed] = useState(null);
+  // recommedations loading state
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(
     true
   );
+  // recommendations state
   const [userRecommendations, setUserRecommendations] = useState([]);
 
+  // get saved events
   useEffect(() => {
+    // get current user's id
     const myId = localStorage.getItem("userId")
 
+    // feed is loading
     setLoading(true);
+    // send a get request for saved events
     api({ sendToken: true })
       .get("/event/favorites?userId=" + myId)
       .then((response) => {
+        // set feed data
         setFeed(response.data);
+        // feed is loaded
         setLoading(false);
         console.log(response.data);
       })
@@ -37,12 +47,16 @@ const SavedEvents = () => {
       });
   }, []);
 
+  // get user recommendations
   useEffect(() => {
+    // user recommendations are loading
     setUserRecommendationsLoading(true);
+    // send a get request to get recommended users
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
         console.log("resp", response);
+        // set user recommendations data
         setUserRecommendations(
           [
             ...response.data.sameDepartment,
@@ -50,6 +64,7 @@ const SavedEvents = () => {
             ...response.data.similarInterests,
           ].sort(() => 0.5 - Math.random())
         );
+        // user recommendations are loaded
         setUserRecommendationsLoading(false);
       })
       .catch((error) => {
@@ -58,6 +73,7 @@ const SavedEvents = () => {
       });
   }, []);
 
+  // creates a text with icon
   const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}

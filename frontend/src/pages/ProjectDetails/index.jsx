@@ -47,8 +47,7 @@ import theme from "../../theme";
 import UserResult from "./components/UserResult";
 
 const ProjectDetails = () => {
-  const dispatch = useDispatch();
-
+  // states
   const [loadingProject, setLoadingProject] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -56,35 +55,50 @@ const ProjectDetails = () => {
   const [userResults, setUserResults] = useState([]);
   const [userResultsLoading, setUserResultsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(-1);
+
+  // get search
   const { Search } = Input;
 
-  const { projectId } = useParams();
+  // define hooks
+  const dispatch = useDispatch();
   const history = useHistory();
+  
+  // get project id
+  const { projectId } = useParams();
 
+  // get project data
   useEffect(() => {
+    // project is loading
     setLoadingProject(true);
+    // send get request for project data
     api({ sendToken: true })
       .get("/post/get/" + projectId + "/1")
       .then((response) => {
+        // set project data
         setProjectData(response.data[0]);
+        // project is loaded
         setLoadingProject(false);
-        //console.log(response)
       })
       .catch((error) => {
         console.log(error);
       });
   }, [projectId]);
 
+  // hangle remove collaborator from selected ones
   const handleRemoveCollab = (projectId, collabId) => {
+    // project is loading
     setLoadingProject(true);
     api({ sendToken: true })
       .delete(`/collab/delete_collaborator/${projectId}/${collabId}`)
       .then((r) => {
+        // send get request for project data
         api({ sendToken: true })
           .get("/post/get/" + projectId + "/1")
           .then((response) => {
             message.success(r.data.message);
+            // set project data
             setProjectData(response.data[0]);
+            // project is loaded
             setLoadingProject(false);
           })
           .catch((error) => {
@@ -98,11 +112,15 @@ const ProjectDetails = () => {
       });
   };
 
+  // displays the collaborators of the project
   const displayCollabs = () => {
+    // get current user's id
     const currUserId = localStorage.getItem("userId");
+    // check if it is owner
     const isOwner = projectData.userId === parseInt(currUserId);
-
+    // get project owner
     var u = projectData.user;
+    // render owner user's component
     var user = (
       <UserDiv key={0} onClick={() => redirectToProfile(projectData.userId)}>
         <Col>
@@ -117,6 +135,7 @@ const ProjectDetails = () => {
       </UserDiv>
     );
 
+    // render rest of the user's components
     var collabs = projectData.project_collaborators.map((c, i) => {
       if (c.user === null) return "";
 
@@ -159,12 +178,19 @@ const ProjectDetails = () => {
     return [user, ...collabs];
   };
 
+  // status map and corresponding color map
   const statusMap = ["Cancelled", "Completed", "In Progress", "Hibernating", "Team Building"];
   const statusColorMap = ["red", "green", "cyan", "purple", "volcano"];
 
+  // determines the colors of the deadline bullets
   const deadlineColor = (deadline_str) => {
+    // get deadline time
     var deadline = new Date(deadline_str);
+    // get current time
     var today = new Date();
+
+    // check if it is already passed
+    // and determine a color accordingly
     if (today > deadline) {
       return "red";
     } else if (today < deadline) {
@@ -174,24 +200,31 @@ const ProjectDetails = () => {
     }
   };
 
+  // redirect to a user profile
   const redirectToProfile = (profile_id) => {
     history.push({ pathname: "/profile/" + profile_id });
   };
 
+  // downloads a file
   const downloadFile = (filename) => {
+    // send get request to download
     api({ sendToken: true })
       .get("/file/get/" + projectId + "/" + filename)
       .then((response) => {
+        // create an anchor element
         var element = document.createElement("a");
+        // set attributes of anchor
         element.setAttribute(
           "href",
           "data:text/plain;charset=utf-8," + encodeURIComponent(response.data)
         );
+        // set download attribute
         element.setAttribute("download", filename);
-
+        // make element hidden
         element.style.display = "none";
+        // add the element to the body
         document.body.appendChild(element);
-
+        // click to the element to initiate the download
         element.click();
       })
       .catch((error) => {
@@ -199,15 +232,17 @@ const ProjectDetails = () => {
       });
   };
 
+  // check if user is collaborated on this project
   const isUserCollaboratesOnThisProject = () => {
+    // get current user's id
     var myId = parseInt(localStorage.getItem("userId"));
 
-    console.log("collabos", projectData.project_collaborators);
-
+    // if user id matches the project owner's return true
     if (projectData.userId === myId) {
       return true;
     }
 
+    // if user is a collaborator in this project return true
     for (const c of projectData.project_collaborators) {
       if (c.user_id === myId) {
         return true;
@@ -217,35 +252,46 @@ const ProjectDetails = () => {
     return false;
   };
 
+  // check if the duedate exists
   const dueDateExists = () => {
     return projectData.project_milestones.filter((m) => m.title === "Due Date").length > 0;
   };
 
+  // sends a join request
   const handleJoinRequest = () => {
+    // get current user's id
     const myId = localStorage.getItem("userId");
-
+    // send a join request
     dispatch(sendJoinRequest(myId, projectData.userId, projectData.id));
   };
 
+  // sends an invite request
   const handleInviteRequest = () => {
+    // get current user's id
     const myId = localStorage.getItem("userId");
 
+    // get id list of the selected users
     const selected_id_list = selectedUsers.map((u) => {
       return u.id;
     });
 
+    // send batch invite
     dispatch(sendBatchInviteRequest(myId, selected_id_list, projectData.id));
 
     setIsModalVisible(false);
   };
 
+  // shows the user select modal
   const showModal = () => {
     setIsModalVisible(true);
   };
 
+  // invites collaborators
   const inviteCollaborators = () => {
+    // get current user's id
     const myId = parseInt(localStorage.getItem("userId"));
 
+    // creates a request list for the collaborators
     const requestList = selectedUsers.map((u, i) => {
       return [
         myId,
@@ -255,10 +301,12 @@ const ProjectDetails = () => {
       ];
     });
 
+    // prepare body of the request
     const body = {
       requests: requestList,
     };
 
+    // send a post request for invitation
     api({ sendToken: true })
       .post("/collab/add_request", body)
       .then((response) => {
@@ -268,13 +316,16 @@ const ProjectDetails = () => {
         //console.log(error)
       });
 
+    // hide the modal
     setIsModalVisible(false);
   };
 
+  // hide modal
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
+  // handle user search in the modal
   const onSearch = (query) => {
     dispatch(search({query: query, type: 0, tags: []}, setUserResults, setUserResultsLoading))
   };
