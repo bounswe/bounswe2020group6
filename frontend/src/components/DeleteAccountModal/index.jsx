@@ -12,6 +12,7 @@ const DeleteAccountModal = ({ visible, toggleDeleteAccountModal }) => {
 
   const [form] = Form.useForm();
 
+  // form submit handler, sends delete user request to backend
   const handleSubmit = (values) => {
     setLoading(true);
     api({ sendToken: true })

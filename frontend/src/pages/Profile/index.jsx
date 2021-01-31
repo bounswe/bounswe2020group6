@@ -40,31 +40,39 @@ const Profile = () => {
   const history = useHistory();
   const projectsRef = useRef(null);
 
+  // id of current profile received from the url parameter
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  // modal and action states for different actions
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [inviteModalVisible, setInviteModalVisible] = useState(false);
   const [editPictureVisible, setEditPictureVisible] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
 
+  // api response states
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
   const projects = useSelector((state) => state.profile.projects);
   const followings = useSelector((state) => state.follow.following);
 
+  // becomes true when this page is rendered by the projects button
   const scrollToProjects = useSelector((state) => state.profile.scrollToProjects);
+  // profile picture loading state when user uploads a new picture
   const pictureLoading = useSelector((state) => state.profile.pictureLoading);
 
+  // checks if current profile is own profile of the user by the localstorage id
   const isOwnProfile = () => {
     const userId = localStorage.getItem("userId");
     return userId === id;
   };
 
+  // boolean of if the viewed profile is being followed already
   const alreadyFollowing = // eslint-disable-next-line
     !isOwnProfile() && followings && followings.filter((f) => f.following.id == id).length > 0;
 
   useEffect(() => {
+    // scrolls to projects section if needed
     if (scrollToProjects) {
       projectsRef.current.scrollIntoView();
       dispatch(scrolledToProjectsAction());
@@ -73,6 +81,8 @@ const Profile = () => {
   }, [id]);
 
   useEffect(() => {
+    // gets the profile data of the profile by dispatching an api request action
+    // this happens only when the page is initially mounted
     dispatch(getProfileInfo(id));
     dispatch(getProjectsOfUser(id));
     if (!isOwnProfile()) {
@@ -85,8 +95,7 @@ const Profile = () => {
     setInviteModalVisible((prev) => !prev);
   };
 
-  // picture upload functions
-
+  // profile action handlers, all dispatch an api action to the backend (see redux for more info)
   const handleFollow = () => {
     if (alreadyFollowing) {
       dispatch(unfollow(id));
@@ -107,6 +116,7 @@ const Profile = () => {
     setEditModalVisible((prev) => !prev);
   };
 
+  // picture upload functions
   function beforeUpload(file) {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
@@ -130,6 +140,7 @@ const Profile = () => {
     dispatch(changePicture(formData, id));
   };
 
+  // spinner to be shown when page is loading
   const ProfileLoadingSpinner = () => {
     return (
       <Row style={{ height: "150px", width: "150px" }} justify="center" align="middle">
@@ -163,6 +174,7 @@ const Profile = () => {
     );
   }
 
+  // html structure
   return (
     <div>
       <EditModal profile={profile} visible={editModalVisible} toggleEditModal={toggleEditModal} />
@@ -218,30 +230,29 @@ const Profile = () => {
               style={{ fontSize: "28px", fontWeight: "500" }}
             >{`${profile.name} ${profile.surname}`}</Row>
             <Row style={{ margin: "10px 0" }} align="middle">
-              {
-                isOwnProfile() ? "" :
-                profile.isUpped ? (
-                  <MinusCircleTwoTone
-                    twoToneColor={theme.main.colors.first}
-                    onClick={handleRemoveUp}
-                    style={{
-                      marginRight: "10px",
-                      fontSize: "22px",
-                      cursor: "pointer",
-                    }}
-                  />
-                ) : (
-                  <PlusCircleTwoTone
-                    twoToneColor={theme.main.colors.first}
-                    onClick={handleAddUp}
-                    style={{
-                      marginRight: "10px",
-                      fontSize: "22px",
-                      cursor: "pointer",
-                    }}
-                  />
-                )
-              }
+              {isOwnProfile() ? (
+                ""
+              ) : profile.isUpped ? (
+                <MinusCircleTwoTone
+                  twoToneColor={theme.main.colors.first}
+                  onClick={handleRemoveUp}
+                  style={{
+                    marginRight: "10px",
+                    fontSize: "22px",
+                    cursor: "pointer",
+                  }}
+                />
+              ) : (
+                <PlusCircleTwoTone
+                  twoToneColor={theme.main.colors.first}
+                  onClick={handleAddUp}
+                  style={{
+                    marginRight: "10px",
+                    fontSize: "22px",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
               <img style={{ height: "20px" }} src="/cactus.png" alt="cactus" />
               <span style={{ marginLeft: "3px", fontSize: "20px" }}>
                 {profile.upCounts === null || profile.upCounts === undefined
@@ -332,9 +343,7 @@ const Profile = () => {
             <Row>
               <Col span={24} style={{ marginTop: "10px" }}>
                 {profile &&
-                  profile.user_interests.map((tag, i) => (
-                    SearchableTag({tag: tag.interest}, i)
-                  ))}
+                  profile.user_interests.map((tag, i) => SearchableTag({ tag: tag.interest }, i))}
               </Col>
             </Row>
           </Col>
@@ -361,13 +370,7 @@ const Profile = () => {
                         <Input.TextArea
                           style={{ padding: 0 }}
                           bordered={false}
-                          defaultValue={
-                            profile.bio ? (
-                              profile.bio
-                            ) : (
-                              ""
-                            )
-                          }
+                          defaultValue={profile.bio ? profile.bio : ""}
                         />
                       </Form.Item>
                       <Form.Item>
@@ -402,11 +405,11 @@ const Profile = () => {
                     <List.Item.Meta
                       avatar={<Avatar icon={<PaperClipOutlined />} />}
                       title={item.title}
-                      description=          {
-                        item.summary === undefined || item.summary === null 
-                        ? ""
-                        : item.summary.length > 100 
-                          ? item.summary.substring(0,100) + "..."
+                      description={
+                        item.summary === undefined || item.summary === null
+                          ? ""
+                          : item.summary.length > 100
+                          ? item.summary.substring(0, 100) + "..."
                           : item.summary
                       }
                     />

@@ -8,6 +8,7 @@ const GoogleScholarModal = ({ visible, toggleGoogleScholarModal }) => {
   const history = useHistory();
   const exampleLink = "https://scholar.google.com/citations?user=XXXXXXXXXXXX&hl=en";
 
+  // form submit handler, sends google scholar link to the backend
   const handleSubmit = (values) => {
     api({ sendToken: true })
       .post("/profile/googlescholar", values)

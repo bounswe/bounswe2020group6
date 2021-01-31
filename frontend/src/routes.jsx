@@ -29,9 +29,12 @@ export default function App() {
   const history = useHistory();
   const selector = useSelector;
 
+  // logged in user state
   const user = selector((state) => state.auth.user);
 
   useEffect(() => {
+    // we send our token to backend on each route change to check if token is valid
+    // if it is not valid we logout the user
     const jwtToken = localStorage.getItem("token");
     setLoading(true);
     api()
@@ -40,14 +43,17 @@ export default function App() {
         setLoading(false);
       })
       .catch(() => {
+        // logout the user
         dispatch(authLogoutAction());
         setLoading(false);
       });
     // eslint-disable-next-line
   }, []);
 
+  // token that is stored on local storage
   const storageToken = localStorage.getItem("token");
 
+  // routes for unauthenticated users
   let routes = (
     <Switch>
       <Route path="/forgotPassword/newPassword">
@@ -72,6 +78,7 @@ export default function App() {
     </Switch>
   );
 
+  // if user has a token and logged user state is not empty/null, we set routes as the private(reachable only when logged in) routes
   if (storageToken && user) {
     routes = (
       <Switch>
@@ -119,6 +126,7 @@ export default function App() {
     );
   }
 
+  // render spinner on loading, routes when loading is done
   return loading ? (
     <Row style={{ height: "100vh" }} justify="center" align="middle">
       <Col>

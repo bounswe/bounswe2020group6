@@ -1,3 +1,4 @@
+// this is our default themed colors set
 const theme = {
   main: {
     colors: {

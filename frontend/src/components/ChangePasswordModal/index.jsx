@@ -3,6 +3,7 @@ import { Form, Input, message, Spin } from "antd";
 import { StyledModal, ModalButton, ModalTitle, ModalLabel } from "./style";
 import api from "../../axios";
 
+// password validator function
 const validatePassword = (rule, value, callback) => {
   var includesSymbol = false;
   var includesAlpha = false;
@@ -34,6 +35,7 @@ const validatePassword = (rule, value, callback) => {
 const ChangePasswordModal = ({ visible, toggleChangePasswordModal }) => {
   const [loading, setLoading] = useState(false);
 
+  // form submit handler, sends the data to the backend, see redux for more understanding
   const handleSubmit = (values) => {
     setLoading(true);
     api({ sendToken: true })

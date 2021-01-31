@@ -12,10 +12,13 @@ const { Option } = Select;
 const InviteModal = ({ visible, toggleInviteModal }) => {
   const dispatch = useDispatch();
 
+  // id of the current profile fetched from current url parameter
   const { id } = useParams();
+  // loading and disabled states
   const [requestLoading, setRequestLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
+  // submit invite handler, send request to the backend
   const handleInvite = (values) => {
     const myId = localStorage.getItem("userId");
     dispatch(sendInviteRequest(myId, id, values.projectId));
@@ -27,12 +30,15 @@ const InviteModal = ({ visible, toggleInviteModal }) => {
   };
 
   useEffect(() => {
+    // fetches projects of current user
     dispatch(getProjectsOfMe());
     // eslint-disable-next-line
   }, []);
 
+  // current user's projects state
   const myProjects = useSelector((state) => state.profile.myProjects);
 
+  // html structure for inviting user to a project of current user
   return (
     <StyledModal footer={null} visible={visible} onCancel={toggleInviteModal}>
       <ModalTitle>Invite User</ModalTitle>

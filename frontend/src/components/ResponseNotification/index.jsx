@@ -1,9 +1,12 @@
 import { CheckOutlined, DeleteOutlined, CloseOutlined, EyeOutlined } from "@ant-design/icons";
 import { Layout } from "./style";
 
+// component for rendering some specific notifications
 const NotificationCard = ({ type, userName, userLink, projectName, projectLink, handleDelete }) => {
   const cardContent = () => {
+    // type comes from backend
     switch (type) {
+      // rejected collab request notification
       case -1:
         return (
           <p style={{ fontSize: "16px" }}>
@@ -18,6 +21,7 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
           </p>
         );
       case 0:
+        // accepted collab request notification
         return (
           <p style={{ fontSize: "16px" }}>
             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -31,6 +35,7 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
           </p>
         );
       case 1:
+        // a user joined a project of you notification
         return (
           <p style={{ fontSize: "16px" }}>
             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -44,6 +49,7 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
           </p>
         );
       case 2:
+        // you are removed from the project notification
         return (
           <p style={{ fontSize: "16px" }}>
             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -56,6 +62,7 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
           </p>
         );
       case 3:
+        // some collab is removed from the project notification
         return (
           <p style={{ fontSize: "16px" }}>
             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>
@@ -69,6 +76,7 @@ const NotificationCard = ({ type, userName, userLink, projectName, projectLink, 
           </p>
         );
       case 5:
+        // some user followed you notification
         return (
           <p style={{ fontSize: "16px" }}>
             <div style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}>

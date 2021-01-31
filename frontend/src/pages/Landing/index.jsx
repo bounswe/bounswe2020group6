@@ -9,6 +9,7 @@ const { Footer } = Layout;
 const Landing = () => {
   const history = useHistory();
 
+  // landing page structure
   return (
     <Layout>
       <LandingHeader />

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// our generic function for making api calls, uses axios, backend url is set here
 export default function api(config) {
   config = config === undefined ? {} : config;
   let jwtToken;

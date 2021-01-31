@@ -23,28 +23,33 @@ import {
 } from "./style";
 
 const LandingHeader = () => {
+  // login modal state
   const [loginVisible, setLoginVisible] = useState(false);
-  const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
+  const [sideBarCollapsed, setSideBarCollapsed] = useState(false); // sidebar state
 
   const dispatch = useDispatch();
   const selector = useSelector;
   const history = useHistory();
 
+  // login states
   const loginLoading = selector((state) => state.auth.loginLoading);
   const loginFailMessage = selector((state) => state.auth.loginFailMessage);
   const user = selector((state) => state.auth.user);
 
   useEffect(() => {
+    // checks if error message occurs and shows it
     if (loginFailMessage) {
       message.error(loginFailMessage);
       dispatch(authClearMessagesAction());
     }
+    // if user logs in redirects to home page
     if (user) {
       history.push("/home");
     }
     // eslint-disable-next-line
   }, [loginFailMessage, user]);
 
+  // responsive left sider on mobile screen
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
@@ -56,10 +61,12 @@ const LandingHeader = () => {
     </SideBar>
   );
 
+  // login handler, dispatches the redux login action
   const handleLogin = (values) => {
     dispatch(login(values));
   };
 
+  // landing header structure with login modal in it as well
   return (
     <div>
       {sideBar}

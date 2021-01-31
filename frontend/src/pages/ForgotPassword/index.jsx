@@ -5,6 +5,7 @@ import LandingHeader from "../../components/LandingHeader";
 import { Content, FormWrapper, FormTitle, FormLabel, FormButton, footerStyle } from "./style";
 import api from "../../axios";
 
+// validator function for password
 const validatePassword = (rule, value, callback) => {
   var includesSymbol = false;
   var includesAlpha = false;
@@ -38,10 +39,12 @@ const { Footer } = Layout;
 const ForgotPassword = ({ step }) => {
   const history = useHistory();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(""); // email state for it to be hold for the second step
 
   const handleResetPassword = (values) => {
+    // first step form submit handler
     setEmail(values.email);
+    // api request for reseting the password with email reset codd
     api()
       .post("/auth/forgot", values)
       .then(() => {
@@ -54,6 +57,8 @@ const ForgotPassword = ({ step }) => {
   };
 
   const handleValidateResetCode = (values) => {
+    // second step form submit handler
+    // api request for sending the reset code received by email
     api()
       .post("/auth/code", values)
       .then((resp) => {
@@ -67,6 +72,8 @@ const ForgotPassword = ({ step }) => {
   };
 
   const handleNewPassword = (values) => {
+    // third step form submit handler
+    // api request for setting a new password
     api({ sendToken: true })
       .post("/validate/fpassword", values)
       .then(() => {
@@ -78,6 +85,7 @@ const ForgotPassword = ({ step }) => {
       });
   };
 
+  // reset code form
   const resetPassword = (
     <Form onFinish={handleResetPassword} layout="vertical">
       <FormTitle>Reset Password</FormTitle>
@@ -95,6 +103,7 @@ const ForgotPassword = ({ step }) => {
     </Form>
   );
 
+  // validate reset code form
   const validateResetCode = (
     <Form initialValues={{ email: email }} onFinish={handleValidateResetCode} layout="vertical">
       <FormTitle>Enter Code</FormTitle>
@@ -120,6 +129,7 @@ const ForgotPassword = ({ step }) => {
     </Form>
   );
 
+  // set new password form
   const newPassword = (
     <Form onFinish={handleNewPassword} layout="vertical">
       <FormTitle>New Password</FormTitle>
@@ -140,6 +150,7 @@ const ForgotPassword = ({ step }) => {
     </Form>
   );
 
+  // array for 3 forms to be rendered with step index
   const forms = [resetPassword, validateResetCode, newPassword];
 
   return (

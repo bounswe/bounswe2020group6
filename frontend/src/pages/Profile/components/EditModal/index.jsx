@@ -21,11 +21,14 @@ import { StyledModal, ModalTitle, ModalLabel, ModalButton } from "./style";
 const { Option } = Select;
 
 const EditModal = ({ profile, visible, toggleEditModal }) => {
+  // id of profile from url parameter
   const { id } = useParams();
+  // newly added item state
   const [addedItemName, setAddedItemName] = useState("");
 
   const dispatch = useDispatch();
 
+  // unis, tags, departments and titles are received from backend initially to list them on select box
   useEffect(() => {
     dispatch(getUniversities());
     dispatch(getTags());
@@ -34,11 +37,13 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
     // eslint-disable-next-line
   }, []);
 
+  // tags, unis, departments, titles state
   const tags = useSelector((state) => state.choices.tags);
   const universities = useSelector((state) => state.choices.universities);
   const departments = useSelector((state) => state.choices.departments);
   const titles = useSelector((state) => state.choices.titles);
 
+  // submit handler, sends a request to backend
   const handleEditProfile = (values) => {
     dispatch(
       infoUpdate(
@@ -56,6 +61,7 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
     toggleEditModal();
   };
 
+  // new item adders to the database
   const addUniversityHandler = () => {
     dispatch(addUniversity(addedItemName));
     setAddedItemName("");
@@ -76,6 +82,7 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
     setAddedItemName("");
   };
 
+  // new item adder html for the bottom of the selectbox
   const adderDropdown = (itemAddHandler) => (menu) => (
     <div>
       {menu}
@@ -95,6 +102,8 @@ const EditModal = ({ profile, visible, toggleEditModal }) => {
       </div>
     </div>
   );
+
+  // html structure
   return (
     <StyledModal footer={null} visible={visible} onCancel={toggleEditModal}>
       <ModalTitle>Edit Profile</ModalTitle>
