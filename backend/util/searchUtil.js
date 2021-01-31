@@ -4,33 +4,38 @@ const userUtils = require('../util/userUtil')
 const elasticUtil = require("../elastic/elasticUtil")
 
 
+// return a list of user based on given query.
 var userSearch = async function(query){
     let [fullnameStarts, lastNameStarts, contains] = 
                 await Promise.all([
-                    userUtils.fullnameStartsWith(query),
-                    userUtils.lastNameStartsWith(query),
-                    userUtils.fullnameContains(query),
+                    userUtils.fullnameStartsWith(query), // get users whose full name starts with the given query.
+                    userUtils.lastNameStartsWith(query), // get users whose last name starts with the given query.
+                    userUtils.fullnameContains(query), // get users whose full name contains the given query. 
 
                 ])
-            allUsers = fullnameStarts.concat(lastNameStarts).concat(contains)
+            allUsers = fullnameStarts.concat(lastNameStarts).concat(contains) // concatenate all returned users.
+            // remove duplicates from user list.
             uniqueSet = new Set(allUsers.map(user => JSON.stringify(user)))
             nameMatchResults = Array.from(uniqueSet).map(user => JSON.parse(user))
-            if(nameMatchResults.length == 0){
+
+            if(nameMatchResults.length == 0){ // empty check
                 return {message: "There are not any matches"}
             }
-            else {
+            else { // get users similar to the user who is the best match for the given query
                 similarityResults = await userUtils.getSimilarUsersByFields(nameMatchResults[0].id)
                 return {nameMatchedResults: nameMatchResults, sharingSimilaritiesResults: similarityResults}
             }
 }
 
+// return a list of projects based on given query.
 var projectSearch = async function(query, requestingUserId, tags){
-    elastic = []
-    normalSearch = []
-    isElasticFetched = false
-    isNormalFetched = false
+    elastic = [] // holds elastic search results
+    normalSearch = [] // holds non-elastic search results
+    isElasticFetched = false // error flag for elastic search
+    isNormalFetched = false // error flag for non-elastic search
     try {
-        elasticRes =  await elasticUtil.searchPost(query)
+        elasticRes =  await elasticUtil.searchPost(query) // get elastic search results
+        // filter elastic search results based on privacy. 
         elasticRes = elasticRes.filter(t => t.privacy == true || (t.privacy == false && t.userId == requestingUserId))
         elastic = elastic.concat(elasticRes)
         isElasticFetched = true
@@ -40,7 +45,7 @@ var projectSearch = async function(query, requestingUserId, tags){
     }
     
     try {
-        normalSearchRes = await nonSemanticProjectSearch(query, requestingUserId)
+        normalSearchRes = await nonSemanticProjectSearch(query, requestingUserId) // get non-elastic search results
         normalSearch = normalSearch.concat(normalSearchRes)
         isNormalFetched = true
     }
@@ -48,6 +53,7 @@ var projectSearch = async function(query, requestingUserId, tags){
         console.log(err)
     }
 
+    // concatenate results and remove duplicates. 
     if(isElasticFetched && isNormalFetched){
         uniqueSet = new Set(elastic.concat(normalSearch).map(s => JSON.stringify(s)))
         resultingList =  Array.from(uniqueSet).map(s => JSON.parse(s))
@@ -65,8 +71,9 @@ var projectSearch = async function(query, requestingUserId, tags){
     }
 }
 
+// filters the given projects based on whether they are tagged with at least one of the tags given. 
 var filterProjectByTag = async function(projects, tags) {
-    if(tags.length == 0) return projects
+    if(tags.length == 0) return projects 
     projectIdsWithGivenTags = await ProjectTag.findAll({
         where: {
             tag: tags
@@ -80,6 +87,8 @@ var filterProjectByTag = async function(projects, tags) {
 
 }
 
+// return a list of projects based on non-semantic search for the query given. The results 
+// returned based on whether the title or the summary of the project contains the query.
 var nonSemanticProjectSearch = async function(query, requestingUserId) {
     projects = await Project.findAll({
         where: {
@@ -118,14 +127,16 @@ var nonSemanticProjectSearch = async function(query, requestingUserId) {
     return projects
 }
 
+// return a list of events based on given query.
 var eventSearch = async function(query, requestingUserId, tags) {
-    elastic = []
-    normalSearch = []
-    isElasticFetched = false
-    isNormalFetched = false
+    elastic = [] // holds elastic search results
+    normalSearch = [] // holds non-elastic search results
+    isElasticFetched = false // error flag for elastic search
+    isNormalFetched = false // error flag for non-elastic search
 
     try {
-        elasticRes =  await elasticUtil.searchEvent(query)
+        elasticRes =  await elasticUtil.searchEvent(query) // get elastic search results
+        // filter elastic search results based on privacy. 
         elasticRes = elasticRes.filter(t => t.isPublic == true || (t.isPublic == false && t.userId == requestingUserId))
         elastic = elastic.concat(elasticRes)
         isElasticFetched = true
@@ -143,6 +154,7 @@ var eventSearch = async function(query, requestingUserId, tags) {
         console.log(err)
     }
 
+    // concatenate results and remove duplicates. 
     if(isElasticFetched && isNormalFetched){
         elastic.forEach(e => {
             x =  e.updatedAt
@@ -166,6 +178,7 @@ var eventSearch = async function(query, requestingUserId, tags) {
     }
 }
 
+// filters the given projects based on whether they are tagged with at least one of the tags given. 
 var filterEventsByTag = async function(events, tags) {
     if(tags.length == 0) return events
     eventsIdsWithGivenTags = await EventTag.findAll({
@@ -179,6 +192,8 @@ var filterEventsByTag = async function(events, tags) {
     return events.filter(ev => eventsIdsWithGivenTags.includes(ev.id))
 }
 
+// return a list of projects based on non-semantic search for the query given. The results 
+// returned based on whether the title or the summary of the project contains the query.
 var nonSemanticEventSearch = async function(query, requestingUserId){
     events = await Event.findAll({
         where: {

@@ -1,6 +1,7 @@
 const {elasticClient} = require('./elastic_client')
 
 
+// add given post to post schmea in elastic client
 var addPost = async function(post){
     return await elasticClient.index({
         index: "posts",
@@ -10,6 +11,7 @@ var addPost = async function(post){
     })
 }
 
+// add given event to event schmea in elastic client
 var addEvent = async function(event){
     return await elasticClient.index({
         index: "events",
@@ -19,19 +21,21 @@ var addEvent = async function(event){
     })
 }
 
-
+// update given post in the post schema in elastic client,  first delete it, then add it again
 var updatePost = async function(post){
-    await deletePost(post.id)
+    await deletePost(post.id) 
     await addPost(post)
    
 }
 
+// update given event in the event schema in elastic client,  first delete it, then add it again
 var updateEvent = async function(event){
     await deleteEvent(event.id)
     await addEvent(event)
    
 }
 
+// delete given post from the post schema in elastic client,
 var deletePost = async function(postId){
     return await elasticClient.delete({
         index: "posts",
@@ -40,6 +44,7 @@ var deletePost = async function(postId){
     })
 }
 
+// delete given event from the event schema in elastic client,
 var deleteEvent = async function(eventId){
     return await elasticClient.delete({
         index: "events",
@@ -48,7 +53,7 @@ var deleteEvent = async function(eventId){
     })
 }
 
-
+// search for the post schema in elastic client based on the query
 var searchPost = async function(query_word){
     titleResult =  await elasticClient.search({
         index: "posts",
@@ -76,12 +81,14 @@ var searchPost = async function(query_word){
         }
     })
     
+    // concatenate title and summary based results and remove duplicates from the concatenated version.
     concatVersion = summaryResult.hits.hits.map(hit => hit._source).concat(titleResult)
     uniqueSet = new Set(concatVersion.map(res => JSON.stringify(res)))
     result = Array.from(uniqueSet).map(res => JSON.parse(res))
     return result
 }
 
+// search for the event schema in elastic client based on the query
 var searchEvent = async function(query_word){
     titleResult =  await elasticClient.search({
         index: "events",
@@ -109,6 +116,7 @@ var searchEvent = async function(query_word){
         }
     })
     
+    // concatenate title and summary based results and remove duplicates from the concatenated version.
     concatVersion = bodyResult.hits.hits.map(hit => hit._source).concat(titleResult)
     uniqueSet = new Set(concatVersion.map(res => JSON.stringify(res)))
     result = Array.from(uniqueSet).map(res => JSON.parse(res))
