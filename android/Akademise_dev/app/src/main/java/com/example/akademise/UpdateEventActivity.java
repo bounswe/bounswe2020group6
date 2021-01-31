@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+/*
+Starts the update event activity, jumps to UpdateEventFragment.
+ */
 
 public class UpdateEventActivity extends AppCompatActivity {
     int eventId;

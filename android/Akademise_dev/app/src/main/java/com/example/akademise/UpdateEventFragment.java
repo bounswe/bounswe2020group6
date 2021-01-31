@@ -28,6 +28,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
+/*
+Used to update a specific event.
+All the necessary local information and items in the view are declared and assigned.
+Gets the information about the specific event and displays it.
+The user, then, can edit it.
+Makes three requests: getEvent, getTags, updateEvent.
+ */
 
 public class UpdateEventFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";

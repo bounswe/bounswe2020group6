@@ -23,6 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/*
+Used to display all the events in the system.
+The necessary local information and items in the view are declared and assigned.
+Makes one request: getAllEvents
+ */
 public class EventFragment  extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";

@@ -1,5 +1,7 @@
 package com.example.akademise;
-
+/*
+Used when creating a validation request.
+ */
 public class Validation {
     private String code;
 

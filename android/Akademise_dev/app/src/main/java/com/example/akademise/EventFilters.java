@@ -1,6 +1,9 @@
 package com.example.akademise;
 
 import java.io.Serializable;
+/*
+Used as a body when creating a searchEvent request.
+ */
 
 public class EventFilters implements Serializable {
     public Filters filters;

@@ -32,6 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/*
+This class displays the Add Fragment page in the application.
+As always, local variables such as access ID and Token are retrieved.
+The buttons and other fragment items are declared correctly.
+This class makes two requests: getTags and AddEvent.
+ */
+
 public class AddEventFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";

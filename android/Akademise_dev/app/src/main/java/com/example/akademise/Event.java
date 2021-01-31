@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.List;
 
+/*
+This class is used to create two different types of requests: getAllEvents and searchEvent (see Akademise.Api)
+ */
+
 public class Event{
     public List<EventResult> result;
 }

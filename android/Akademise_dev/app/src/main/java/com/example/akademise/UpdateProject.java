@@ -1,4 +1,7 @@
 package com.example.akademise;
+/*
+Used to create a request that updates the project.
+ */
 
 public class UpdateProject
 {

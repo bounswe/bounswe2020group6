@@ -13,6 +13,11 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+/*
+This interface is used to create the requests that are made to the backend.
+Each call has a specific end point and possibly a body, a query, a header and so on.
+The names of the calls are self explanatory.
+ */
 
 public interface AkademiseApi {
 

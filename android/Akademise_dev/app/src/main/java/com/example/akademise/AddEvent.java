@@ -3,6 +3,10 @@ package com.example.akademise;
 import java.io.Serializable;
 import java.util.List;
 
+/*
+This class is used to create requests when adding an event to the system.
+ */
+
 public class AddEvent implements Serializable {
     public int userId;
     public String type;

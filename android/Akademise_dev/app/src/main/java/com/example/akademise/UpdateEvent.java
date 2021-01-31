@@ -2,7 +2,9 @@ package com.example.akademise;
 
 import java.io.Serializable;
 import java.util.List;
-
+/*
+Used when creating a request that updates a specific event.
+ */
 public class UpdateEvent implements Serializable {
     public Update update;
 

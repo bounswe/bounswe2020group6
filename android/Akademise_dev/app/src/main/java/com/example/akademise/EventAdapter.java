@@ -25,6 +25,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/*
+An Adapter to display all the events in the system.
+All the necessary local information and items in the view are declared and assigned.
+Also, the fav and unfav requests are made here.
+ */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";

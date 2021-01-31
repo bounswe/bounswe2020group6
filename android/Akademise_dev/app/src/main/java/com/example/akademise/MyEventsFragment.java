@@ -21,6 +21,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
+/*
+The same as the EventFragment, the only difference is that this class helps display the logged in user's events with the help of the local information
+about the user(myId).
+ */
 
 public class MyEventsFragment extends Fragment {
     public static final String MyPEREFERENCES = "MyPrefs";

@@ -22,6 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/*
+The same as the EventAdapter, the only difference is that this adapter helps display the logged in user's events.
+ */
 public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHolder>{
     public static final String MyPEREFERENCES = "MyPrefs";
     public static final String accessToken = "XXXXX";

@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/*
+Starts the Event Activity. After that, we jump to EventFragment.
+ */
 public class EventActivity extends AppCompatActivity {
 
     @Override
