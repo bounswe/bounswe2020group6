@@ -163,7 +163,7 @@ changeProfilePicture = async function (req, res) {
         let avatar = req.files.avatar
         let filename = uuidv1() + "_" + avatar.name
         let path = './uploads/avatars/' + filename
-        let vPath = `http://${process.env.DB_HOST}:3000/static/avatars/${filename}`
+        let vPath = `${process.env.DEPLOY_URL}:${process.env.PORT}/static/avatars/${filename}`
         
         avatar.mv(path)
 
