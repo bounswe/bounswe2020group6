@@ -17,6 +17,7 @@ import {
 
 
 const FilterButton = ({ type, children, selected, onClick }) => {
+    // determines the logo of the button according to its type
     let buttonLogo = () => {
         switch(type) {
             case "all":
