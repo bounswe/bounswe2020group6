@@ -20,20 +20,27 @@ import { projectsClickedAction } from "../../redux/profile/actions";
 import defaultProfilePictureHref from "../../assets/asset_hrefs";
 
 const ProfileSider = () => {
+  // select profile states
   const profile = useSelector((state) => state.profile.profile);
   const profileLoading = useSelector((state) => state.profile.profileLoading);
+  // modal state
   const [googleScholarModalVisible, setGoogleScholarModalVisible] = useState(
     false
   );
 
+  // define hooks
   const history = useHistory();
   const dispatch = useDispatch();
 
+  // get profile data
   useEffect(() => {
+    // get current user's data
     var myId = localStorage.getItem("userId");
+    // send a request for user data
     dispatch(getProfileInfo(myId));
   }, [dispatch]);
 
+  // toggles the google scholar modal
   const toogleGoogleScholarModal = () => {
     setGoogleScholarModalVisible((prev) => !prev);
   };
