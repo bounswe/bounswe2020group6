@@ -1,3 +1,4 @@
+//model for project milestone
 module.exports = (sequelize, Seq) => {
     return sequelize.define('project_milestone', {
         id: {

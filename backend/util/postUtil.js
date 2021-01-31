@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const userUtil = require("./userUtil");
 
 
+//constant projectInfo is all information about project. Its owner,collaborators,tags,milestones etc.
 const projectInfo = [
     {
         model : User,
@@ -38,7 +39,10 @@ const projectInfo = [
 ]
 
 
-
+/*
+* this function checks if certain post exists in database. If exists it returns true else false
+* @param projectId : id of project
+*/
 var postExists = async function(projectId){
     postDb = await Project.findOne({
         where : {
@@ -52,7 +56,11 @@ var postExists = async function(projectId){
 }
 
 
-
+/*
+* this function checks if certain tag is defined with project.
+* @param projectId : id of project
+* @param projectId : project tag
+*/
 var tagExists = async function(tag,projectId){
     tagDb = await ProjectTag.findOne({
         where : {
@@ -66,6 +74,12 @@ var tagExists = async function(tag,projectId){
     return undefined
 }
 
+
+/*
+* this function finds all projects which has tags as project tags in database, except projects thats owner is userId 
+* @param tags : project tags
+* @param userId : user id
+*/
 var postsByTag = async function(tags,userId){
     projects = await Project.findAll({
         where : {
@@ -101,6 +115,7 @@ var postsByTag = async function(tags,userId){
     const resultObjects = [];
     const resultIDs = [];
     const map = new Map();
+    //puts project ids and projects into array
     for (const item of array) {
         if(!map.has(item.id)){
             map.set(item.id, true);
@@ -113,6 +128,10 @@ var postsByTag = async function(tags,userId){
 }
 
 
+/*
+* this function finds all projects of users that userId follows and all projects of users who is collaborating with userId and returns all of them
+* @param userId : id of user
+*/
 var postsByFollowings = async function(userId){
     followings = await userUtil.getFollowings(userId)
     userIds = followings.map(x => x.following.id)
@@ -157,6 +176,7 @@ var postsByFollowings = async function(userId){
     const resultObjects = [];
     const resultIDs = [];
     const map = new Map();
+    //puts posts and post ids into array 
     for (const item of array) {
         if(!map.has(item.id)){
             map.set(item.id, true);
@@ -169,6 +189,10 @@ var postsByFollowings = async function(userId){
 
 }
 
+/*
+* this function finds all projects that have tags which user is interested in and returns them
+* @param userId : id of user
+*/
 var postsByUserTags = async function(userId){
     user_interests = await UserInterest.findAll({
 	where: {
@@ -181,7 +205,6 @@ var postsByUserTags = async function(userId){
         interest_array.push(user_interests[i].interest);    	
     byTags = await postsByTag(interest_array,userId)
     return byTags
-
 }
 
 module.exports = {

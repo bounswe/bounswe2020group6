@@ -7,6 +7,12 @@ const { Op } = require("sequelize");
 
 
 
+
+/*
+* this function takes request parameters from req object and calls certain functions to add request into database
+* @param req : request
+* @param res : response
+*/
 addRequest = async function(req, res){
     var requests = req.body.requests
     var requestError = "no error"
@@ -20,16 +26,17 @@ addRequest = async function(req, res){
 	    requestedId = currentRequest[1]
 	    projectId = currentRequest[2]
 	    requestType = currentRequest[3]
-	    var userExistsDb = await userUtils.isUserExist(requestedId)
+	    var userExistsDb = await userUtils.isUserExist(requestedId)			//checks if collaboration requested user exists
 	    if(!userExistsDb){
 	        notFoundUsers.push(requestedId)
-	        userError = "Some users are not found"
+	        userError = "Some users are not found"							//if not found puts it in notFoundUsers array 
             }else{
-                var requestDb = await requestExists(requesterId, requestedId, projectId)
+                var requestDb = await requestExists(requesterId, requestedId, projectId)		//checks if this request exists in database
 		if(requestDb == undefined){
+			//if everything is okay this creates new collaboration request
 		    newReqDb = await CollabRequest.create({ requesterId : requesterId, requestedId : requestedId, projectId : projectId, requestType : requestType})
 		}else{
-		    alreadyRequestedUsers.push(requestDb)
+		    alreadyRequestedUsers.push(requestDb)							//if request already exists in database puts it in array
 		    requestError = "But, you requested collaboration from these users before:"
 		}	
             }
@@ -42,6 +49,11 @@ addRequest = async function(req, res){
 
 
 
+/*
+* this function deletes certain collaboration request from database
+* @param req : request
+* @param res : response
+*/
 deleteRequest = async function(req, res){
     var requestId
     try{
@@ -63,7 +75,11 @@ deleteRequest = async function(req, res){
 
 
 
-
+/*
+* this function gets all requests along with request information thats sent to userId
+* @param req : request
+* @param res : response
+*/
 getRequest = async function(req,res){
     userId = req.userId
     try{
@@ -92,13 +108,18 @@ getRequest = async function(req,res){
 
 
 
+/*
+* this function basically adds collaborator to certain project
+* @param req : request
+* @param res : response
+*/
 addCollaborator = async function(req,res){
     try{
 	projectId = req.body.projectId
-	var postExistsDb = await postExists(projectId)
+	var postExistsDb = await postExists(projectId)					//checks if project exist
 	if(postExistsDb){
 	    collaboratorId = req.body.userId
-	    request = await CollabRequest.findAll({
+	    request = await CollabRequest.findAll({						//finds collaboration request
 		where : {
 		    [Op.or] : [
 		        {requestedId : collaboratorId},
@@ -110,11 +131,12 @@ addCollaborator = async function(req,res){
 		raw : true
 	    });
 	    if(request.length == 0){
-		res.status(500).send({message : "Request is no longer available"})
+		res.status(500).send({message : "Request is no longer available"})			//if request doesn't exist it gives error
 	    }else{
-		var body = "user " + request[0].requestedId + " accepted collaboration request concerning project " + projectId 
-		await addNotification(projectId,0,request[0].requestedId,collaboratorId,request[0].requesterId,body)
-		project_collaborators = await getCollaborators(projectId)
+		var body = "user " + request[0].requestedId + " accepted collaboration request concerning project " + projectId 	//body of notification
+		await addNotification(projectId,0,request[0].requestedId,collaboratorId,request[0].requesterId,body)				//adds notification to be sent to requester
+		//gets all collaborators of project and adds notifications to be sent to them about a user joining project
+		project_collaborators = await getCollaborators(projectId)					
 		collab_length = project_collaborators.length
 		body = "user " + collaboratorId + " joined to project " + projectId
 		for (i = 0; i < collab_length; i++) {
@@ -122,7 +144,7 @@ addCollaborator = async function(req,res){
 		}
 		collaboratorDb = await ProjectCollaborator.create({ project_id : projectId, user_id : collaboratorId})
 		req.requestId = request[0].id
-		deleteRequest(req,res);	
+		deleteRequest(req,res);						//delete collaboration request from database concerning this collaboration
 	    }
 	}else{
 	    res.status(500).send({message : "Project doesn't exist"})
@@ -134,7 +156,11 @@ addCollaborator = async function(req,res){
 
 
 
-
+/*
+* this function deletes a collaborator from a project
+* @param req : request
+* @param res : response
+*/
 deleteCollaborator = async function(req,res){
     collaboratorId = req.params.collaboratorId
     projectId = req.params.projectId
@@ -145,8 +171,9 @@ deleteCollaborator = async function(req,res){
 		user_id : collaboratorId
 	    }
 	});
-	var body = "user " + collaboratorId + " removed from project " + projectId
-	await addNotification(projectId,2,collaboratorId,collaboratorId,collaboratorId,body)
+	var body = "user " + collaboratorId + " removed from project " + projectId				//notification body
+	//adds notifications to be sent to collaborators of project and deleted collaborator
+	await addNotification(projectId,2,collaboratorId,collaboratorId,collaboratorId,body)	
 	project_collaborators = await getCollaborators(projectId)
 	collab_length = project_collaborators.length
 	for (i = 0; i < collab_length; i++) {

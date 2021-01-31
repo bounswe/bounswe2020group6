@@ -1,3 +1,4 @@
+//model for project collaborators
 module.exports = (sequelize, Seq) => {
 	return sequelize.define('project_collaborator', {
 			id: {

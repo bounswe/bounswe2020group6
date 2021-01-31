@@ -6,8 +6,13 @@ const { Op } = require("sequelize");
 const elasticUtil = require("../elastic/elasticUtil")
 
 
-//Adds new posts to database also adds uploaded files to filesystem
+/*
+* this function adds a post(project) to database
+* @param req : request
+* @param res : response
+*/
 addPost = async function(req,res) {
+    //post info
     postData = {
 		userId : req.userId,
 		title : req.body.title,
@@ -21,12 +26,12 @@ addPost = async function(req,res) {
     file = req.files
     try {
 		postDb = await Project.create(postData)
-		
+		//adds tags of projects into database
 		for(var key in tags){
 			currentTag = tags[key]
 			projectTag = await ProjectTag.create({ project_id : postDb.id, tag : currentTag})
 		}
-
+		//checks if file is uploaded with project
 		if(file != undefined){
 			for(var i = 0; i < file.length; i++){
 			currentFile = file[i]
@@ -37,6 +42,7 @@ addPost = async function(req,res) {
 			}
 		}
 		try{
+			//adds post to elastic
 			elastic = await elasticUtil.addPost(postDb)
 			console.log(elastic)
 		}
@@ -51,15 +57,21 @@ addPost = async function(req,res) {
 }
 
 
+
+/*
+* this function adds project tags to database
+* @param req : request
+* @param res : response
+*/
 addTag = async function(req,res){
     tags = req.body.tags
     project_id = req.body.projectId
     tagsAddedBefore = []
     try{
         for(var tag of tags){
-    	    var tagDb = await postUtil.tagExists(tag, project_id)
+    	    var tagDb = await postUtil.tagExists(tag, project_id)		//checks if tag is added before
     	    if(tagDb == undefined){
-    		tagCreated = await ProjectTag.create({ project_id : project_id, tag : tag})
+    		tagCreated = await ProjectTag.create({ project_id : project_id, tag : tag})		//if not added before adds them
     	    }else{
     		tagsAddedBefore.push(tagDb.tag)
     	    }
@@ -71,6 +83,11 @@ addTag = async function(req,res){
 }
 
 
+/*
+* this function deletes project tags from database
+* @param req : request
+* @param res : response
+*/
 deleteTag = async function(req,res){
     tags = req.query.tags
     id = req.query.projectId
@@ -92,8 +109,15 @@ deleteTag = async function(req,res){
 }
 
 
+
+/*
+* this function adds project milestones into database
+* @param req : request
+* @param res : response
+*/
 addMilestone = async function(req,res){
     try{
+    //milestone info
 	milestone = {
 	    project_id : req.body.projectId,
 	    date : req.body.date,
@@ -109,6 +133,11 @@ addMilestone = async function(req,res){
 }
 
 
+/*
+* this function is for updating project milestones
+* @param req : request
+* @param res : response
+*/
 updateMilestone = async function(req,res){
     fieldsToUpdate = req.body
     try {
@@ -124,6 +153,11 @@ updateMilestone = async function(req,res){
 }
 
 
+/*
+* this function deletes project milestone from database
+* @param req : request
+* @param res : response
+*/
 deleteMilestone = async function(req,res){
     try {
 	await ProjectMilestone.destroy({
@@ -139,9 +173,11 @@ deleteMilestone = async function(req,res){
 
 
 
-
-
-//updates posts specifications with respect to post id
+/*
+* this function is for updating project informations.
+* @param req : request
+* @param res : response
+*/
 updatePost = async function (req,res){
     fieldsToUpdate = req.body
     try {
@@ -157,7 +193,7 @@ updatePost = async function (req,res){
 		}
 	})
 	try{
-		elasticUtil.updatePost(postToUpdate)
+		elasticUtil.updatePost(postToUpdate)			//also it updates project information in elastic
 	}
 	finally {
 		res.status(200).send({message : "Post is updated"})
@@ -170,7 +206,11 @@ updatePost = async function (req,res){
 }
 
 
-//deletes posts with respect to their post id
+/*
+* this function deletes post from database
+* @param req : request
+* @param res : response
+*/
 deletePost = async function (req,res){
     try {
 	await Project.destroy({
@@ -180,7 +220,7 @@ deletePost = async function (req,res){
 	});
 	deleteFolder(req.params.id)
 	try{
-		elasticUtil.deletePost(req.params.id)
+		elasticUtil.deletePost(req.params.id)			//it also deletes it from elastic
 	}
 	finally {
 		res.status(204).send({message : "Post is deleted"})
@@ -192,16 +232,19 @@ deletePost = async function (req,res){
 }
 
 
-//gathers posts from database according to parameters
-//function can extend according to frontend wishes
+/*
+* this function gets specific posts from database with given parameters
+* @param req : request
+* @param res : response
+*/
 getPosts = async function(req,res){
-    user_id = req.userId
-    type = req.params.type
-    if(type == 0){
+    user_id = req.userId								//id of user who is making get posts request
+    type = req.params.type								//type of search in database
+    if(type == 0){										//if type is 0, its get request with user id
 	userParameter = req.params.id
 	try {
-	    if(userParameter != user_id){
-		posts = await Project.findAll({
+	    if(userParameter != user_id){					//if user who is making this get request is not same with userParameter, only public projects are returned
+		posts = await Project.findAll({				
 		    where : {
 			[Op.or] : [
 			    {'$project_collaborators.user_id$' : {[Op.eq] : userParameter},
@@ -218,7 +261,7 @@ getPosts = async function(req,res){
 		    },
 		    include : postUtil.projectInfo
 		});
-	    }else{
+	    }else{										 	//if it's same with userParameter, that means user want to see his/her own projects. All projects are returned
 		posts = await Project.findAll({
 		    where: {
 			[Op.or] : [
@@ -235,7 +278,7 @@ getPosts = async function(req,res){
 	    console.log(error)
 	}
     }else{
-	project_id = req.params.id
+	project_id = req.params.id									// if type is 1,it's get request with project id. So it's getting a project from database with given project id
 	try{
 	    posts = await Project.findAll({
 	        where: {
