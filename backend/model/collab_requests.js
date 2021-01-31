@@ -1,3 +1,4 @@
+//model for collaboration requests
 module.exports = (sequelize, Seq) => {
     return sequelize.define('collab_request', {
 	id : {

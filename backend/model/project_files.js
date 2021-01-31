@@ -1,3 +1,4 @@
+//model for project files
 module.exports = (sequelize, Seq) => {
 	return sequelize.define('project_file', {
 		id : {

@@ -3,12 +3,14 @@ const userUtil = require('../util/userUtil')
 const { User } = require("../model/db")
 
 
+// return a list of recommended projects based on the requesting user's data. 
 getHomePosts = async function(req,res){
     userId = req.userId
     try{
-		let { posts: byFollowings, ids: byFollowingsIDs} = await postUtil.postsByFollowings(userId)
-        let { posts: byUserTags, ids: byUserTagsIDs}  = await postUtil.postsByUserTags(userId)
+		let { posts: byFollowings, ids: byFollowingsIDs} = await postUtil.postsByFollowings(userId) // posts of the users whom the requesting user follows
+        let { posts: byUserTags, ids: byUserTagsIDs}  = await postUtil.postsByUserTags(userId) // posts that have the tags which are interested tags of the requesting user.
         
+        // remove duplicates
         byUserTags = byUserTags.filter( p => byUserTagsIDs.filter(x => !byFollowingsIDs.includes(x)).includes(p.id))
         
         res.status(200).send({byFollowings, byUserTags})
@@ -17,17 +19,19 @@ getHomePosts = async function(req,res){
     }
 }
 
+// return a list of recommended users based on the requesting user's data. 
 getUserRecommendations = async function(req, res) {
     userId = req.userId
     try{
         let [similarInterests, sameUniversity, sameDepartment, alreadyFolloweds] = 
             await Promise.all([
-                userUtil.usersByUserTags(userId),
-                userUtil.usersSharingSimilarity("university", userId),
-                userUtil.usersSharingSimilarity("department", userId),
-                userUtil.getFollowersIDs(userId)
+                userUtil.usersByUserTags(userId), // users that have similar interested tags.
+                userUtil.usersSharingSimilarity("university", userId), // users that have the same university.
+                userUtil.usersSharingSimilarity("department", userId), // users that have the same department
+                userUtil.getFollowersIDs(userId) // users that follow.
             ])
 
+        // filter results and remove duplicates.
         similarInterests = similarInterests.filter( user => !(alreadyFolloweds.includes(user.id)))
         
         sameUniversity = sameUniversity.filter( user => !(alreadyFolloweds.includes(user.id)))
@@ -43,6 +47,7 @@ getUserRecommendations = async function(req, res) {
     }
 }
 
+// delete the requesting user.
 deleteAccount = async function(req, res) {
     id_to_delete = Number(req.userId)
     try {

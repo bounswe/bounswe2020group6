@@ -5,6 +5,7 @@ module.exports = (sequelize, Seq) => {
 			primaryKey: true,
 			autoIncrement: true,
 		},
+		//field names are self explanatory
 		userId : Seq.INTEGER,
 		type : Seq.TEXT,
 		isPublic : Seq.BOOLEAN,
