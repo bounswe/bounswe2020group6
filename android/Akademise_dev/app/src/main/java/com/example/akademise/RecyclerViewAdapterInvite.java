@@ -133,10 +133,12 @@ public class RecyclerViewAdapterInvite extends RecyclerView.Adapter<com.example.
     //get how many contents in recycler view
     @Override
     public int getItemCount() {
-        if (searchedUsers != null)
-            return searchedUsers.getUsers().size();
-        else
+        if (searchedUsers != null) {
+            if (searchedUsers.getUsers() != null)
+                return searchedUsers.getUsers().size();
             return 0;
+        } else{
+            return 0;}
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
