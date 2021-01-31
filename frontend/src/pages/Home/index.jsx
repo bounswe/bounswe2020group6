@@ -10,24 +10,30 @@ import moment from "moment";
 import api from "../../axios";
 
 const Home = () => {
+  // states
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(null);
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
 
+  // compares the two dates
   function momentComparator(a,b){  
     var dateA = moment(a.createdAt);
     var dateB = moment(b.createdAt);
     return dateA > dateB ? 1 : -1;  
 }; 
 
-
+  // get the feed content
   useEffect(() => {
+    // set loading
     setLoading(true)
+    // send a get request for feed content
     api({ sendToken: true })
       .get("/home/posts")
       .then((response) => {
+        // set feed data
         setFeed(response.data);
+        // set loaded
         setLoading(false)
         console.log(response.data)
       })
@@ -36,12 +42,16 @@ const Home = () => {
       });
   }, []);
 
+  // get user recommendations
   useEffect(() => {
+    // set loading
     setUserRecommendationsLoading(true)
+    // send a get request for user recommendations
     api({ sendToken: true })
       .get("/home/users")
       .then((response) => {
         console.log("resp", response);
+        // set user recommendation data
         setUserRecommendations(
           [
             ...response.data.sameDepartment,
@@ -50,6 +60,7 @@ const Home = () => {
           ]
           .sort(() => 0.5 - Math.random())
         );
+        // set loaded
         setUserRecommendationsLoading(false)
       })
       .catch((error) => {
@@ -58,6 +69,7 @@ const Home = () => {
       });
   }, []);
 
+  // renders a content card by using content card component
   const createContentCard = (p) => {
     return (
       <ContentCard
