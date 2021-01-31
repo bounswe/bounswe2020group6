@@ -17,6 +17,7 @@ import {
 } from "@ant-design/icons";
 
 import { sendJoinRequest, sendBatchInviteRequest } from "../../redux/collaboration/api";
+import { search } from "../../redux/search/api";
 import Frame from "../../components/Frame";
 import PrimaryButton from "../../components/PrimaryButton";
 import SearchableTag from "../../components/SearchableTag";
@@ -52,6 +53,7 @@ const ProjectDetails = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [userResults, setUserResults] = useState([]);
+  const [userResultsLoading, setUserResultsLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(-1);
 
   // get search
@@ -325,22 +327,7 @@ const ProjectDetails = () => {
 
   // handle user search in the modal
   const onSearch = (query) => {
-    // send a get request to search user
-    api({ sendToken: true })
-      .get("/search", {
-        params: {
-          query: query,
-          type: 0,
-        },
-      })
-      .then((response) => {
-        // set user results
-        setUserResults(response.data.users);
-        console.log(response.data.users);
-      })
-      .catch((error) => {
-        //console.log(error)
-      });
+    dispatch(search({query: query, type: 0, tags: []}, setUserResults, setUserResultsLoading))
   };
 
   return (
@@ -397,7 +384,7 @@ const ProjectDetails = () => {
         })}
         <br />
         Search Results
-        {userResults.map((u, i) => {
+        {userResultsLoading ? <Spin /> :( userResults.users ? userResults.users.map((u, i) => {
           return Object.values(selectedUsers).includes(u) ? null : (
             <>
               <UserResult
@@ -414,7 +401,7 @@ const ProjectDetails = () => {
               />
             </>
           );
-        })}
+        }): "")}
       </UserModal>
 
       {loadingProject ? (
