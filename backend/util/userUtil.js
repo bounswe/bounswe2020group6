@@ -3,6 +3,11 @@ const { Op, Sequelize } = require("sequelize");
 const got = require('got');
 
 
+/**
+ * checks whether user with given id exists
+ * @param {number} userId
+ * @returns {boolean} 
+ */
 var isUserExist = async function(userId) {
     user = await User.findOne({
         where: {
@@ -16,6 +21,12 @@ var isUserExist = async function(userId) {
     return false
 }
 
+/**
+ * checks if a user follows another one
+ * @param {number} userId the main user
+ * @param {number} followedUserId the one that's whether followed or not
+ * @returns {boolean} whether follows or not
+ */
 var isFollowing = async function(userId, followedUserId){
     follow = await Follow.findOne({
         where: {
@@ -34,6 +45,12 @@ var isFollowing = async function(userId, followedUserId){
     return false
 }
 
+/**
+ * whether user has upvoted another user or not
+ * @param {number} userId 
+ * @param {number} uppedUserId 
+ * @returns {boolean}
+ */
 var isUpped = async function(userId, uppedUserId) {
     up = await UserUp.findOne({
         where: {
@@ -51,6 +68,11 @@ var isUpped = async function(userId, uppedUserId) {
     return false
 }
 
+/**
+ * returns number of upvotes user has
+ * @param {number} userId
+ * @returns {number} 
+ */
 var getUpCounts = async function(userId){
     upCount = await UserUp.count({
         where: {
@@ -61,6 +83,11 @@ var getUpCounts = async function(userId){
     return upCount
 }
 
+/**
+ * returns number of accounts this user is following
+ * @param {number} userId 
+ * @returns {number}
+ */
 var getFollowingCounts = async function(userId){
     followingCount = await Follow.count({
         where: {
@@ -71,6 +98,11 @@ var getFollowingCounts = async function(userId){
     return followingCount
 }
 
+/**
+ * returns number of accounts this user is followed by
+ * @param {number} userId 
+ * @returns {number}
+ */
 var getFollowedCounts = async function(userId){
     followedCount = await Follow.count({
         where: {
@@ -81,6 +113,11 @@ var getFollowedCounts = async function(userId){
     return followedCount
 }
 
+/**
+ * returns google scholar data of a user
+ * @param {string} username user's id in google scholar
+ * @returns {object}
+ */
 var getCitations = async function(username) {
     
     let url = "http://cse.bth.se/~fer/googlescholar-api/googlescholar.php?user="+username
@@ -89,6 +126,11 @@ var getCitations = async function(username) {
     return JSON.parse(response.body);
 }
 
+/**
+ * returns accounts followed by the user given in parameter
+ * @param {number} userId 
+ * @returns {object[]}
+ */
 var getFollowings = async function(userId){
     follower_user_id = userId
     followers = await Follow.findAll({
@@ -104,6 +146,11 @@ var getFollowings = async function(userId){
     return followers
 }
 
+/**
+ * returns accounts' ids followed by the user given in parameter
+ * @param {number} userId 
+ * @returns {number[]}
+ */
 var getFollowingsIDs = async function(userId){
     follower_user_id = userId
     followers = await Follow.findAll({
@@ -119,6 +166,11 @@ var getFollowingsIDs = async function(userId){
     return followers.map( u => u.following.id )
 }
 
+/**
+ * returns accounts following the user given in parameter
+ * @param {number} userId 
+ * @returns {object[]}
+ */
 var getFollowers = async function(userId){
     followed_user_id = userId
     followers = await Follow.findAll({
@@ -134,6 +186,11 @@ var getFollowers = async function(userId){
     return followers
 }
 
+/**
+ * returns accounts' ids following the user given in parameter
+ * @param {number} userId 
+ * @returns {number[]}
+ */
 var getFollowersIDs = async function(userId){
     followed_user_id = userId
     followers = await Follow.findAll({
@@ -149,6 +206,11 @@ var getFollowersIDs = async function(userId){
     return followers.map( u => u.followed.id )
 }
 
+/**
+ * retuns users that have interests in given areas
+ * @param {string[]} tags 
+ * @returns {object[]}
+ */
 var usersByTags = async function(tags) {
     users = await User.findAll({
         attributes : ['id', 'name','surname','university','department', 'profile_picture_url'],
@@ -166,6 +228,12 @@ var usersByTags = async function(tags) {
     });
 }
 
+/**
+ * first gets a user's interested tags, then finds other users interested
+ * in those tags, then returns those users
+ * @param {number} userId 
+ * @returns {object[]}
+ */
 var usersByUserTags = async function(userId) {
     user_interests = await UserInterest.findAll({
         where: {
@@ -195,6 +263,13 @@ var usersByUserTags = async function(userId) {
     return users
 }
 
+/**
+ * returns users having common values in a given field
+ * with the given user
+ * @param {string} field the field name, we are looking to find common values
+ * @param {number} userId given user's id
+ * @returns {object[]}
+ */
 var usersSharingSimilarity = async function(field, userId) {
     users = await User.findAll({
         where: {
@@ -212,6 +287,11 @@ var usersSharingSimilarity = async function(field, userId) {
     return users
 }
 
+/**
+ * finds users such that their name starts with the given query
+ * @param {string} query 
+ * @returns {object[]}
+ */
 var fullnameStartsWith = async function(query){
     users = User.findAll({
         where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
@@ -223,6 +303,11 @@ var fullnameStartsWith = async function(query){
     return users;
 }
 
+/**
+ * finds users such that their last name starts with the given query
+ * @param {string} query 
+ * @returns {object[]}
+ */
 var lastNameStartsWith = async function(query){
     users = User.findAll({
         where: {
@@ -236,6 +321,11 @@ var lastNameStartsWith = async function(query){
     return users;
 }
 
+/**
+ * finds users such that their name contains the given query
+ * @param {string} query 
+ * @returns {object[]}
+ */
 var fullnameContains = async function(query){
     users = User.findAll({
         where: Sequelize.where(Sequelize.fn('concat', Sequelize.col("name"), " ", Sequelize.col("surname")), {
@@ -247,6 +337,12 @@ var fullnameContains = async function(query){
     return users;
 }
 
+/**
+ * returns all users that have common university, department or title with the given user
+ * filters results to make sure a user is not included twice
+ * @param {number} userId
+ * @returns {object[]} 
+ */
 var getSimilarUsersByFields = async function(userId){
 
     let [universityMatch, departmentMatch, titleMatch] =
