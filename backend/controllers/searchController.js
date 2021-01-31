@@ -4,6 +4,8 @@ const elasticUtil = require("../elastic/elasticUtil")
 const searchUtil = require("../util/searchUtil")
 
 
+// general search mechanism. takes two parameters. one is the query, the other is type.
+// type 0 means user search, type 1 means, project search, type 2 means event search
 search = async function(req, res) {
     const query = req.query.query.toLowerCase()
     const type = req.query.type
