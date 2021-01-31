@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  database-service:
+    image: postgres:latest
+    environment:
+     - POSTGRES_USER=root
+     - POSTGRES_PASSWORD=xyHJF2gvgt8Ev5p3
+     - POSTGRES_DB=akademise
+    ports:
+     - 5432:5432
+
+  elastic-service:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    ports:
+     - 9200:9200
+     - 9300:9300
+    environment:
+     - discovery.type=single-node
+
+  backend-service:
+    image: akademise/akademise
+    volumes:
+     - ./backend/files/uploads:/usr/src/app/uploads
+    environment:
+     - DEPLOY_URL=ec2-18-232-156-252.compute-1.amazonaws.com
+    ports:
+     - 3000:3000
+    depends_on:
+     - "elastic-service"
+     - "database-service" 
