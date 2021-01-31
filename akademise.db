@@ -1,0 +1,1548 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.1 (Debian 13.1-1.pgdg100+1)
+-- Dumped by pg_dump version 13.1 (Debian 13.1-1.pgdg100+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: collab_requests; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.collab_requests (
+    id integer NOT NULL,
+    "requesterId" integer NOT NULL,
+    "requestedId" integer NOT NULL,
+    "projectId" integer NOT NULL,
+    "requestType" integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.collab_requests OWNER TO root;
+
+--
+-- Name: collab_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.collab_requests_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.collab_requests_id_seq OWNER TO root;
+
+--
+-- Name: collab_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.collab_requests_id_seq OWNED BY public.collab_requests.id;
+
+
+--
+-- Name: departments; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.departments (
+    department character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.departments OWNER TO root;
+
+--
+-- Name: event_favs; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.event_favs (
+    "userId" integer NOT NULL,
+    "eventId" integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.event_favs OWNER TO root;
+
+--
+-- Name: event_tags; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.event_tags (
+    id integer NOT NULL,
+    tag character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.event_tags OWNER TO root;
+
+--
+-- Name: events; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.events (
+    id integer NOT NULL,
+    "userId" integer,
+    type text,
+    "isPublic" boolean,
+    title text,
+    body text,
+    link text,
+    location text,
+    date timestamp with time zone,
+    other text,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.events OWNER TO root;
+
+--
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.events_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.events_id_seq OWNER TO root;
+
+--
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
+
+
+--
+-- Name: follows; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.follows (
+    id integer NOT NULL,
+    follower_user_id integer NOT NULL,
+    followed_user_id integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.follows OWNER TO root;
+
+--
+-- Name: follows_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.follows_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.follows_id_seq OWNER TO root;
+
+--
+-- Name: follows_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.follows_id_seq OWNED BY public.follows.id;
+
+
+--
+-- Name: notifications; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.notifications (
+    id integer NOT NULL,
+    "projectId" integer NOT NULL,
+    type integer NOT NULL,
+    "accepterId" integer NOT NULL,
+    "participantId" integer NOT NULL,
+    "receiverId" integer NOT NULL,
+    body text NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.notifications OWNER TO root;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.notifications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_id_seq OWNER TO root;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
+
+
+--
+-- Name: project_collaborators; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.project_collaborators (
+    id integer NOT NULL,
+    project_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE public.project_collaborators OWNER TO root;
+
+--
+-- Name: project_collaborators_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.project_collaborators_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_collaborators_id_seq OWNER TO root;
+
+--
+-- Name: project_collaborators_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.project_collaborators_id_seq OWNED BY public.project_collaborators.id;
+
+
+--
+-- Name: project_files; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.project_files (
+    id integer NOT NULL,
+    project_id integer,
+    file_name character varying(255),
+    file_type character varying(255),
+    file_path character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_files OWNER TO root;
+
+--
+-- Name: project_files_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.project_files_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_files_id_seq OWNER TO root;
+
+--
+-- Name: project_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.project_files_id_seq OWNED BY public.project_files.id;
+
+
+--
+-- Name: project_milestones; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.project_milestones (
+    id integer NOT NULL,
+    project_id integer,
+    date timestamp with time zone,
+    title character varying(255),
+    description text,
+    type character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.project_milestones OWNER TO root;
+
+--
+-- Name: project_milestones_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.project_milestones_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_milestones_id_seq OWNER TO root;
+
+--
+-- Name: project_milestones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.project_milestones_id_seq OWNED BY public.project_milestones.id;
+
+
+--
+-- Name: project_tags; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.project_tags (
+    id integer NOT NULL,
+    tag character varying(255),
+    project_id integer
+);
+
+
+ALTER TABLE public.project_tags OWNER TO root;
+
+--
+-- Name: project_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.project_tags_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.project_tags_id_seq OWNER TO root;
+
+--
+-- Name: project_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.project_tags_id_seq OWNED BY public.project_tags.id;
+
+
+--
+-- Name: projects; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.projects (
+    id integer NOT NULL,
+    "userId" integer,
+    title character varying(255),
+    summary text,
+    privacy boolean,
+    requirements text,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    description text,
+    status integer
+);
+
+
+ALTER TABLE public.projects OWNER TO root;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.projects_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.projects_id_seq OWNER TO root;
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.projects_id_seq OWNED BY public.projects.id;
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.tags (
+    tag character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO root;
+
+--
+-- Name: titles; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.titles (
+    title character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.titles OWNER TO root;
+
+--
+-- Name: universities; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.universities (
+    university character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.universities OWNER TO root;
+
+--
+-- Name: user_interests; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.user_interests (
+    user_id integer NOT NULL,
+    interest character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_interests OWNER TO root;
+
+--
+-- Name: user_ups; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.user_ups (
+    id integer NOT NULL,
+    upper_user_id integer NOT NULL,
+    upped_user_id integer NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.user_ups OWNER TO root;
+
+--
+-- Name: user_ups_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.user_ups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_ups_id_seq OWNER TO root;
+
+--
+-- Name: user_ups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.user_ups_id_seq OWNED BY public.user_ups.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    surname character varying(255) NOT NULL,
+    profile_picture_url character varying(255),
+    scholar_profile_url character varying(255),
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    validation character varying(255),
+    "isValidated" boolean,
+    university character varying(255),
+    department character varying(255),
+    title character varying(255),
+    bio character varying(255),
+    citations integer,
+    "iIndex" integer,
+    "hIndex" integer,
+    "last5Year_citations" integer,
+    "last5Year_iIndex" integer,
+    "last5Year_hIndex" integer,
+    projects text,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO root;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: root
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO root;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: root
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: collab_requests id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.collab_requests ALTER COLUMN id SET DEFAULT nextval('public.collab_requests_id_seq'::regclass);
+
+
+--
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
+
+
+--
+-- Name: follows id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.follows ALTER COLUMN id SET DEFAULT nextval('public.follows_id_seq'::regclass);
+
+
+--
+-- Name: notifications id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
+
+
+--
+-- Name: project_collaborators id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_collaborators ALTER COLUMN id SET DEFAULT nextval('public.project_collaborators_id_seq'::regclass);
+
+
+--
+-- Name: project_files id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_files ALTER COLUMN id SET DEFAULT nextval('public.project_files_id_seq'::regclass);
+
+
+--
+-- Name: project_milestones id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_milestones ALTER COLUMN id SET DEFAULT nextval('public.project_milestones_id_seq'::regclass);
+
+
+--
+-- Name: project_tags id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_tags ALTER COLUMN id SET DEFAULT nextval('public.project_tags_id_seq'::regclass);
+
+
+--
+-- Name: projects id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.projects ALTER COLUMN id SET DEFAULT nextval('public.projects_id_seq'::regclass);
+
+
+--
+-- Name: user_ups id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.user_ups ALTER COLUMN id SET DEFAULT nextval('public.user_ups_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: collab_requests; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.collab_requests (id, "requesterId", "requestedId", "projectId", "requestType", "createdAt", "updatedAt") FROM stdin;
+72	35	20	38	1	2021-01-26 11:06:24.303+00	2021-01-26 11:06:24.303+00
+6	5	1	17	0	2021-01-25 07:09:22.015+00	2021-01-25 07:09:22.015+00
+7	6	5	18	1	2021-01-25 07:10:03.407+00	2021-01-25 07:10:03.407+00
+8	5	1	18	0	2021-01-25 07:18:01.928+00	2021-01-25 07:18:01.928+00
+77	18	27	64	0	2021-01-30 13:52:28.426+00	2021-01-30 13:52:28.426+00
+79	18	20	64	0	2021-01-30 13:52:28.436+00	2021-01-30 13:52:28.436+00
+80	18	35	64	0	2021-01-30 13:52:28.441+00	2021-01-30 13:52:28.441+00
+81	18	38	64	0	2021-01-30 13:52:28.445+00	2021-01-30 13:52:28.445+00
+82	18	40	64	0	2021-01-30 13:59:40.105+00	2021-01-30 13:59:40.105+00
+83	18	7	64	0	2021-01-30 13:59:40.112+00	2021-01-30 13:59:40.112+00
+84	18	33	64	0	2021-01-30 13:59:40.116+00	2021-01-30 13:59:40.116+00
+85	41	28	47	1	2021-01-30 17:43:56.612+00	2021-01-30 17:43:56.612+00
+86	41	28	53	1	2021-01-30 17:44:06.154+00	2021-01-30 17:44:06.154+00
+22	5	6	12	0	2021-01-25 11:43:08.242+00	2021-01-25 11:43:08.242+00
+24	6	25	46	1	2021-01-25 12:29:35.768+00	2021-01-25 12:29:35.768+00
+25	6	25	12	0	2021-01-25 12:31:11.899+00	2021-01-25 12:31:11.899+00
+26	25	6	12	1	2021-01-25 15:11:12.46+00	2021-01-25 15:11:12.46+00
+48	5	6	18	0	2021-01-25 18:34:55.723+00	2021-01-25 18:34:55.723+00
+49	5	6	17	0	2021-01-25 19:46:46.486+00	2021-01-25 19:46:46.486+00
+52	28	25	47	0	2021-01-25 20:45:59.576+00	2021-01-25 20:45:59.576+00
+65	30	20	38	1	2021-01-26 08:58:26.333+00	2021-01-26 08:58:26.333+00
+67	33	25	46	1	2021-01-26 09:08:24.681+00	2021-01-26 09:08:24.681+00
+\.
+
+
+--
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.departments (department, "createdAt", "updatedAt") FROM stdin;
+CmpE	2021-01-24 13:36:15.838+00	2021-01-24 13:36:15.838+00
+Computer Engineering	2021-01-24 13:41:49.735+00	2021-01-24 13:41:49.735+00
+Mechanical Engineering	2021-01-24 22:44:06.646+00	2021-01-24 22:44:06.646+00
+IE	2021-01-25 12:05:28.057+00	2021-01-25 12:05:28.057+00
+Chemistry	2021-01-26 11:21:02.333+00	2021-01-26 11:21:02.333+00
+\.
+
+
+--
+-- Data for Name: event_favs; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.event_favs ("userId", "eventId", "createdAt", "updatedAt") FROM stdin;
+25	9	2021-01-25 16:36:25.298+00	2021-01-25 16:36:25.298+00
+18	7	2021-01-25 19:59:36.27+00	2021-01-25 19:59:36.27+00
+8	9	2021-01-25 20:22:20.671+00	2021-01-25 20:22:20.671+00
+18	21	2021-01-25 20:44:32.727+00	2021-01-25 20:44:32.727+00
+20	29	2021-01-25 22:23:36.994+00	2021-01-25 22:23:36.994+00
+33	29	2021-01-26 09:22:29.12+00	2021-01-26 09:22:29.12+00
+28	9	2021-01-26 11:54:40.327+00	2021-01-26 11:54:40.327+00
+37	26	2021-01-26 11:57:25.303+00	2021-01-26 11:57:25.303+00
+38	49	2021-01-26 13:05:59.078+00	2021-01-26 13:05:59.078+00
+42	9	2021-01-30 21:39:18.939+00	2021-01-30 21:39:18.939+00
+\.
+
+
+--
+-- Data for Name: event_tags; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.event_tags (id, tag, "createdAt", "updatedAt") FROM stdin;
+29	Computer Science	2021-01-25 11:54:38.956+00	2021-01-25 11:54:38.956+00
+43	Football	2021-01-25 18:51:08.234+00	2021-01-25 18:51:08.234+00
+43	Basketball	2021-01-25 18:51:08.235+00	2021-01-25 18:51:08.235+00
+43	Decision Trees	2021-01-25 18:51:08.236+00	2021-01-25 18:51:08.236+00
+44	Mathematics	2021-01-25 18:57:08.366+00	2021-01-25 18:57:08.366+00
+44	Computer Science	2021-01-25 18:57:08.368+00	2021-01-25 18:57:08.368+00
+48	Computer Science	2021-01-25 23:22:44.098+00	2021-01-25 23:22:44.098+00
+49	Computer Science	2021-01-26 09:19:56.351+00	2021-01-26 09:19:56.351+00
+49	Chess	2021-01-26 09:19:56.353+00	2021-01-26 09:19:56.353+00
+58	Computer Science	2021-01-26 11:58:12.174+00	2021-01-26 11:58:12.174+00
+59	Computer Science	2021-01-26 13:03:28.301+00	2021-01-26 13:03:28.301+00
+60	Computer Science	2021-01-26 13:07:16.538+00	2021-01-26 13:07:16.538+00
+61	Computer Science	2021-01-31 20:29:12.377+00	2021-01-31 20:29:12.377+00
+73	Computer Science	2021-01-31 20:34:04.297+00	2021-01-31 20:34:04.297+00
+73	Computer Engineering	2021-01-31 20:34:04.299+00	2021-01-31 20:34:04.299+00
+74	Computer Science	2021-01-31 20:37:40.503+00	2021-01-31 20:37:40.503+00
+75	Computer Science	2021-01-31 20:40:40.232+00	2021-01-31 20:40:40.232+00
+75	Robotics	2021-01-31 20:40:40.233+00	2021-01-31 20:40:40.233+00
+\.
+
+
+--
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.events (id, "userId", type, "isPublic", title, body, link, location, date, other, "createdAt", "updatedAt") FROM stdin;
+7	8	Meet-up	t	Competitive Algorithm Meet-up	We are going to meet with competitive algorithm enthusiasts from all parts of Turkey.	www.codewithus.com	Istanbul, Turkey	2013-05-13 12:58:26+00		2021-01-24 15:32:31.445+00	2021-01-24 15:32:31.445+00
+9	8	Meet-up	t	Competitive Algorithm Meet-up	We are going to meet with competitive algorithm enthusiasts from all parts of Turkey.	www.codewithus.com	Istanbul, Turkey	2013-05-13 12:58:26+00		2021-01-24 16:21:49.695+00	2021-01-24 16:21:49.695+00
+21	20	Meet-up	t	Ronan Anderson Tribute Dinner	The Annual Ronan Anderson Tribute Dinner is one of St. Thomas’ premier community events. This annual dinner celebrates the life and legacy of Dr. Ronan Anderson, the valedictorian of St. Thomas' Class of 1966, an ex-public school teacher, who was awarded the Presidential Medal of Freedom in 2016. In addition to celebrating the achievements of Dr. Anderson's family and many friends, the dinner provides the opportunity for faculty and students to come together and help support St. Thomas		St. Thomas Research Facility Llounge	2021-03-18 16:30:27+00		2021-01-25 10:41:50.321+00	2021-01-25 10:41:50.321+00
+26	20	Summit	t	IOCON 2021 Tech Summit	A dialogue session which aims to discuss the technological aspects of the LEO launch vehicle program. The dialogue session is supported by the French space agency CNES. This includes a panel discussion among experts in order to share expertise on this subject.\n\nWho: French space industry representatives, international partners, and space agencies.\n\nWhen: March 18, 2019, 4:30 – 7:00 PM local time (Paris, time zone UTC +1).\n		Paris 52408	2021-03-18 11:05:38+00		2021-01-25 11:05:58.143+00	2021-01-25 11:05:58.143+00
+28	20	Meet-up	t	Karlsruhe Alumni Paris Meetup	Let's get together.		Goethe Institute Paris Marbois	2021-02-19 10:00:23+00		2021-01-25 11:13:27.705+00	2021-01-25 11:13:27.705+00
+29	18	Conference	t	Introduction Level Computer Science Open Lecture	This is an introductory-level open course that no prior knowledge about the field is needed. Participants from any branch are welcome.	www.biletburda.com/introduction-to-computer-science	İstanbul / Tuzla, İdris Güllüce Culture Center	2021-01-30 12:00:31+00		2021-01-25 11:54:38.946+00	2021-01-25 11:54:38.946+00
+43	25	Conference	f	2st Robotics Conference	This conference to discuss state-of-art properties of robots.	robotics.com	Istanbul, Turkey	2020-05-10 00:00:00+00	You are expected to have a knowledge about..	2021-01-25 18:51:08.231+00	2021-01-25 20:57:27.636+00
+44	25	Conference	f	1st Deep Learning Conference	We aim to discuss state-of-art algorithms	deeplearning.com	London	2021-03-12 00:00:00+00	payment is requires for the registration	2021-01-25 18:57:08.363+00	2021-01-25 20:59:16.322+00
+58	37	Conference	t	Introduction to Basics of Quantum Mechanics	An introductory conference about quantum mechanics. If you are interested or you want to learn about quantum mechanics this is the right place. No prior knowledge is needed.		Boğaziçi University, North Campus, BM A2	2021-01-30 17:59:01+00		2021-01-26 11:58:12.17+00	2021-01-26 11:58:12.17+00
+59	28	After Party	t	After party of final milestone	It is only for group 6	zoom.link	online	2020-01-26 19:00:00+00	zoom	2021-01-26 13:03:28.298+00	2021-01-26 13:03:28.298+00
+60	38	Conference	t	Introduction to Basics of Quantum Mechanics	An introductory conference about quantum mechanics. If you are interested or you want to learn about quantum mechanics this is the right place. No prior knowledge is needed.		Boğaziçi University, North Campus, BM A2	2021-02-23 13:00:50+00		2021-01-26 13:07:16.536+00	2021-01-26 13:07:16.536+00
+48	18	Meet-up	t	Coding Workshop	We are going to code and learn together.		Turkey, Ankara	2021-02-19 07:30:52+00		2021-01-25 23:22:44.095+00	2021-01-25 23:22:44.095+00
+49	25	After Party	t	 After party of final milestone	I want to make a after party of this presentation	zoom.link	zoom	2021-01-26 19:00:00+00	It will be for only group 6	2021-01-26 09:19:56.349+00	2021-01-26 09:19:56.349+00
+61	6	Conference	t	Progress of Projects	Progress presentations will be performed during conference.	moodle.boun.edu.tr	zoom	2021-02-21 15:30:00+00		2021-01-31 20:29:12.373+00	2021-01-31 20:29:12.373+00
+73	6	After Party	t	CmpE Boat Party	To get away from the semesters stress and enjoy with professors and other students, all CmpE members are invited.	cmpe.boun.edu.tr	Boat at Arnavutkoy	2021-04-17 00:00:00+00	Pizza and Lahmacun will be served	2021-01-31 20:34:04.295+00	2021-01-31 20:34:04.295+00
+74	5	Conference	t	ICMI	Machine Intelligence Conference	www.waset.org	Melbourne	2021-02-01 00:00:00+00	The conference will take 2 days.	2021-01-31 20:37:40.5+00	2021-01-31 20:37:40.5+00
+75	5	Conference	t	ICIS	Intelligent Systems Conference	www.waset.org	Bangkok	2021-02-04 00:00:00+00	The conference will take 2 days	2021-01-31 20:40:40.228+00	2021-01-31 20:40:40.228+00
+\.
+
+
+--
+-- Data for Name: follows; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.follows (id, follower_user_id, followed_user_id, "createdAt", "updatedAt") FROM stdin;
+1	20	8	2021-01-25 00:45:08.18+00	2021-01-25 00:45:08.18+00
+2	20	7	2021-01-25 00:45:09.455+00	2021-01-25 00:45:09.455+00
+3	5	6	2021-01-25 11:43:19.608+00	2021-01-25 11:43:19.608+00
+5	18	17	2021-01-25 12:11:05.752+00	2021-01-25 12:11:05.752+00
+8	18	6	2021-01-25 12:11:20.2+00	2021-01-25 12:11:20.2+00
+9	6	25	2021-01-25 12:25:00.469+00	2021-01-25 12:25:00.469+00
+18	28	25	2021-01-25 20:18:50.895+00	2021-01-25 20:18:50.895+00
+21	25	28	2021-01-25 22:01:14.105+00	2021-01-25 22:01:14.105+00
+22	30	18	2021-01-26 08:57:46.961+00	2021-01-26 08:57:46.961+00
+23	33	8	2021-01-26 09:07:43.804+00	2021-01-26 09:07:43.804+00
+24	33	25	2021-01-26 09:08:07.655+00	2021-01-26 09:08:07.655+00
+26	35	8	2021-01-26 11:23:58.919+00	2021-01-26 11:23:58.919+00
+27	35	20	2021-01-26 11:24:01.88+00	2021-01-26 11:24:01.88+00
+28	35	6	2021-01-26 11:24:24.654+00	2021-01-26 11:24:24.654+00
+30	35	27	2021-01-26 11:25:02.58+00	2021-01-26 11:25:02.58+00
+31	35	36	2021-01-26 11:30:57.238+00	2021-01-26 11:30:57.238+00
+32	35	30	2021-01-26 11:30:57.976+00	2021-01-26 11:30:57.976+00
+33	35	17	2021-01-26 11:31:15.934+00	2021-01-26 11:31:15.934+00
+34	37	7	2021-01-26 11:48:29.146+00	2021-01-26 11:48:29.146+00
+35	37	28	2021-01-26 11:48:56.594+00	2021-01-26 11:48:56.594+00
+36	27	17	2021-01-26 12:41:55.351+00	2021-01-26 12:41:55.351+00
+37	27	34	2021-01-26 12:41:56.711+00	2021-01-26 12:41:56.711+00
+38	27	36	2021-01-26 12:42:27.936+00	2021-01-26 12:42:27.936+00
+39	38	7	2021-01-26 12:53:51.6+00	2021-01-26 12:53:51.6+00
+40	35	7	2021-01-26 12:53:51.854+00	2021-01-26 12:53:51.854+00
+42	38	28	2021-01-26 12:54:24.663+00	2021-01-26 12:54:24.663+00
+43	35	38	2021-01-26 12:55:29.811+00	2021-01-26 12:55:29.811+00
+45	41	28	2021-01-30 17:43:48.785+00	2021-01-30 17:43:48.785+00
+46	28	38	2021-01-30 19:38:41.564+00	2021-01-30 19:38:41.564+00
+\.
+
+
+--
+-- Data for Name: notifications; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.notifications (id, "projectId", type, "accepterId", "participantId", "receiverId", body, "createdAt", "updatedAt") FROM stdin;
+81	18	0	27	27	5	user 27 accepted collaboration request concerning project 18	2021-01-26 08:17:26.377+00	2021-01-26 08:17:26.377+00
+86	46	0	25	30	30	user 25 accepted collaboration request concerning project 46	2021-01-26 09:13:20.034+00	2021-01-26 09:13:20.034+00
+89	47	0	28	34	34	user 28 accepted collaboration request concerning project 47	2021-01-26 09:36:07.327+00	2021-01-26 09:36:07.327+00
+90	47	1	34	34	7	user 34 joined to project 47	2021-01-26 09:36:07.33+00	2021-01-26 09:36:07.33+00
+97	60	5	35	35	36	User 35 followed user 36	2021-01-26 11:30:57.241+00	2021-01-26 11:30:57.241+00
+98	60	5	35	35	30	User 35 followed user 30	2021-01-26 11:30:57.979+00	2021-01-26 11:30:57.979+00
+99	60	5	35	35	17	User 35 followed user 17	2021-01-26 11:31:15.937+00	2021-01-26 11:31:15.937+00
+100	60	5	37	37	7	User 37 followed user 7	2021-01-26 11:48:29.149+00	2021-01-26 11:48:29.149+00
+103	47	1	37	37	7	user 37 joined to project 47	2021-01-26 11:52:36.779+00	2021-01-26 11:52:36.779+00
+104	47	1	37	37	34	user 37 joined to project 47	2021-01-26 11:52:36.781+00	2021-01-26 11:52:36.781+00
+105	60	5	27	27	17	User 27 followed user 17	2021-01-26 12:41:55.354+00	2021-01-26 12:41:55.354+00
+106	60	5	27	27	34	User 27 followed user 34	2021-01-26 12:41:56.713+00	2021-01-26 12:41:56.713+00
+107	60	5	27	27	36	User 27 followed user 36	2021-01-26 12:42:27.939+00	2021-01-26 12:42:27.939+00
+108	60	5	38	38	7	User 38 followed user 7	2021-01-26 12:53:51.602+00	2021-01-26 12:53:51.602+00
+109	60	5	35	35	7	User 35 followed user 7	2021-01-26 12:53:51.856+00	2021-01-26 12:53:51.856+00
+110	60	5	35	35	25	User 35 followed user 25	2021-01-26 12:54:19.716+00	2021-01-26 12:54:19.716+00
+112	60	5	35	35	38	User 35 followed user 38	2021-01-26 12:55:29.814+00	2021-01-26 12:55:29.814+00
+113	47	0	28	38	38	user 28 accepted collaboration request concerning project 47	2021-01-26 12:59:01.973+00	2021-01-26 12:59:01.973+00
+114	47	1	38	38	7	user 38 joined to project 47	2021-01-26 12:59:01.976+00	2021-01-26 12:59:01.976+00
+115	47	1	38	38	34	user 38 joined to project 47	2021-01-26 12:59:01.978+00	2021-01-26 12:59:01.978+00
+116	47	1	38	38	37	user 38 joined to project 47	2021-01-26 12:59:01.98+00	2021-01-26 12:59:01.98+00
+118	46	1	28	28	30	user 28 joined to project 46	2021-01-30 15:58:44.31+00	2021-01-30 15:58:44.31+00
+120	60	5	28	28	6	User 28 followed user 6	2021-01-30 16:38:16.269+00	2021-01-30 16:38:16.269+00
+121	64	-1	36	36	18	User 36 rejected collaboration request of user 18 concerning project 64	2021-01-30 16:54:51.063+00	2021-01-30 16:54:51.063+00
+123	60	5	28	28	38	User 28 followed user 38	2021-01-30 19:38:41.567+00	2021-01-30 19:38:41.567+00
+79	35	1	5	5	5	user 5 joined to project 35	2021-01-25 21:48:19.531+00	2021-01-25 21:48:19.531+00
+\.
+
+
+--
+-- Data for Name: project_collaborators; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.project_collaborators (id, project_id, user_id) FROM stdin;
+12	42	20
+14	35	25
+23	47	7
+28	35	5
+30	18	27
+32	46	30
+34	47	34
+35	59	28
+36	47	37
+37	47	38
+38	46	28
+39	53	25
+\.
+
+
+--
+-- Data for Name: project_files; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.project_files (id, project_id, file_name, file_type, file_path, "createdAt", "updatedAt") FROM stdin;
+2	38	deneme	text/plain	\N	2021-01-25 00:44:43.713+00	2021-01-25 00:44:43.713+00
+3	38	Formulaire_OFII_visite_medicale-2.pdf	application/pdf	\N	2021-01-25 23:06:57.362+00	2021-01-25 23:06:57.362+00
+5	47	Art.txt	text/plain	\N	2021-01-26 12:03:36.509+00	2021-01-26 12:03:36.509+00
+\.
+
+
+--
+-- Data for Name: project_milestones; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.project_milestones (id, project_id, date, title, description, type, "createdAt", "updatedAt") FROM stdin;
+2	35	2021-02-27 00:00:00+00	Deadline	Presentation Deadline	\N	2021-01-24 23:14:34.97+00	2021-01-24 23:14:34.97+00
+4	38	2021-03-13 00:00:00+00	Submission Deadline	Papers will be submitted to IOCON2021	\N	2021-01-24 23:35:19.942+00	2021-01-24 23:35:51.94+00
+7	44	2025-12-25 00:00:00+00	Event 1	I want to send a paper to this evetn	\N	2021-01-25 12:11:33.558+00	2021-01-25 12:11:33.558+00
+8	45	2021-12-12 00:00:00+00	Finishing Paper Named Cats	First step of the project is this.	\N	2021-01-25 12:17:28.224+00	2021-01-25 12:17:28.224+00
+9	46	2030-12-15 00:00:00+00	Deadline	it is the deadline	\N	2021-01-25 12:23:40.018+00	2021-01-25 14:17:32.409+00
+16	51	2021-01-01 00:00:00+00	Conference	I want to attend this conference with this project.	\N	2021-01-25 19:48:11.55+00	2021-01-25 19:48:11.55+00
+17	52	2025-01-01 00:00:00+00	Final Milestone	It is the date that all the deliverables must be completed and done.	\N	2021-01-25 19:57:26.464+00	2021-01-25 19:57:26.464+00
+18	53	2022-12-18 00:00:00+00	Conference	I want to attend this conference with multiple paper.	\N	2021-01-25 20:29:54.511+00	2021-01-25 20:29:54.511+00
+22	46	2023-12-12 00:00:00+00	Milestone 1	I want to sent a paper to this conference	\N	2021-01-26 09:15:09.504+00	2021-01-26 09:15:31.282+00
+23	59	2022-01-19 00:00:00+00	Delivery Date	Delivery Date	\N	2021-01-26 09:33:07.446+00	2021-01-26 09:33:31.591+00
+13	47	2023-06-20 00:00:00+00	Deadline	It is the date that project must be completed.	\N	2021-01-25 19:34:05.274+00	2021-01-26 09:38:19.034+00
+6	12	2022-12-25 00:00:00+00	Event 1	We want to present demo to audience	\N	2021-01-25 11:36:03.598+00	2021-01-26 10:59:32.762+00
+10	12	2023-02-22 00:00:00+00	Final Action	We will complete our tasks and perform the outcome.	\N	2021-01-25 13:02:09.054+00	2021-01-26 11:01:22.617+00
+25	42	2021-02-26 00:00:00+00	Submission	We will submit our papers to Vac 21	\N	2021-01-26 11:01:28.315+00	2021-01-26 11:01:50.999+00
+3	35	2021-01-12 00:00:00+00	Progress presentation	We will prepare a demo about the progress that we have done.	\N	2021-01-24 23:15:19.402+00	2021-01-26 11:06:11.953+00
+27	62	2022-01-31 00:00:00+00	Final Delivery Date	Final Delivery Date	\N	2021-01-26 12:56:22.397+00	2021-01-26 12:56:39.358+00
+28	47	2023-12-12 00:00:00+00	Conference 2	I want to submit a paper to this conference	\N	2021-01-26 13:00:41.913+00	2021-01-26 13:00:41.913+00
+24	47	2023-12-12 00:00:00+00	Conference 1	I want to prepare two papers for this conference	\N	2021-01-26 09:37:49.147+00	2021-01-26 13:01:02.494+00
+29	63	2022-01-31 00:00:00+00	Watch NBA	NBA match will take place	\N	2021-01-27 19:11:55.689+00	2021-01-31 20:13:05.831+00
+31	68	2021-11-20 00:00:00+00	First Try	We will try to film 7D movie	\N	2021-01-31 20:17:05.833+00	2021-01-31 20:17:05.833+00
+32	69	2021-02-23 00:00:00+00	First Gathering	Everybody will get to know each other	\N	2021-01-31 20:23:02.911+00	2021-01-31 20:23:02.911+00
+\.
+
+
+--
+-- Data for Name: project_tags; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.project_tags (id, tag, project_id) FROM stdin;
+104	Computer Science	62
+105	Texture	47
+106	Basketball	63
+107	Physical Reactions	63
+109	Computer Science	64
+12	Gaming	12
+18	Nanonetworking	17
+19	Machine Learning	18
+20	Gaming	18
+40	Foreigners	12
+44	Trains	38
+45	Mechanics	38
+46	Mathematics	38
+55	Chess	35
+59	Computer Science	42
+60	 Computer Science	44
+61	Data Science	44
+62	Mathematics	44
+63	Decision Trees	44
+64	 Animals	45
+65	Segmentation	45
+66	Cats	45
+68	Animals	46
+69	Robotics	46
+73	generative	47
+74	art	47
+79	 Computer Science	51
+80	Mathematics	51
+81	automata	51
+82	 Mathematics	52
+83	ROS	52
+84	Robotics	52
+85	automata	52
+86	Computer Science	52
+87	Navigation	52
+88	 Computer Science	53
+89	Data Science	53
+90	Planet	53
+93	Robots	46
+94	Computer Science	59
+96	Computer Science	12
+97	art	12
+98	Chemical Reactions	42
+99	Computer Science	35
+100	Robotics	35
+101	ROS	35
+102	Embedded	35
+111	Texture	68
+112	Movies	68
+113	Cinema	68
+114	Movies	68
+115	Robotics	69
+116	Space	69
+\.
+
+
+--
+-- Data for Name: projects; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.projects (id, "userId", title, summary, privacy, requirements, "createdAt", "updatedAt", description, status) FROM stdin;
+17	5	8G Networks	Insert abstract here!	f	Great bandwith	2021-01-24 17:53:54.818+00	2021-01-24 17:53:54.818+00	\N	0
+18	5	Machine Learning Game	Gamification	f	None	2021-01-24 18:21:34.78+00	2021-01-24 18:21:34.78+00	ML	\N
+12	6	Machine Learning Game of Drones	Why do drones keep crashing into things? Well, not for lack of trying. A recently released video shows that these new gadgets have really come of age, having gone from two wheels to four, from autopilot to highly sophisticated artificial intelligence.\n\nThe video shows a University of Bristol team deploying a "SongBand" drone to create a unique, electronic melody.	t	Qualified ones are welcomed\n1 Cs student\n2 Conservatory graduate\n1 Artist	2021-01-24 17:41:49.907+00	2021-01-26 11:09:16.475+00	ML	2
+38	20	Iron Industries: Chromework Locomotives	Iron Industries has completed a cost and risk based analysis on three existing locomotive firms, analyzing how their current workforce structure and mix of local versus offshore skilled workers have affected productivity, profitability, capital investment, workforce growth and average worker productivity.	t	Degree in Mechanics OR History (Specialized in 19th century tech).\nRussian (B2 or above)	2021-01-24 23:35:14.155+00	2021-01-25 10:17:15.321+00	\N	2
+52	28	Vacuum Cleaner Robot	Vacuum cleaner robots are so trendy nowadays. So that I want to produce one, too.	t	I want to work with students and academicians that are experienced with robotics. Please send your CV's to my mail address.	2021-01-25 19:55:54.853+00	2021-01-25 19:57:43.762+00	\N	4
+53	28	Segmentation of Tree Species	I aim to segment different tree species. So that we will be able to do that ..	t	I want to work with researchers that are experienced with deep learning and have multiple projects on it.	2021-01-25 20:28:40.993+00	2021-01-25 20:29:54.501+00	\N	4
+35	6	Chess Robots	The Knight: A classic Chess board game from 1985 re-imagined for the touchscreen. Move your pawn in space with your finger or the arrow keys, and checkmate your opponent! The robot: Built by an experimental robotics lab at MIT, it learns through real-world experience to play Chess. The game was originally played on a hexagonal Chessboard. But now you can play the game on your computer, tablet, or phone screen. Easy, Quick, and Easy: Play Chess without leaving your home.	t	2 Computer scientist\n2 Chess expert\n1 Electrical engineer	2021-01-24 23:13:13.98+00	2021-01-26 11:06:32.502+00	\N	4
+59	34	Superposition Applications on Neuroscience	Our aim is to make faster computations across computer networks by benefiting the superposition feature of the quantum systems.	t	A good grasp of quantum concepts.\nComputer network experience is a plus.	2021-01-26 09:33:05.075+00	2021-01-26 09:33:35.976+00	\N	4
+47	28	Generative Art	I want to create some beautiful generative art pieces.	t	I want to work with researchers and students that are interested in generative art and have knowledge about general concepts.	2021-01-25 19:32:22.234+00	2021-01-25 19:34:05.283+00	\N	4
+44	25	Decision Trees	This project is to find out whether a person is a cat person or dog person using decision tree algorithms.	t	I want to collaborate with academicians and students that are ...	2021-01-25 12:09:35.826+00	2021-01-25 12:11:33.545+00	\N	4
+45	25	Segmentation of Animals	Cats are very cute animals that must be cared so much.	t	I aim to segment all the objects of cats in a picture.	2021-01-25 12:15:58.407+00	2021-01-25 12:17:28.214+00	\N	4
+42	7	Channel Modeling For Synaptic Molecular Communication	Many biologically important molecules bind to neurons at multiple sites, including some that are structurally distinct. A collection of computational algorithms has been developed to model protein-protein interactions, and it has been shown that using specific information, such as the distances between the two domains, the models can also accurately predict many other, non-physiological aspects of molecular binding. 	t	BSc in Molecular Chemistry, Computer Science or related fields	2021-01-25 08:06:29.842+00	2021-01-26 11:01:52.258+00	\N	4
+51	28	2D Cellular Automata	Cellular automata rules are amazing. They can generate some texture that are in the nature. I want to explore it more.	t	I want to work with mathematicians that are eager to complete some hard tasks.	2021-01-25 19:46:21.187+00	2021-01-25 19:48:11.542+00	\N	4
+46	25	Cat Robot	I want to make a robot that is cute and useful. Then it must be cat shaped.	t	My aim is to build a robot that is cat shaped.	2021-01-25 12:21:52.301+00	2021-01-26 09:09:29.654+00	\N	4
+60	36	Many‐Electron Theory of Atoms and Molecules. I. Shells, Electron Pairs vs Many‐Electron Correlations	A theory is developed (a) to see what the physically important features of correlation in atoms and molecules are; (b) based on this to obtain a quantitative scheme for N‐electron systems as in He and H2; (c) to see what happens to the ``chemical'' picture, to semiempirical theories, and to shell structure, when correlation is brought in. It is shown why, unlike in an electron gas, in many atoms and in molecules mainly pair correlations are significant. In configuration‐interaction, multiple excitations arise not as three or more electron ``collisions,'' but as several binary ``collisions'' taking place separately but at the same time. The validity of theory is shown on Be, LiH, and boron. The theory does not depend on any perturbation or series expansion and the r12‐coordinate method can now be used for an N‐electron system as in He and H2.	t		2021-01-26 11:22:47.838+00	2021-01-26 11:22:52.46+00	\N	2
+62	38	Benefiting Entanglement Principles at Distance Communication	We are working on data transfer between distance places by using quantum features. Entanglement principle opens new and interesting doors in terms of distant transfer. When 2 quantum entities are entangled, change in one entity effects the other one immediately.	t	A good grasp of quantum concepts.\nComputer network experience is a plus.\n\nIf you are curious about the topic please do not hesitate to contact us.	2021-01-26 12:56:19.077+00	2021-01-26 12:56:42.174+00	\N	2
+64	18	Research on Fininte Automata	We are making reasearch on finite automata.	t		2021-01-30 13:34:16.355+00	2021-01-30 13:34:16.355+00	\N	2
+63	6	Basketball Physics	This course introduces to an everyday basketball player the scientific principles which govern basketball and shares them with the public in a fun and engaging manner. We'll learn about energy transfer, friction, momentum, gravity, pressure, mass, tension and more. You'll also study visual perception and time, as well as discover the most efficient path to the basket.	f	General knowledge about basketball and physics 	2021-01-27 19:11:35.344+00	2021-01-31 20:13:07.975+00	\N	4
+68	6	7D Cinema	From the architect. The 7D Cinema Building is located in Zaytsevskoye settlement, and its initial purpose was the cinema-theater. Before the renovation, the building comprised 5 storeys, each containing a cinema room, a storage room, an administration, etc.\n\nBefore working with the building, the urban planner employed analysis of space, scale, environment and the presence	t	Anybody who is interested in cinematography welcomed	2021-01-31 20:16:25.432+00	2021-01-31 20:17:05.826+00	\N	4
+69	6	Extra-Terrestrial	The classic look and feel of a traditional wedge have been taken into the new Vokey SM7 wedges, with the distinctive bowl shape now emphasised by the crown, leading to a less offset look on all lines. The matt finish allows the fade to offer multiple options, from traditional to multi-directional, while the interior gradient offers line options from sweet spots all the way to the toe of the wedge.	t	At least space engineering Bachelor's degree	2021-01-31 20:19:26.149+00	2021-01-31 20:23:02.9+00	\N	4
+\.
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.tags (tag, "createdAt", "updatedAt") FROM stdin;
+Mathematics	2021-01-24 13:41:59.759+00	2021-01-24 13:41:59.759+00
+Computer Science	2021-01-24 13:42:04.139+00	2021-01-24 13:42:04.139+00
+Football	2021-01-24 16:17:39.264+00	2021-01-24 16:17:39.264+00
+Basketball	2021-01-24 16:17:39.278+00	2021-01-24 16:17:39.278+00
+Chess	2021-01-24 16:34:08.736+00	2021-01-24 16:34:08.736+00
+Astrology	2021-01-24 17:39:08.296+00	2021-01-24 17:39:08.296+00
+Astronomy	2021-01-24 17:39:08.31+00	2021-01-24 17:39:08.31+00
+Physical Reactions	2021-01-24 18:57:04.103+00	2021-01-24 18:57:04.103+00
+Jeology	2021-01-24 20:55:30.058+00	2021-01-24 20:55:30.058+00
+Foreigners	2021-01-24 20:55:54.835+00	2021-01-24 20:55:54.835+00
+Chemical Reactions	2021-01-24 20:55:54.844+00	2021-01-24 20:55:54.844+00
+Fluid Dynamics	2021-01-24 22:45:58.86+00	2021-01-24 22:45:58.86+00
+Data Science	2021-01-24 23:13:13.91+00	2021-01-24 23:13:13.91+00
+Communication Skills	2021-01-24 23:13:13.926+00	2021-01-24 23:13:13.926+00
+Animals	2021-01-24 23:37:24.134+00	2021-01-24 23:37:24.134+00
+Crypto Currency	2021-01-24 23:37:24.154+00	2021-01-24 23:37:24.154+00
+Decision Trees	2021-01-25 12:09:35.819+00	2021-01-25 12:09:35.819+00
+Segmentation	2021-01-25 12:15:58.398+00	2021-01-25 12:15:58.398+00
+Cats	2021-01-25 12:19:03.788+00	2021-01-25 12:19:03.788+00
+Robotics	2021-01-25 12:21:52.305+00	2021-01-25 12:21:52.305+00
+ROS	2021-01-25 14:15:25.794+00	2021-01-25 14:15:25.794+00
+Embedded	2021-01-25 17:44:57.546+00	2021-01-25 17:44:57.546+00
+Go	2021-01-25 17:56:07.702+00	2021-01-25 17:56:07.702+00
+generative	2021-01-25 19:32:22.225+00	2021-01-25 19:32:22.225+00
+art	2021-01-25 19:32:22.232+00	2021-01-25 19:32:22.232+00
+perlin	2021-01-25 19:40:53.478+00	2021-01-25 19:40:53.478+00
+noise	2021-01-25 19:40:53.48+00	2021-01-25 19:40:53.48+00
+automata	2021-01-25 19:46:21.169+00	2021-01-25 19:46:21.169+00
+Navigation	2021-01-25 19:55:54.85+00	2021-01-25 19:55:54.85+00
+Planet	2021-01-25 20:28:40.98+00	2021-01-25 20:28:40.98+00
+Robots	2021-01-26 09:14:20.893+00	2021-01-26 09:14:20.893+00
+Perlin	2021-01-26 09:36:55.366+00	2021-01-26 09:36:55.366+00
+Texture	2021-01-26 12:59:54.136+00	2021-01-26 12:59:54.136+00
+Ali desidero	2021-01-27 19:11:35.311+00	2021-01-27 19:11:35.311+00
+Movies	2021-01-31 20:16:06.881+00	2021-01-31 20:16:06.881+00
+Cinema	2021-01-31 20:16:06.895+00	2021-01-31 20:16:06.895+00
+Space	2021-01-31 20:19:26.13+00	2021-01-31 20:19:26.13+00
+Computer Engineering	2021-01-31 20:30:01.264+00	2021-01-31 20:30:01.264+00
+Artificial Intelligence	2021-01-31 20:38:30.169+00	2021-01-31 20:38:30.169+00
+Machine Intelligence	2021-01-31 20:39:06.782+00	2021-01-31 20:39:06.782+00
+\.
+
+
+--
+-- Data for Name: titles; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.titles (title, "createdAt", "updatedAt") FROM stdin;
+Student	2021-01-24 13:36:15.83+00	2021-01-24 13:36:15.83+00
+Researcher	2021-01-25 12:05:28.002+00	2021-01-25 12:05:28.002+00
+PhD Student	2021-01-26 08:55:55.428+00	2021-01-26 08:55:55.428+00
+Professor	2021-01-26 11:21:23.556+00	2021-01-26 11:21:23.556+00
+\.
+
+
+--
+-- Data for Name: universities; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.universities (university, "createdAt", "updatedAt") FROM stdin;
+Bogazici University	2021-01-24 13:36:15.832+00	2021-01-24 13:36:15.832+00
+Karlsruhe Institute of Technology	2021-01-24 22:43:37.905+00	2021-01-24 22:43:37.905+00
+METU	2021-01-25 12:05:28.047+00	2021-01-25 12:05:28.047+00
+California University	2021-01-26 11:20:52.271+00	2021-01-26 11:20:52.271+00
+\.
+
+
+--
+-- Data for Name: user_interests; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.user_interests (user_id, interest, "createdAt", "updatedAt") FROM stdin;
+5	Machine Learning	2021-01-24 13:02:56.797+00	2021-01-24 13:02:56.797+00
+7	Computer Science	2021-01-24 13:42:17.864+00	2021-01-24 13:42:17.864+00
+7	Mathematics	2021-01-24 13:42:17.864+00	2021-01-24 13:42:17.864+00
+8	Mathematics	2021-01-24 15:20:36.747+00	2021-01-24 15:20:36.747+00
+17	Computer Science	2021-01-24 16:05:51.158+00	2021-01-24 16:05:51.158+00
+18	Mathematics	2021-01-24 19:23:01.273+00	2021-01-24 19:23:01.273+00
+19	Computer Science	2021-01-24 19:37:43.421+00	2021-01-24 19:37:43.421+00
+19	Gaming,Machine Learning	2021-01-24 19:37:43.421+00	2021-01-24 19:37:43.421+00
+20	Astrology	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+20	Chess	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+20	Computer Science	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+20	Fluid Dynamics	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+20	High Speed Railroads	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+20	Mathematics	2021-01-25 01:07:55.358+00	2021-01-25 01:07:55.358+00
+21	Chess	2021-01-25 08:10:43.669+00	2021-01-25 08:10:43.669+00
+22	Mathematics	2021-01-25 08:50:22.751+00	2021-01-25 08:50:22.751+00
+23	Mathematics	2021-01-25 10:02:20.155+00	2021-01-25 10:02:20.155+00
+24	Computer Science	2021-01-25 10:04:39.833+00	2021-01-25 10:04:39.833+00
+6	Mathematics	2021-01-25 12:21:18.068+00	2021-01-25 12:21:18.068+00
+25	Computer Science	2021-01-25 13:33:13.188+00	2021-01-25 13:33:13.188+00
+25	Data Science	2021-01-25 13:33:13.188+00	2021-01-25 13:33:13.188+00
+25	Mathematics	2021-01-25 13:33:13.188+00	2021-01-25 13:33:13.188+00
+29	Quantum Computing	2021-01-25 21:17:31.553+00	2021-01-25 21:17:31.553+00
+30	Computer Science	2021-01-26 08:57:05.294+00	2021-01-26 08:57:05.294+00
+30	Quantum Computing	2021-01-26 08:57:05.294+00	2021-01-26 08:57:05.294+00
+33	Computer Science	2021-01-26 09:07:14.678+00	2021-01-26 09:07:14.678+00
+34	Computer Science	2021-01-26 09:31:14.483+00	2021-01-26 09:31:14.483+00
+32	Astrology	2021-01-26 10:46:42.886+00	2021-01-26 10:46:42.886+00
+26	Mathematics	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Computer Science	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Football	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Chess	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Segmentation	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Communication Skills	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Data Science	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Decision Trees	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Astronomy	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+26	Crypto Currency	2021-01-26 10:50:35.069+00	2021-01-26 10:50:35.069+00
+35	Mathematics	2021-01-26 11:30:21.546+00	2021-01-26 11:30:21.546+00
+35	Animals	2021-01-26 11:30:21.546+00	2021-01-26 11:30:21.546+00
+35	Chemical Reactions	2021-01-26 11:30:21.546+00	2021-01-26 11:30:21.546+00
+35	Fluid Dynamics	2021-01-26 11:30:21.546+00	2021-01-26 11:30:21.546+00
+35	Jeology	2021-01-26 11:30:21.546+00	2021-01-26 11:30:21.546+00
+35	Foreigners	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Physical Reactions	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Astrology	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Astronomy	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Chess	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Go	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Computer Science	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Football	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+35	Basketball	2021-01-26 11:30:21.547+00	2021-01-26 11:30:21.547+00
+36	Chemistry	2021-01-26 11:30:26.75+00	2021-01-26 11:30:26.75+00
+36	Mathematics	2021-01-26 11:30:26.75+00	2021-01-26 11:30:26.75+00
+36	Chemical Reactions	2021-01-26 11:30:26.75+00	2021-01-26 11:30:26.75+00
+36	Fluid Dynamics	2021-01-26 11:30:26.75+00	2021-01-26 11:30:26.75+00
+37	Computer Science	2021-01-26 11:48:02.519+00	2021-01-26 11:48:02.519+00
+27	Mathematics	2021-01-26 12:41:43.316+00	2021-01-26 12:41:43.316+00
+27	Football	2021-01-26 12:41:43.317+00	2021-01-26 12:41:43.317+00
+27	Computer Science	2021-01-26 12:41:43.316+00	2021-01-26 12:41:43.316+00
+38	Computer Science	2021-01-26 12:53:21.06+00	2021-01-26 12:53:21.06+00
+40	Computer Science	2021-01-30 13:55:21.508+00	2021-01-30 13:55:21.508+00
+41	Mathematics	2021-01-30 17:43:29.187+00	2021-01-30 17:43:29.187+00
+41	Computer Science	2021-01-30 17:43:29.187+00	2021-01-30 17:43:29.187+00
+41	Animals	2021-01-30 17:43:29.187+00	2021-01-30 17:43:29.187+00
+41	ROS	2021-01-30 17:43:29.187+00	2021-01-30 17:43:29.187+00
+41	Robotics	2021-01-30 17:43:29.187+00	2021-01-30 17:43:29.187+00
+42	Computer Science	2021-01-30 20:15:39.939+00	2021-01-30 20:15:39.939+00
+28	Mathematics	2021-01-30 21:55:58.16+00	2021-01-30 21:55:58.16+00
+28	Computer Science	2021-01-30 21:55:58.16+00	2021-01-30 21:55:58.16+00
+28	Data Science	2021-01-30 21:55:58.161+00	2021-01-30 21:55:58.161+00
+28	Robotics	2021-01-30 21:55:58.161+00	2021-01-30 21:55:58.161+00
+\.
+
+
+--
+-- Data for Name: user_ups; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.user_ups (id, upper_user_id, upped_user_id, "createdAt", "updatedAt") FROM stdin;
+1	25	6	2021-01-25 12:27:10.924+00	2021-01-25 12:27:10.924+00
+2	28	25	2021-01-25 20:18:05.274+00	2021-01-25 20:18:05.274+00
+5	25	28	2021-01-25 22:01:10.537+00	2021-01-25 22:01:10.537+00
+6	30	18	2021-01-26 08:57:50.692+00	2021-01-26 08:57:50.692+00
+7	33	8	2021-01-26 09:07:45.202+00	2021-01-26 09:07:45.202+00
+8	25	33	2021-01-26 09:12:14.213+00	2021-01-26 09:12:14.213+00
+10	28	34	2021-01-26 09:35:35.348+00	2021-01-26 09:35:35.348+00
+11	35	6	2021-01-26 11:24:29.374+00	2021-01-26 11:24:29.374+00
+12	35	27	2021-01-26 11:25:04.813+00	2021-01-26 11:25:04.813+00
+13	37	7	2021-01-26 11:48:30.196+00	2021-01-26 11:48:30.196+00
+14	28	37	2021-01-26 11:52:05.781+00	2021-01-26 11:52:05.781+00
+15	38	7	2021-01-26 12:53:52.825+00	2021-01-26 12:53:52.825+00
+16	28	38	2021-01-26 12:58:29.758+00	2021-01-26 12:58:29.758+00
+18	41	28	2021-01-30 17:43:47.626+00	2021-01-30 17:43:47.626+00
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: root
+--
+
+COPY public.users (id, name, surname, profile_picture_url, scholar_profile_url, email, password, validation, "isValidated", university, department, title, bio, citations, "iIndex", "hIndex", "last5Year_citations", "last5Year_iIndex", "last5Year_hIndex", projects, "createdAt", "updatedAt") FROM stdin;
+8	Efsun	Büyükozan	\N	\N	sakete7005@1adir.com	$2b$10$O62kADLhOkBFoNZGVPV6vOTFwzu3ZYKKhQlApKlmarRBCW/Pk7Bpa	216594	t	Bogazici University	Computer Engineering	Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-24 15:19:31.506+00	2021-01-24 15:20:36.748+00
+13	Smith	Irun	\N	\N	sbp5pqfsor@myinbox.icu	$2b$10$r89kjyNUfpv6pJrtjkuBE.gvfEKs0ATAq4m0u5R7LOc3zpNsFG.6q	839243	f	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-24 15:43:31.136+00	2021-01-24 15:43:31.136+00
+17	Jake	Parker	\N	\N	pxtjmkeesjvr@baybabes.com	$2b$10$irUv8NI5rwXxf4.aXubCSutUZHE6eof23Txp7uK2y1aLcGGNisDse	389391	t	Bogazici University	CmpE	Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-24 16:05:31.623+00	2021-01-24 16:05:51.159+00
+18	Adrian	Dima	\N	\N	mlmwfjijpvhwxl@baybabes.com	$2b$10$C7mPE/374uB5do4IubujiOst54/ziNCylwVOeoiX0iciAgQvOOUN2	627093	t	Bogazici University	Computer Engineering	Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-24 19:22:25.517+00	2021-01-24 19:23:01.273+00
+33	Ali 	Velvez	\N	https://scholar.google.com/citations?user=B23iqYwAAAAJ&hl=en	kmajxizkmpkrmf@baybabes.com	$2b$10$VkkYqaTn3R2Ihcz7mvbUu.RWpRzRNzDLnEkpSWnjIgfMMOGojGmQu	400651	t	Bogazici University	Computer Engineering	PhD Student	\N	3	\N	\N	0	\N	\N	[{"title":"Hierarchical mixtures of generators for adversarial learning","authors":"A Ahmeto&#287;lu, E Alpayd&#305;n","venue":"arXiv preprint arXiv:1911.02069, 2019","citations":3,"year":2019},{"title":"DeepSym: Deep Symbol Generation and Rule Learning from Unsupervised Continuous Robot Interaction for Planning","authors":"A Ahmetoglu, MY Seker, A Sayin, S Bugur, J Piater, E Oztop, E Ugur","venue":"arXiv preprint arXiv:2012.02532, 2020","citations":0,"year":2020},{"title":"Hierarchical Multitask Learning Approach for BERT","authors":"Ç Aksoy, A Ahmeto&#287;lu, T Güngör","venue":"arXiv preprint arXiv:2011.04451, 2020","citations":0,"year":2020},{"title":"Convolutional Soft Decision Trees","authors":"A Ahmeto&#287;lu, O &#304;rsoy, E Alpayd&#305;n","venue":"International Conference on Artificial Neural Networks, 134-141, 2018","citations":0,"year":2018}]	2021-01-26 09:06:43.823+00	2021-01-26 09:27:00.407+00
+30	William	Jackson	\N	\N	ridwzq@baybabes.com	$2b$10$zOU1xSCxWU9alcgyzjrhfO8WRsOHC/2FsMNU1nB/cDJX52Bfsf3aa	448448	t	Bogazici University	Computer Engineering	PhD Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-26 08:54:54.172+00	2021-01-26 08:57:05.295+00
+34	Emir	Can	\N	https://scholar.google.com/citations?user=B23iqYwAAAAJ&hl=en	njirhyrjfkaynu@baybabes.com	$2b$10$qhkTSQ21mb3/fgcFZOkN5OqNP2cixvHVXO8iR6lcsl.OLawycNh2G	050074	t	Karlsruhe Institute of Technology	Computer Engineering	PhD Student	\N	3	\N	\N	0	\N	\N	[{"title":"Hierarchical mixtures of generators for adversarial learning","authors":"A Ahmeto&#287;lu, E Alpayd&#305;n","venue":"arXiv preprint arXiv:1911.02069, 2019","citations":3,"year":2019},{"title":"DeepSym: Deep Symbol Generation and Rule Learning from Unsupervised Continuous Robot Interaction for Planning","authors":"A Ahmetoglu, MY Seker, A Sayin, S Bugur, J Piater, E Oztop, E Ugur","venue":"arXiv preprint arXiv:2012.02532, 2020","citations":0,"year":2020},{"title":"Hierarchical Multitask Learning Approach for BERT","authors":"Ç Aksoy, A Ahmeto&#287;lu, T Güngör","venue":"arXiv preprint arXiv:2011.04451, 2020","citations":0,"year":2020},{"title":"Convolutional Soft Decision Trees","authors":"A Ahmeto&#287;lu, O &#304;rsoy, E Alpayd&#305;n","venue":"International Conference on Artificial Neural Networks, 134-141, 2018","citations":0,"year":2018}]	2021-01-26 09:30:31.65+00	2021-01-26 09:42:44.841+00
+5	Dogukan	Kalkan	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/af779930-5fcc-11eb-8461-bbe0204d9ce9_boun.jpeg	\N	dogukankalkan.108@hotmail.com	$2b$10$s634kEj96iQBQbcnw3maoO8/ihR63fgj9gpRzlJPb488oRK.WyPgW	875860	t					\N	\N	\N	\N	\N	\N	\N	2021-01-24 12:56:51.302+00	2021-01-26 11:50:28.675+00
+6	Cihat	Kapusuz	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/a69838d0-5f48-11eb-960f-6588dde7517f_ProfilFoto.jpg	\N	cihat.kapusuz@gmail.com	$2b$10$vHUMzwyI27WIRfmHiyMUjuZ/Tiln5/EEhWVGoibR8KW.1jqJBA2sW	180853	t	Bogazici University	CmpE	Student		\N	\N	\N	\N	\N	\N	\N	2021-01-24 13:27:34.459+00	2021-01-25 20:05:20.222+00
+7	Ali	Mert	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/56cecc00-5eef-11eb-9181-03efa78fa0c3_ali.jpeg	\N	ali_ramazan_mert@hotmail.com	$2b$10$qxTa12Tfyul7xc6aAYzatevg6C2CnpeSrCe0cPKLI1KO1Z/GSMtPO	100095	t	Bogazici University	Computer Engineering	Student		\N	\N	\N	\N	\N	\N	\N	2021-01-24 13:40:37.036+00	2021-01-25 11:05:52.672+00
+25	Tuba	Cibuk	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/06082db0-5f4a-11eb-960f-6588dde7517f_44052790.jpeg	\N	tubacibuk1@gmail.com	$2b$10$MHWI8uqIIlRjibCHxc1kou3MFRjWJOTmLndmLDu6dKl/z2hg3iWam	696552	t	METU	IE	Researcher	Hi! I am looking for collaborations :)	\N	\N	\N	\N	\N	\N	\N	2021-01-25 12:02:35.101+00	2021-01-25 22:01:52.691+00
+40	Cenk	Taşkıran	\N	\N	eemthrqmwxcjyep@baybabes.com	$2b$10$O8.1gRSEeuaaFN6jeJOKguKlh/Q6WXLzJ27KKQyoNhCZM3VAb0NN6	447478	t	Karlsruhe Institute of Technology	Computer Engineering	Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-30 13:55:00.907+00	2021-01-30 13:55:21.509+00
+41	Ahsen	Cubuk	\N	\N	turderarti@nedoz.com	$2b$10$Gc41EFRqFtQ0FKFICI56qOJJErz3eUixchzZ6rdC1qwQZRpLwVozO	053287	t	Bogazici University	Computer Engineering	Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-30 17:42:02.337+00	2021-01-30 17:43:29.188+00
+42	Dejun	Kharkata	\N	\N	dikkikirta@nedoz.com	$2b$10$kZ.a9bW.9HWJukfrU5ymmOSZsq.SP8Nbbuy3JJIJnzEw3cdBfOwTu	273376	t	METU	Chemistry	PhD Student	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-30 20:14:58.866+00	2021-01-30 20:15:39.939+00
+20	Yuriy	Petrov	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/4ed35470-5e96-11eb-9181-03efa78fa0c3_thispersondoesnotexist0.jpeg	https://scholar.google.com/citations?user=yez91iAAAAAJ&hl=en	varkezurzu@nedoz.com	$2b$10$PbAQpOC8dxpMFGs0aOo2MuojvQi2GC3orr3WhM9TZeK4t.QdSUjAC	142923	t	Karlsruhe Institute of Technology	Mechanical Engineering	Student	I speak England and America very Good student in mechanics. 	644	\N	\N	470	\N	\N	[{"title":"Developments in control systems for rotary left ventricular assist devices for heart failure patients: a review","authors":"AHH AlOmari, AV Savkin, M Stevens, DG Mason, DL Timms, ...","venue":"Physiological measurement 34 (1), R1, 2012","citations":90,"year":2012},{"title":"Replication of the Frank-Starling response in a mock circulation loop","authors":"SD Gregory, M Stevens, D Timms, M Pearcy","venue":"2011 Annual International Conference of the IEEE Engineering in Medicine and &#8230;, 2011","citations":60,"year":2011},{"title":"Theoretical foundations of a Starling&#8208;like controller for rotary blood pumps","authors":"RF Salamonsen, E Lim, N Gaddum, AHH AlOmari, SD Gregory, ...","venue":"Artificial organs 36 (9), 787-796, 2012","citations":58,"year":2012},{"title":"Starling&#8208;like flow control of a left ventricular assist device: in vitro validation","authors":"NR Gaddum, M Stevens, E Lim, J Fraser, N Lovell, D Mason, D Timms, ...","venue":"Artificial organs 38 (3), E46-E56, 2014","citations":44,"year":2014},{"title":"Evaluation of physiological control systems for rotary left ventricular assist devices: an in-vitro study","authors":"JP Pauls, MC Stevens, N Bartnikowski, JF Fraser, SD Gregory, G Tansley","venue":"Annals of biomedical engineering 44 (8), 2377-2387, 2016","citations":35,"year":2016},{"title":"Physiological control of dual rotary pumps as a biventricular assist device using a master/slave approach","authors":"MC Stevens, S Wilson, A Bradley, J Fraser, D Timms","venue":"Artificial organs 38 (9), 766-774, 2014","citations":29,"year":2014},{"title":"In vivo evaluation of active and passive physiological control systems for rotary left and right ventricular assist devices","authors":"SD Gregory, MC Stevens, JP Pauls, E Schummy, S Diab, B Thomson, ...","venue":"Artificial organs 40 (9), 894-903, 2016","citations":25,"year":2016},{"title":"Frank-starling control of a left ventricular assist device","authors":"MC Stevens, NR Gaddum, M Pearcy, RF Salamonsen, DL Timms, ...","venue":"2011 Annual International Conference of the IEEE Engineering in Medicine and &#8230;, 2011","citations":24,"year":2011},{"title":"Hemodynamic response to exercise and head&#8208;up tilt of patients implanted with a rotary blood pump: a computational modeling study","authors":"E Lim, RF Salamonsen, M Mansouri, N Gaddum, DG Mason, DL Timms, ...","venue":"Artificial organs 39 (2), E24-E35, 2015","citations":23,"year":2015},{"title":"Flow mixing during peripheral veno-arterial extra corporeal membrane oxygenation&#8211;a simulation study","authors":"MC Stevens, FM Callaghan, P Forrest, PG Bannon, SM Grieve","venue":"Journal of biomechanics 55, 64-70, 2017","citations":22,"year":2017},{"title":"In vitro comparison of active and passive physiological control systems for biventricular assist devices","authors":"JP Pauls, MC Stevens, E Schummy, G Tansley, JF Fraser, D Timms, ...","venue":"Annals of biomedical engineering 44 (5), 1370-1380, 2016","citations":22,"year":2016},{"title":"Comparison of preload&#8208;sensitive pressure and flow controller strategies for a dual device biventricular support system","authors":"NR Gaddum, DL Timms, M Stevens, D Mason, N Lovell, JF Fraser","venue":"Artificial organs 36 (3), 256-265, 2012","citations":22,"year":2012},{"title":"Haemodynamic modeling of the cardiovascular system using mock circulation loops to test cardiovascular devices","authors":"DL Timms, SD Gregory, MC Stevens, JF Fraser","venue":"2011 Annual International Conference of the IEEE Engineering in Medicine and &#8230;, 2011","citations":17,"year":2011},{"title":"Selecting power-efficient signal features for a low-power fall detector","authors":"C Wang, SJ Redmond, W Lu, MC Stevens, SR Lord, NH Lovell","venue":"IEEE Transactions on Biomedical Engineering 64 (11), 2729-2736, 2017","citations":14,"year":2017},{"title":"Mechanical circulatory and respiratory support","authors":"S Gregory, M Stevens, JF Fraser","venue":"Academic Press, 2017","citations":13,"year":2017},{"title":"In vitro evaluation of aortic insufficiency with a rotary left ventricular assist device","authors":"SD Gregory, MC Stevens, E Wu, JF Fraser, D Timms","venue":"Artificial organs 37 (9), 802-809, 2013","citations":13,"year":2013},{"title":"In vitro and in vivo characterization of three different modes of pump operation when using a left ventricular assist device as a right ventricular assist device","authors":"MC Stevens, SD Gregory, F Nestler, B Thomson, J Choudhary, B Garlick, ...","venue":"Artificial organs 38 (11), 931-939, 2014","citations":12,"year":2014},{"title":"A low-power fall detector balancing sensitivity and false alarm rate","authors":"C Wang, W Lu, SJ Redmond, MC Stevens, SR Lord, NH Lovell","venue":"IEEE journal of biomedical and health informatics 22 (6), 1929-1937, 2017","citations":11,"year":2017},{"title":"In vitro evaluation of an immediate response Starling&#8208;like controller for dual rotary blood pumps","authors":"AF Stephens, MC Stevens, SD Gregory, M Kleinheyer, RF Salamonsen","venue":"Artificial organs 41 (10), 911-922, 2017","citations":10,"year":2017},{"title":"A computational framework for adjusting flow during peripheral extracorporeal membrane oxygenation to reduce differential hypoxia","authors":"MC Stevens, FM Callaghan, P Forrest, PG Bannon, SM Grieve","venue":"Journal of biomechanics 79, 39-44, 2018","citations":7,"year":2018}]	2021-01-24 22:41:03.639+00	2021-01-25 01:07:55.358+00
+27	Muhammed Enes	Toptaş	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/43b94bc0-5fd2-11eb-8461-bbe0204d9ce9_ezgif-2-3f472e73810e.gif	https://scholar.google.com/citations?hl=en&user=N80kIiYAAAAJ	m.enestoptas@gmail.com	$2b$10$XxjMnrASGwucP6eDZf6Ymusy8QRxIGAL8V/eqCh0GMJMUvsUAKIQe	835425	t	Bogazici University	Computer Engineering	Professor	πάντα στέγει, πάντα πιστεύει, πάντα ἐλπίζει, πάντα ὑπομένει.\n	559905	\N	\N	116295	\N	\N	[{"title":"The interpretation of dreams","authors":"S Freud, J Strachey","venue":"Gramercy Books, 1996","citations":74628,"year":1996},{"title":"The ego and the id","authors":"S Freud","venue":"WW Norton &amp; Company, 1989","citations":62324,"year":1989},{"title":"The ego and the id","authors":"S Freud","venue":"WW Norton &amp; Company, 1989","citations":46722,"year":1989},{"title":"Beyond the pleasure principle","authors":"S Freud","venue":"Penguin UK, 2003","citations":25397,"year":2003},{"title":"Mourning and melancholia","authors":"S Freud","venue":"The Standard Edition of the Complete Psychological Works of Sigmund Freud &#8230;, 1957","citations":23467,"year":1957},{"title":"Three essays on the theory of sexuality (1905)","authors":"S Freud","venue":"The standard edition of the complete psychological works of Sigmund Freud &#8230;, 1953","citations":16757,"year":1953},{"title":"Introductory lectures on psychoanalysis","authors":"S Freud","venue":"WW Norton &amp; Company, 1977","citations":14989,"year":1977},{"title":"Civilization and its discontents","authors":"S Freud","venue":"Broadview Press, 2015","citations":12399,"year":2015},{"title":"Psicología de las masas y análisis del yo","authors":"S Freud","venue":"FV Éditions, 2013","citations":11314,"year":2013},{"title":"The standard edition of the complete psychological works of Sigmund Freud.","authors":"S Freud, JE Strachey","venue":"Macmillan, 1964","citations":10563,"year":1964},{"title":"Más allá del principio del placer","authors":"S Freud","venue":"Ediciones AKAL, 2020","citations":9699,"year":2020},{"title":"Studies on hysteria","authors":"J Breuer, S Freud","venue":"Hachette UK, 2009","citations":8566,"year":2009},{"title":"L&#39;inconscient","authors":"S Freud","venue":"Éditions Payot, 2013","citations":7442,"year":2013},{"title":"O mal-estar na civilização (1930)","authors":"S Freud","venue":"Cienbook, 2020","citations":7403,"year":2020},{"title":"Inhibitions, symptoms and anxiety","authors":"S Freud","venue":"WW Norton &amp; Company, 1977","citations":7016,"year":1977},{"title":"Analysis terminable and interminable","authors":"S Freud","venue":"New York 23, 211-254, 1937","citations":6794,"year":1937},{"title":"The standard edition of the complete psychological works of Sigmund Freud.","authors":"S Freud, JE Strachey","venue":"Macmillan, 1964","citations":6510,"year":1964},{"title":"The life and work of Sigmund Freud","authors":"E Jones","venue":"Plunkett Lake Press, 2019","citations":6304,"year":2019},{"title":"El malestar en la cultura","authors":"S Freud","venue":"Ediciones Akal, 2017","citations":5872,"year":2017},{"title":"Das Unbehagen in der Kultur: Reclams Universal-Bibliothek","authors":"S Freud","venue":"Reclam Verlag, 2012","citations":5753,"year":2012}]	2021-01-25 18:48:24.161+00	2021-01-26 12:41:43.317+00
+35	Melo	Beyo	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/a49e6000-5fc9-11eb-8461-bbe0204d9ce9_home.jpeg	\N	kiq63426@eoopy.com	$2b$10$HFmKZorYHabeiir6E.GuJeHNbpT3uRAy4E/DGo8TcMQ6LBytIAn3i	486914	t	METU	IE	PhD Student	Biomtech	\N	\N	\N	\N	\N	\N	\N	2021-01-26 11:03:57.987+00	2021-01-26 11:30:21.547+00
+28	Tugba	Cabuk	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/73a82f40-5f4b-11eb-960f-6588dde7517f_Capture.JPG	https://scholar.google.com/citations?user=B23iqYwAAAAJ&oi=ao	bupsusipsi@nedoz.com	$2b$10$M6N3KwB3tzNSZo3Y1p15h./YDe381w.ZyTXeRQwS4rmj9CQ0jPN8W	718078	t	Bogazici University	Computer Engineering	Researcher	Hi! I am Tugba :)	3	\N	\N	0	\N	\N	[{"title":"Hierarchical mixtures of generators for adversarial learning","authors":"A Ahmeto&#287;lu, E Alpayd&#305;n","venue":"arXiv preprint arXiv:1911.02069, 2019","citations":3,"year":2019},{"title":"DeepSym: Deep Symbol Generation and Rule Learning from Unsupervised Continuous Robot Interaction for Planning","authors":"A Ahmetoglu, MY Seker, A Sayin, S Bugur, J Piater, E Oztop, E Ugur","venue":"arXiv preprint arXiv:2012.02532, 2020","citations":0,"year":2020},{"title":"Hierarchical Multitask Learning Approach for BERT","authors":"Ç Aksoy, A Ahmeto&#287;lu, T Güngör","venue":"arXiv preprint arXiv:2011.04451, 2020","citations":0,"year":2020},{"title":"Convolutional Soft Decision Trees","authors":"A Ahmeto&#287;lu, O &#304;rsoy, E Alpayd&#305;n","venue":"International Conference on Artificial Neural Networks, 134-141, 2018","citations":0,"year":2018}]	2021-01-25 19:28:39.932+00	2021-01-30 21:55:58.153+00
+36	Oktay	Sinanoğlu	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/7aad8730-5fc9-11eb-8461-bbe0204d9ce9_oktay sinan.jpg	\N	dartetasta@nedoz.com	$2b$10$/WYs6fjeQH/KexTUDB6qreaHzvNI98VsRbmi2C2Y89sP6143paty6	907878	t	California University	Chemistry	Professor	\N	\N	\N	\N	\N	\N	\N	\N	2021-01-26 11:19:50.447+00	2021-01-26 11:30:26.75+00
+37	Jake	Fin	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/2b771be0-5fce-11eb-8461-bbe0204d9ce9_image2.jpg	https://scholar.google.com/citations?user=B23iqYwAAAAJ&hl=en	gxjahow@baybabes.com	$2b$10$CdByfYwW8xMkzJxVMKObaucZsz0UpBcMc/ghYpyxA7cJeT3/SyfGS	074609	t	Bogazici University	Computer Engineering	PhD Student	\N	3	\N	\N	0	\N	\N	[{"title":"Hierarchical mixtures of generators for adversarial learning","authors":"A Ahmeto&#287;lu, E Alpayd&#305;n","venue":"arXiv preprint arXiv:1911.02069, 2019","citations":3,"year":2019},{"title":"DeepSym: Deep Symbol Generation and Rule Learning from Unsupervised Continuous Robot Interaction for Planning","authors":"A Ahmetoglu, MY Seker, A Sayin, S Bugur, J Piater, E Oztop, E Ugur","venue":"arXiv preprint arXiv:2012.02532, 2020","citations":0,"year":2020},{"title":"Hierarchical Multitask Learning Approach for BERT","authors":"Ç Aksoy, A Ahmeto&#287;lu, T Güngör","venue":"arXiv preprint arXiv:2011.04451, 2020","citations":0,"year":2020},{"title":"Convolutional Soft Decision Trees","authors":"A Ahmeto&#287;lu, O &#304;rsoy, E Alpayd&#305;n","venue":"International Conference on Artificial Neural Networks, 134-141, 2018","citations":0,"year":2018}]	2021-01-26 11:47:31.654+00	2021-01-26 12:01:06.207+00
+38	Emilcan	Arıcan	http://ec2-18-232-156-252.compute-1.amazonaws.com:3000/static/avatars/d5c71940-5fd5-11eb-8461-bbe0204d9ce9_profile.jpg	https://scholar.google.com/citations?user=B23iqYwAAAAJ&hl=en	kuzqgzn@baybabes.com	$2b$10$22JuXnOzcgWScQeVX4i4pe.6TVcJThIlJbeOhGPVkHPEXaxDWUMB2	726243	t	Bogazici University	Computer Engineering	PhD Student	\N	3	\N	\N	0	\N	\N	[{"title":"Hierarchical mixtures of generators for adversarial learning","authors":"A Ahmeto&#287;lu, E Alpayd&#305;n","venue":"arXiv preprint arXiv:1911.02069, 2019","citations":3,"year":2019},{"title":"DeepSym: Deep Symbol Generation and Rule Learning from Unsupervised Continuous Robot Interaction for Planning","authors":"A Ahmetoglu, MY Seker, A Sayin, S Bugur, J Piater, E Oztop, E Ugur","venue":"arXiv preprint arXiv:2012.02532, 2020","citations":0,"year":2020},{"title":"Hierarchical Multitask Learning Approach for BERT","authors":"Ç Aksoy, A Ahmeto&#287;lu, T Güngör","venue":"arXiv preprint arXiv:2011.04451, 2020","citations":0,"year":2020},{"title":"Convolutional Soft Decision Trees","authors":"A Ahmeto&#287;lu, O &#304;rsoy, E Alpayd&#305;n","venue":"International Conference on Artificial Neural Networks, 134-141, 2018","citations":0,"year":2018}]	2021-01-26 12:52:38.34+00	2021-01-26 13:04:21.705+00
+\.
+
+
+--
+-- Name: collab_requests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.collab_requests_id_seq', 86, true);
+
+
+--
+-- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.events_id_seq', 75, true);
+
+
+--
+-- Name: follows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.follows_id_seq', 46, true);
+
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.notifications_id_seq', 123, true);
+
+
+--
+-- Name: project_collaborators_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.project_collaborators_id_seq', 39, true);
+
+
+--
+-- Name: project_files_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.project_files_id_seq', 5, true);
+
+
+--
+-- Name: project_milestones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.project_milestones_id_seq', 32, true);
+
+
+--
+-- Name: project_tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.project_tags_id_seq', 116, true);
+
+
+--
+-- Name: projects_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.projects_id_seq', 69, true);
+
+
+--
+-- Name: user_ups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.user_ups_id_seq', 18, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: root
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 43, true);
+
+
+--
+-- Name: collab_requests collab_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.collab_requests
+    ADD CONSTRAINT collab_requests_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: departments departments_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.departments
+    ADD CONSTRAINT departments_pkey PRIMARY KEY (department);
+
+
+--
+-- Name: event_favs event_favs_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_favs
+    ADD CONSTRAINT event_favs_pkey PRIMARY KEY ("userId", "eventId");
+
+
+--
+-- Name: event_tags event_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_tags
+    ADD CONSTRAINT event_tags_pkey PRIMARY KEY (id, tag);
+
+
+--
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: follows follows_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.follows
+    ADD CONSTRAINT follows_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_collaborators project_collaborators_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_collaborators
+    ADD CONSTRAINT project_collaborators_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_files project_files_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_files
+    ADD CONSTRAINT project_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_milestones project_milestones_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_milestones
+    ADD CONSTRAINT project_milestones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_tags project_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_tags
+    ADD CONSTRAINT project_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: projects projects_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT projects_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (tag);
+
+
+--
+-- Name: titles titles_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.titles
+    ADD CONSTRAINT titles_pkey PRIMARY KEY (title);
+
+
+--
+-- Name: universities universities_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.universities
+    ADD CONSTRAINT universities_pkey PRIMARY KEY (university);
+
+
+--
+-- Name: user_interests user_interests_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.user_interests
+    ADD CONSTRAINT user_interests_pkey PRIMARY KEY (user_id, interest);
+
+
+--
+-- Name: user_ups user_ups_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.user_ups
+    ADD CONSTRAINT user_ups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: collab_requests collab_requests_projectId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.collab_requests
+    ADD CONSTRAINT "collab_requests_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES public.projects(id) ON DELETE CASCADE;
+
+
+--
+-- Name: collab_requests collab_requests_requesterId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.collab_requests
+    ADD CONSTRAINT "collab_requests_requesterId_fkey" FOREIGN KEY ("requesterId") REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: event_favs event_favs_eventId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_favs
+    ADD CONSTRAINT "event_favs_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES public.events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: event_favs event_favs_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_favs
+    ADD CONSTRAINT "event_favs_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: event_tags event_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_tags
+    ADD CONSTRAINT event_tags_id_fkey FOREIGN KEY (id) REFERENCES public.events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: event_tags event_tags_tag_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.event_tags
+    ADD CONSTRAINT event_tags_tag_fkey FOREIGN KEY (tag) REFERENCES public.tags(tag) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: events events_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.events
+    ADD CONSTRAINT "events_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: follows follows_followed_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.follows
+    ADD CONSTRAINT follows_followed_user_id_fkey FOREIGN KEY (followed_user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: follows follows_follower_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.follows
+    ADD CONSTRAINT follows_follower_user_id_fkey FOREIGN KEY (follower_user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: notifications notifications_receiverId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT "notifications_receiverId_fkey" FOREIGN KEY ("receiverId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: project_collaborators project_collaborators_project_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_collaborators
+    ADD CONSTRAINT project_collaborators_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE;
+
+
+--
+-- Name: project_collaborators project_collaborators_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_collaborators
+    ADD CONSTRAINT project_collaborators_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: project_files project_files_project_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_files
+    ADD CONSTRAINT project_files_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE;
+
+
+--
+-- Name: project_milestones project_milestones_project_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_milestones
+    ADD CONSTRAINT project_milestones_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE;
+
+
+--
+-- Name: project_tags project_tags_project_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.project_tags
+    ADD CONSTRAINT project_tags_project_id_fkey FOREIGN KEY (project_id) REFERENCES public.projects(id) ON DELETE CASCADE;
+
+
+--
+-- Name: projects projects_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.projects
+    ADD CONSTRAINT "projects_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_ups user_ups_upped_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.user_ups
+    ADD CONSTRAINT user_ups_upped_user_id_fkey FOREIGN KEY (upped_user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_ups user_ups_upper_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.user_ups
+    ADD CONSTRAINT user_ups_upper_user_id_fkey FOREIGN KEY (upper_user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
