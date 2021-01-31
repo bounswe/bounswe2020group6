@@ -36,55 +36,73 @@ import searchIcon from "../../assets/search-icon.png";
 import api from "../../axios";
 
 const SiteHeader = () => {
+  // states
   const [sideBarCollapsed, setSideBarCollapsed] = useState(false);
   const [searchText, setSearchText] = useState(null);
   const [userId, setUserId] = useState();
-
+  // modal states
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
   const [isChangePasswordModalVisible, setIsChangePasswordModalVisible] = useState(false);
   const [isDeleteAccountModalVisible, setIsDeleteAccountModalVisible] = useState(false);
-
+  // notification states
   const [notificationData, setNotificationData] = useState([]);
   const [responseNotificationData, setResponseNotificationData] = useState([]);
 
+  // define hooks
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // toggle change password modal
   const toggleChangePasswordModal = () => {
     setIsChangePasswordModalVisible((prev) => !prev);
   };
 
+  // toggle delete account modal
   const toggleDeleteAccountModal = () => {
     setIsDeleteAccountModalVisible((prev) => !prev);
   };
 
+  // get collaboration requests
   useEffect(() => {
+    // send a get request for the requests
     api({ sendToken: true })
       .get("/collab/get_requests")
       .then((response) => {
+        // set notification data
         setNotificationData(response.data);
       });
   }, []);
 
+  // get notificatiosn
   useEffect(() => {
+    // send a get request for the notifications
     api({ sendToken: true })
       .get("/notification/get")
       .then((response) => {
+        // set response notification data
         setResponseNotificationData(response.data);
       });
   }, []);
 
+  // set current user's id
   useEffect(() => {
+    // get current user's id
     const id = localStorage.getItem("userId");
+    // set current user's id
     setUserId(id);
   }, []);
 
+  // handles log out
   const handleLogout = () => {
+    // dispatch log out action
     dispatch(authLogoutAction());
+    // rediect to the root directory
     history.push("/");
   };
 
+  // renders side bar items
+  // (displayed during mobile size)
   const sideBar = (
     <SideBar visible={sideBarCollapsed}>
       <SideBarMenu>
@@ -99,6 +117,7 @@ const SiteHeader = () => {
     </SideBar>
   );
 
+  // redirects to the search page
   const redirectToSearchPage = () => {
     history.push("/search?query=" + searchText );
   };
@@ -112,19 +131,24 @@ const SiteHeader = () => {
     />
   );
 
+  // shows the notification modal
   const showModal = () => {
     setIsModalVisible(true);
   };
 
+  // hides the notification modal
   const hideModal = () => {
     setIsModalVisible(false);
   };
 
+  // handle accepting collaboration request
   const acceptRequest = (request_id, project_id, requester_id, requested_id, type) => {
+    // set data
     var data = {
       projectId: project_id,
     };
 
+    // handler request type
     if (type === 0) {
       // they wanted me to join their project
       data = {
@@ -139,32 +163,43 @@ const SiteHeader = () => {
       };
     }
 
+    // add collaborator to the project
     api({ sendToken: true })
       .post("/collab/add_collaborator", data)
       .then((r) => console.log(r.data))
       .catch((e) => console.log(e.response.data.error));
+    // delete request from requests
     api({ sendToken: true })
       .delete("/collab/delete_request/" + request_id)
       .then((_) => {
+        // get collaboration requests
         api({ sendToken: true })
           .get("/collab/get_requests")
           .then((response) => {
+            // set notification data
             setNotificationData(response.data);
           });
       });
 
+    // hide the modal
     setIsModalVisible(false);
   };
 
+  // handle reject request
   const rejectRequest = (requestId, projectId, rejectedId) => {
+    // prepare the body
     const body = { requestId, projectId, rejectedId };
+    // send a post request for reject 
     api({ sendToken: true }).post("/notification/add_rejection", body);
+    // delete the request from requests
     api({ sendToken: true })
       .delete("/collab/delete_request/" + requestId)
       .then((_) => {
+        // get requests again
         api({ sendToken: true })
           .get("/collab/get_requests")
           .then((response) => {
+            // set notification data
             setNotificationData(response.data);
           });
       });
@@ -172,6 +207,7 @@ const SiteHeader = () => {
     setIsModalVisible(false);
   };
 
+  // renders a notification component
   const notificationComponent = (n, k) => {
     if (n.project !== null && n.user !== null){
       return (
@@ -198,18 +234,23 @@ const SiteHeader = () => {
     
   };
 
+  // handles deletion of a notification
   const handleDelete = (id) => {
+    // send a delete request to delete a notification
     api({ sendToken: true })
       .delete(`/notification/delete/${id}`)
       .then(() => {
+        // get notifications again
         api({ sendToken: true })
           .get("/notification/get")
           .then((response) => {
+            // set notification data
             setResponseNotificationData(response.data);
           });
       });
   };
 
+  // creates a component for the response notification
   const responseNotificationComponent = (n, k) => {
     if (n.project !== null && n.accepter !== null){
       return (
