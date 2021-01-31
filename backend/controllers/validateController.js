@@ -2,7 +2,10 @@ const { User } = require("../model/db")
 const { createJwt } = require("../util/authCheck")
 const { hashPassword, compare } = require("../util/passwordUtil")
 
-
+/**
+ * validates a user, accepts a validation code, if wrong returns error
+ * if true, validates user and returns a new jwt
+ */
 validate = async function(req, res) {
     code = req.body.code
     user = await User.findOne({
@@ -27,6 +30,14 @@ validate = async function(req, res) {
     }
 }
 
+/**
+ * endpoint to enter a new password for a forgotten one
+ * also checks whether the jwt has the code field
+ * if it has, than indeed this recovery was requested
+ * else it was not and this endpoint does return an error
+ * different from password reset, as password reset accepts
+ * old password to provide security
+ */
 passwordForgotten = async function(req, res) {
     if (!req.code) return res.status(401).send({message: "Invalid token, you need a token with code parameter!"})
 
@@ -49,6 +60,11 @@ passwordForgotten = async function(req, res) {
     
 }
 
+/**
+ * changes password of a user with given one,
+ * old password should also be provided to further increase
+ * security
+ */
 passwordReset = async function(req, res) {
 
     try {

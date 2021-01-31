@@ -30,7 +30,9 @@ module.exports = (sequelize, Seq) => {
             type: Seq.STRING,
             allowNull: false,
         },
+        //validation code of user
         validation: Seq.STRING,
+        //whether user is validated or not
         isValidated: Seq.BOOLEAN,
         university: {
             type: Seq.STRING
@@ -44,6 +46,7 @@ module.exports = (sequelize, Seq) => {
         bio:{
             type: Seq.STRING
         },
+        //citations of user in google scholar
         citations:{
             type: Seq.INTEGER
         },
@@ -53,6 +56,7 @@ module.exports = (sequelize, Seq) => {
         hIndex:{
             type: Seq.INTEGER
         },
+        //last 5 year citations of user in google scholar
         last5Year_citations:{
             type: Seq.INTEGER
         },
@@ -62,6 +66,7 @@ module.exports = (sequelize, Seq) => {
         last5Year_hIndex:{
             type: Seq.INTEGER
         },
+        //projects of user in google scholar
         projects:{
             type: Seq.TEXT
         }

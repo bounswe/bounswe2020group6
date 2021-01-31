@@ -5,7 +5,7 @@ const url = require('url');
 const userUtils = require('../util/userUtil')
 const fixUtf8 = require('fix-utf8')
 
-
+/**creates a profile for given user */
 addProfile = async function (req, res) {
     user_interests = req.body.researchAreas
     user_affiliation = req.body.affiliation
@@ -30,6 +30,9 @@ addProfile = async function (req, res) {
     }    
 }
 
+/**updates affiliation, biography and interest fields of this profile
+ * all are optional
+ */
 updateProfile = async function (req, res) {
     user_interests = req.body.researchAreas
     user_affiliation = req.body.affiliation
@@ -66,6 +69,10 @@ updateProfile = async function (req, res) {
 
 }
 
+/**
+ * gets a single profile
+ * and also how many upvotes, followers, followeds this user/account has
+ */
 getProfile = async function (req, res) {
 
     try {
@@ -128,6 +135,7 @@ getProfile = async function (req, res) {
     }
 }
 
+/**just updates the biography of a profile */
 changeBio = async function (req, res) {
     biography = {bio: req.body.bio}
 
@@ -144,6 +152,7 @@ changeBio = async function (req, res) {
     }    
 }
 
+/**uploads a profile picture */
 changeProfilePicture = async function (req, res) {
     if(!req.files) {
         res.status(400).send({
@@ -154,7 +163,7 @@ changeProfilePicture = async function (req, res) {
         let avatar = req.files.avatar
         let filename = uuidv1() + "_" + avatar.name
         let path = './uploads/avatars/' + filename
-        let vPath = "http://ec2-18-232-99-241.compute-1.amazonaws.com:3000/static/avatars/" + filename
+        let vPath = `http://${process.env.DB_HOST}:3000/static/avatars/${filename}`
         
         avatar.mv(path)
 
@@ -177,6 +186,7 @@ changeProfilePicture = async function (req, res) {
     }
 }
 
+/**links an account with a google scholar profile */
 addScholar = async function (req, res) {
     let gUrl = addhttp(req.body.url)
     if(url.parse(gUrl).hostname !== 'scholar.google.com'){
@@ -207,6 +217,7 @@ addScholar = async function (req, res) {
     }
 }
 
+/**upvotes a user */
 addUp = async function(req, res){
     upper_user_id = Number(req.userId)
     upped_user_id = req.body.userId
@@ -235,6 +246,7 @@ addUp = async function(req, res){
     }
 }
 
+/**unupvotes a user */
 removeUp = async function(req, res){
     upper_user_id = Number(req.userId)
     upped_user_id = req.body.userId
@@ -262,6 +274,7 @@ removeUp = async function(req, res){
     }
 }
 
+//auxiliary function to make incoming url proper
 function addhttp(url) {
     if (!/^(?:f|ht)tps?\:\/\//.test(url)) {
         url = "https://" + url;

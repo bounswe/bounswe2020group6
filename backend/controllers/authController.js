@@ -4,6 +4,9 @@ const { createJwt, createJwtWithCode } = require("../util/authCheck")
 const jwt = require('jsonwebtoken')
 const { User } = require("../model/db")
 
+/**
+ * logs in a user, compares password and email, returns jwt token or errors
+ */
 login = async function(req, res){
     loggingUser = await User.findOne({
         where: {
@@ -22,7 +25,11 @@ login = async function(req, res){
     return res.status(404).send({message: "User not found"})
 }
 
-
+/**
+ * signs up a new user, user is requested to provide
+ * email, password, name, surname
+ * then an email is sent to validate this user
+ */
 signup = async function(req,res) {
 
     validationCode = mailController.createValidationCode()
@@ -52,6 +59,7 @@ signup = async function(req,res) {
     
 }
 
+/**returns whether this token is valid or not */
 jwtValidation = async function(req, res) {
     token = req.body.token
     try {
@@ -68,6 +76,7 @@ jwtValidation = async function(req, res) {
     }
 }
 
+/**given an email address as input, sends an email with recovery code */
 forgotPassword = async function(req, res) {
     const email = req.body.email
     const validationCode = mailController.createValidationCode()
@@ -87,6 +96,9 @@ forgotPassword = async function(req, res) {
     }
 }
 
+/**validates the sent code and gives a jwt to requester
+ * this token allows user to change their password securely
+ */
 checkCode = async function(req, res) {
     const email = req.body.email
     const code = req.body.code

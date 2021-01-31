@@ -2,6 +2,11 @@ const { User, EventFav, EventTag,  Event, sequelize } = require('../model/db');
 const { Op } = require("sequelize");
 const elasticUtil = require("../elastic/elasticUtil")
 
+/**
+ * this is a model that is included in event queries
+ * also returns whether an event is favorited by the given user
+ * @param {number} id userId of given user
+ */
 const eventData = function (id) {
     data = 
     [
@@ -24,7 +29,11 @@ const eventData = function (id) {
     return data
 } 
     
-
+/**
+ * creates a new event, expected fields are
+ * userId, type, isPublic, title, body, link, location, date, other
+ * all except userId can be null, but still need to be passed
+ */
 addEvent = async function (req, res) {
     
     const event = {
@@ -62,7 +71,7 @@ addEvent = async function (req, res) {
     }
 }
 
-
+/** returns all events */
 getEvents = async function (req, res) {
     try {
         events = await Event.findAll({ 
@@ -78,6 +87,7 @@ getEvents = async function (req, res) {
     }
 }
 
+/** returns a specific event */
 getEvent = async function (req, res) {
     try {
         events = await Event.findOne({ where: { id: req.params.id }, include: eventData(req.userId) })
@@ -88,6 +98,7 @@ getEvent = async function (req, res) {
     }
 }
 
+/** filters events */
 searchEvents = async function (req, res) {
     const query = req.body.filters;
     if('isPublic' in query) delete query.isPublic
@@ -101,6 +112,7 @@ searchEvents = async function (req, res) {
     }
 }
 
+/**updates a specific event */
 updateEvent = async function (req, res) {
     const toUpdate = req.body.update;
     let tags, id = req.params.id;
@@ -146,6 +158,7 @@ updateEvent = async function (req, res) {
     }
 }
 
+/**favorites an event */
 favEvent = async function (req, res) {
     const userId = req.userId
     const eventId = req.body.id
@@ -166,6 +179,7 @@ favEvent = async function (req, res) {
     }
 }
 
+/**unfavorites an event */
 unfavEvent = async function (req, res) {
     const userId = req.userId
     const eventId = req.body.id
@@ -186,6 +200,7 @@ unfavEvent = async function (req, res) {
     }
 }
 
+/**deletes an event */
 deleteEvent = async function (req, res) {
     const userId = req.userId
     const id = req.body.id
@@ -205,7 +220,7 @@ deleteEvent = async function (req, res) {
     }
 }
 
-
+/**returns all events favorited by this user */
 listFavEvents = async function (req, res) {
     const userId = req.query.userId
     try {
