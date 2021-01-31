@@ -76,6 +76,7 @@ const EditProject = () => {
     // eslint-disable-next-line
   }, [projectData]);
 
+  // when tags change make a request to appropriate endpoints to modify the tags of the project
   function handleOnChangeTags(e) {
     let removedTags = tempTags.filter((x) => !e.includes(x));
     let addedTags = e.filter((x) => !tempTags.includes(x));
@@ -95,11 +96,13 @@ const EditProject = () => {
     setActiveMilestone(value);
   };
 
+  // delete a milestone and set active milestone to none
   const handleDeleteMilestone = function (index) {
     setActiveMilestone(-1);
     dispatch(deleteMilestone(projectId, milestonesData[index], setProjectData, message, history));
   };
 
+  // add new milestone with required data forms
   const handleAddMilestone = function (index) {
     let tempMilestoneData = {
       date: moment().format("YYYY-MM-DD"),
@@ -152,16 +155,6 @@ const EditProject = () => {
   }
 
   const getData = () => projectData || data;
-
-  const handleMilestoneTypeChange = (e, index) => {
-    const value = e.target.value;
-    setMilestoneType(value);
-    if (value === "Due Date") milestoneTitleChange(e, index);
-  };
-
-  const dueDateExists = () => {
-    return milestonesData.filter((m) => m.title === "Due Date").length > 0;
-  };
 
   return (
     <Content>

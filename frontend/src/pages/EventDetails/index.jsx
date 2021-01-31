@@ -18,7 +18,7 @@ import { H1, H2, H4, Main, DateSection, Tags, Summary, Side } from "./style";
 
 import SearchableTag from "../../components/SearchableTag";
 
-// src: https://forum.freecodecamp.org/t/newline-in-react-string-solved/68484
+// split text into renderable tags
 function NewlineText(text) {
   return text.split("\n").map((s, i) => (
     <span key={i}>
@@ -37,6 +37,7 @@ const EventDetails = () => {
 
   var myId = parseInt(localStorage.getItem("userId"));
 
+  // load event data
   useEffect(() => {
     setLoadingProject(true);
     api({ sendToken: true })
@@ -50,6 +51,7 @@ const EventDetails = () => {
       });
   }, [eventId, history]);
 
+  // save event 
   const handleFav = () => {
     api({ sendToken: true })
       .post("/event/fav/", { id: eventData.id })
@@ -62,6 +64,7 @@ const EventDetails = () => {
       });
   };
 
+  // unsave event 
   const handleUnfav = () => {
     api({ sendToken: true })
       .post("/event/unfav/", { id: eventData.id })
@@ -74,6 +77,7 @@ const EventDetails = () => {
       });
   };
 
+  // set deadline color according to its location in time
   const deadlineColor = (deadline_str) => {
     var deadline = new Date(deadline_str);
     var today = new Date();
@@ -86,11 +90,13 @@ const EventDetails = () => {
     }
   };
 
+  // formt time to akademise standard
   const formatTime = (date) => {
     let formattedDate = moment.utc(date).format("YYYYMMDDTHHmmssZ");
     return formattedDate.replace("+00:00", "Z");
   };
 
+  // create calendarurl to add event to google calendar
   let calendarUrl = "https://calendar.google.com/calendar/render";
   calendarUrl += "?action=TEMPLATE";
   calendarUrl += "&dates=" + formatTime(eventData.date);

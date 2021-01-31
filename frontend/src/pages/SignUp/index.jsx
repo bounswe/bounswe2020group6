@@ -107,6 +107,7 @@ const SignUp = () => {
     infoUpdateFailMessage,
   ]);
 
+  // check if passwords match
   const validatePasswordAndConfirmPassword = (rule, value) => {
     if (value && value !== signUpForm.getFieldValue("password")) {
       return Promise.reject("Passwords don't match!");
@@ -134,6 +135,7 @@ const SignUp = () => {
     );
   };
 
+  // move to next page of form
   const moveToNextStep = function (e) {
     setFormStep((x) => x + 1);
   };
@@ -174,6 +176,11 @@ const SignUp = () => {
     setIsModalVisible(false);
   };
 
+  // check if password has required properties
+  // at least one number
+  // at least one special character
+  // at least one letter
+  // at least 8 characters long
   const validatePassword = (rule, value, callback) => {
 
     var includesSymbol = false;

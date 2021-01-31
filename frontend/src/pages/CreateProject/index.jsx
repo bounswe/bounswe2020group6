@@ -35,6 +35,7 @@ const CreateProject = () => {
 
   const history = useHistory();
 
+  // get existing tags from the database
   useEffect(() => {
     dispatch(getTags());
     // eslint-disable-next-line

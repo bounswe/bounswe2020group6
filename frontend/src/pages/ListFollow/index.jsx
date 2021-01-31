@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 import api from "../../axios";
 
+// capitalize (for names)
 const capitalize = function (type) {
   return type.charAt(0).toUpperCase() + type.slice(1);
 };
@@ -37,6 +38,8 @@ const Home = () => {
 
   const [userRecommendationsLoading, setUserRecommendationsLoading] = useState(true);
   const [userRecommendations, setUserRecommendations] = useState([]);
+  
+  // get user recommendations from backend
   useEffect(() => {
     setUserRecommendationsLoading(true)
     api({ sendToken: true })
@@ -59,6 +62,7 @@ const Home = () => {
       });
   }, []);
 
+  // set which type of user list this page is (followers/followings)
   useEffect(() => {
     if (type === "followers") {
       dispatch(getFollowers());
@@ -70,7 +74,7 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  // https://github.com/bounswe/bounswe2020group6/blob/backend/backend/controllers/followController.js
+  // created with reference from the fields on https://github.com/bounswe/bounswe2020group6/blob/backend/backend/controllers/followController.js
   const createUserCard = (Id, Name, Surname, University, Department, Title, ImgUrl) => {
     return (
       <UserCard

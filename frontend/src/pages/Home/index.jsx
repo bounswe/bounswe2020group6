@@ -102,7 +102,6 @@ const Home = () => {
           
           [...feed.byUserTags, ...feed.byFollowings]
           .filter((p) => p.user.id !== parseInt(localStorage.getItem("userId"))) // not this user's project
-          //.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)                // unique (deprecated as of 29.12.2020)
           .sort(momentComparator)                                                // sorted by date
           .reverse()                                                             // descending
           .map((p) => createContentCard(p))

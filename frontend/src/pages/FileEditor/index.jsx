@@ -48,6 +48,7 @@ const FileEditor = () => {
     return false;
   }
 
+  // if file is plaintext, display file contents in textarea
   const displayFile = (filename, i) => {
     setSelectedFile(i);
     let extension = filename.indexOf(".") === -1 ? "" : filename.substring(filename.lastIndexOf("."));
@@ -62,6 +63,7 @@ const FileEditor = () => {
     }
   }
 
+  // get file data in raw text format from backend
   function getFileData(filename) {
     setLoadingFile(true);
 
@@ -85,6 +87,7 @@ const FileEditor = () => {
       });
   }
 
+  // download file from backend
   const downloadFile = (filename) => {
     api({ sendToken: true })
       .get("/file/get/" + projectId + "/" + filename)
@@ -106,6 +109,7 @@ const FileEditor = () => {
       });
   };
 
+  // delete file from the server
   const deleteFile = (filename) => {
     api({ sendToken: true })
       .delete("/file/delete/" + projectId + "/" + filename)
@@ -121,12 +125,14 @@ const FileEditor = () => {
       });
   };
 
+  // create a file instance from given file contents
   const toFile = (newFile) => {
     var blob = new Blob([newFile.data], { type: 'text/plain' });
     var file = new File([blob], newFile.name, {type: "text/plain"});
     return file;
   }
 
+  // delete file in server and replace it with a new version
   const replaceFile = (newFile) => {
     console.log("newFile", newFile.name, newFile);
     var file = toFile(newFile);
@@ -143,6 +149,7 @@ const FileEditor = () => {
     });
   }
   
+  // upload one or more files to server
   const uploadFiles = (files) => {
     console.log(files);
     if (files) {
@@ -179,6 +186,7 @@ const FileEditor = () => {
     }
   };
 
+  // upload indicator
   const uploadProps = {
     onChange({ file, fileList }) {
       if (file.status !== 'uploading') {
