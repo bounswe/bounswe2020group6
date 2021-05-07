@@ -60,7 +60,7 @@ const CreateEvent = () => {
     values = {
       ...values,
       userId: myId,
-      isPublic: 1
+      isPublic: true
     }
     dispatch(postEvent(values, history, message));
   };

@@ -68,3 +68,19 @@ export const editEvent = (body, eventId, history, message) => {
       });
   };
 };
+
+export const deleteEvent = (eventId, history, message) => {
+  return (dispatch) => {
+    var body = {id: eventId}
+
+    api({ sendToken: true })
+      .post("/event/delete", body)
+      .then((response) => {
+        message.success("Event deleted.", 4);
+        history.push("/home");
+      })
+      .catch((e) => {
+        message.error("Event delete failed.", 4);
+      });
+  };
+};
